@@ -11,11 +11,12 @@ export class NavigationService {
     this.router.navigate(['/dashboard']);
   }
   goToViewRegistration(id: number, actionInfo: number) {
+    debugger;
     this.router.navigate(['/dashboard/' + id, actionInfo]);
   }
 
-  goTovillageuserEdit(VillagePanchayatId: number,userId:number, actionInfo: number) {
-    this.router.navigate(['/villageuserdetail-edit/'+VillagePanchayatId+'/'+userId+'/'+actionInfo]);
+  goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {
+    this.router.navigate(['/villageuserdetail-edit/' + VillagePanchayatId + '/' + userId + '/' + actionInfo]);
   }
   goToLogin() {
     this.router.navigate(['/auth/login']);

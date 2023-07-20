@@ -1,69 +1,79 @@
 // .loginImage{
- 
+
 //   background-repeat: no-repeat;
 //   background-image: url('../../../../../assets/images/agriexpopg1.jpg');
 // }
-.openLogin{
+.openLogin {
   display: flex;
   align-items: center;
   height: 80%;
-  
+
 }
-.imgArrow{
+
+.imgArrow {
   width: 40px;
   margin-left: 29px;
+
   @media only screen and (max-width :1020px) {
     width: 35px;
   }
+
   @media only screen and (max-width :760px) {
     width: 30px;
   }
+
   @media only screen and (max-width :620px) {
     width: 30px;
-  margin-left: 22px;
+    margin-left: 22px;
   }
+
   @media only screen and (max-width :580px) {
     width: 25px;
-  margin-left: 10px;
+    margin-left: 10px;
   }
 }
 
 .login-button {
   width: 13%;
-    margin-left: 62vw;
-    margin-top: 32vh;
-    padding: 0px;
-    text-align: center;
-    @media only screen and (max-width :1020px) {
-      width: 15%;
-      font-size: 12px;
-      margin-top: 37vh;
-      margin-left: 60vw;
-    }
-    @media only screen and (max-width :760px) {
-      width: 16%;
-      font-size: 11px;
-      margin-top: 38vh;
-      margin-left: 59vw;
-    }
-    @media only screen and (max-width :620px) {
-      width: 17%;
-      font-size: 10px;
-      margin-top: 39vh;
-      margin-left: 58vw;
-    }
-    @media only screen and (max-width :580px) {
-      width: 20%;
-      font-size: 9px;
-      margin-top: 41vh;
-      margin-left: 41vw;
-    }
-    @media only screen and (max-width :400px) {
-      width: 22%;
-      font-size: 9px;
-      margin-top: 56vh;
-    }
-    
+  margin-left: 62vw;
+  margin-top: 32vh;
+  padding: 0px;
+  text-align: center;
+
+  @media only screen and (max-width :1020px) {
+    width: 15%;
+    font-size: 12px;
+    margin-top: 37vh;
+    margin-left: 60vw;
+  }
+
+  @media only screen and (max-width :760px) {
+    width: 16%;
+    font-size: 11px;
+    margin-top: 38vh;
+    margin-left: 59vw;
+  }
+
+  @media only screen and (max-width :620px) {
+    width: 17%;
+    font-size: 10px;
+    margin-top: 39vh;
+    margin-left: 58vw;
+  }
+
+  @media only screen and (max-width :580px) {
+    width: 20%;
+    font-size: 9px;
+    margin-top: 41vh;
+    margin-left: 41vw;
+  }
+
+  @media only screen and (max-width :400px) {
+    width: 22%;
+    font-size: 9px;
+    margin-top: 56vh;
+  }
+
 }
 
 .login-button:hover {
@@ -92,7 +102,7 @@
     background-repeat: no-repeat;
     // background-size:contain;
     // background-position:center;
-    background-image:url('../../../../../assets/images/backgroundimg.jpg');
+    background-image: url('../../../../../assets/images/agriexpopg1.jpg');
   }
 
   .login_sec1 {
@@ -112,18 +122,23 @@
     @media only screen and (max-width :1040px) {
       transform: scale(1.1);
     }
+
     @media only screen and (max-width :980px) {
       transform: scale(1.2);
     }
+
     @media only screen and (max-width :900px) {
       transform: scale(1.3);
     }
+
     @media only screen and (max-width :720px) {
       transform: scale(1.4);
     }
+
     @media only screen and (max-width :620px) {
       transform: scale(1.6);
     }
+
     @media only screen and (max-width :580px) {
       // background-image: url('../../../../../assets/img/tngs_bgImage_mobile.png');
       transform: scale(1);
@@ -221,14 +236,16 @@
       padding: 15px;
     }
   }
+
   .btn.btn-primary.login-button:hover {
     background-color: #e0bb41 !important;
     color: #1C2B47;
     font-weight: 700;
     font-size: 16px;
+
     @media only screen and (max-width :503px) {
       font-weight: 600;
-    font-size: 13px;
+      font-size: 13px;
     }
   }
 }
@@ -641,6 +658,7 @@ button.btn.btn-primary.recover-pass {
     height: 40px;
   }
 }
+
 .loadesr {
   position: fixed;
   left: 50px;
@@ -648,8 +666,6 @@ button.btn.btn-primary.recover-pass {
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background: url("/assets/images/Loader02.gif") 50% 50% no-repeat
-    rgb(249, 249, 249);
+  background: url("/assets/images/Loader02.gif") 50% 50% no-repeat rgb(249, 249, 249);
   background-color: rgb(249, 249, 249, 0.5);
 }
-

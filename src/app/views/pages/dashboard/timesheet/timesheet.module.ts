@@ -20,62 +20,60 @@ import { DatePipe } from "@angular/common";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from "@angular/material/select";
 import { MatSelectFilterModule } from "mat-select-filter";
-import { DashboardComponent } from "./dashboard.component";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
-import { RegistrationComponent } from "./registration/registration.component";
-import { ViewregistrationdetailsComponent } from "./viewregistrationdetails/viewregistrationdetails.component";
+import { TimesheetComponent } from "./timesheet.component";
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
 
 
 const routes: Routes = [
-  {
-    path: "",
-    component: RegistrationComponent
-  },
-  {
-    path: ":id/:actionInfo",
-    component: RegistrationComponent
-  }
+    {
+        path: "",
+        component: TimesheetComponent
+    },
+    {
+        path: ":id/:actionInfo",
+        component: TimesheetComponent
+    }
 ];
 
 @NgModule({
-  declarations: [DashboardComponent, RegistrationComponent, ViewregistrationdetailsComponent],
-  providers: [
-    DashboardService,
-    ExcelService,
-    NotifyService,
-    DatePipe,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    FeahterIconModule,
-    NgbDropdownModule,
-    FormsModule,
-    TranslateModule,
-    MatButtonToggleModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatSelectFilterModule,
-    NgbProgressbarModule,
-    NgbTooltipModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    PlotlyModule,
-  ],
+    declarations: [TimesheetComponent],
+    providers: [
+        DashboardService,
+        ExcelService,
+        NotifyService,
+        DatePipe,
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        FeahterIconModule,
+        NgbDropdownModule,
+        FormsModule,
+        TranslateModule,
+        MatButtonToggleModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatSelectFilterModule,
+        NgbProgressbarModule,
+        NgbTooltipModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        PlotlyModule,
+    ],
 })
-export class DashboardModule { }
+export class TimeSheetModule { }

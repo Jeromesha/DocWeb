@@ -50,7 +50,7 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     ErrorPageComponent,
-       
+
   ],
   imports: [
     BrowserModule,

@@ -7,7 +7,7 @@ import { BaseComponent } from './base/base.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
-
+import { TranslateLoader } from '@ngx-translate/core';
 import { ContentAnimateDirective } from '../../core/content-animate/content-animate.directive';
 
 import { NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
