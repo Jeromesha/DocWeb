@@ -1,0 +1,8 @@
+<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
+        <p class="text-muted text-center text-md-left"> Developed
+                By <a href="https://www.xenovex.com" target="_blank">Xenovex
+                        Technologies</a></p>
+        <p class="text-muted text-center" *ngIf="appVersion">Version : {{appVersion.version}}</p>
+        <p class="text-muted text-center text-md-left mb-0 d-none d-md-block" *ngIf="currentYear">Copyright ©
+                {{currentYear}} <a href="#" target="_blank">Agriculture</a>. All rights reserved</p>
+</footer>

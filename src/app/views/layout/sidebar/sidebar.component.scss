@@ -1,0 +1,23 @@
+.fonticon {
+  font-size: 17px;
+  width: 15px;
+}
+
+.sidebar_icon {
+  position: absolute;
+  top: 36%;
+  opacity: 0.1;
+  width: 100%;
+  text-align: center;
+}
+
+.sidebar .sidebar-header {
+  .sidebar-toggler {
+    cursor: pointer;
+    width: 12px;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}

@@ -1,0 +1,78 @@
+<div *ngIf="loading" class="loadesr">
+</div>
+<div>
+<!-- <form name="loginForm" [formGroup]="loginForm" class="scrollstyle" style=" overflow-y: hidden; -->
+overflow-x: hidden;">
+
+  
+  <section id="login">
+    <div class="login_sec1 login-img1">
+      <div class="row">
+        <div class="col-lg-7 col-md-7 left-slider-content full-height-vh ">
+          
+        </div>
+        <div class="col-lg-5 col-md-5 loginpage login-img" >
+          <div class="login_center">
+            <div class="card d-block" layout-align="center">
+              <div class="card-content">
+
+                <div class="col-lg-12 col-md-12 bg-white px-4 pt-3">
+                  <div class="form-group row">
+                    <div class="col-lg-12 col-md-12">
+                      <h4 class="card-title mb-2">Login</h4>
+                      <label for="email" class="mandatory">Username</label>
+                      <!-- Mobile Number/Username -->
+                      <input type="text" id="email" maxlength="25" class="form-control" formControlName="email" avoidscripttags placeholder="Username"
+                        autocomplete="off" required >
+                        <!-- placeholder="Mobile Number/Username" -->
+                      <span class="form-text text-muted danger mandatory"
+                        *ngIf="!loginForm.get('email').valid && (loginForm.get('email').dirty || loginForm.get('email').touched)">
+                        Username is required
+                      </span>
+                      <!-- Mobile Number/Username is required -->
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-lg-12 col-md-12">
+                      <label for="password" class="mandatory">Password</label>
+                      <div class="input_with_icon">
+                        <i class="fa fa-eye pass_icon" aria-hidden="true"
+                          *ngIf="show && loginForm.get('password').value" (click)="passwordclick()"></i>
+                        <i class="fa fa-eye-slash pass_icon" aria-hidden="true"
+                          *ngIf="!show  && loginForm.get('password').value" (click)="passwordclick()"></i>
+                        <input [type]="show ? 'text' : 'password'" class="form-control"  formControlName="password"
+                          id="password" placeholder="Password" autocomplete="off" >
+                      </div>
+
+                      <span class="form-text text-muted danger mandatory"
+                        *ngIf="!loginForm.get('password').valid && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+                        Password is required
+                      </span>
+                    </div>
+                  </div>
+                  <div class="fg-actions d-flex justify-content-between mt-3 col-12">
+                    <div class="forgot-password-option">
+                      <!-- <a (click)="openForgotPasswordDialog()" class="text-color">Forgot
+                        Password ?</a> -->
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-0" (click)="onLogin()">
+                      Login
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="text-muted text-center text-md-left">Developed By <a href="https://www.xenovex.com"
+              target="_blank">Xenovex
+              Technologies</a></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </section>
+</form>
+</div>

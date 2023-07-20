@@ -1,0 +1,72 @@
+<div class="pl-1 pr-1 mb-1">
+    <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
+        <div class="col-md-11 col-sm-12">
+            <h4 class="text-bold-500 text-left hearder-text">
+               View Booking Details
+                <!-- <img src="assets/images/RefreshIcon.png" alt="refresh"
+                    class="pointer mobre" (click)="refresh()" title="{{ 'Refresh' | translate }}" /> -->
+            </h4>
+        </div>
+        <div class="col-md-1 col-sm-12">
+        <button type="button" class="btn text-nowrap button-padding mr-1" style="background-color: #B05F56; color: #fff;" (click)="onCancel()"><i
+            class="fa fa-arrow-left"></i> Back
+        </button>
+    </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div *ngIf="registrationData?.registrationRefNo"class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Booking Reference No&nbsp;&nbsp;<span class="textValue">{{registrationData?.registrationRefNo}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.registrationTs"class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Booking Date&nbsp;&nbsp;<span class="textValue">{{registrationData?.registrationTs | date : 'dd-MM-YYYY'}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.organisationTypeName"class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Type of Organisation&nbsp;&nbsp;<span class="textValue">{{registrationData?.organisationTypeName}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.organisationName" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Name of The Organisation / Agency&nbsp;&nbsp;<span class="textValue">{{registrationData?.organisationName}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.gstNo && registrationData?.organisationType == 2" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">GST IN&nbsp;&nbsp;<span class="textValue">{{registrationData?.gstNo}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.organisationAddress"class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Address of The Organisation / Agency&nbsp;&nbsp;<span class="textValue">{{registrationData?.organisationAddress}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.contactPersonName" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Contact Person &nbsp;&nbsp;<span class="textValue">{{registrationData?.contactPersonName}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.contactPersonDesignation" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Designation&nbsp;&nbsp;<span class="textValue">{{registrationData?.contactPersonDesignation}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.contactPersonMobileNo"class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Mobile Number&nbsp;&nbsp;<span class="textValue">{{registrationData?.contactPersonMobileNo}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.contactPersonEmail" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">E-Mail Id&nbsp;&nbsp;<span class="textValue">{{registrationData?.contactPersonEmail}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.indoorTypeName" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Indoor Stall in Nos (3M x 3M)&nbsp;&nbsp;<span class="textValue">{{registrationData?.indoorTypeName}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.outdoorTypeName" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Outdoor (Square Meter)&nbsp;&nbsp;<span class="textValue">{{registrationData?.outdoorTypeName}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.totalCost != 0 && registrationData?.organisationType == 2" class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Total Cost (Inclusive of GST 18%)&nbsp;&nbsp;<span class="textValue">Rs. {{registrationData?.totalCost.toLocaleString("en-IN")}}</span></p>
+            </div>
+            <div *ngIf="registrationData?.registrationStatusType == 2"class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Download Receipt&nbsp;&nbsp;<span class="textValue"><button matTooltipPosition="right"
+                    mat-icon-button color="accent"
+                    (click)="downloadReceipt(registrationData?.id)">
+                    <i class="fa fa-download"
+                        aria-hidden="true"></i></button></span></p>
+            </div>
+            <div *ngIf="registrationData?.registrationStatusTypeName"class="col-sm-12 col-md-12 col-lg-6 mt-5">
+                <p class="textHead">Booking Status&nbsp;&nbsp;<span [ngClass]="registrationData?.registrationStatusType == 2 ? 'bggreen' : 'bgred' ">{{registrationData?.registrationStatusTypeName}}</span></p>
+            </div> 
+        </div>
+    </div>
+</div>
+ 

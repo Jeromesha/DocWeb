@@ -1,0 +1,19 @@
+.loadesr {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url("/assets/images/Loader02.gif") 50% 50% no-repeat rgb(249, 249, 249);
+    background-color: rgb(249, 249, 249, 0.5);
+  }
+  .bggreen {
+    color: #32b739;
+    font-weight: bold;
+}
+.bgred{
+    color: red;
+    font-weight: bold;
+
+}
