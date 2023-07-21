@@ -25,8 +25,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
-import { RegistrationComponent } from "./registration/registration.component";
 import { ViewregistrationdetailsComponent } from "./viewregistrationdetails/viewregistrationdetails.component";
+import { TimesheetComponent } from "./timesheet/timesheet.component";
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -34,17 +34,13 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 const routes: Routes = [
   {
-    path: "",
-    component: RegistrationComponent
+    path: '',
+    component: DashboardComponent
   },
-  {
-    path: ":id/:actionInfo",
-    component: RegistrationComponent
-  }
 ];
 
 @NgModule({
-  declarations: [DashboardComponent, RegistrationComponent, ViewregistrationdetailsComponent],
+  declarations: [DashboardComponent, ViewregistrationdetailsComponent, TimesheetComponent],
   providers: [
     DashboardService,
     ExcelService,
