@@ -27,6 +27,7 @@ import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { ViewregistrationdetailsComponent } from "./viewregistrationdetails/viewregistrationdetails.component";
 import { TimesheetComponent } from "./timesheet/timesheet.component";
+import { TimeSheetService } from "src/app/services/timesheet.service";
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -37,6 +38,10 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent
   },
+  {
+    path: ":id/:actionInfo",
+    component: TimesheetComponent
+  },
 ];
 
 @NgModule({
@@ -44,6 +49,7 @@ const routes: Routes = [
   providers: [
     DashboardService,
     ExcelService,
+    TimeSheetService,
     NotifyService,
     DatePipe,
   ],

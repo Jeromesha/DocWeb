@@ -10,9 +10,9 @@ export class NavigationService {
   goToDashboard() {
     this.router.navigate(['/dashboard']);
   }
-  goToTimeSheet() {
+  goToTimeSheet(id: number, actionInfo: number) {
     debugger;
-    this.router.navigate(['/timeSheet']);
+    this.router.navigate(['/dashboard/' + id, actionInfo]);
   }
 
   goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {

@@ -72,8 +72,8 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  goToAction() {
-    this.navigationService.goToTimeSheet();
+  goToAction(id: number, actioninfo: number) {
+    this.navigationService.goToTimeSheet(id, actioninfo);
   }
   exportAsXLSX(): void {
     this.loading = true;

@@ -53,6 +53,7 @@ export class TimesheetComponent implements OnInit {
     private timesheetService: TimeSheetService,
     private translate: TranslateService) {
     this.routeParams = route.snapshot.params;
+    this.id = JSON.parse(this.routeParams.id);
     this.id = +this.routeParams.id;
     this.actionInfo = this.routeParams.actionInfo
     if (this.id === 0) {
