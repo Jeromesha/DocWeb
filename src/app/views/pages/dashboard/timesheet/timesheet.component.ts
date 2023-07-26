@@ -7,6 +7,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+
+import * as moment from 'moment';
+
 
 
 @Component({
@@ -41,6 +45,8 @@ export class TimesheetComponent implements OnInit {
   show2: boolean;
   clientId: any;
   emailpattern: RegExp;
+  filterSortList: { key: number; value: string; }[];
+  showdescription:boolean=false;
 
 
 
@@ -55,7 +61,10 @@ export class TimesheetComponent implements OnInit {
     this.routeParams = route.snapshot.params;
     this.id = JSON.parse(this.routeParams.id);
     this.id = +this.routeParams.id;
+    //this.id = 0;
+    debugger
     this.actionInfo = this.routeParams.actionInfo
+    //this.actionInfo = 0;
     if (this.id === 0) {
       this.submitbtn = 'Save';
     } else {
@@ -71,27 +80,34 @@ export class TimesheetComponent implements OnInit {
 
   ngOnInit() {
     this.initializeValidators();
+    debugger
+    this.filterSortList = this.timesheetService.getproject();
     this.get(true);
   }
 
   initializeValidators() {
     this.form = this.formBuilder.group({
-      id: [this.id, Validators.required],
-      name: ['', [Validators.required]],
-      tName: ['', [Validators.required]],
-      code: ['', [Validators.required]],
-      officeAddress: ['', [Validators.required]],
-      tOfficeAddress: ['', [Validators.required]],
-      email: ['', Validators.email],
-      landLine: ['', [Validators.required]],
-      mobileNumber: ['', [Validators.required]],
-      latitude: [null],
-      longitude: [null],
-      alternateNumber: [null],
-      officerName: ['', [Validators.required]],
-      tOfficerName: ['', [Validators.required]]
+      id: [0],
+      description: ['', [Validators.required]],
+      hours: [null, [Validators.required]],
+      IsLeave:[2,[Validators.required]],
+      EntryDate:['',[Validators.required]],
+      EmployeeId:[null],
+      projectId:[null,[Validators.required]],
+      TimeIn:[null],
+      TimeOut:[null],
+      TaskStatusId:[null]
     });
   }
+  sortingChange(event){
+    debugger
+    if(event.value!=null){
+      this.showdescription=true;
+    }
+
+
+  }
+
 
   get(refresh: boolean) {
     if (this.id > 0) {
@@ -123,25 +139,14 @@ export class TimesheetComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger;
+    this.form.controls['EntryDate'].setValue(moment(this.form.value.EntryDate).format("YYYY-MM-DD"));
+
+    
     if (this.form.valid) {
-      if (this.form.value.latitude === null) {
-        this.form.controls['latitude'].setValue(0);
-      }
-      if (this.form.value.longitude === null) {
-        this.form.controls['longitude'].setValue(0);
-      }
-      const latitudelength = this.form.value.latitude.toString().length;
-      if (latitudelength > 11) {
-        this.alertService.warning('The Latitude Must Contain Only 11 Numbers');
-        return;
-      }
-      const longitudelength = this.form.value.longitude.toString().length;
-      if (longitudelength > 11) {
-        this.alertService.warning('The Longitude Must Contain Only 11 Numbers');
-        return;
-      }
-      this.timesheetService.save(this.form.value).subscribe(result => {
-        // this.alertService.result(result, true, 'User updated successfully');
+      
+      
+      this.timesheetService.savetimsheet(this.form.value).subscribe(result => {
         const msg1 = this.translate.instant('Savedsuccessfully');
         const msg2 = this.translate.instant('Updatedsuccessfully');
         const msg3 = this.translate.instant('Region');
@@ -175,6 +180,18 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['alternateNumber'].setValue(vv);
       return false;
     }
+
+  }
+  onbtnClick(id){
+    debugger
+    if(id==1){
+      this.form.controls['choices'].setValue(id);
+    }
+    else{
+      this.form.controls['choices'].setValue(id);
+    }
+    console.log(this.form.value.choices,"  {{this.form.value.choices}}");
+    
 
   }
 }

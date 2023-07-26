@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ngx-toastr/toastr";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+@import '~@angular/material/theming';
 
 .mandatory::after {
   content: "*";
@@ -742,3 +743,13 @@ circle {
 .mat-tab-group {
   font-family: inherit;
 }
+
+$custom-primary: mat-palette($mat-blue, 500);
+$custom-accent: mat-palette($mat-green, 500);
+
+// Create a theme using your custom palette
+$custom-theme: mat-light-theme($custom-primary, $custom-accent);
+
+// Apply the theme to the Angular Material components
+@include mat-core();
+@include angular-material-theme($custom-theme);

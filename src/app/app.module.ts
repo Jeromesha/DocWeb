@@ -39,6 +39,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UiSwitchModule } from 'ngx-toggle-switch';
+
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -75,6 +77,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatNativeDateModule,
     MatTooltipModule,
     NgbDropdownModule,
+    UiSwitchModule,
     HttpClientModule,
     ToastrModule.forRoot({
       timeOut: 5000,

@@ -28,6 +28,8 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 import { ViewregistrationdetailsComponent } from "./viewregistrationdetails/viewregistrationdetails.component";
 import { TimesheetComponent } from "./timesheet/timesheet.component";
 import { TimeSheetService } from "src/app/services/timesheet.service";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -78,6 +80,8 @@ const routes: Routes = [
     MatRadioModule,
     MatCheckboxModule,
     PlotlyModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
 })
 export class DashboardModule { }

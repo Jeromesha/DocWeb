@@ -13,233 +13,95 @@
                     <div class="px-3">
                         <form [formGroup]="form" class="form form-horizontal" novalidate>
                             <div class="form-body pt-2">
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="mandatory">{{'RegionName' | translate}}</label>
-                                            <input type="text" maxlength="80" class="form-control"
-                                                formControlName="name" autocomplete="off" inputText avoidscripttags>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.name.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'RegionName' | translate}} {{'IsRequired' | translate}}</span>
-                                                <!-- <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('name').hasError('pattern') && !form.get('name').hasError('required')">
-                                                    {{'PleaseentervalidRegionName' | translate }} </span> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="mandatory">{{'Tamil ' | translate}} {{'RegionName' |
-                                                translate}}</label>
-                                            <input type="text" maxlength="80" class="form-control"
-                                                formControlName="tName" autocomplete="off" inputText>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.tName.errors && (form.controls.tName.dirty || form.controls.tName.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.tName.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'Tamil ' | translate}} {{'RegionName' | translate}} {{'IsRequired'
-                                                    | translate}}</span>
-                                                <!-- <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('name').hasError('pattern') && !form.get('name').hasError('required')">
-                                                    {{'PleaseentervalidRegionName' | translate }} </span> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="mandatory">{{'RegionCode' | translate}}</label>
-                                            <input type="text" maxlength="19" class="form-control"
-                                                formControlName="code" autocomplete="off" inputText avoidscripttags>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.code.errors && (form.controls.code.dirty || form.controls.code.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.code.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'RegionCode' | translate}} {{'IsRequired' | translate}}</span>
-                                                <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('code').hasError('pattern') && !form.get('code').hasError('required')">
-                                                    {{'PleaseentervalidRegionCode' | translate }} </span>
-                                                <!-- <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('code').hasError('maxlength') && !form.get('code').hasError('required')">
-                                                    {{'PleaseentermaxRegionCode' | translate }} </span> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory">{{'OfficerName' | translate}}</label>
-                                            <input type="text" maxlength="100" class="form-control"
-                                                formControlName="officerName" autocomplete="off">
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.officerName.errors && (form.controls.officerName.dirty || form.controls.officerName.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.officerName.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'OfficerName' | translate}} {{'IsRequired' | translate}}</span>
-                                                <!-- <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('officerName').hasError('pattern') && !form.get('officerName').hasError('required')">
-                                                    {{'PleaseentervalidOfficerName' | translate }} </span> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory">{{'TamilOfficerName' | translate}}</label>
-                                            <input type="text" maxlength="100" class="form-control"
-                                                formControlName="tOfficerName" autocomplete="off">
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.tOfficerName.errors && (form.controls.tOfficerName.dirty || form.controls.tOfficerName.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.tOfficerName.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'TamilOfficerName' | translate}} {{'IsRequired' |
-                                                    translate}}</span>
-                                                <!-- <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('officerName').hasError('pattern') && !form.get('officerName').hasError('required')">
-                                                    {{'PleaseentervalidOfficerName' | translate }} </span> -->
+                                            <label class="mandatory ">{{'Date' | translate}}</label>
+                                            <div class="input-group mb-0 ">
+                                                <input class="form-control" placeholder="Select Date"
+                                                    formControlName="EntryDate" [owlDateTimeTrigger]="dt1"
+                                                    [owlDateTime]="dt1">
+                                                <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                </owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                    </owl-date-time>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="display: flex; align-items: end;">
                                         <div class="form-group">
-                                            <label>{{'Email' | translate}}</label>
-                                            <input type="email" maxlength="50" class="form-control" avoidscripttags
-                                                formControlName="email" autocomplete="off"
-                                                (keydown.space)="$event.preventDefault();">
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.email.errors && (form.controls.email.dirty || form.controls.email.touched)"
-                                                text-wrap>
-                                                <!-- <span *ngIf="form.controls.email.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'Email' | translate}} {{'IsRequired' | translate}}</span> -->
-                                                <!-- <span class="form-text text-muted danger  "
-                                                    *ngIf="form.get('email').hasError('pattern') && !form.get('email').hasError('required')">
-                                                    {{'PleaseentervalidEmail' | translate }}</span> -->
-
-                                                <span class="form-text text-muted danger  "
-                                                    *ngIf="form.controls.email.errors.email">
-                                                    {{'PleaseentervalidEmail' | translate }}</span>
-                                                <!-- <span class="form-text text-muted danger" *ngIf="form.controls.email.errors.email">Email must be a valid email address</span> -->
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label label class="mandatory ">{{'MobileNo' | translate}}</label>
-                                            <input type="text" minlength="10" maxlength="10" class="form-control"
-                                                formControlName="mobileNumber" autocomplete="off" onlyNumber>
+                                                <mat-button-toggle-group formControlName="IsLeave">
+                                                  
+                                                    <mat-button-toggle [ngClass]="this.form.value.IsLeave == 1 ? 'btnred' :''" (click)="onbtnClick(1)" [value]="1">Levae</mat-button-toggle>
+                                                    <mat-button-toggle [ngClass]="this.form.value.IsLeave == 2 ? 'butgreen' :''" (click)="onbtnClick(2)" [value]="2">Present</mat-button-toggle>
+                                                </mat-button-toggle-group>
                                             <!-- <span class="form-text text-muted danger mandatory "
-                                                *ngIf="!form.get('mobileNumber').valid && (form.get('mobileNumber').dirty || form.get('mobileNumber').touched)">
-                                                {{'MobileNo' | translate}} {{'IsRequired' | translate}} 
-                                            </span> -->
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.mobileNumber.errors && (form.controls.mobileNumber.dirty || form.controls.mobileNumber.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.mobileNumber.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'MobileNo' | translate}} {{'IsRequired' | translate}}</span>
-                                                <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('mobileNumber').hasError('maxlength') && !form.get('mobileNumber').hasError('required')">
-                                                    {{'PleaseenterMobilenomax' | translate }} </span>
-                                                <span class="form-text text-muted danger mandatory "
-                                                    *ngIf="form.get('mobileNumber').hasError('minlength') && !form.get('mobileNumber').hasError('required')">
-                                                    {{'PleaseenterMobilenomax' | translate }} </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{'AlternateNo' | translate}}</label>
-                                            <input type="text" minlength="10" maxlength="15" class="form-control"
-                                                formControlName="alternateNumber" autocomplete="off"
-                                                (keyup)="phoneValid($event)" onlyNumber>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.alternateNumber.errors && (form.controls.alternateNumber.dirty || form.controls.alternateNumber.touched)"
-                                                text-wrap>
-                                                <span class="form-text text-muted danger"
-                                                    *ngIf="form.get('alternateNumber').hasError('minlength') && !form.get('alternateNumber').hasError('required')">
-                                                    {{'PleaseentervalidAlternateNo' | translate }}</span>
-                                                <span class="form-text text-muted danger"
-                                                    *ngIf="form.get('alternateNumber').hasError('maxlength') && !form.get('alternateNumber').hasError('required')">
-                                                    {{'PleaseentervalidAlternateNo' | translate }}</span>
-                                            </div>
+                                              *ngIf="form.get('code').hasError('maxlength') && !form.get('code').hasError('required')">                                                    {{'PleaseentermaxRegionCode' | translate }} </span> -->
 
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
+
+                                <div class="row" *ngIf="this.form.value.IsLeave==2">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'landLine' | translate}}</label>
-                                            <input type="text" minlength="10" maxlength="15" class="form-control"
-                                                formControlName="landLine" autocomplete="off" onlyNumber>
+                                            <label class="mandatory ">Project</label>
+                                            <mat-select placeholder="Sort by" (selectionChange)="sortingChange($event)"
+                                                formControlName="projectId" class="form-control">
+                                                <mat-select-filter [displayMember]="'value'" [array]="sortList"
+                                                    (filteredReturn)="filterSortList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterSortList" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">{{'Hours ' | translate}}
+                                            </label>
+                                            <input class="form-control" formControlName="hours" 
+                                            [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"    readonly>
+                                           
+                                            <owl-date-time  [pickerType]="'timer'"   #dt2></owl-date-time>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.landLine.errors && (form.controls.landLine.dirty || form.controls.landLine.touched)"
+                                                *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.landLine.errors?.required"
+                                                <span *ngIf="form.controls.hours.errors?.required"
                                                     class="form-text text-muted danger mandatory">
-                                                    {{'landLine' | translate}} {{'IsRequired' | translate}}</span>
-                                                <span class="form-text text-muted danger"
-                                                    *ngIf="form.get('landLine').hasError('minlength') && !form.get('landLine').hasError('required')">
-                                                    {{'PleaseentervalidlandLine' | translate }}</span>
-                                                <span class="form-text text-muted danger"
-                                                    *ngIf="form.get('landLine').hasError('maxlength') && !form.get('landLine').hasError('required')">
-                                                    {{'PleaseentervalidlandLine' | translate }}</span>
+                                                    </span>
+                                                <!-- <span class="form-text text-muted danger mandatory "
+                                                    *ngIf="form.get('name').hasError('pattern') && !form.get('name').hasError('required')">
+                                                    {{'PleaseentervalidRegionName' | translate }} </span> -->
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{'Latitude' | translate}}</label>
-                                            <input type="number" max="11" class="form-control"
-                                                onKeyPress="if(this.value.length==11) return false;"
-                                                formControlName="latitude" autocomplete="off" numberOnly>
-                                        </div>
-                                    </div>
-
                                 </div>
 
-
-
-
                                 <div class="row">
-                                    <div class="col-md-6">
+
+                                    
+                                    <div class="col-md-6" *ngIf="this.showdescription==true">
                                         <div class="form-group">
-                                            <label>{{'Longitude' | translate}}</label>
-                                            <input type="number" max="11" class="form-control"
-                                                onKeyPress="if(this.value.length==11) return false;"
-                                                formControlName="longitude" autocomplete="off" numberOnly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{'Address' | translate}}</label>
+                                            <label class="mandatory ">{{'Description' | translate}}</label>
                                             <textarea type="text" class="form-control" maxlength="250"
-                                                formControlName="officeAddress" autocomplete="off">
+                                                formControlName="description" autocomplete="off">
                                      </textarea>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.officeAddress.errors && (form.controls.officeAddress.dirty || form.controls.officeAddress.touched)"
+                                                *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.officeAddress.errors?.required"
+                                                <span *ngIf="form.controls.description.errors?.required"
                                                     class="form-text text-muted danger mandatory">
-                                                    {{'Address' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Description' | translate}} {{'IsRequired' | translate}}</span>
                                                 <!-- <span class="form-text text-muted danger mandatory "
                                          *ngIf="form.get('officeAddress').hasError('pattern') && !form.get('officeAddress').hasError('required')">
                                          {{'PleaseentervalidAddress' | translate }}</span> -->
@@ -247,28 +109,8 @@
                                         </div>
                                     </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{'TamilAddress' | translate}}</label>
-                                            <textarea type="text" class="form-control" maxlength="250"
-                                                formControlName="tOfficeAddress" autocomplete="off">
-                                     </textarea>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.tOfficeAddress.errors && (form.controls.tOfficeAddress.dirty || form.controls.tOfficeAddress.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.tOfficeAddress.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                    {{'TamilAddress' | translate}} {{'IsRequired' | translate}}</span>
-                                                <!-- <span class="form-text text-muted danger mandatory "
-                                         *ngIf="form.get('officeAddress').hasError('pattern') && !form.get('officeAddress').hasError('required')">
-                                         {{'PleaseentervalidAddress' | translate }}</span> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
+                                </div>
                                 <div class="form-actions mb-2 mt-3" style="float: right;">
                                     <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
                                         (click)="onCancel()">
@@ -282,7 +124,6 @@
                                         {{submitbtn | translate}}
                                     </button>
                                 </div>
-
                             </div>
                         </form>
                     </div>
