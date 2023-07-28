@@ -18,7 +18,7 @@ export class RoleService {
     }
 
     getMenu(refresh: Boolean) {
-        return this.dataService.getData('/api/user/menus', refresh);
+        return this.dataService.getData('/api/employee/menus', refresh);
     }
 
     save(role) {

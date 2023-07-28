@@ -53,7 +53,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">Project</label>
-                                            <mat-select placeholder="Sort by" (selectionChange)="sortingChange($event)"
+                                            <mat-select placeholder="Project" (selectionChange)="sortingChange($event)"
                                                 formControlName="projectId" class="form-control">
                                                 <mat-select-filter [displayMember]="'value'" [array]="sortList"
                                                     (filteredReturn)="filterSortList =$event">
@@ -69,10 +69,10 @@
                                         <div class="form-group">
                                             <label class="mandatory">{{'Hours ' | translate}}
                                             </label>
-                                            <input class="form-control" formControlName="hours" 
-                                            [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"    readonly>
-                                           
-                                            <owl-date-time  [pickerType]="'timer'"   #dt2></owl-date-time>
+                                            <input class="form-control" formControlName="hours" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"  (dateTimeInput)="startChange()">
+
+                                           <owl-date-time [pickerType]="'timer'" [formatString]="'HH:mm'" #dt2></owl-date-time>
+
                                             <div class="valid-error"
                                                 *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
                                                 text-wrap>

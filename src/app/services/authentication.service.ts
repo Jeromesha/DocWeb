@@ -28,13 +28,13 @@ export class AuthenticationService {
   //   -----END PUBLIC KEY-----`;
 
   publicKey: string = `-----BEGIN PUBLIC KEY-----
-  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqz2JycS8IDJE8BDz75By
-  e/uZEgpPfGfzFbx4PDel97uRrsZz3eSbu3m/kKP8CWpanjSEchw7Ly4IovKU966Y
-  kY9OkhcwKiEsEmUIbs7N4rIz5Xn/UhVTKzcI5fdds11WhYC7mrP0qCReBsXvjt9e
-  WgMCBcm4z2vPflEzI7l7xESnB4NQt1uDb4QKTRLD5Ms47rGZdlVnDjR/c9RX3jLd
-  tcyfehguT7ZOTgWVW2pX7vaB+gRuJNwfMSlHoVcTaw3VFNCRtANgsbrobeOqzsoM
-  t3cvgJlr85s6kPVxivl1AYGTOpkz5GsNw06quynTM54+8iFxaiTVPQ92XWRE4Dg1
-  2wIDAQAB
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAruzidSHRz8Pk6wy/aw3z
+  U1lp+pB6BGU1LxsWGJMsJ2dRCks5+G3MBGttwOHwIMd42+PTy4tIwxBg3yI7yf2C
+  mOKz+7UaG/pVQII4HfRmMxN7K5W9lf6+GSnmCdxDBtWc/4/AtRNrwHkDHwwK6bPn
+  mysKZ9ymfxAT3MxKE9HpOUPaZzqqGEw7LbGW9nIWpAiBcbRTgvGRDsOuq4XVVDka
+  v8H06TRgFrUtJ1HffIdW4XDJ/hUbAtzD3sLwomH4o0cLv/gnntf6HZNs51axB5Ep
+  qIWXPSyHHd6Wi6Suij9/PDmrhTfOQSrrLrGxtOvchGO5H6IxGJJEhPYbozlGvJ90
+  iQIDAQAB
   -----END PUBLIC KEY-----`;
   private baseUrl = environment.apiBaseUrl;
   timeZones: any[];
@@ -107,7 +107,9 @@ export class AuthenticationService {
     };
     return this.http
       .post<any>(this.baseUrl + "/api/token", data, { headers })
+      
       .map((user) => {
+        debugger
         if (user && user.access_token) {
           this.clearCachedMenu();
           const decodedToken = jwtDecode(user.access_token);
@@ -116,12 +118,12 @@ export class AuthenticationService {
           this.sessionData.authToken = user.access_token;
           this.sessionData.userId = decodedToken["user.id"];
           this.sessionData.roleId = decodedToken["user.roleId"];
-          this.sessionData.roleName = decodedToken["user.rolename"];
-          this.sessionData.userFullName = decodedToken["user.fullname"];
-          this.sessionData.isDynamicPassword =
-            decodedToken.referrence1 === "True";
-          this.sessionData.districtId = decodedToken["user.districtId"];
-          this.sessionData.filterblockId = decodedToken["user.blockId"];
+          // this.sessionData.roleName = decodedToken["user.rolename"];
+          // this.sessionData.userFullName = decodedToken["user.fullname"];
+          // this.sessionData.isDynamicPassword =
+          //   decodedToken.referrence1 === "True";
+          // this.sessionData.districtId = decodedToken["user.districtId"];
+          // this.sessionData.filterblockId = decodedToken["user.blockId"];
           this.sessionData.languageType = parseInt(
             decodedToken["user.languagetype"]
           );
@@ -132,10 +134,12 @@ export class AuthenticationService {
   }
 
   isAuthenticated() {
+    debugger
     return !!this.sessionService.userId() && !!this.sessionService.authToken();
   }
 
   isPageAccessAvailable(pageUrl, pageTitle) {
+    debugger
     const rolePages = this.sessionService.getLocalStorageWithKey("role")
       ? this.sessionService.getLocalStorageWithKey("role")
       : "[]";

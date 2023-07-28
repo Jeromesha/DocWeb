@@ -76,6 +76,7 @@ export class LoginComponent implements OnInit {
       this.authService.clearSession();
       this.authService.login(this.loginForm.value.email, this.loginForm.value.password, false).subscribe((res) => {
         if (res && res.failures && res.failures.length > 0) {
+          debugger
           this.loading = false;
           if (res.failures[0].toString().includes('Unauthorized user')) {
             swal.fire({
@@ -98,6 +99,8 @@ export class LoginComponent implements OnInit {
         else if (res) {
           if (res.issystem_generated == true) {
             this.openChangePasswordDialog();
+        this.loading = false;
+
           } else {
             this.userIdle.onTimerStart().subscribe(count => {
             });
@@ -108,11 +111,17 @@ export class LoginComponent implements OnInit {
               this.navigation.goToLogin();
             });
             this.getMenu(true);
+             this.loading = false;
           }
         }
+      },
+      (error)=>{
+        this.loading = false;
       });
     } else {
       this.validateFormControl();
+      this.loading = false;
+
     }
   }
 

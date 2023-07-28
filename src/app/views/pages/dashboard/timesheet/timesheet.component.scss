@@ -51,16 +51,7 @@ input:checked + .slider:before {
 }
 
 /* Style for "Leave" option */
-.mat-button-toggle.mat-button-toggle-checked.mat-accent .mat-button-toggle-label-content[value="1"] {
-    background-color: #e57373; /* Replace with your desired color for Leave */
-    color: rgb(211, 7, 7); /* Replace with the desired text color for Leave */
-}
 
-/* Style for "Present" option */
-.mat-button-toggle.mat-button-toggle-checked.mat-accent .mat-button-toggle-label-content[value="2"] {
-    background-color: #81c784; /* Replace with your desired color for Present */
-    color: rgb(27, 207, 11); /* Replace with the desired text color for Present */
-}
 .butgreen{
   background-color: #81c784; /* Replace with your desired color for Present */
   color: rgb(0, 0, 0); /* Replace with the desired text color for Present */
@@ -81,3 +72,5 @@ input:checked + .slider:before {
   color: white !important;
   border-color: #6DB02D !important;
 }
+
+
