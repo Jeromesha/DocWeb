@@ -9,14 +9,14 @@ export class DashboardService {
     constructor(private dataService: DataService) {
     };
 
-    getRegistrationData(refresh: boolean) {
-        return this.dataService.getData('/api/registration', refresh);
+    getTimeSheetsById(id: any, refresh: boolean) {
+        return this.dataService.getData('/api/timesheet/' + id, refresh);
     }
-    getRegistrationDataById(id:number,refresh: boolean) {
-        return this.dataService.getData('/api/registration/'+id, refresh);
+    getRegistrationDataById(id: number, refresh: boolean) {
+        return this.dataService.getData('/api/registration/' + id, refresh);
     }
     downloadReciept(data: any) {
         return this.dataService.post('/api/report', data)
-      }
+    }
 
 }
