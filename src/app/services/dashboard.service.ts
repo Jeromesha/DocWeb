@@ -10,7 +10,7 @@ export class DashboardService {
     };
 
     getTimeSheetsById(id: any, refresh: boolean) {
-        return this.dataService.getData('/api/timesheet/' + id, refresh);
+        return this.dataService.getData('/api/timesheet/getbyid' + id, refresh);
     }
     getRegistrationDataById(id: number, refresh: boolean) {
         return this.dataService.getData('/api/registration/' + id, refresh);

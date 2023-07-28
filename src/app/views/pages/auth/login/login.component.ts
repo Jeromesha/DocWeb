@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
   show: boolean;
   notificationList: any[];
   newnotificationList: any[];
-  showLogin:boolean = false
-  loading:boolean = false;
+  showLogin: boolean = false
+  loading: boolean = false;
 
 
   constructor(private router: Router,
@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginForm.valid) {
-    this.loading = true;
+      this.loading = true;
       this.authService.clearSession();
       this.authService.login(this.loginForm.value.email, this.loginForm.value.password, false).subscribe((res) => {
         if (res && res.failures && res.failures.length > 0) {
@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
         else if (res) {
           if (res.issystem_generated == true) {
             this.openChangePasswordDialog();
-        this.loading = false;
+            this.loading = false;
 
           } else {
             this.userIdle.onTimerStart().subscribe(count => {
@@ -111,13 +111,13 @@ export class LoginComponent implements OnInit {
               this.navigation.goToLogin();
             });
             this.getMenu(true);
-             this.loading = false;
+            this.loading = false;
           }
         }
       },
-      (error)=>{
-        this.loading = false;
-      });
+        (error) => {
+          this.loading = false;
+        });
     } else {
       this.validateFormControl();
       this.loading = false;
@@ -174,7 +174,7 @@ export class LoginComponent implements OnInit {
     this.roleService.getMenu(isRefresh).subscribe(result => {
       const menuItems = [];
       console.log(result);
-      
+
       result.forEach(element => {
 
         const mainMenu = { label: element.title, icon: element.icon, link: element.path, isVisible: element.isVisible, subItems: [] };
@@ -248,7 +248,7 @@ export class LoginComponent implements OnInit {
   passwordclick() {
     this.show = !this.show;
   }
-  goToLogin(){
+  goToLogin() {
     this.showLogin = true
   }
 
