@@ -51,10 +51,7 @@ export class TimesheetComponent implements OnInit {
   emailpattern: RegExp;
   filterSortList: { key: number; value: string; }[];
   showdescription: boolean = false;
-<<<<<<< HEAD
   SaveTimesheet: any[];
-=======
->>>>>>> parent of d2fc4a2 (Revert "Username added with profile")
 
 
 
