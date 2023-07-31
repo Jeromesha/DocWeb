@@ -1,6 +1,6 @@
 export class UserSession {
     userId: number;
-    username: string;
+    userFullName: string;
     roleId: number;
     authToken: string;
     roleName: string;
@@ -13,13 +13,13 @@ export class UserSession {
     isDynamicPassword: boolean;
     role: any = [];
     subDivisionId: number;
-    regionId: number;
-    divisionId: number;
-    filterdivisionId: number;
-    filterregionId: number
+    regionId:number;
+    divisionId:number;
+    filterdivisionId:number;
+    filterregionId:number
     filtersubdivisionId: number;
-    districtId: number;
-    blockId: number;
-    filterdistrictId: number;
-    filterblockId: number;
+    districtId:number;
+    blockId:number;
+    filterdistrictId:number;
+    filterblockId:number;
 }
