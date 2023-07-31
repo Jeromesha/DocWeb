@@ -8,8 +8,12 @@ import { AlertService } from 'src/app/services/alert.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+// import { SaveTimesheet, TimeSheetViewModel } from 'path/to/save-timesheet.model'; // Adjust the path to the correct location of your model
+
 
 import * as moment from 'moment';
+import { result } from 'lodash';
+import { timeout } from 'rxjs-compat/operator/timeout';
 
 
 
@@ -46,7 +50,8 @@ export class TimesheetComponent implements OnInit {
   clientId: any;
   emailpattern: RegExp;
   filterSortList: { key: number; value: string; }[];
-  showdescription:boolean=false;
+  showdescription: boolean = false;
+  SaveTimesheet: any[];
 
 
 
@@ -86,23 +91,25 @@ export class TimesheetComponent implements OnInit {
   }
 
   initializeValidators() {
+
+
     this.form = this.formBuilder.group({
       id: [0],
       description: ['', [Validators.required]],
       hours: [null, [Validators.required]],
-      IsLeave:[2,[Validators.required]],
-      EntryDate:['',[Validators.required]],
-      EmployeeId:[null],
-      projectId:[null,[Validators.required]],
-      TimeIn:[null],
-      TimeOut:[null],
-      TaskStatusId:[null]
+      IsLeave: [2, [Validators.required]],
+      EntryDate: ['', [Validators.required]],
+      EmployeeId: [null],
+      projectId: [null, [Validators.required]],
+      TimeIn: [null],
+      TimeOut: [null],
+      TaskStatusId: [null]
     });
   }
-  sortingChange(event){
+  sortingChange(event) {
     debugger
-    if(event.value!=null){
-      this.showdescription=true;
+    if (event.value != null) {
+      this.showdescription = true;
     }
 
 
@@ -142,11 +149,54 @@ export class TimesheetComponent implements OnInit {
     debugger;
     this.form.controls['EntryDate'].setValue(moment(this.form.value.EntryDate).format("YYYY-MM-DD"));
 
-    
+
+
+    const timesheetData =
+    //  {
+    //   timesheets: [
+    //     {
+    //       Id: this.form.value.id,
+    //       EntryDate: moment(this.form.value.EntryDate).format("YYYY-MM-DD"),
+    //       Hours: this.form.value.hours,
+    //       Description: this.form.value.description,
+    //       ProjectId: this.form.value.projectId,
+    //       TaskId: 0,
+    //       EmployeeId: this.form.value.EmployeeId,
+    //       IsLeave: this.form.value.IsLeave == 2 ? true : false,
+    //       TimeIn: 0,
+    //       TimeOut: 0,
+    //       TaskStatusId: 0,
+    //     },
+    //   ],
+    // }
+
+    {
+      timesheets: [
+        {
+          id: 0,
+          entryDate:moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
+          hours:  this.form.value.hours,
+          description: this.form.value.description,
+          projectId:this.form.value.projectId,
+          taskId: 0,
+          employeeId: this.userSessionService.userId(),
+          isLeave: this.form.value.IsLeave == 1 ? true : false,
+          timeIn: {
+            ticks: null
+          },
+          timeOut: {
+            ticks: null
+          },
+          taskStatusId: 0
+        }
+      ]
+    }
+
+
+
     if (this.form.valid) {
-      
-      
-      this.timesheetService.savetimsheet(this.form.value).subscribe(result => {
+      debugger
+      this.timesheetService.savetimsheet(timesheetData).subscribe(result => {
         const msg1 = this.translate.instant('Savedsuccessfully');
         const msg2 = this.translate.instant('Updatedsuccessfully');
         const msg3 = this.translate.instant('Region');
@@ -182,16 +232,16 @@ export class TimesheetComponent implements OnInit {
     }
 
   }
-  onbtnClick(id){
+  onbtnClick(id) {
     debugger
-    if(id==1){
+    if (id == 1) {
       this.form.controls['choices'].setValue(id);
     }
-    else{
+    else {
       this.form.controls['choices'].setValue(id);
     }
-    console.log(this.form.value.choices,"  {{this.form.value.choices}}");
-    
+    console.log(this.form.value.choices, "  {{this.form.value.choices}}");
+
 
   }
 }

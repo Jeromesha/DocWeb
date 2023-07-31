@@ -22,7 +22,7 @@ export class UserService {
     }
 
     logout(data: any) {
-        return this.dataService.post('/api/user/logout', data).map(response => {
+        return this.dataService.post('/logout', data).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });

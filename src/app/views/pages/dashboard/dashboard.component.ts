@@ -49,18 +49,18 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     debugger;
     this.UserId = this.usersessionService.userId();
-    this.GetTimeSheet(this.UserId);
+    this.gettimesheet(this.UserId);
     //this.getRedistrationData();
   }
 
   refresh() {
     this.searchInput.nativeElement.value = "";
-    this.GetTimeSheet(this.UserId);
+    this.gettimesheet(this.UserId);
   }
 
-  GetTimeSheet(userId: any) {
-    this.loading = true;
-    this.dashboardService.getTimeSheetsById(userId, true).subscribe((res) => {
+  gettimesheet(userId: any) {
+    // this.loading = true;
+    this.dashboardService.gettimesheet(userId, true).subscribe((res) => {
       if (res) {
         this.loading = false;
         this.data = res;
