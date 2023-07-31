@@ -51,7 +51,10 @@ export class TimesheetComponent implements OnInit {
   emailpattern: RegExp;
   filterSortList: { key: number; value: string; }[];
   showdescription: boolean = false;
+<<<<<<< HEAD
   SaveTimesheet: any[];
+=======
+>>>>>>> parent of d2fc4a2 (Revert "Username added with profile")
 
 
 
@@ -114,7 +117,9 @@ export class TimesheetComponent implements OnInit {
 
 
   }
+  timeChange() {
 
+  }
 
   get(refresh: boolean) {
     if (this.id > 0) {
@@ -174,10 +179,10 @@ export class TimesheetComponent implements OnInit {
       timesheets: [
         {
           id: 0,
-          entryDate:moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
-          hours:  this.form.value.hours,
+          entryDate: moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
+          hours: this.form.value.hours,
           description: this.form.value.description,
-          projectId:this.form.value.projectId,
+          projectId: this.form.value.projectId,
           taskId: 0,
           employeeId: this.userSessionService.userId(),
           isLeave: this.form.value.IsLeave == 1 ? true : false,
