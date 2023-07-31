@@ -73,25 +73,21 @@
                                         <div class="form-group">
                                             <label class="mandatory">{{'Hours ' | translate}}
                                             </label>
-                                            <<<<<<< HEAD <input type="number" formControlName="hours" maxlength="24">
-                                                =======
-                                                <input class="form-control" formControlName="hours"
-                                                    [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
-                                                    (dateTimeInput)="timeChange()">
+                                            <input class="form-control" formControlName="hours"
+                                                [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+                                                (dateTimeInput)="timeChange()">
 
-                                                <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
-
-                                                >>>>>>> parent of d2fc4a2 (Revert "Username added with profile")
-                                                <div class="valid-error"
-                                                    *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
-                                                    text-wrap>
-                                                    <span *ngIf="form.controls.hours.errors?.required"
-                                                        class="form-text text-muted danger mandatory">
-                                                    </span>
-                                                    <!-- <span class="form-text text-muted danger mandatory "
+                                            <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.hours.errors?.required"
+                                                    class="form-text text-muted danger mandatory">
+                                                </span>
+                                                <!-- <span class="form-text text-muted danger mandatory "
                                                     *ngIf="form.get('name').hasError('pattern') && !form.get('name').hasError('required')">
                                                     {{'PleaseentervalidRegionName' | translate }} </span> -->
-                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
