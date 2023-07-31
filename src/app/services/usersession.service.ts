@@ -42,7 +42,7 @@ export class UserSessionService {
 
   getUserName() {
     const jsonData = localStorage.getItem(this.localStorageSessionKey);
-    return jsonData == null ? '' : JSON.parse(jsonData).userFullName;
+    return jsonData == null ? '' : JSON.parse(jsonData).username;
   }
 
   roleId(): number {

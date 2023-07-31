@@ -46,7 +46,7 @@ export class TimesheetComponent implements OnInit {
   clientId: any;
   emailpattern: RegExp;
   filterSortList: { key: number; value: string; }[];
-  showdescription:boolean=false;
+  showdescription: boolean = false;
 
 
 
@@ -90,24 +90,26 @@ export class TimesheetComponent implements OnInit {
       id: [0],
       description: ['', [Validators.required]],
       hours: [null, [Validators.required]],
-      IsLeave:[2,[Validators.required]],
-      EntryDate:['',[Validators.required]],
-      EmployeeId:[null],
-      projectId:[null,[Validators.required]],
-      TimeIn:[null],
-      TimeOut:[null],
-      TaskStatusId:[null]
+      IsLeave: [2, [Validators.required]],
+      EntryDate: ['', [Validators.required]],
+      EmployeeId: [null],
+      projectId: [null, [Validators.required]],
+      TimeIn: [null],
+      TimeOut: [null],
+      TaskStatusId: [null]
     });
   }
-  sortingChange(event){
+  sortingChange(event) {
     debugger
-    if(event.value!=null){
-      this.showdescription=true;
+    if (event.value != null) {
+      this.showdescription = true;
     }
 
 
   }
+  timeChange() {
 
+  }
 
   get(refresh: boolean) {
     if (this.id > 0) {
@@ -142,10 +144,10 @@ export class TimesheetComponent implements OnInit {
     debugger;
     this.form.controls['EntryDate'].setValue(moment(this.form.value.EntryDate).format("YYYY-MM-DD"));
 
-    
+
     if (this.form.valid) {
-      
-      
+
+
       this.timesheetService.savetimsheet(this.form.value).subscribe(result => {
         const msg1 = this.translate.instant('Savedsuccessfully');
         const msg2 = this.translate.instant('Updatedsuccessfully');
@@ -182,16 +184,16 @@ export class TimesheetComponent implements OnInit {
     }
 
   }
-  onbtnClick(id){
+  onbtnClick(id) {
     debugger
-    if(id==1){
+    if (id == 1) {
       this.form.controls['choices'].setValue(id);
     }
-    else{
+    else {
       this.form.controls['choices'].setValue(id);
     }
-    console.log(this.form.value.choices,"  {{this.form.value.choices}}");
-    
+    console.log(this.form.value.choices, "  {{this.form.value.choices}}");
+
 
   }
 }

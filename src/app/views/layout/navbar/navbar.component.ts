@@ -78,6 +78,7 @@ export class NavbarComponent implements OnInit {
     // this.updateDistrict(0);
     // this.updateBlock(0);
     // this.updateDate(this.currentDate);
+    console.log(this.username + '?' + this.roleName + '/')
   }
 
   initializeValidators() {

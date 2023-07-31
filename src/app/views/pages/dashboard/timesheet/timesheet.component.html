@@ -36,11 +36,15 @@
 
                                     <div class="col-md-6" style="display: flex; align-items: end;">
                                         <div class="form-group">
-                                                <mat-button-toggle-group formControlName="IsLeave">
-                                                  
-                                                    <mat-button-toggle [ngClass]="this.form.value.IsLeave == 1 ? 'btnred' :''" (click)="onbtnClick(1)" [value]="1">Levae</mat-button-toggle>
-                                                    <mat-button-toggle [ngClass]="this.form.value.IsLeave == 2 ? 'butgreen' :''" (click)="onbtnClick(2)" [value]="2">Present</mat-button-toggle>
-                                                </mat-button-toggle-group>
+                                            <mat-button-toggle-group formControlName="IsLeave">
+
+                                                <mat-button-toggle
+                                                    [ngClass]="this.form.value.IsLeave == 1 ? 'btnred' :''"
+                                                    (click)="onbtnClick(1)" [value]="1">Levae</mat-button-toggle>
+                                                <mat-button-toggle
+                                                    [ngClass]="this.form.value.IsLeave == 2 ? 'butgreen' :''"
+                                                    (click)="onbtnClick(2)" [value]="2">Present</mat-button-toggle>
+                                            </mat-button-toggle-group>
                                             <!-- <span class="form-text text-muted danger mandatory "
                                               *ngIf="form.get('code').hasError('maxlength') && !form.get('code').hasError('required')">                                                    {{'PleaseentermaxRegionCode' | translate }} </span> -->
 
@@ -55,7 +59,7 @@
                                             <label class="mandatory ">Project</label>
                                             <mat-select placeholder="Project" (selectionChange)="sortingChange($event)"
                                                 formControlName="projectId" class="form-control">
-                                                <mat-select-filter [displayMember]="'value'" [array]="sortList"
+                                                <mat-select-filter [displayMember]="'value'" [array]="filterSortList"
                                                     (filteredReturn)="filterSortList =$event">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterSortList" [value]="item.key">
@@ -64,21 +68,23 @@
                                             </mat-select>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory">{{'Hours ' | translate}}
                                             </label>
-                                            <input class="form-control" formControlName="hours" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"  (dateTimeInput)="startChange()">
+                                            <input class="form-control" formControlName="hours"
+                                                [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
+                                                (dateTimeInput)="timeChange()">
 
-                                           <owl-date-time [pickerType]="'timer'" [formatString]="'HH:mm'" #dt2></owl-date-time>
+                                            <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
 
                                             <div class="valid-error"
                                                 *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
                                                 text-wrap>
                                                 <span *ngIf="form.controls.hours.errors?.required"
                                                     class="form-text text-muted danger mandatory">
-                                                    </span>
+                                                </span>
                                                 <!-- <span class="form-text text-muted danger mandatory "
                                                     *ngIf="form.get('name').hasError('pattern') && !form.get('name').hasError('required')">
                                                     {{'PleaseentervalidRegionName' | translate }} </span> -->
@@ -89,7 +95,7 @@
 
                                 <div class="row">
 
-                                    
+
                                     <div class="col-md-6" *ngIf="this.showdescription==true">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Description' | translate}}</label>
