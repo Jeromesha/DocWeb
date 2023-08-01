@@ -26,16 +26,12 @@ export class DashboardComponent implements OnInit {
   UserId: any;
   displayedColumns: string[] = [
     "action",
-    "status",
-    "RegistrationNo",
-    "registrationTs",
-    "OrganizatioType",
-    "OrganizationName",
-    "indoorTypeName",
-    "outdoorTypeName",
-    "totalCost",
-    "mobile",
-    "email",
+    "EntryDate",
+    "Hours",
+    "Description",
+    "Project",
+    "TimeIn",
+    "TimeOut"
   ];
   public excelColumns: string[];
   constructor(

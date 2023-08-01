@@ -14,6 +14,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import { result } from 'lodash';
 import { timeout } from 'rxjs-compat/operator/timeout';
+import { Observable } from 'rxjs';
 
 
 
@@ -85,8 +86,7 @@ export class TimesheetComponent implements OnInit {
 
   ngOnInit() {
     this.initializeValidators();
-    debugger
-    this.filterSortList = this.timesheetService.getproject();
+    this.Getproject();
     this.get(true);
   }
 
@@ -107,7 +107,6 @@ export class TimesheetComponent implements OnInit {
     });
   }
   sortingChange(event) {
-    debugger
     if (event.value != null) {
       this.showdescription = true;
     }
@@ -116,6 +115,14 @@ export class TimesheetComponent implements OnInit {
   }
   timeChange() {
 
+  }
+
+  Getproject() {
+    debugger;
+    this.timesheetService.getproject().subscribe(result => {
+      console.log(">>>?", result);
+      this.filterSortList = result;
+    });
   }
 
   get(refresh: boolean) {

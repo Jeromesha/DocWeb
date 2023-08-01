@@ -20,32 +20,21 @@ export class TimeSheetService {
     }
 
     getById(id: number, refresh: boolean) {
+        debugger;
         return this.dataService.getData('/api/region/' + id, refresh);
     }
 
-    getproject()
-    {
-        return [{
-            key:1,
-            value:"RMS",
-
-        },
-        {
-            key:2,
-            value:"AED"
-        }
-        ];
+    getproject() {
+        return this.dataService.getData('api/lookup/3', true);
     }
 
-    
+
     savetimsheet(result: any) {
         debugger
         return this.dataService.post('/api/timesheet', result).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });
-
-        
     }
-    
+
 }

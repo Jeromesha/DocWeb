@@ -28,85 +28,51 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
-        <ng-container matColumnDef="OrganizatioType">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="organisationTypeName">{{'Organisation Type' |
+        <ng-container matColumnDef="EntryDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="EntryDate">{{'EntryDate' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.organisationTypeName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.EntryDate}}</p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="OrganizationName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="organisationName">{{'Organisation Name' | translate}}
+        <ng-container matColumnDef="Hours">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="Hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.organisationName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.Hours}}</p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="RegistrationNo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="registrationRefNo">{{'Booking Referene No' | translate}}
+        <ng-container matColumnDef="Description">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="Description">{{'Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.registrationRefNo}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.Description}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="registrationTs">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="registrationTs">{{'Booking Date' | translate}}
+        <ng-container matColumnDef="Project">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="Project">{{'Project' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.registrationTs | date : 'dd-MM-YYYY'}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.Project | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="mobile">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="contactPersonMobileNo">{{'Mobile Number' | translate}}
+        <ng-container matColumnDef="TimeIn">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="TimeIn">{{'TimeIn' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.contactPersonMobileNo}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeIn}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="contactPersonEmail">{{'E-Mail Id' | translate}}
+        <ng-container matColumnDef="TimeOut">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="TimeOut">{{'TimeOut' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.contactPersonEmail}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeOut}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="registrationStatusTypeName">{{'Status' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p [ngClass]="dataField?.registrationStatusType == 2 ? 'bggreen' : 'bgred' "
-                    class="text-truncate txtalign lbl-pointer">{{dataField.registrationStatusTypeName}}</p>
-            </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="indoorTypeName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="indoorTypeName">{{'Indoor Stall in Nos (3M x 3M) ' |
-                translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.indoorTypeName}}</p>
-            </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="outdoorTypeName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="outdoorTypeName">{{'Outdoor (Square Meter) ' |
-                translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.outdoorTypeName}}</p>
-            </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="totalCost">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="totalCost">{{'Total Cost' |
-                translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.totalCost == 0 ? '':dataField.totalCost}}</p>
-            </mat-cell>
-        </ng-container>
-
-
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar">
