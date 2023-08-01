@@ -1,9 +1,5 @@
 export const environment = {
-
-    // apiBaseUrl: 'http://localhost:7000',
-    apiBaseUrl: "https://api.agriexpo2023.in",
-  // imageBaseUrl: "https://tnngsimages.tnega.org/",
-
+  apiBaseUrl: 'http://eazypmv2api.xenovex.com',
   tokenEndPoint: "/api/token",
   production: true,
   environment: "PROD",
