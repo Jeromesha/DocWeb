@@ -107,7 +107,7 @@ export class AuthenticationService {
     };
     return this.http
       .post<any>(this.baseUrl + "/api/token", data, { headers })
-      
+
       .map((user) => {
         debugger
         if (user && user.access_token) {
@@ -119,7 +119,7 @@ export class AuthenticationService {
           this.sessionData.userId = decodedToken["user.id"];
           this.sessionData.roleId = decodedToken["user.roleId"];
           // this.sessionData.roleName = decodedToken["user.rolename"];
-          // this.sessionData.userFullName = decodedToken["user.fullname"];
+          this.sessionData.username = decodedToken["user.fullname"];
           // this.sessionData.isDynamicPassword =
           //   decodedToken.referrence1 === "True";
           // this.sessionData.districtId = decodedToken["user.districtId"];
