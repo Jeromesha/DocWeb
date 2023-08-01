@@ -182,10 +182,10 @@ export class TimesheetComponent implements OnInit {
           employeeId: this.userSessionService.userId(),
           isLeave: this.form.value.IsLeave == 1 ? true : false,
           timeIn: {
-            ticks: 0
+            ticks: null
           },
           timeOut: {
-            ticks: 0
+            ticks: null
           },
           taskStatusId: 0
         }
