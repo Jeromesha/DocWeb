@@ -25,7 +25,7 @@ export class TimeSheetService {
     }
 
     getproject() {
-        return this.dataService.getData('api/lookup/3', true);
+        return this.dataService.getData('/api/lookup/3', true);
     }
 
 
