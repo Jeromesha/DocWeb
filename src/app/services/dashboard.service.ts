@@ -9,7 +9,7 @@ export class DashboardService {
     constructor(private dataService: DataService) {
     };
 
-    getTimeSheetsById(id: any, refresh: boolean) {
+    gettimesheet(id: number, refresh: boolean) {
         return this.dataService.getData('/api/timesheet/getbyid/' + id, refresh);
     }
     getRegistrationDataById(id: number, refresh: boolean) {
