@@ -24,15 +24,16 @@ const routes: Routes = [
         redirectTo: "dashboard",
         pathMatch: "full",
       },
+
       {
         path: "mapping",
         loadChildren: () => import("./../../views/pages/mapping/mapping.module").then((m) => m.MappingModule)
       },
       {
-        path: "profile/:id/:actionInfo",
+        path: "employeedetails",
         loadChildren: () =>
-          import("./../../views/pages/profile/profile/profile.module").then(
-            (m) => m.ProfileModule
+          import("./../../views/pages/employeedetails/employeedetails.module").then(
+            (m) => m.EmployeedetailsModule
           ),
       },
     ],
