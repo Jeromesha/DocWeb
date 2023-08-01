@@ -70,6 +70,10 @@ export class NavigationService {
     this.router.navigate(['/awc/']);
   }
 
+  gotoEmployeeDetails(id: number, actionInfo: number) {
+    this.router.navigate(['/employeedetails/' + id, actionInfo])
+  }
+
 
 }
 

@@ -22,11 +22,12 @@ const routes: Routes = [
         redirectTo: "dashboard",
         pathMatch: "full",
       },
+      
       {
-        path: "profile/:id/:actionInfo",
+        path: "employeedetails",
         loadChildren: () =>
-          import("./../../views/pages/profile/profile/profile.module").then(
-            (m) => m.ProfileModule
+          import("./../../views/pages/employeedetails/employeedetails.module").then(
+            (m) => m.EmployeedetailsModule
           ),
       },
     ],
