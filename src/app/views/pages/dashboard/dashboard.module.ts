@@ -25,8 +25,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
-import { TimesheetComponent } from "./timesheet/timesheet.component";
-import { TimeSheetService } from "src/app/services/timesheet.service";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
@@ -42,11 +40,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [DashboardComponent, TimesheetComponent],
+  declarations: [DashboardComponent],
   providers: [
     DashboardService,
     ExcelService,
-    TimeSheetService,
     NotifyService,
     DatePipe,
   ],
