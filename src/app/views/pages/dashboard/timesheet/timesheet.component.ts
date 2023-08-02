@@ -213,11 +213,13 @@ export class TimesheetComponent implements OnInit {
       this.timesheetService.savetimsheet(timesheetData).subscribe(result => {
         if(result && result.isSuccess){
           this._location.back();
-          const msg1 = this.translate.instant('Savedsuccessfully');
-          const msg2 = this.translate.instant('Updatedsuccessfully');
-          const msg3 = this.translate.instant('');
-          const sucessmsg = this.id == 0 ? msg1 : msg2;
-          this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
+          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully":"Time Sheet Updated Successfully");
+
+          // const msg1 = this.translate.instant('Savedsuccessfully');
+          // const msg2 = this.translate.instant('Updatedsuccessfully');
+          // const msg3 = this.translate.instant('');
+          // const sucessmsg = this.id == 0 ? msg1 : msg2;
+          
         }
         
       });
