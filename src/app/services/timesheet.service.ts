@@ -21,7 +21,7 @@ export class TimeSheetService {
 
     getById(id: number, refresh: boolean) {
         debugger;
-        return this.dataService.getData('/api/region/' + id, refresh);
+        return this.dataService.getData('/api/gettimesheet/' + id, refresh);
     }
 
     getproject() {

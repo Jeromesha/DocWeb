@@ -1,0 +1,229 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add Project' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View Project' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit Project' | translate}}</h4>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body login-img">
+                    <div class="px-3">
+                        <form [formGroup]="form" class="form form-horizontal" novalidate>
+                            <div class="form-body pt-2">
+    
+                                <div class="row" >
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"clintid"|translate}}</label>
+                                            <mat-select placeholder="Select Clint" 
+                                                formControlName="clintid" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="clintdata"
+                                                    (filteredReturn)="filterclintdata =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterclintdata" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.clintid.errors && (form.controls.clintid.dirty || form.controls.clintid.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.clintid.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'clintid' | translate}} {{'IsRequired' | translate}}</span>
+                                           
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'projectname' | translate}}</label>
+                                            <input type="text" class="form-control"
+                                                formControlName="projectname" placeholder="{{'Project Name' | translate}}" autocomplete="off">
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.projectname.errors && (form.controls.projectname.dirty || form.controls.projectname.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.projectname.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'projectname' | translate}} {{'IsRequired' | translate}}</span>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"projecttype"|translate}}</label>
+                                            <mat-select placeholder="Select Clint" 
+                                                formControlName="projecttype" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="projecttypelist"
+                                                    (filteredReturn)="filterprojecttypelist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterprojecttypelist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.projecttype.errors && (form.controls.projecttype.dirty || form.controls.projecttype.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.projecttype.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Project Type' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"Technologytype"|translate}}</label>
+                                            <mat-select placeholder="Select Technology" 
+                                                formControlName="Technologytype" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="technologytypelist"
+                                                    (filteredReturn)="filtertechnologytypelist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filtertechnologytypelist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.Technologytype.errors && (form.controls.Technologytype.dirty || form.controls.Technologytype.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.Technologytype.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Technologytype' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Repository Name' | translate}}</label>
+                                            <input type="text" class="form-control"
+                                                formControlName="Repositoryname" placeholder="{{'Repository Name' | translate}}" autocomplete="off">
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.Repositoryname.errors && (form.controls.Repositoryname.dirty || form.controls.Repositoryname.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.Repositoryname.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    {{'Repository Name' | translate}} {{'IsRequired' | translate}}</span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Repository Url' | translate}}</label>
+                                            <input type="text" class="form-control"
+                                                formControlName="Repositoryurl" placeholder="{{'Repository Url' | translate}}" autocomplete="off">
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.Repositoryurl.errors && (form.controls.Repositoryurl.dirty || form.controls.Repositoryurl.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.Repositoryurl.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Repository Url' | translate}} {{'IsRequired' | translate}}</span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'StartDate' | translate}}</label>
+                                            <div class="input-group mb-0">
+
+                                                <input class="form-control" formControlName="ScheduledStart"
+                                                placeholder="{{'StartDate' | translate}}"
+                                                    [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                                                    (ngModelChange)="setDate()" [max]="maxDate">
+                                                <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                                                </div>
+                                            </div>
+                                            <span class="form-text  danger mandatory "
+                                                *ngIf="!form.get('ScheduledStart').valid && (form.get('ScheduledStart').dirty || form.get('ScheduledStart').touched)">
+                                                {{'StartDate' | translate}} {{'IsRequired' | translate}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">{{'EndDate' | translate}}
+                                            </label>
+                                            <div class="input-group mb-0">
+
+                                                <input class="form-control" formControlName="ScheduledEnd"
+                                                    [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" placeholder="{{'EndDate' | translate}}"
+                                                    [max]='scheduledEndmax' [min]="form.get('ScheduledStart').value">
+                                                <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt2">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+                                                </div>
+                                            </div>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.ScheduledEnd.errors && (form.controls.ScheduledEnd.dirty || form.controls.ScheduledEnd.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.ScheduledEnd.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'EndDate' | translate}} {{'IsRequired' | translate}}</span>
+                                                    <span class="form-text text-muted danger mandatory initial" *ngIf="(form.get('ScheduledStart').value && form.get('ScheduledEnd').value) && (form.get('ScheduledStart').value > form.get('ScheduledEnd').value)">
+                                                        {{'EndDateshouldbegreaterthanstarrtdate' | translate}}
+                                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"Projectstatus"|translate}}</label>
+                                            <mat-select placeholder='{{"Projectstatus"|translate}}' 
+                                                formControlName="projectstatus" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="ProjectStatuslist"
+                                                    (filteredReturn)="filterprojectstatuslist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterprojectstatuslist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.projectstatus.errors && (form.controls.projectstatus.dirty || form.controls.projectstatus.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.projectstatus.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Projectstatus' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-actions mb-2 mt-3" style="float: right;">
+                                    <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
+                                        (click)="onCancel()">
+                                        <i class="fa fa-close"></i>
+                                        {{'Cancel' | translate}}
+                                    </button>
+                                    <button *ngIf=formEditMode
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" (click)="onSubmit()">
+                                        <i class="fa fa-save"></i>
+                                        {{submitbtn | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

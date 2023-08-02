@@ -1,0 +1,54 @@
+<div class="row text-left">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body login-img">
+                    <div class="px-3">
+                        <form [formGroup]="form" class="form form-horizontal" novalidate>
+                            <div class="form-body pt-2">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Project' | translate}}</label>
+                                            <mat-select placeholder="Project" (selectionChange)="sortingChange($event)"
+                                                formControlName="projectId" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="projectSortList"
+                                                    (filteredReturn)="projectSortList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of projectSortList" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">{{'Employee' | translate}}</label>
+                                            <mat-select placeholder="Employee" (selectionChange)="sortingChange($event)"
+                                                formControlName="employeeId" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="employeeSortList"
+                                                    (filteredReturn)="employeeSortList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of employeeSortList" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions mb-2 mt-3" style="float: right;">
+                                    <button [ngClass]="'btn btn-primary mr-1 btnsave'" type="submit"
+                                        (click)="onSubmit()">
+                                        <i class="fa fa-save"></i>
+                                        {{submitbtn | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
