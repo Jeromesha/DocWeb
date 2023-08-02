@@ -13,12 +13,12 @@ export class ProjectdetailsService {
   constructor(private dataService: DataService) { }
 
   save(result: any) {
-    return this.dataService.post('/api/projectemployee', result)
+    return this.dataService.post('/api/project', result)
 }
 
 getById(id: number, refresh: boolean) {
     debugger;
-    return this.dataService.getData('/api/region/' + id, refresh);
+    return this.dataService.getData('/api/project/' + id, refresh);
 }
 // api/lookup/{moduletype:int}
 
@@ -27,7 +27,7 @@ getLookup(moduletype: number, refresh:boolean){
 }
 
 getProjectType(refresh:boolean){
-  return this.dataService.getData('/api/lookup', refresh)
+  return this.dataService.getData('/api/lookup/projecttype', refresh)
 }
 
 getTechnologyType(refresh:boolean){
@@ -39,8 +39,8 @@ getProjectStatus(refresh:boolean){
 }
 
 
-// getdata(){
-
-// }
+getdata(refresh:boolean){
+  return this.dataService.getData('/api/project', refresh);
+}
 
 }
