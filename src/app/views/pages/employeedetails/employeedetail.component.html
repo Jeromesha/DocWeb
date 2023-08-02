@@ -1,0 +1,461 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add Employee Details' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'Employee Details' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id != 0">&nbsp;{{'Edit Employee Details' | translate}}</h4>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body login-img">
+                    <div class="px-3">
+                        <form [formGroup]="form" class="form form-horizontal" novalidate>
+                            <div class="form-body pt-2">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Employee Number' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="empCode"
+                                                placeholder="Employee Number" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.empCode.errors && (form.controls.empCode.dirty || form.controls.empCode.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.empCode.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Employee Number' | translate}} {{'IsRequired' |
+                                                    translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Role Type' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="roleType"
+                                                class="form-control pd" placeholder="Select Role Type">
+                                                <mat-select-filter [displayMember]="'value'"
+                                                    [array]="roleList" (filteredReturn)="filterroleType =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterroleType" [value]="item.id"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.roleType.errors && (form.controls.roleType.dirty || form.controls.roleType.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.roleType.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Role Type' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'First Name' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="firstName"
+                                                placeholder="First Name" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.firstName.errors && (form.controls.firstName.dirty || form.controls.firstName.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.firstName.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'First Name' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Last Name' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="lastName"
+                                                placeholder="Last Name" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.lastName.errors && (form.controls.lastName.dirty || form.controls.lastName.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.lastName.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Last Name' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Mobile Number' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="mobile" onlyNumber
+                                               maxlength="10" placeholder="Mobile Number" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.mobile.errors && (form.controls.mobile.dirty || form.controls.mobile.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.mobile.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'mobile' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Email' | translate}}</label>
+                                            <input type="email" class="form-control " formControlName="email"
+                                                placeholder="Email" autocomplete="off"
+                                                pattern="^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.email.errors && (form.controls.email.dirty || form.controls.email.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.email.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Email' | translate}} {{'IsRequired' | translate}}</span>
+                                                    <span *ngIf="form.controls.email.errors?.pattern && (form.controls.email.dirty || form.controls.email.touched)"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Invalid Email' | translate}} </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'SVN Username' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="svnUserName"
+                                                placeholder="SVN Username" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.svnUserName.errors && (form.controls.svnUserName.dirty || form.controls.svnUserName.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.svnUserName.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'SVN Username' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'SVN Password' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="svnPassword"
+                                                placeholder="SVN Password" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.svnPassword.errors && (form.controls.svnPassword.dirty || form.controls.svnPassword.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.svnPassword.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'SVN Password' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'DOB' | translate}}</label>
+                                            <div class="input-group mb-0 ">
+                                                <input class="form-control" placeholder="Select DOB" [max]="date"
+                                                    formControlName="dateOfBirth" [owlDateTimeTrigger]="dt1"
+                                                    [owlDateTime]="dt1">
+                                                <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                </owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                    </owl-date-time>
+                                                </div>
+                                            </div>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.dateOfBirth.errors && (form.controls.dateOfBirth.dirty || form.controls.dateOfBirth.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.dateOfBirth.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'DOB' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Joining Date' | translate}}</label>
+                                            <div class="input-group mb-0 ">
+                                                <input class="form-control" placeholder="Select Joining Date" [max]="date"
+                                                    formControlName="joiningDate" [owlDateTimeTrigger]="dt2"
+                                                    [owlDateTime]="dt2">
+                                                <owl-date-time [pickerType]="'calendar'" #dt2>
+                                                </owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt2">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt2>
+                                                    </owl-date-time>
+                                                </div>
+                                            </div>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.joiningDate.errors && (form.controls.joiningDate.dirty || form.controls.joiningDate.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.joiningDate.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Joining Date' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Marriage Date' | translate}}</label>
+                                            <div class="input-group mb-0 ">
+                                                <input class="form-control" placeholder="Select Marriage Date"
+                                                    formControlName="marriageDate" [owlDateTimeTrigger]="dt3" [max]="date"
+                                                    [owlDateTime]="dt3">
+                                                <owl-date-time [pickerType]="'calendar'" #dt3>
+                                                </owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt3">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt3>
+                                                    </owl-date-time>
+                                                </div>
+                                            </div>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.marriageDate.errors && (form.controls.marriageDate.dirty || form.controls.marriageDate.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.marriageDate.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Marriage Date' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Short Name' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="empShortName"
+                                                placeholder="Short Name" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.empShortName.errors && (form.controls.empShortName.dirty || form.controls.empShortName.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.empShortName.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Short Name' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Project' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="defaultProjectId"
+                                                class="form-control pd" placeholder="Select Project">
+                                                <mat-select-filter [displayMember]="'value'" [array]="projectList"
+                                                    (filteredReturn)="filterprojectList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterprojectList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.defaultProjectId.errors && (form.controls.defaultProjectId.dirty || form.controls.defaultProjectId.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.defaultProjectId.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Project' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Work Location' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="locationId"
+                                                class="form-control pd" placeholder="Select Work Location">
+                                                <mat-select-filter [displayMember]="'value'"
+                                                    [array]="locationList"
+                                                    (filteredReturn)="filterlocationList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterlocationList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.locationId.errors && (form.controls.locationId.dirty || form.controls.locationId.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.locationId.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Work Location' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Designation' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="designation"
+                                            class="form-control pd" placeholder="Select Designation">
+                                            <mat-select-filter [displayMember]="'value'" [array]="designationList"
+                                                (filteredReturn)="filterdesignationList =$event">
+                                            </mat-select-filter>
+                                            <mat-option *ngFor="let item of filterdesignationList" [value]="item.key"
+                                                class="disp">
+                                                {{item.value}}
+                                            </mat-option>
+                                        </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.designation.errors && (form.controls.designation.dirty || form.controls.designation.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.designation.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Designation' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Gender' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="gender"
+                                                class="form-control pd" placeholder="Select Gender">
+                                                <mat-select-filter [displayMember]="'value'" [array]="genderList"
+                                                    (filteredReturn)="filtergenderList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filtergenderList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.gender.errors && (form.controls.gender.dirty || form.controls.gender.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.gender.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Gender' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Reporting Person' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="reportingPersonId"
+                                                class="form-control pd" placeholder="Select Reporting Person">
+                                                <mat-select-filter [displayMember]="'value'" [array]="reportingList"
+                                                    (filteredReturn)="filterreportingList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterreportingList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.reportingPersonId.errors && (form.controls.reportingPersonId.dirty || form.controls.reportingPersonId.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.reportingPersonId.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Reporting Person' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Password' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="strpassword"
+                                                placeholder="Password" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.strpassword.errors && (form.controls.strpassword.dirty || form.controls.strpassword.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.strpassword.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Password' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Address' | translate}}</label>
+                                            <textarea type="text" class="form-control" maxlength="250"
+                                                placeholder="Address" formControlName="address" autocomplete="off">
+                                     </textarea>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.address.errors && (form.controls.address.dirty || form.controls.address.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.address.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Address' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="padding-top: 25px;">
+                                        <div class="form-check form-check-flat form-check-primary">
+                                            <!-- <label class="form-check-label" >
+                                                <input type="checkbox" [checked]="checkedTickfill" (click)="fillTimesheet($event)" class="form-check-input"  style="float: right;">
+                                                <i class="input-frame"></i>
+                                                Need to fill timesheet
+                                              </label> -->
+                                            <mat-checkbox class="form-check-label cursor-pointer checkboxL"
+                                                formControlName="fillTimesheet" (click)="fillTimesheet($event)" #ch>Need to fill timesheet
+                                            </mat-checkbox>
+
+                                        </div>
+                                        <div class="form-check form-check-flat form-check-primary">
+                                            <!-- <label class="form-check-label">
+                                                <input type="checkbox" [checked]="checkedTicktActive"
+                                                    (click)="isActive($event)" class="form-check-input"
+                                                    style="float: right;">
+                                                <i class="input-frame"></i>
+                                                Is Active
+                                            </label> -->
+                                            <mat-checkbox class="form-check-label cursor-pointer checkboxL"
+                                                formControlName="isFirstLogin" (click)="isActive($event)"> Is Active
+                                            </mat-checkbox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions mb-2 mt-3" style="float: right;">
+                                    <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
+                                        (click)="onCancel()">
+                                        <i class="fa fa-close"></i>
+                                        {{'Cancel' | translate}}
+                                    </button>
+                                    <button *ngIf=formEditMode
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" (click)="onSubmit()">
+                                        <i class="fa fa-save"></i>
+                                        {{submitbtn | translate}}
+                                    </button>
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

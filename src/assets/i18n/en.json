@@ -130,7 +130,10 @@
   "EntryDate": "Entry Date",
   "TimeOut": "Time Out",
   "TimeIn": "Time In",
-  "IsRequired":"Is required",
-  "Project":"Project"
-
+  "Project":"Project",
+  "clintid":"Clint Id",
+  "projectname":"Project Name",
+  "projecttype":"Project Type",
+  "Technologytype":"Technology Type",
+  "Projectstatus":"Project Status"
 }

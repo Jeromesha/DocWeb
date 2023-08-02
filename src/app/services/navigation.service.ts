@@ -15,6 +15,11 @@ export class NavigationService {
     this.router.navigate(['/timesheet/' + id, actionInfo]);
   }
 
+  goToproject(id: number, actionInfo: number) {
+    debugger;
+    this.router.navigate(['/projectdetails/' + id, actionInfo]);
+  }
+
   goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {
     this.router.navigate(['/villageuserdetail-edit/' + VillagePanchayatId + '/' + userId + '/' + actionInfo]);
   }
@@ -68,6 +73,10 @@ export class NavigationService {
 
   goToAwcPage() {
     this.router.navigate(['/awc/']);
+  }
+
+  gotoEmployeeDetails(id: number, actionInfo: number) {
+    this.router.navigate(['/employeedetails/' + id, actionInfo])
   }
 
 

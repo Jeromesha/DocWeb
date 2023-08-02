@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
+    debugger
     if (this.loginForm.valid) {
       this.loading = true;
       this.authService.clearSession();

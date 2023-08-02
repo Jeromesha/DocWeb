@@ -1,5 +1,6 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ProjectDetailsComponent } from './project-details.component';
 import { Routes, RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FeahterIconModule } from "src/app/core/feather-icon/feather-icon.module";
@@ -20,35 +21,35 @@ import { DatePipe } from "@angular/common";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from "@angular/material/select";
 import { MatSelectFilterModule } from "mat-select-filter";
-import { DashboardComponent } from "./dashboard.component";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
-import { TimesheetComponent } from "./timesheet/timesheet.component";
 import { TimeSheetService } from "src/app/services/timesheet.service";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
-
-PlotlyModule.plotlyjs = PlotlyJS;
-
-
+import { ProjectDetailsViewComponent } from './project-details-view.component';
+import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
-  }
+    component: ProjectDetailsComponent
+  },
+  {
+    path: ":id/:actionInfo",
+    component: ProjectDetailsViewComponent
+  },
 ];
 
 @NgModule({
-  declarations: [DashboardComponent, TimesheetComponent],
+  declarations: [ProjectDetailsComponent, ProjectDetailsViewComponent],
   providers: [
     DashboardService,
     ExcelService,
     TimeSheetService,
     NotifyService,
     DatePipe,
+    ProjectdetailsService
   ],
   imports: [
     CommonModule,
@@ -77,6 +78,6 @@ const routes: Routes = [
     PlotlyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule
-  ],
+  ]
 })
-export class DashboardModule { }
+export class ProjectDetailsModule { }

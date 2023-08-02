@@ -4,7 +4,6 @@ import { Routes, RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FeahterIconModule } from "src/app/core/feather-icon/feather-icon.module";
 import { NgbDropdownModule, NgbProgressbarModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
-import { DashboardService } from "src/app/services/dashboard.service";
 import { ExcelService } from "src/app/services/excel.service";
 import { TranslateModule } from "@ngx-translate/core";
 import { MatButtonModule } from "@angular/material/button";
@@ -20,14 +19,13 @@ import { DatePipe } from "@angular/common";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from "@angular/material/select";
 import { MatSelectFilterModule } from "mat-select-filter";
-import { DashboardComponent } from "./dashboard.component";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
-import { TimesheetComponent } from "./timesheet/timesheet.component";
-import { TimeSheetService } from "src/app/services/timesheet.service";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { MappingComponent } from "./mapping.component";
+import { MappingServices } from "src/app/services/mapping.service";
 
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -37,18 +35,14 @@ PlotlyModule.plotlyjs = PlotlyJS;
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
-  }
+    component: MappingComponent
+  },
 ];
 
 @NgModule({
-  declarations: [DashboardComponent, TimesheetComponent],
+  declarations: [MappingComponent],
   providers: [
-    DashboardService,
-    ExcelService,
-    TimeSheetService,
-    NotifyService,
-    DatePipe,
+    MappingServices
   ],
   imports: [
     CommonModule,
@@ -79,4 +73,4 @@ const routes: Routes = [
     OwlNativeDateTimeModule
   ],
 })
-export class DashboardModule { }
+export class MappingModule { }
