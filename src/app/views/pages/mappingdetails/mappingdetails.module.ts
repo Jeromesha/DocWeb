@@ -22,7 +22,6 @@ import { MatSelectFilterModule } from "mat-select-filter";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { MappingServices } from "src/app/services/mapping.service";
@@ -54,7 +53,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    NgMultiSelectDropDownModule.forRoot(),
     FormsModule,
     FeahterIconModule,
     NgbDropdownModule,
