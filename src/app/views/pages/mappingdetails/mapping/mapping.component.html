@@ -1,3 +1,12 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add Employee Project Mapping' | translate}}
+        </h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'Employee Project Mapping' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit Employee Project Mapping' |
+            translate}}</h4>
+    </div>
+</div>
 <div class="row text-left">
     <div class="col-md-12">
         <div class="card">
@@ -38,8 +47,14 @@
                                     </div>
                                 </div>
                                 <div class="form-actions mb-2 mt-3" style="float: right;">
-                                    <button [ngClass]="'btn btn-primary mr-1 btnsave'" type="submit"
-                                        (click)="onSubmit()">
+                                    <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
+                                        (click)="onCancel()">
+                                        <i class="fa fa-close"></i>
+                                        {{'Cancel' | translate}}
+                                    </button>
+                                    <button *ngIf=formEditMode
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" (click)="onSubmit()">
                                         <i class="fa fa-save"></i>
                                         {{submitbtn | translate}}
                                     </button>

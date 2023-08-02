@@ -26,8 +26,8 @@ const routes: Routes = [
       },
 
       {
-        path: "mapping",
-        loadChildren: () => import("./../../views/pages/mapping/mapping.module").then((m) => m.MappingModule)
+        path: "mappingdetails",
+        loadChildren: () => import("../pages/mappingdetails/mappingdetails.module").then((m) => m.MappingDeailsModule)
       },
       {
         path: "employeedetails",

@@ -12,12 +12,15 @@ export class MappingServices {
         return this.dataService.getData('/api/lookup/1', true);
     }
     GetEmployee() {
-        return this.dataService.getData('/api/lookup/4', true);
+        return this.dataService.getData('/api/lookup/2', true);
     }
     MapProjectEmployee(result: any) {
         return this.dataService.post('/api/projectemployee/', result).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });
+    }
+    getById(id: number, refresh: boolean) {
+        return this.dataService.getData('/api/projectemployee/' + id, refresh);
     }
 }

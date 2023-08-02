@@ -15,6 +15,11 @@ export class NavigationService {
     this.router.navigate(['/dashboard/' + id, actionInfo]);
   }
 
+  goToMapping(id: any, actionInfo: number) {
+    debugger;
+    this.router.navigate(['/mappingdetails/' + id, actionInfo]);
+  }
+
   goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {
     this.router.navigate(['/villageuserdetail-edit/' + VillagePanchayatId + '/' + userId + '/' + actionInfo]);
   }

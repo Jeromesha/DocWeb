@@ -22,7 +22,7 @@ export class UserService {
     }
 
     logout(data: any) {
-        return this.dataService.post('/logout', data).map(response => {
+        return this.dataService.post('employee/logout', data).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });
@@ -171,7 +171,7 @@ export class UserService {
     //     return this.dataService.getData('/api/beneficiary/' + id, refresh)
     // }
 
-    getTimeline(id: any,type:any, refresh: boolean) {
+    getTimeline(id: any, type: any, refresh: boolean) {
         return this.dataService.getData('/api/beneficiary/' + id + '/' + type, refresh)
     }
 
