@@ -43,13 +43,14 @@ export class EmployeedetailsComponent implements OnInit {
   getEmpDetails()
   {
     this.employeeService.getGridDetails(true).subscribe((res)=>{
+      this.data = res;
       console.log(res);
       
     })
   }
 
   refresh(){
-
+    this.getEmpDetails();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
