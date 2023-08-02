@@ -28,58 +28,64 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
-        <ng-container matColumnDef="EntryDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="EntryDate">{{'EntryDate' |
+        <ng-container matColumnDef="empCode">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="empCode">{{'Employee ID' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.EntryDate}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.empCode}}</p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="Hours">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Hours">{{'Hours' | translate}}
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="firstName">{{'Employee Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.Hours}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}} {{dataField.lastName}} </p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="Description">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Description">{{'Description' | translate}}
+        <ng-container matColumnDef="joiningDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="joiningDate">{{'Joining Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.Description}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.joiningDate}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Project">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Project">{{'Project' | translate}}
+        <ng-container matColumnDef="mobile">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="mobile">{{'Mobile' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.Project | date : 'dd-MM-YYYY'}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.mobile }}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="TimeIn">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="TimeIn">{{'TimeIn' | translate}}
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="email">{{'Email' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeIn}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.email}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="TimeOut">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="TimeOut">{{'TimeOut' | translate}}
+        <ng-container matColumnDef="designation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="designation">{{'Designation' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeOut}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.designation}}</p>
             </mat-cell>
         </ng-container>
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar">
 
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
+                (click)="goToAction(dataField.Id,0)">
+                <i class="fa fa-eye fa-2x"></i>
+            </button>
+
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.Id,0)">
+                    (click)="goToAction(dataField.Id,1)">
                     <i class="fa fa-eye fa-2x"></i>
                 </button>
 

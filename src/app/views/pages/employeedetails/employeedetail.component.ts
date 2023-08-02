@@ -3,6 +3,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import * as forge from "node-forge";
+import * as _ from 'lodash';
+import { AlertService } from 'src/app/services/alert.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector: 'app-employeedetail',
@@ -47,6 +50,8 @@ export class EmployeedetailComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private empDetailsService: EmployeedetailsService,
+    private alertService:AlertService,
+    private navigationService:NavigationService
     ) {
     this.routeparams = this.route.snapshot.params;
     this.actionInfo = this.routeparams.actionInfo;
@@ -87,27 +92,36 @@ export class EmployeedetailComponent implements OnInit {
 
   initialValidators() {
     this.form = this.formBuilder.group({
-      'empCode': ['', Validators.required],
-      'firstName': ['', Validators.required],
-      'lastName': ['', Validators.required],
-      'roleType': ['', Validators.required],
-      'mobile': ['', Validators.required],
-      'email': ['', Validators.required],
-      'svnUserName': ['', Validators.required],
-      'svnPassword': ['', Validators.required],
-      'dateOfBirth': ['', Validators.required],
-      'joiningDate': ['', Validators.required],
-      'marriageDate': ['', Validators.required],
-      'empShortName': ['', Validators.required],
-      'defaultProjectId': ['', Validators.required],
-      'locationId': ['', Validators.required],
-      'designation': ['', Validators.required],
-      'gender': ['', Validators.required],
-      'address': ['', Validators.required],
-      'isFirstLogin': [''],
-      'fillTimesheet': [''],
-      'reportingPersonId': ['', Validators.required],
-      'strpassword': ['', Validators.required]
+      "Id":[0],
+      'EmpCode': ['', Validators.required],
+      'FirstName': ['', Validators.required],
+      'LastName': ['', Validators.required],
+      'RoleId': ['', Validators.required],
+      'Mobile': ['', Validators.required],
+      'Email': ['', Validators.required],
+      'SvnUserName': ['', Validators.required],
+      'SvnPassword': ['', Validators.required],
+      'DateOfBirth': ['', Validators.required],
+      'JoiningDate': ['', Validators.required],
+      'MarriageDate': [''],
+      'EmpShortName': ['', Validators.required],
+      'DefaultProjectId': ['', Validators.required],
+      'LocationId': ['', Validators.required],
+      'DesignationTypeId': ['', Validators.required],
+      'Gender': ['', Validators.required],
+      'Address': ['', Validators.required],
+      'IsFirstLogin': [''],
+      'FillTimesheet': [''],
+      'ReportingPersonId': ['', Validators.required],
+      'stringPswrd': ['', Validators.required]
+    })
+  }
+
+  getEmpDetails(){
+    this.empDetailsService.getEmpDetail(true,this.id).subscribe((res)=>{
+      console.log(res);
+      this.form.patchValue(res);
+      
     })
   }
 
@@ -169,7 +183,8 @@ export class EmployeedetailComponent implements OnInit {
   }
 
   onCancel() {
-//  window.history.back();
+    this.navigationService.gotoEmployee();
+
   }
 
   onSubmit() {
@@ -178,28 +193,36 @@ export class EmployeedetailComponent implements OnInit {
     //   'empCode':this.form.value.empId,
     //   ''
     // }
-    // if (this.form.valid) 
-    var rsa = forge.pki.publicKeyFromPem(this.publicKey);
-    var encryptedPassword = window.btoa(rsa.encrypt(this.form.value.strpassword));
-    // this.form.controls['strpassword'].setValue(encryptedPassword)
+    let obj=this.designationList.filter(x=>x.key==this.form.value.DesignationTypeId)
+    console.log(obj);
+    
+    if (this.form.valid) 
     {
+    var rsa = forge.pki.publicKeyFromPem(this.publicKey);
+    var encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
+    // this.form.controls['strpassword'].setValue(encryptedPassword)
+    
       var data = this.form.value;
-      data.id = 0;
-      data.password = '';
-      data.passwordKey = '';
-      data.employeeProfileStream = '';
-      data.isSystemGeneratedPassword = false
-      data.designationTypeId = '';
-      data.uniqueCode = this.form.value.empCode;
-      data.statusType = 0
-      data.strpassword=encryptedPassword
-      console.log(data);
+      data.Password = '';
+      data.EmployeeProfileStream = '';
+      data.IsSystemGeneratedPassword = false
+      data.Designation = obj[0].value;
+      data.UniqueCode = this.form.value.EmpCode;
+      data.stringPswrd=encryptedPassword;
+      data.MarriageDate=this.form.value.MarriageDate==""?null:this.form.value.MarriageDate;
+      console.log(data.Designation);
       this.empDetailsService.saveEmployee(data).subscribe((res)=>{
         console.log(res,'savvvv');
-        
+        if(res.isSuccess){
+          this.alertService.success("Employee Details saved successfully.");
+          this.navigationService.gotoEmployee();
+        }
+        else{
+          this.alertService.error(res.failures[0])
+        }
       })
     } 
-    // else
+    else
      {
       this.validateFormControl()
     }
