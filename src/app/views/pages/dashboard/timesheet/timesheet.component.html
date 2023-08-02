@@ -58,7 +58,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">Project</label>
                                             <mat-select placeholder="Project" (selectionChange)="sortingChange($event)"
-                                                formControlName="projectId" class="form-control">
+                                                formControlName="projectId" class="form-control" style="padding-top: 8px !important;">
                                                 <mat-select-filter [displayMember]="'value'" [array]="filterSortList"
                                                     (filteredReturn)="filterSortList =$event">
                                                 </mat-select-filter>

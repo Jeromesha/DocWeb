@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { Location } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "src/app/core/guard/auth.guard";
 import { BaseComponent } from "./base/base.component";
@@ -17,16 +18,22 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
       },
+
       {
         path: "",
         redirectTo: "dashboard",
         pathMatch: "full",
       },
+
       {
-        path: "profile/:id/:actionInfo",
+        path: "mapping",
+        loadChildren: () => import("./../../views/pages/mapping/mapping.module").then((m) => m.MappingModule)
+      },
+      {
+        path: "employeedetails",
         loadChildren: () =>
-          import("./../../views/pages/profile/profile/profile.module").then(
-            (m) => m.ProfileModule
+          import("./../../views/pages/employeedetails/employeedetails.module").then(
+            (m) => m.EmployeedetailsModule
           ),
       },
       {
