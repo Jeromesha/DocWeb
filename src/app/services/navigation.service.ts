@@ -83,6 +83,9 @@ export class NavigationService {
   gotoEmployeeDetails(id: number, actionInfo: number) {
     this.router.navigate(['/employeedetails/' + id, actionInfo])
   }
+  gotoEmployee() {
+    this.router.navigate(['/employeedetails/'])
+  }
 
 
 }

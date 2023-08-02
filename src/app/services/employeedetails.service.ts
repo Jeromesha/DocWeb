@@ -30,4 +30,13 @@ export class EmployeedetailsService {
   {
     return this.dataService.post('/api/employee',data);
   }
+
+  getGridDetails(refresh:boolean)
+  {
+    return this.dataService.getData('/api/employee',refresh)
+  }
+
+  getEmpDetail(refresh,id){
+    return this.dataService.getData('/api/employee/'+id,refresh)
+  }
 }
