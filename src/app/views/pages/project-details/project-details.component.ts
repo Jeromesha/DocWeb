@@ -1,21 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
+import { Router } from '@angular/router';
+import { result } from 'lodash';
 import * as moment from "moment";
 import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
 import { ExcelService } from "src/app/services/excel.service";
 import { NavigationService } from "src/app/services/navigation.service";
+import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { UserSessionService } from "src/app/services/usersession.service";
 
-
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.scss"],
+  selector: 'app-project-details',
+  templateUrl: './project-details.component.html',
+  styleUrls: ['./project-details.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class ProjectDetailsComponent implements OnInit {
 
   loading: boolean;
   data = [];
@@ -26,32 +28,45 @@ export class DashboardComponent implements OnInit {
   UserId: any;
   displayedColumns: string[] = [
     "action",
-    "EntryDate",
-    "Hours",
-    "Description",
-    "Project",
-    "TimeIn",
-    "TimeOut"
+    "clintid",
+    "projectname",
+    "projecttype",
+    "Technologytype",
+    "Repositoryname",
+    "Repositoryurl",
+    "ScheduledStart",
+    "ScheduledEnd",
+    "projectstatus"
   ];
+
+   // "S.No",
+      // "clintid",
+      // "projectname",
+      // "projecttype",
+      // "Technologytype",
+      // "Repositoryname",
+      // "Repositoryurl",
+      // "ScheduledStart",
+      // "ScheduledEnd",
+      // "projectstatus",
+      // "action"
   public excelColumns: string[];
+
   constructor(
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
     private excelService: ExcelService,
     private usersessionService: UserSessionService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private projectdetailsservice: ProjectdetailsService,
+    // private router: Router
   ) { }
 
   ngOnInit(): void {
     debugger;
     this.UserId = this.usersessionService.userId();
     // this.gettimesheet(this.UserId);
-    //this.getRedistrationData();
-  }
-
-  refresh() {
-    this.searchInput.nativeElement.value = "";
-    // this.gettimesheet(this.UserId);
+    this.getprojectdetailsdata();
   }
 
   // gettimesheet(userId: any) {
@@ -67,6 +82,18 @@ export class DashboardComponent implements OnInit {
   //   });
   // }
 
+  getprojectdetailsdata(){
+    debugger;
+    this.projectdetailsservice.getdata(true).subscribe((result) =>{
+      console.log("}}}?",result)
+      this.loading = false;
+      this.data = result;
+      this.dataSource = new MatTableDataSource(this.data);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    })
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -75,7 +102,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   goToAction(id: number, actioninfo: number) {
-    this.navigationService.goToTimeSheet(id, actioninfo);
+    this.navigationService.goToproject(id, actioninfo);
   }
   exportAsXLSX(): void {
     this.loading = true;
@@ -88,20 +115,20 @@ export class DashboardComponent implements OnInit {
 
       this.excelColumns = [
         "S.No",
-        "Booking Reference Number",
-        "Booking Date",
-        "Organisation Type",
-        "Organisation / Agency Name",
-        "GST IN",
-        "Contact Person Name",
-        "Mobile Number",
-        "E-Mail",
-        "Indoor Type",
-        "Outdoor Type",
-        "Total Cost (inc of GST 18%)",
-        "Payment Status"
-
+        "clintid",
+        "projectname",
+        "projecttype",
+        "projectlead",
+        "Technologytype",
+        "Repositoryname",
+        "Repositoryurl",
+        "ScheduledStart",
+        "ScheduledEnd",
+        "projectstatus",
+        "action"
       ];
+
+     
 
       const excelList = [];
       exportData.forEach((a, index) => {
@@ -117,17 +144,20 @@ export class DashboardComponent implements OnInit {
           contactPersonMobileNo: a.contactPersonMobileNo,
           contactPersonEmail: a.contactPersonEmail,
           indoorType: a.indoorType,
-          outdoorTypeName: a.outdoorTypeName,
-          totalCost: a.totalCost,
-          paymentstatus: a.registrationStatusTypeName
         });
       });
       this.excelService.exportAsExcelFile(
         excelList,
-        "Registration Report",
+        "Project Details",
         this.excelColumns
       );
       this.loading = false;
     }, 500);
   }
+
+  refresh() {
+    this.searchInput.nativeElement.value = "";
+    this.getprojectdetailsdata();
+  }
+
 }

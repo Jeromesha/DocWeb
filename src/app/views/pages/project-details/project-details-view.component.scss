@@ -72,9 +72,9 @@ input:checked + .slider:before {
   color: white !important;
   border-color: #6DB02D !important;
 }
-.danger {
-  color         : #ff586b !important;
-  text-transform: capitalize;
+
+.danger{
+    color: red;
 }
 
 

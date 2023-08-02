@@ -12,10 +12,6 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 
 
 import * as moment from 'moment';
-import { result } from 'lodash';
-import { timeout } from 'rxjs-compat/operator/timeout';
-import { Observable } from 'rxjs';
-
 
 
 @Component({
@@ -53,6 +49,7 @@ export class TimesheetComponent implements OnInit {
   filterSortList: { key: number; value: string; }[];
   showdescription: boolean = false;
   SaveTimesheet: any[];
+  isLeave: boolean = true;
 
 
 
@@ -65,8 +62,9 @@ export class TimesheetComponent implements OnInit {
     private timesheetService: TimeSheetService,
     private translate: TranslateService) {
     this.routeParams = route.snapshot.params;
+    debugger
     this.id = JSON.parse(this.routeParams.id);
-    this.id = +this.routeParams.id;
+    this.id = parseInt(this.routeParams.id);
     //this.id = 0;
     debugger
     this.actionInfo = this.routeParams.actionInfo
@@ -91,19 +89,17 @@ export class TimesheetComponent implements OnInit {
   }
 
   initializeValidators() {
-
-
     this.form = this.formBuilder.group({
       id: [0],
-      description: ['', [Validators.required]],
-      hours: [null, [Validators.required]],
+      description: [''],
+      hours: [null],
       IsLeave: [2, [Validators.required]],
       EntryDate: ['', [Validators.required]],
-      EmployeeId: [null],
-      projectId: [null, [Validators.required]],
-      TimeIn: [null],
-      TimeOut: [null],
-      TaskStatusId: [null]
+      EmployeeId: [0],
+      projectId: [null],
+      timeIn: [null],
+      timeOut: [null],
+      TaskStatusId: [null],
     });
   }
   sortingChange(event) {
@@ -116,7 +112,18 @@ export class TimesheetComponent implements OnInit {
   timeChange() {
 
   }
+  endtimeChange() {
+    // if (moment(this.form.value.startTs).format('HH:mm') == moment(this.form.value.endTs).format('HH:mm')) {
+    //   this.form.controls['endTs'].setValue(null);
+    //   this.alertService.error('End Time should be different from Start Time');
+    // } else if (moment(this.form.value.startTs).format('HH:mm') > moment(this.form.value.endTs).format('HH:mm')) {
+    //   this.form.controls['endTs'].setValue(null);
+    //   const msg = this.translate.instant('RevenueendtimemustbegreaterthanrevenueStarttime');
+    //   this.alertService.error(msg);
+    // } else {
+    // }
 
+  }
   Getproject() {
     debugger;
     this.timesheetService.getproject().subscribe(result => {
@@ -126,8 +133,9 @@ export class TimesheetComponent implements OnInit {
   }
 
   get(refresh: boolean) {
+    debugger
     if (this.id > 0) {
-      this.timesheetService.getById(this.id, refresh).subscribe(result => {
+      this.timesheetService.gettimesheetById(this.id, refresh).subscribe(result => {
         this.data = result;
         if (this.data) {
           this.form.patchValue(this.data);
@@ -156,57 +164,62 @@ export class TimesheetComponent implements OnInit {
 
   onSubmit() {
     debugger;
+    if(this.form.value.IsLeave == 2){
+      this.form.controls['hours'].setValidators(Validators.required);
+      this.form.controls['hours'].updateValueAndValidity();
+      // this.form.controls['timeIn'].setValidators(Validators.required);
+      // this.form.controls['timeIn'].updateValueAndValidity();
+      // this.form.controls['timeOut'].setValidators(Validators.required);
+      // this.form.controls['timeOut'].updateValueAndValidity();
+      this.form.controls['description'].setValidators(Validators.required);
+      this.form.controls['description'].updateValueAndValidity();
+      this.form.controls['projectId'].setValidators(Validators.required);
+      this.form.controls['projectId'].updateValueAndValidity();
+    }else{
+      this.form.controls['hours'].clearValidators();
+      this.form.controls['hours'].updateValueAndValidity();
+      // this.form.controls['timeIn'].clearValidators();
+      // this.form.controls['timeIn'].updateValueAndValidity;
+      // this.form.controls['timeOut'].clearValidators();
+      // this.form.controls['timeOut'].updateValueAndValidity;
+      this.form.controls['description'].clearValidators();
+      this.form.controls['description'].updateValueAndValidity();
+      this.form.controls['projectId'].clearValidators();
+      this.form.controls['projectId'].updateValueAndValidity();
+    }
     this.form.controls['EntryDate'].setValue(moment(this.form.value.EntryDate).format("YYYY-MM-DD"));
-
-
-
-    const timesheetData =
-    //  {
-    //   timesheets: [
-    //     {
-    //       Id: this.form.value.id,
-    //       EntryDate: moment(this.form.value.EntryDate).format("YYYY-MM-DD"),
-    //       Hours: this.form.value.hours,
-    //       Description: this.form.value.description,
-    //       ProjectId: this.form.value.projectId,
-    //       TaskId: 0,
-    //       EmployeeId: this.form.value.EmployeeId,
-    //       IsLeave: this.form.value.IsLeave == 2 ? true : false,
-    //       TimeIn: 0,
-    //       TimeOut: 0,
-    //       TaskStatusId: 0,
-    //     },
-    //   ],
-    // }
-
+        const timesheetData =
+   
     {
       timesheets: [
         {
-          id: 0,
-          entryDate: moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
-          hours: this.form.value.hours,
-          description: this.form.value.description,
-          projectId: this.form.value.projectId,
-          taskId: 0,
-          employeeId: this.userSessionService.userId(),
-          isLeave: this.form.value.IsLeave == 1 ? true : false,
-          timeIn: null,
-          timeOut:  null ,
-          taskStatusId: 0
+          id:this.id,
+          entryDate:moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
+          hours:this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
+          description:this.form.value.description,
+          projectId:this.form.value.IsLeave == 1 ? 0: this.form.value.projectId,
+          taskId:0,
+          employeeId:this.userSessionService.userId(),
+          isLeave:this.form.value.IsLeave == 1 ? true : false,
+          // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)
+          // timeOut:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeOut).format('HH:mm:ss'), // Adjusted to use TimeSpan format (hh:mm:ss)
+          taskStatusId:0
         }
       ]
     }
 
-
-
     if (this.form.valid) {
       debugger
       this.timesheetService.savetimsheet(timesheetData).subscribe(result => {
-        const msg1 = this.translate.instant('Savedsuccessfully');
-        const msg2 = this.translate.instant('Updatedsuccessfully');
-        const msg3 = this.translate.instant('Region');
-        const sucessmsg = this.id == 0 ? msg1 : msg2;
-        this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
+        if(result && result.isSuccess){
+          this._location.back();
+          const msg1 = this.translate.instant('Savedsuccessfully');
+          const msg2 = this.translate.instant('Updatedsuccessfully');
+          const msg3 = this.translate.instant('');
+          const sucessmsg = this.id == 0 ? msg1 : msg2;
+          this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
+        }
+        
       });
     } else {
       this.validateFormControl();
@@ -240,12 +253,16 @@ export class TimesheetComponent implements OnInit {
   onbtnClick(id) {
     debugger
     if (id == 1) {
-      this.form.controls['choices'].setValue(id);
+      
+      this.isLeave = false;
+     
+      
     }
     else {
-      this.form.controls['choices'].setValue(id);
+      // this.form.controls['choices'].setValue(id);
+      this.isLeave = true;
+     
     }
-    console.log(this.form.value.choices, "  {{this.form.value.choices}}");
 
 
   }

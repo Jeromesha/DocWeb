@@ -12,7 +12,12 @@ export class NavigationService {
   }
   goToTimeSheet(id: number, actionInfo: number) {
     debugger;
-    this.router.navigate(['/dashboard/' + id, actionInfo]);
+    this.router.navigate(['/timesheet/' + id, actionInfo]);
+  }
+
+  goToproject(id: number, actionInfo: number) {
+    debugger;
+    this.router.navigate(['/projectdetails/' + id, actionInfo]);
   }
 
   goToMapping(id: any, actionInfo: number) {
