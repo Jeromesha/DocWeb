@@ -2,7 +2,7 @@
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div class="col-md-10 col-sm-12">
             <h4 class="text-bold-500 text-left hearder-text">
-                Employee Details
+                Project Employee Mapping
             </h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
@@ -25,68 +25,43 @@
 <mat-form-field class="mb-0 col-sm-12 col-md-12 col-lg-12 col-xl-12">
     <input id="search" matInput (keyup)="applyFilter($event)" placeholder="{{'Search'}}" #searchInput>
 </mat-form-field>
-<div class="table-responsive">
+<div class="table-responsive table-striped">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
+        <ng-container matColumnDef="Project">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="Project">{{'Project' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectName}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Employees">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="Employees">{{'Employees' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <ul *ngFor="let emp of dataField.projectEmployees">
+                    <tr>
+                        <td>
+                            <p class="text-truncate txtalign lbl-pointer pt-1">{{emp.employeeName}}
+                            </p>
 
-        <ng-container matColumnDef="empCode">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="empCode">{{'Employee ID' |
-                translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.empCode}}</p>
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="firstName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="firstName">{{'Employee Name' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}} {{dataField.lastName}} </p>
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="joiningDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="joiningDate">{{'Joining Date' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.joiningDate}}</p>
-            </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="mobile">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="mobile">{{'Mobile' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.mobile }}</p>
-            </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="email">{{'Email' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.email}}</p>
-            </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="designation">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="designation">{{'Designation' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.designation}}</p>
+                        </td>
+                    </tr>
+                </ul>
             </mat-cell>
         </ng-container>
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar">
 
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
-                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                (click)="goToAction(dataField.Id,0)">
-                <i class="fa fa-eye fa-2x"></i>
-            </button>
-
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.Id,1)">
+                    (click)="goToAction(dataField.projectName,1)">
                     <i class="fa fa-eye fa-2x"></i>
+                </button>
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
+                    (click)="goToAction(dataField.id,0)">
+                    <i class="fa fa-edit fa-2x"></i>
                 </button>
 
             </mat-cell>

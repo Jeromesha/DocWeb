@@ -33,7 +33,7 @@
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.EntryDate}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.clientName}}</p>
             </mat-cell>
         </ng-container>
 
@@ -41,7 +41,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="projectname">{{'Project Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.Hours}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectName}}</p>
             </mat-cell>
         </ng-container>
 
@@ -49,49 +49,56 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="projecttype">{{'Project Type' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.Description}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectTypeName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Technologytype">
             <mat-header-cell *matHeaderCellDef mat-sort-header="Technologytype">{{'Technology Type' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.Project | date : 'dd-MM-YYYY'}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.technologyTypeName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Repositoryname">
             <mat-header-cell *matHeaderCellDef mat-sort-header="Repositoryname">{{'Repository Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeIn}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Repositoryurl">
             <mat-header-cell *matHeaderCellDef mat-sort-header="Repositoryurl">{{'Repository Url' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeOut}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryUrl}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledStart">
             <mat-header-cell *matHeaderCellDef mat-sort-header="ScheduledStart">{{'Scheduled Start' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeOut}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.startDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledEnd">
             <mat-header-cell *matHeaderCellDef mat-sort-header="ScheduledEnd">{{'Scheduled End' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeOut}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.endDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="projectstatus">
             <mat-header-cell *matHeaderCellDef mat-sort-header="projectstatus">{{'Project Status' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.TimeOut}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="projectlead">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="projectstatus">{{'Project Leader Name' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container fxFlex="10" matColumnDef="action">
@@ -100,7 +107,7 @@
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.Id,0)">
+                    (click)="goToAction(dataField.Id,1)">
                     <i class="fa fa-eye fa-2x"></i>
                 </button>
 

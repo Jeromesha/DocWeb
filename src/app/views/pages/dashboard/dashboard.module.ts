@@ -46,7 +46,6 @@ const routes: Routes = [
   providers: [
     DashboardService,
     ExcelService,
-    TimeSheetService,
     NotifyService,
     DatePipe,
   ],

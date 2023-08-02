@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Routes, RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -22,10 +22,13 @@ import { MatSelectFilterModule } from "mat-select-filter";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { MappingComponent } from "./mapping.component";
 import { MappingServices } from "src/app/services/mapping.service";
+import { MappingdetailsComponent } from "./mappingdetails.component";
+import { MappingdetailServices } from "src/app/services/mappingdetails.service";
+import { MappingComponent } from "./mapping/mapping.component";
 
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -35,18 +38,23 @@ PlotlyModule.plotlyjs = PlotlyJS;
 const routes: Routes = [
   {
     path: '',
-    component: MappingComponent
+    component: MappingdetailsComponent
   },
+  {
+    path: ":id/:actionInfo",
+    component: MappingComponent
+  }
 ];
 
 @NgModule({
-  declarations: [MappingComponent],
+  declarations: [MappingdetailsComponent, MappingComponent],
   providers: [
-    MappingServices
+    MappingdetailServices, MappingServices
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    NgMultiSelectDropDownModule.forRoot(),
     FormsModule,
     FeahterIconModule,
     NgbDropdownModule,
@@ -72,5 +80,6 @@ const routes: Routes = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class MappingModule { }
+export class MappingDeailsModule { }

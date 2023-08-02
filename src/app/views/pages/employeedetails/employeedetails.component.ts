@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
@@ -21,20 +22,30 @@ export class EmployeedetailsComponent implements OnInit {
 
   displayedColumns: string[] = [
     "action",
-    "EntryDate",
-    "Hours",
-    "Description",
-    "Project",
-    "TimeIn",
-    "TimeOut"
+    "empCode",
+    "firstName",
+    "email",
+    "mobile",
+    "joiningDate",
+    "designation"
   ];
-  constructor(private navigationService:NavigationService) { }
+  constructor(private navigationService:NavigationService,
+    private employeeService:EmployeedetailsService) { }
 
   ngOnInit(): void {
+    this.getEmpDetails();
   }
 
   goToAction(id,actionInfo){
     this.navigationService.gotoEmployeeDetails(id,actionInfo)
+  }
+
+  getEmpDetails()
+  {
+    this.employeeService.getGridDetails(true).subscribe((res)=>{
+      console.log(res);
+      
+    })
   }
 
   refresh(){

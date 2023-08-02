@@ -20,6 +20,11 @@ export class NavigationService {
     this.router.navigate(['/projectdetails/' + id, actionInfo]);
   }
 
+  goToMapping(id: any, actionInfo: number) {
+    debugger;
+    this.router.navigate(['/mappingdetails/' + id, actionInfo]);
+  }
+
   goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {
     this.router.navigate(['/villageuserdetail-edit/' + VillagePanchayatId + '/' + userId + '/' + actionInfo]);
   }
@@ -77,6 +82,9 @@ export class NavigationService {
 
   gotoEmployeeDetails(id: number, actionInfo: number) {
     this.router.navigate(['/employeedetails/' + id, actionInfo])
+  }
+  gotoEmployee() {
+    this.router.navigate(['/employeedetails/'])
   }
 
 

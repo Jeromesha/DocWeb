@@ -171,7 +171,7 @@ export class UserService {
     //     return this.dataService.getData('/api/beneficiary/' + id, refresh)
     // }
 
-    getTimeline(id: any,type:any, refresh: boolean) {
+    getTimeline(id: any, type: any, refresh: boolean) {
         return this.dataService.getData('/api/beneficiary/' + id + '/' + type, refresh)
     }
 
