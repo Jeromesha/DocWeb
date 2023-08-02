@@ -41,7 +41,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="firstName">{{'Employee Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}} {{dataField.lastName}} </p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}}</p>
             </mat-cell>
         </ng-container>
 
@@ -77,11 +77,11 @@
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar">
 
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                 matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
                 (click)="goToAction(dataField.Id,0)">
                 <i class="fa fa-eye fa-2x"></i>
-            </button>
+            </button> -->
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"

@@ -44,6 +44,9 @@ export class EmployeedetailsComponent implements OnInit {
   {
     this.employeeService.getGridDetails(true).subscribe((res)=>{
       this.data = res;
+      this.dataSource = new MatTableDataSource(this.data);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
       console.log(res);
       
     })
