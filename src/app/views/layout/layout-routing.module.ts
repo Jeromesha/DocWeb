@@ -29,6 +29,11 @@ const routes: Routes = [
             (m) => m.ProfileModule
           ),
       },
+      {
+        path: "projectdetails",
+        loadChildren: () =>
+          import("./../../views/pages/project-details/project-details.module").then((m)=>m.ProjectDetailsModule)
+      },
     ],
   },
 ];
