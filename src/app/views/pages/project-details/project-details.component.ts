@@ -59,7 +59,7 @@ export class ProjectDetailsComponent implements OnInit {
     private usersessionService: UserSessionService,
     private alertService: AlertService,
     private projectdetailsservice: ProjectdetailsService,
-    private router: Router
+    // private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -118,6 +118,7 @@ export class ProjectDetailsComponent implements OnInit {
         "clintid",
         "projectname",
         "projecttype",
+        "projectlead",
         "Technologytype",
         "Repositoryname",
         "Repositoryurl",

@@ -250,7 +250,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     debugger;
     let client=this.form.value.clientId;
     let tech=this.form.value.technologyTypeId;
-    var projectdata = [
+    var projectdata = 
      { 
       id:this.id,
       clientId :client,
@@ -259,13 +259,11 @@ export class ProjectDetailsViewComponent implements OnInit {
       technologyTypeId: tech,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
-      startDate: moment(this.form.value.startDate).format('YYYY-MM-DD'),
-      endDate: moment(this.form.value.endDate).format('YYYY-MM-DD'),
+      startDate: this.form.value.startDate,
+      endDate: this.form.value.endDate,
       projectStatusId: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId
     }
-    ]
-
 
     if (this.form.valid) {
       debugger
@@ -276,8 +274,9 @@ export class ProjectDetailsViewComponent implements OnInit {
         const sucessmsg = this.id == 0 ? msg1 : msg2;
         this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
       });
-    this.router.navigate(['/projectdetails/']);
-    } else {
+    // this.router.navigate(['/projectdetails/']);
+    } 
+    else {
       const msg4 = this.translate.instant('Please Check All fields');
       this.validateFormControl();
       this.alertService.result(result, true, msg4 );
