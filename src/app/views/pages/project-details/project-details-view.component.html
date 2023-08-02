@@ -19,7 +19,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{"clintid"|translate}}</label>
                                             <mat-select placeholder="Select Clint" 
-                                                formControlName="clintid" class="form-control pt-2">
+                                                formControlName="clientId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="clintdata"
                                                     (filteredReturn)="filterclintdata =$event">
                                                 </mat-select-filter>
@@ -28,9 +28,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                            *ngIf="form.controls.clintid.errors && (form.controls.clintid.dirty || form.controls.clintid.touched)"
+                                            *ngIf="form.controls.clientId.errors && (form.controls.clientId.dirty || form.controls.clientId.touched)"
                                             text-wrap>
-                                            <span *ngIf="form.controls.clintid.errors?.required"
+                                            <span *ngIf="form.controls.clientId.errors?.required"
                                                 class="form-text danger mandatory">
                                                 {{'clintid' | translate}} {{'IsRequired' | translate}}</span>
                                            
@@ -42,11 +42,11 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'projectname' | translate}}</label>
                                             <input type="text" class="form-control"
-                                                formControlName="projectname" placeholder="{{'Project Name' | translate}}" autocomplete="off">
+                                                formControlName="projectName" placeholder="{{'Project Name' | translate}}" autocomplete="off">
                                             <div class="valid-error"
-                                                *ngIf="form.controls.projectname.errors && (form.controls.projectname.dirty || form.controls.projectname.touched)"
+                                                *ngIf="form.controls.projectName.errors && (form.controls.projectName.dirty || form.controls.projectName.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.projectname.errors?.required"
+                                                <span *ngIf="form.controls.projectName.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'projectname' | translate}} {{'IsRequired' | translate}}</span>
                                                
@@ -58,7 +58,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{"projecttype"|translate}}</label>
                                             <mat-select placeholder="Select Clint" 
-                                                formControlName="projecttype" class="form-control pt-2">
+                                                formControlName="projectTypeId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="projecttypelist"
                                                     (filteredReturn)="filterprojecttypelist =$event">
                                                 </mat-select-filter>
@@ -67,9 +67,31 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                            *ngIf="form.controls.projecttype.errors && (form.controls.projecttype.dirty || form.controls.projecttype.touched)"
+                                            *ngIf="form.controls.projectTypeId.errors && (form.controls.projectTypeId.dirty || form.controls.projectTypeId.touched)"
                                             text-wrap>
-                                            <span *ngIf="form.controls.projecttype.errors?.required"
+                                            <span *ngIf="form.controls.projectTypeId.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Project Type' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"Project Lead"|translate}}</label>
+                                            <mat-select placeholder="Select Clint" 
+                                                formControlName="projectLeadId" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
+                                                    (filteredReturn)="filterprojectleadlist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterprojectleadlist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.projectLeadId.errors && (form.controls.projectLeadId.dirty || form.controls.projectLeadId.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.projectLeadId.errors?.required"
                                                 class="form-text danger mandatory">
                                                 {{'Project Type' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
@@ -80,7 +102,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Technologytype"|translate}}</label>
                                             <mat-select placeholder="Select Technology" 
-                                                formControlName="Technologytype" class="form-control pt-2">
+                                                formControlName="technologyTypeId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="technologytypelist"
                                                     (filteredReturn)="filtertechnologytypelist =$event">
                                                 </mat-select-filter>
@@ -89,9 +111,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                            *ngIf="form.controls.Technologytype.errors && (form.controls.Technologytype.dirty || form.controls.Technologytype.touched)"
+                                            *ngIf="form.controls.technologyTypeId.errors && (form.controls.technologyTypeId.dirty || form.controls.technologyTypeId.touched)"
                                             text-wrap>
-                                            <span *ngIf="form.controls.Technologytype.errors?.required"
+                                            <span *ngIf="form.controls.technologyTypeId.errors?.required"
                                                 class="form-text danger mandatory">
                                                 {{'Technologytype' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
@@ -102,11 +124,11 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Repository Name' | translate}}</label>
                                             <input type="text" class="form-control"
-                                                formControlName="Repositoryname" placeholder="{{'Repository Name' | translate}}" autocomplete="off">
+                                                formControlName="repositoryName" placeholder="{{'Repository Name' | translate}}" autocomplete="off">
                                             <div class="valid-error"
-                                                *ngIf="form.controls.Repositoryname.errors && (form.controls.Repositoryname.dirty || form.controls.Repositoryname.touched)"
+                                                *ngIf="form.controls.repositoryName.errors && (form.controls.repositoryName.dirty || form.controls.repositoryName.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.Repositoryname.errors?.required"
+                                                <span *ngIf="form.controls.repositoryName.errors?.required"
                                                     class="form-text danger mandatory">
                                                     {{'Repository Name' | translate}} {{'IsRequired' | translate}}</span>
                                                 
@@ -118,11 +140,11 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Repository Url' | translate}}</label>
                                             <input type="text" class="form-control"
-                                                formControlName="Repositoryurl" placeholder="{{'Repository Url' | translate}}" autocomplete="off">
+                                                formControlName="repositoryUrl" placeholder="{{'Repository Url' | translate}}" autocomplete="off">
                                             <div class="valid-error"
-                                                *ngIf="form.controls.Repositoryurl.errors && (form.controls.Repositoryurl.dirty || form.controls.Repositoryurl.touched)"
+                                                *ngIf="form.controls.repositoryUrl.errors && (form.controls.repositoryUrl.dirty || form.controls.repositoryUrl.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.Repositoryurl.errors?.required"
+                                                <span *ngIf="form.controls.repositoryUrl.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'Repository Url' | translate}} {{'IsRequired' | translate}}</span>
                                                 
@@ -135,7 +157,7 @@
                                             <label class="mandatory ">{{'StartDate' | translate}}</label>
                                             <div class="input-group mb-0">
 
-                                                <input class="form-control" formControlName="ScheduledStart"
+                                                <input class="form-control" formControlName="startDate"
                                                 placeholder="{{'StartDate' | translate}}"
                                                     [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
                                                     (ngModelChange)="setDate()" [max]="maxDate">
@@ -148,7 +170,7 @@
                                                 </div>
                                             </div>
                                             <span class="form-text  danger mandatory "
-                                                *ngIf="!form.get('ScheduledStart').valid && (form.get('ScheduledStart').dirty || form.get('ScheduledStart').touched)">
+                                                *ngIf="!form.get('startDate').valid && (form.get('startDate').dirty || form.get('startDate').touched)">
                                                 {{'StartDate' | translate}} {{'IsRequired' | translate}}
                                             </span>
                                         </div>
@@ -159,9 +181,9 @@
                                             </label>
                                             <div class="input-group mb-0">
 
-                                                <input class="form-control" formControlName="ScheduledEnd"
+                                                <input class="form-control" formControlName="endDate"
                                                     [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" placeholder="{{'EndDate' | translate}}"
-                                                    [max]='scheduledEndmax' [min]="form.get('ScheduledStart').value">
+                                                    [max]='scheduledEndmax' [min]="form.get('startDate').value">
                                                 <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
                                                 <div class="input-group-append">
                                                     <span class="trigger input-group-text" [owlDateTimeTrigger]="dt2">
@@ -171,12 +193,12 @@
                                                 </div>
                                             </div>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.ScheduledEnd.errors && (form.controls.ScheduledEnd.dirty || form.controls.ScheduledEnd.touched)"
+                                                *ngIf="form.controls.endDate.errors && (form.controls.endDate.dirty || form.controls.endDate.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.ScheduledEnd.errors?.required"
+                                                <span *ngIf="form.controls.endDate.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'EndDate' | translate}} {{'IsRequired' | translate}}</span>
-                                                    <span class="form-text text-muted danger mandatory initial" *ngIf="(form.get('ScheduledStart').value && form.get('ScheduledEnd').value) && (form.get('ScheduledStart').value > form.get('ScheduledEnd').value)">
+                                                    <span class="form-text text-muted danger mandatory initial" *ngIf="(form.get('startDate').value && form.get('EndDate').value) && (form.get('startDate').value > form.get('EndDate').value)">
                                                         {{'EndDateshouldbegreaterthanstarrtdate' | translate}}
                                                     </span>
                                             </div>
@@ -187,7 +209,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Projectstatus"|translate}}</label>
                                             <mat-select placeholder='{{"Projectstatus"|translate}}' 
-                                                formControlName="projectstatus" class="form-control pt-2">
+                                                formControlName="projectStatusId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="ProjectStatuslist"
                                                     (filteredReturn)="filterprojectstatuslist =$event">
                                                 </mat-select-filter>
@@ -196,9 +218,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                            *ngIf="form.controls.projectstatus.errors && (form.controls.projectstatus.dirty || form.controls.projectstatus.touched)"
+                                            *ngIf="form.controls.projectStatusId.errors && (form.controls.projectStatusId.dirty || form.controls.projectStatusId.touched)"
                                             text-wrap>
-                                            <span *ngIf="form.controls.projectstatus.errors?.required"
+                                            <span *ngIf="form.controls.projectStatusId.errors?.required"
                                                 class="form-text danger mandatory">
                                                 {{'Projectstatus' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>

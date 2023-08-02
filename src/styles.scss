@@ -80,7 +80,7 @@ body {
   .mat-header-cell {
     // background-color: #2F8BE6;
     // background-image: linear-gradient(#3F67A7, #6DB02D);
-    background-image: linear-gradient(#1C2B47, #1C2B47);
+    background-image: linear-gradient(#3E65A6, #3E65A6);
     color: white;
     border-right: 0.1px solid lightgray;
     font-size: 14px;
@@ -93,7 +93,7 @@ body {
 }
 
 .btnadd {
-  background-color: #3F67A7 !important;
+  background-color: #3E65A6 !important;
   color: white !important;
 }
 
@@ -103,7 +103,7 @@ body {
 }
 
 .btnrefresh {
-  background-color: #6DB02D !important;
+  background-color:#71B03C !important;
   color: white !important;
 }
 
@@ -150,21 +150,22 @@ input[readonly] {
 
 .btnadd,
 .btnsave {
-  background-color: #3F67A7 !important;
+  background-color: #3E65A6 !important;
   color: white !important;
+  border-color: #3E65A6 !important;
 }
 
 .btncancel {
-  background-color: #6DB02D !important;
+  background-color: #71B03C !important;
   color: white !important;
-  border-color: #6DB02D !important;
+  border-color: #71B03C !important;
 }
 
 .swal2-cancel.swal2-styled {
-  background-color: #6DB02D !important;
+  background-color: #71B03C !important;
   color: white !important;
   border: 0px !important;
-  border-color: #6DB02D !important;
+  border-color: #71B03C !important;
 }
 
 .swal2-confirm.swal2-styled {

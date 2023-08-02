@@ -23,7 +23,16 @@ export class TimeSheetService {
         debugger;
         return this.dataService.getData('/api/gettimesheet/' + id, refresh);
     }
+    // getTimesheetById(id: number, refresh: boolean) {
+    //     return this.dataService.getData('api/timesheet/timesheetbytimsheetid/' + id, refresh);
 
+    // }
+    gettimesheetById(id: number, refresh: boolean) {
+        return this.dataService.getData('/api/timesheet/timesheetbytimsheetid/' + id, refresh);
+    }
+    getTimesheet(id: number, refresh: boolean){
+        return this.dataService.getData('/api/timesheet/timesheetsbyid/' + id, refresh);
+    }
     getproject() {
         return this.dataService.getData('/api/lookup/3', true);
     }

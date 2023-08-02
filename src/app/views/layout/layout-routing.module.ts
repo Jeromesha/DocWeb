@@ -37,9 +37,23 @@ const routes: Routes = [
           ),
       },
       {
+        path: "timesheet",
+        loadChildren: () =>
+          import("./../../views/pages/dashboard/timesheet/timesheet.module").then(
+            (m) => m.TimesheetModule
+          ),
+      },
+      {
+        path: "timesheet/:id/:actionInfo",
+        loadChildren: () =>
+          import("./../../views/pages/dashboard/timesheet/timesheet.module").then(
+            (m) => m.TimesheetModule
+          ),
+      },
+      {
         path: "projectdetails",
         loadChildren: () =>
-          import("./../../views/pages/project-details/project-details.module").then((m)=>m.ProjectDetailsModule)
+          import("./../../views/pages/project-details/project-details.module").then((m) => m.ProjectDetailsModule)
       },
     ],
   },

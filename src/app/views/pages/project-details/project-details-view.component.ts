@@ -15,7 +15,6 @@ import { timeout } from 'rxjs-compat/operator/timeout';
 import { Observable } from 'rxjs';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 
-
 @Component({
   selector: 'app-project-details-view',
   templateUrl: './project-details-view.component.html',
@@ -61,6 +60,8 @@ export class ProjectDetailsViewComponent implements OnInit {
   filtertechnologytypelist: any;
   ProjectStatuslist: any;
   filterprojectstatuslist: any;
+  filterprojectleadlist: any;
+  projectleadlist: any;
 
 
 
@@ -101,6 +102,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.Getproject();
     this.getclint();
     this.getprojecttype();
+    this.getprojectLead();
     this.gettechnologytype();
     this.getProjectStatus();
     this.get(true);
@@ -114,24 +116,23 @@ export class ProjectDetailsViewComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       id: [0],
-      clintid: ['', Validators.required],
-      projectname: [null, Validators.required],
-      projecttype: ["",Validators.required],
-      Technologytype: ['', Validators.required],
-      Repositoryname: [null, Validators.required],
-      Repositoryurl: [null, Validators.required],
-      ScheduledStart: [null, Validators.required],
-      ScheduledEnd: [null, Validators.required],
-      projectstatus: [null, Validators.required]
+      clientId: [null, Validators.required],
+      projectName: [null, Validators.required],
+      projectTypeId: ["",Validators.required],
+      technologyTypeId: [null, Validators.required],
+      repositoryName: [null, Validators.required],
+      repositoryUrl: [null, Validators.required],
+      startDate: [null, Validators.required],
+      endDate: [null, Validators.required],
+      projectStatusId: [null, Validators.required],
+      projectLeadId: [null, Validators.required]
     });
   }
-  timeChange() {
 
-  }
 
   setDate() {
-    if(this.form.value.ScheduledEnd){
-      this.form.controls['ScheduledEnd'].setValue(null);
+    if(this.form.value.endDate){
+      this.form.controls['endDate'].setValue(null);
     }
     const currDate = moment(new Date()).format('YYYY-MM-DD');
     const yesterday = moment(new Date()).subtract(1, 'days').format('YYYY-MM-DD');
@@ -194,24 +195,30 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(4,true).subscribe(result =>{
       this.clintdata = result;
       this.filterclintdata = this.clintdata.slice();
-      console.log(">>?",result);
-      console.log(">>?",this.clintdata);
-
     })
   }
 
   getprojecttype(){
     debugger;
-    this.projectdetailsservice.getLookup(1,true).subscribe(result =>{
+    this.projectdetailsservice.getProjectType(true).subscribe(result =>{
       this.projecttypelist = result;
       this.filterprojecttypelist = this.projecttypelist;
       console.log(">/>?",result);
     })
   }
 
-  gettechnologytype(){
+  getprojectLead(){
     debugger;
     this.projectdetailsservice.getLookup(2,true).subscribe(result =>{
+      this.projectleadlist = result;
+      this.filterprojectleadlist = this.projectleadlist;
+      console.log(">/>?",result);
+    })
+  }
+
+  gettechnologytype(){
+    debugger;
+    this.projectdetailsservice.getLookup(9,true).subscribe(result =>{
       this.technologytypelist = result;
       this.filtertechnologytypelist = this.technologytypelist;
     })
@@ -219,7 +226,7 @@ export class ProjectDetailsViewComponent implements OnInit {
 
   getProjectStatus(){
     debugger;
-    this.projectdetailsservice.getLookup(3,true).subscribe(result =>{
+    this.projectdetailsservice.getLookup(10,true).subscribe(result =>{
       this.ProjectStatuslist = result;
       this.filterprojectstatuslist = this.ProjectStatuslist;
     })
@@ -239,41 +246,24 @@ export class ProjectDetailsViewComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(">:",this.form.value.clintid);
     debugger;
-    // const timesheetData =
-   
-    // {
-    //   timesheets: [
-    //     {
-    //       id: 0,
-    //       entryDate: moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
-    //       hours: this.form.value.hours,
-    //       description: this.form.value.description,
-    //       projectId: this.form.value.projectId,
-    //       taskId: 0,
-    //       employeeId: this.userSessionService.userId(),
-    //       isLeave: this.form.value.IsLeave == 1 ? true : false,
-    //       timeIn: null,
-    //       timeOut:  null ,
-    //       taskStatusId: 0
-    //     }
-    //   ]
-    // }
-    
-    var projectdata = [
+    let client=this.form.value.clientId;
+    let tech=this.form.value.technologyTypeId;
+    var projectdata = 
      { 
-      clintid : this.form.value.clientId,
-      projectname: this.form.value.projectname,
-      projecttype: this.form.value.projecttype,
-      Technologytype: this.form.value.Technologytype,
-      Repositoryname: this.form.value.Repositoryname,
-      Repositoryurl: this.form.value.Repositoryurl,
-      ScheduledStart: this.form.value.ScheduledStart,
-      ScheduledEnd: this.form.value.ScheduledEnd,
-      projectstatus: this.form.value.projectstatus
+      id:this.id,
+      clientId :client,
+      projectName: this.form.value.projectName,
+      projectTypeId: this.form.value.projectTypeId,
+      technologyTypeId: tech,
+      repositoryName: this.form.value.repositoryName,
+      repositoryUrl: this.form.value.repositoryUrl,
+      startDate: this.form.value.startDate,
+      endDate: this.form.value.endDate,
+      projectStatusId: this.form.value.projectStatusId,
+      projectLeadId: this.form.value.projectLeadId
     }
-    ]
-
 
     if (this.form.valid) {
       debugger
@@ -284,8 +274,9 @@ export class ProjectDetailsViewComponent implements OnInit {
         const sucessmsg = this.id == 0 ? msg1 : msg2;
         this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
       });
-    this.router.navigate(['/projectdetails/']);
-    } else {
+    // this.router.navigate(['/projectdetails/']);
+    } 
+    else {
       const msg4 = this.translate.instant('Please Check All fields');
       this.validateFormControl();
       this.alertService.result(result, true, msg4 );

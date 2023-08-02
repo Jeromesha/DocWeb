@@ -7,15 +7,15 @@ import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
 import { ExcelService } from "src/app/services/excel.service";
 import { NavigationService } from "src/app/services/navigation.service";
+import { TimeSheetService } from "src/app/services/timesheet.service";
 import { UserSessionService } from "src/app/services/usersession.service";
 
-
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.scss"],
+  selector: 'app-timesheetgrid',
+  templateUrl: './timesheetgrid.component.html',
+  styleUrls: ['./timesheetgrid.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class TimesheetgridComponent implements OnInit {
 
   loading: boolean;
   data = [];
@@ -29,9 +29,7 @@ export class DashboardComponent implements OnInit {
     "EntryDate",
     "Hours",
     "Description",
-    "Project",
-    "TimeIn",
-    "TimeOut"
+    "Project"
   ];
   public excelColumns: string[];
   constructor(
@@ -39,33 +37,34 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService,
     private excelService: ExcelService,
     private usersessionService: UserSessionService,
+    private timesheetService: TimeSheetService,
     private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
     debugger;
     this.UserId = this.usersessionService.userId();
-    // this.gettimesheet(this.UserId);
+    this.gettimesheet(this.UserId);
     //this.getRedistrationData();
   }
 
   refresh() {
     this.searchInput.nativeElement.value = "";
-    // this.gettimesheet(this.UserId);
+    this.gettimesheet(this.UserId);
   }
 
-  // gettimesheet(userId: any) {
-  //   // this.loading = true;
-  //   this.dashboardService.gettimesheet(userId, true).subscribe((res) => {
-  //     if (res) {
-  //       this.loading = false;
-  //       this.data = res;
-  //       this.dataSource = new MatTableDataSource(this.data);
-  //       this.dataSource.sort = this.sort;
-  //       this.dataSource.paginator = this.paginator;
-  //     }
-  //   });
-  // }
+  gettimesheet(userId: any) {
+    // this.loading = true;
+    this.timesheetService.getTimesheet(userId, true).subscribe((res) => {
+      if (res) {
+        this.loading = false;
+        this.data = res;
+        this.dataSource = new MatTableDataSource(this.data);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      }
+    });
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -75,6 +74,7 @@ export class DashboardComponent implements OnInit {
     }
   }
   goToAction(id: number, actioninfo: number) {
+    debugger
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
   exportAsXLSX(): void {

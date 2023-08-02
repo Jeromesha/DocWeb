@@ -38,11 +38,7 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent
-  },
-  {
-    path: ":id/:actionInfo",
-    component: TimesheetComponent
-  },
+  }
 ];
 
 @NgModule({
