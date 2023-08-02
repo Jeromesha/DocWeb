@@ -12,7 +12,7 @@ export class NavigationService {
   }
   goToTimeSheet(id: number, actionInfo: number) {
     debugger;
-    this.router.navigate(['/dashboard/' + id, actionInfo]);
+    this.router.navigate(['/timesheet/' + id, actionInfo]);
   }
 
   goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {

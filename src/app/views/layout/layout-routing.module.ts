@@ -29,6 +29,20 @@ const routes: Routes = [
             (m) => m.ProfileModule
           ),
       },
+      {
+        path: "timesheet",
+        loadChildren: () =>
+          import("./../../views/pages/dashboard/timesheet/timesheet.module").then(
+            (m) => m.TimesheetModule
+          ),
+      },
+      {
+        path: "timesheet/:id/:actionInfo",
+        loadChildren: () =>
+        import("./../../views/pages/dashboard/timesheet/timesheet.module").then(
+          (m) => m.TimesheetModule
+        ),
+      },
     ],
   },
 ];

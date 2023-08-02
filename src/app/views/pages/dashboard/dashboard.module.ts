@@ -26,7 +26,6 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { ViewregistrationdetailsComponent } from "./viewregistrationdetails/viewregistrationdetails.component";
-import { TimesheetComponent } from "./timesheet/timesheet.component";
 import { TimeSheetService } from "src/app/services/timesheet.service";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
@@ -39,15 +38,11 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent
-  },
-  {
-    path: ":id/:actionInfo",
-    component: TimesheetComponent
-  },
+  }
 ];
 
 @NgModule({
-  declarations: [DashboardComponent, ViewregistrationdetailsComponent, TimesheetComponent],
+  declarations: [DashboardComponent, ViewregistrationdetailsComponent],
   providers: [
     DashboardService,
     ExcelService,
