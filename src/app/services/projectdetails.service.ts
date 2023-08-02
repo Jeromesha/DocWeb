@@ -13,7 +13,7 @@ export class ProjectdetailsService {
   constructor(private dataService: DataService) { }
 
   save(result: any) {
-    return this.dataService.post('/api/project', result);
+    return this.dataService.post('/api/project', result)
 }
 
 getById(id: number, refresh: boolean) {
