@@ -250,7 +250,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     debugger;
     let client=this.form.value.clientId;
     let tech=this.form.value.technologyTypeId;
-    var projectdata = 
+    var data = 
      { 
       id:this.id,
       clientId :client,
@@ -267,7 +267,7 @@ export class ProjectDetailsViewComponent implements OnInit {
 
     if (this.form.valid) {
       debugger
-      this.projectdetailsservice.save(projectdata).subscribe(result => {
+      this.projectdetailsservice.save(data).subscribe(result => {
         const msg1 = this.translate.instant('Savedsuccessfully');
         const msg2 = this.translate.instant('Updatedsuccessfully');
         const msg3 = this.translate.instant('Region');

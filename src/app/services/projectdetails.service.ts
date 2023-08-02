@@ -12,8 +12,8 @@ export class ProjectdetailsService {
 
   constructor(private dataService: DataService) { }
 
-  save(result: any) {
-    return this.dataService.post('/api/project', result);
+  save(data: any) {
+    return this.dataService.post('/api/project', data);
 }
 
 getById(id: number, refresh: boolean) {
