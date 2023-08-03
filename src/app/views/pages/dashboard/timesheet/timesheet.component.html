@@ -20,7 +20,7 @@
                                                 <label class="mandatory ">{{'Date' | translate}}</label>
                                                 <div class="input-group mb-0 ">
                                                     <input class="form-control" [disabled]="actionInfo == 1"
-                                                        placeholder="Select Date" formControlName="EntryDate"
+                                                        placeholder="Select Date" formControlName="entryDate"
                                                         [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
                                                     <owl-date-time [pickerType]="'calendar'" #dt1>
                                                     </owl-date-time>
@@ -34,9 +34,9 @@
                                                     </div>
                                                 </div>
                                                 <span class="form-text text-muted danger mandatory "
-                                                *ngIf="!form.get('EntryDate').valid && (form.get('EntryDate').dirty || form.get('EntryDate').touched)">
-                                                {{'Date' | translate}} {{'IsRequired' | translate}}
-                                              </span>
+                                                    *ngIf="!form.get('entryDate').valid && (form.get('entryDate').dirty || form.get('entryDate').touched)">
+                                                    {{'Date' | translate}} {{'IsRequired' | translate}}
+                                                </span>
                                             </div>
                                         </div>
 
@@ -67,7 +67,7 @@
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="projectId" class="form-control pt-2">
                                                     <mat-select-filter [displayMember]="'value'"
-                                                        [array]="filterSortList"
+                                                        [array]="SortList"
                                                         (filteredReturn)="filterSortList =$event">
                                                     </mat-select-filter>
                                                     <mat-option *ngFor="let item of filterSortList" [value]="item.key">
@@ -75,9 +75,9 @@
                                                     </mat-option>
                                                 </mat-select>
                                                 <span class="form-text text-muted danger mandatory"
-                                                *ngIf="!form.get('projectId').valid && (form.get('projectId').dirty || form.get('projectId').touched)">
-                                                {{'Project' | translate}} {{'IsRequired' | translate}}
-                                              </span>
+                                                    *ngIf="!form.get('projectId').valid && (form.get('projectId').dirty || form.get('projectId').touched)">
+                                                    {{'Project' | translate}} {{'IsRequired' | translate}}
+                                                </span>
                                             </div>
                                         </div>
 

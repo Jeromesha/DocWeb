@@ -50,6 +50,7 @@ export class TimesheetComponent implements OnInit {
   showdescription: boolean = false;
   SaveTimesheet: any[];
   isLeave: boolean = true;
+  SortList: any;
 
 
 
@@ -94,7 +95,7 @@ export class TimesheetComponent implements OnInit {
       description: [''],
       hours: [null],
       IsLeave: [2, [Validators.required]],
-      EntryDate: ['', [Validators.required]],
+      entryDate: ['', [Validators.required]],
       EmployeeId: [0],
       projectId: [null],
       timeIn: [null],
@@ -128,7 +129,8 @@ export class TimesheetComponent implements OnInit {
     debugger;
     this.timesheetService.getproject().subscribe(result => {
       console.log(">>>?", result);
-      this.filterSortList = result;
+      this.SortList = result
+      this.filterSortList = this.SortList.slice();
     });
   }
 
@@ -138,13 +140,17 @@ export class TimesheetComponent implements OnInit {
       this.timesheetService.gettimesheetById(this.id, refresh).subscribe(result => {
         this.data = result;
         if (this.data) {
-          this.form.patchValue(this.data);
-          if (this.formEditMode === false) {
-            this.isReadOnly = false;
-            this.form.disable();
-            this.isDisable = true;
-            //this.isReadOnly = false;
+          // this.form.controls['hours'].setValue(13:03")
+          if(this.data.description){
+            this.showdescription = true
           }
+          this.form.patchValue(this.data);
+          this.Getproject();
+          // if (this.formEditMode === false) {
+          //   this.isReadOnly = false;
+          //   this.form.disable();
+          //   this.isDisable = true;
+          // }
         }
       });
       this.isReadOnly = true;
@@ -187,14 +193,14 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['projectId'].clearValidators();
       this.form.controls['projectId'].updateValueAndValidity();
     }
-    this.form.controls['EntryDate'].setValue(moment(this.form.value.EntryDate).format("YYYY-MM-DD"));
+    this.form.controls['entryDate'].setValue(moment(this.form.value.entryDate).format("YYYY-MM-DD"));
         const timesheetData =
    
     {
       timesheets: [
         {
           id:this.id,
-          entryDate:moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
+          entryDate:moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
           hours:this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
           description:this.form.value.description,
           projectId:this.form.value.IsLeave == 1 ? 0: this.form.value.projectId,
@@ -213,11 +219,13 @@ export class TimesheetComponent implements OnInit {
       this.timesheetService.savetimsheet(timesheetData).subscribe(result => {
         if(result && result.isSuccess){
           this._location.back();
-          const msg1 = this.translate.instant('Savedsuccessfully');
-          const msg2 = this.translate.instant('Updatedsuccessfully');
-          const msg3 = this.translate.instant('');
-          const sucessmsg = this.id == 0 ? msg1 : msg2;
-          this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
+          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully":"Time Sheet Updated Successfully");
+
+          // const msg1 = this.translate.instant('Savedsuccessfully');
+          // const msg2 = this.translate.instant('Updatedsuccessfully');
+          // const msg3 = this.translate.instant('');
+          // const sucessmsg = this.id == 0 ? msg1 : msg2;
+          
         }
         
       });

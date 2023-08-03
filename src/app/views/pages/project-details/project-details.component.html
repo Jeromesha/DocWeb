@@ -29,7 +29,7 @@
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
         <ng-container matColumnDef="clintid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="clintid">{{'Clint Id' |
+            <mat-header-cell *matHeaderCellDef mat-sort-header="clientName">{{'client Id' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
@@ -38,7 +38,7 @@
         </ng-container>
 
         <ng-container matColumnDef="projectname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectname">{{'Project Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="projectName">{{'Project Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectName}}</p>
@@ -46,69 +46,76 @@
         </ng-container>
 
         <ng-container matColumnDef="projecttype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projecttype">{{'Project Type' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="projectTypeName">{{'Project Type' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectTypeName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Technologytype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Technologytype">{{'Technology Type' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="technologyTypeName">{{'Technology Type' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.technologyTypeName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Repositoryname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Repositoryname">{{'Repository Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryName">{{'Repository Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Repositoryurl">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Repositoryurl">{{'Repository Url' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryUrl">{{'Repository Url' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryUrl}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledStart">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="ScheduledStart">{{'Scheduled Start' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="startDate">{{'Scheduled Start' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.startDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledEnd">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="ScheduledEnd">{{'Scheduled End' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="endDate">{{'Scheduled End' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.endDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="projectstatus">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectstatus">{{'Project Status' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="projectStatusName">{{'Project Status' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="projectlead">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectstatus">{{'Project Leader Name' | translate}}
+        <!-- <ng-container matColumnDef="projectlead">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="projectStatusName">{{'Project Leader Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
-        </ng-container>
+        </ng-container> -->
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar">
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.Id,1)">
+                    (click)="goToAction(dataField.id,1)">
                     <i class="fa fa-eye fa-2x"></i>
+                </button>
+
+
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
+                    (click)="goToAction(dataField.id,0)">
+                    <i class="fa fa-edit fa-2x"></i>
                 </button>
 
             </mat-cell>

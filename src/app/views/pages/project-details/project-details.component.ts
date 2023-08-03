@@ -31,12 +31,13 @@ export class ProjectDetailsComponent implements OnInit {
     "clintid",
     "projectname",
     "projecttype",
+    // "projectlead",
     "Technologytype",
     "Repositoryname",
     "Repositoryurl",
     "ScheduledStart",
     "ScheduledEnd",
-    "projectstatus"
+    "projectstatus",
   ];
 
    // "S.No",
