@@ -62,6 +62,7 @@ export class ProjectDetailsViewComponent implements OnInit {
   filterprojectstatuslist: any;
   filterprojectleadlist: any;
   projectleadlist: any;
+  isdisable: boolean;
 
 
 
@@ -75,11 +76,12 @@ export class ProjectDetailsViewComponent implements OnInit {
     private translate: TranslateService,
     private timesheetService: TimeSheetService,
     private projectdetailsservice: ProjectdetailsService,
-    private router: Router
+    // private router: Router
   ) {
     this.routeParams = route.snapshot.params;
+    debugger
     this.id = JSON.parse(this.routeParams.id);
-    this.id = +this.routeParams.id;
+    this.id = parseInt(this.routeParams.id);
     //this.id = 0;
     debugger
     this.actionInfo = this.routeParams.actionInfo
@@ -108,7 +110,11 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.get(true);
     this.maxDate = new Date();
     this.scheduledEndmax = new Date();
-
+    if(this.actionInfo == 0 && this.id !=0){
+      this.isdisable =true;
+    }else{
+      this.isDisable = false;
+    }
   }
 
   initializeValidators() {
