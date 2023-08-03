@@ -57,7 +57,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{"projecttype"|translate}}</label>
-                                            <mat-select placeholder="Select Clint"  [disabled]="isdisable"  
+                                            <mat-select placeholder="{{'projecttype'|translate}}"  [disabled]="isdisable"  
                                                 formControlName="projectTypeId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="projecttypelist"
                                                     (filteredReturn)="filterprojecttypelist =$event">
@@ -79,7 +79,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Project Lead"|translate}}</label>
-                                            <mat-select placeholder="Select Clint" 
+                                            <mat-select placeholder="Project Lead" 
                                                 formControlName="projectLeadId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
                                                     (filteredReturn)="filterprojectleadlist =$event">
