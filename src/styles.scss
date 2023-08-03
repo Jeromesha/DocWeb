@@ -103,7 +103,7 @@ body {
 }
 
 .btnrefresh {
-  background-color:#71B03C !important;
+  background-color: #71B03C !important;
   color: white !important;
 }
 
@@ -143,9 +143,10 @@ input[readonly] {
   background-color: #0000 !important;
 }
 
-.owl-dt-trigger-disabled,
-.form-control:disabled {
+.owl-dt-trigger-disabled {
   background-color: #e9ecef !important;
+  pointer-events: none !important;
+  opacity: 1.35 !important;
 }
 
 .btnadd,
@@ -227,7 +228,7 @@ select,
   line-height: 1;
   color: #495057 !important;
   ;
-  background-color: #ffffff !important;
+  background-color: #ffffff;
   ;
   background-clip: padding-box !important;
   ;
@@ -355,11 +356,13 @@ mat-form-field.mb-0 {
 .typeOfAttachment {
   text-transform: none;
 }
-.editclr{
-    color:#3E65A6;
+
+.editclr {
+  color: #3E65A6;
 }
-.eyeclr{
-    color:#71B03C;
+
+.eyeclr {
+  color: #71B03C;
 }
 
 @media only screen and (max-width: 500px) and (min-width: 320px) {
@@ -760,3 +763,25 @@ $custom-theme: mat-light-theme($custom-primary, $custom-accent);
 // Apply the theme to the Angular Material components
 @include mat-core();
 @include angular-material-theme($custom-theme);
+
+.form-control:disabled {
+  background-color: #e9ecef !important;
+  pointer-events: none !important;
+}
+
+.mat-select-value {
+  color: #545057 !important;
+}
+
+.mat-select-value-text {
+  font-family: "Overpass", sans-serif !important;
+}
+
+.mat-option-text {
+  font-family: "Overpass", sans-serif !important;
+}
+
+.mat-select-placeholder {
+  font-family: "Overpass", sans-serif !important;
+  color: #d0cdd2 !important;
+}
