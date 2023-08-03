@@ -785,3 +785,6 @@ $custom-theme: mat-light-theme($custom-primary, $custom-accent);
   font-family: "Overpass", sans-serif !important;
   color: #d0cdd2 !important;
 }
+.sidebar .sidebar-body .sidebar-nav .nav-item:hover .nav-link {
+  color: #3e65a6 !important;
+}
