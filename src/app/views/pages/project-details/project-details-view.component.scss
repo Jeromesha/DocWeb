@@ -76,5 +76,9 @@ input:checked + .slider:before {
 .danger{
     color: red;
 }
+.disable{
+  background-color: #e9ecef !important;
+pointer-events: none !important;
 
+}
 
