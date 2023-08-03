@@ -50,6 +50,7 @@ export class TimesheetComponent implements OnInit {
   showdescription: boolean = false;
   SaveTimesheet: any[];
   isLeave: boolean = true;
+  SortList: any;
 
 
 
@@ -128,7 +129,8 @@ export class TimesheetComponent implements OnInit {
     debugger;
     this.timesheetService.getproject().subscribe(result => {
       console.log(">>>?", result);
-      this.filterSortList = result;
+      this.SortList = result
+      this.filterSortList = this.SortList.slice();
     });
   }
 

@@ -67,7 +67,7 @@
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="projectId" class="form-control pt-2">
                                                     <mat-select-filter [displayMember]="'value'"
-                                                        [array]="filterSortList"
+                                                        [array]="SortList"
                                                         (filteredReturn)="filterSortList =$event">
                                                     </mat-select-filter>
                                                     <mat-option *ngFor="let item of filterSortList" [value]="item.key">
