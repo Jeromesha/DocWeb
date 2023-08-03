@@ -45,6 +45,7 @@ export class EmployeedetailComponent implements OnInit {
   iQIDAQAB
   -----END PUBLIC KEY-----`;
   date: Date;
+  disab: boolean;
 
   
   constructor(private route: ActivatedRoute,
@@ -88,31 +89,37 @@ export class EmployeedetailComponent implements OnInit {
     this.roleLookup();
     this.designationLookup();
     this.date=new Date()
+    if(this.id>0)
+    {
+      this.getEmpDetails();
+      this.disab=true;
+    }
+
   }
 
   initialValidators() {
     this.form = this.formBuilder.group({
       "Id":[0],
-      'EmpCode': ['', Validators.required],
-      'FirstName': ['', Validators.required],
-      'LastName': ['', Validators.required],
-      'RoleId': ['', Validators.required],
-      'Mobile': ['', Validators.required],
-      'Email': ['', Validators.required],
-      'SvnUserName': ['', Validators.required],
-      'SvnPassword': ['', Validators.required],
-      'DateOfBirth': ['', Validators.required],
-      'JoiningDate': ['', Validators.required],
-      'MarriageDate': [''],
-      'EmpShortName': ['', Validators.required],
-      'DefaultProjectId': ['', Validators.required],
-      'LocationId': ['', Validators.required],
-      'DesignationTypeId': ['', Validators.required],
-      'Gender': ['', Validators.required],
-      'Address': ['', Validators.required],
-      'IsFirstLogin': [''],
-      'FillTimesheet': [''],
-      'ReportingPersonId': ['', Validators.required],
+      'empCode': ['', Validators.required],
+      'firstName': ['', Validators.required],
+      'lastName': ['', Validators.required],
+      'roleId': ['', Validators.required],
+      'mobile': ['', Validators.required],
+      'email': ['', Validators.required],
+      'svnUserName': ['', Validators.required],
+      'svnPassword': ['', Validators.required],
+      'dateOfBirth': ['', Validators.required],
+      'joiningDate': ['', Validators.required],
+      'marriageDate': [''],
+      'empShortName': ['', Validators.required],
+      'defaultProjectId': ['', Validators.required],
+      'locationId': ['', Validators.required],
+      'designationTypeId': ['', Validators.required],
+      'gender': ['', Validators.required],
+      'address': ['', Validators.required],
+      'isFirstLogin': [''],
+      'fillTimesheet': [''],
+      'reportingPersonId': ['', Validators.required],
       'stringPswrd': ['', Validators.required]
     })
   }
@@ -193,7 +200,7 @@ export class EmployeedetailComponent implements OnInit {
     //   'empCode':this.form.value.empId,
     //   ''
     // }
-    let obj=this.designationList.filter(x=>x.key==this.form.value.DesignationTypeId)
+    let obj=this.designationList.filter(x=>x.key==this.form.value.designationTypeId)
     console.log(obj);
     
     if (this.form.valid) 
@@ -203,13 +210,13 @@ export class EmployeedetailComponent implements OnInit {
     // this.form.controls['strpassword'].setValue(encryptedPassword)
     
       var data = this.form.value;
-      data.Password = '';
-      data.EmployeeProfileStream = '';
-      data.IsSystemGeneratedPassword = false
-      data.Designation = obj[0].value;
-      data.UniqueCode = this.form.value.EmpCode;
+      data.password = '';
+      data.employeeProfileStream = '';
+      data.isSystemGeneratedPassword = false
+      data.designation = obj[0].value;
+      data.uniqueCode = this.form.value.empCode;
       data.stringPswrd=encryptedPassword;
-      data.MarriageDate=this.form.value.MarriageDate==""?null:this.form.value.MarriageDate;
+      data.marriageDate=this.form.value.marriageDate==""?null:this.form.value.marriageDate;
       console.log(data.Designation);
       this.empDetailsService.saveEmployee(data).subscribe((res)=>{
         console.log(res,'savvvv');

@@ -4,3 +4,14 @@
 :host::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
     background-color: #3F67A7 !important;
 }
+.disable{
+    background-color: #e9ecef !important;
+  pointer-events: none !important;
+    
+}
+.disable::placeholder {
+    color: #bab5bd !important;
+}
+::ng-deep .owl-dt-input-placeholder {
+    color: red !important;
+  }

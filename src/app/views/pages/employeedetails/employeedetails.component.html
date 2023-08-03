@@ -77,15 +77,15 @@
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar">
 
-                <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                 matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                (click)="goToAction(dataField.Id,0)">
-                <i class="fa fa-eye fa-2x"></i>
-            </button> -->
+                (click)="goToAction(dataField.id,0)">
+                <i class="fa fa-edit fa-2x"></i>
+            </button>
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.Id,1)">
+                    (click)="goToAction(dataField.id,1)">
                     <i class="fa fa-eye fa-2x"></i>
                 </button>
 
