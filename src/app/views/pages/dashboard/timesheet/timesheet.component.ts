@@ -94,7 +94,7 @@ export class TimesheetComponent implements OnInit {
       description: [''],
       hours: [null],
       IsLeave: [2, [Validators.required]],
-      EntryDate: ['', [Validators.required]],
+      entryDate: ['', [Validators.required]],
       EmployeeId: [0],
       projectId: [null],
       timeIn: [null],
@@ -138,13 +138,17 @@ export class TimesheetComponent implements OnInit {
       this.timesheetService.gettimesheetById(this.id, refresh).subscribe(result => {
         this.data = result;
         if (this.data) {
-          this.form.patchValue(this.data);
-          if (this.formEditMode === false) {
-            this.isReadOnly = false;
-            this.form.disable();
-            this.isDisable = true;
-            //this.isReadOnly = false;
+          // this.form.controls['hours'].setValue(13:03")
+          if(this.data.description){
+            this.showdescription = true
           }
+          this.form.patchValue(this.data);
+          this.Getproject();
+          // if (this.formEditMode === false) {
+          //   this.isReadOnly = false;
+          //   this.form.disable();
+          //   this.isDisable = true;
+          // }
         }
       });
       this.isReadOnly = true;
@@ -187,14 +191,14 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['projectId'].clearValidators();
       this.form.controls['projectId'].updateValueAndValidity();
     }
-    this.form.controls['EntryDate'].setValue(moment(this.form.value.EntryDate).format("YYYY-MM-DD"));
+    this.form.controls['entryDate'].setValue(moment(this.form.value.entryDate).format("YYYY-MM-DD"));
         const timesheetData =
    
     {
       timesheets: [
         {
           id:this.id,
-          entryDate:moment(this.form.value.EntryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
+          entryDate:moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
           hours:this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
           description:this.form.value.description,
           projectId:this.form.value.IsLeave == 1 ? 0: this.form.value.projectId,
