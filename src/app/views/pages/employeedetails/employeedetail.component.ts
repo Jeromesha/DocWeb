@@ -195,11 +195,7 @@ export class EmployeedetailComponent implements OnInit {
   }
 
   onSubmit() {
-    // var data={
-    //   'id':0,
-    //   'empCode':this.form.value.empId,
-    //   ''
-    // }
+    
     let obj=this.designationList.filter(x=>x.key==this.form.value.designationTypeId)
     console.log(obj);
     
