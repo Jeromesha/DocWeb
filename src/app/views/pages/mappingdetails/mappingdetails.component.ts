@@ -38,7 +38,7 @@ export class MappingdetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    debugger;
+
     this.UserId = this.usersessionService.userId();
     this.getMappingDetail(this.UserId);
     //this.getRedistrationData();

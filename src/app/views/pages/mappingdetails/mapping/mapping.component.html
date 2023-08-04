@@ -12,26 +12,32 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-body login-img">
-                    <div class="px-3">
+                    <div class="px-3" *ngIf="actionInfo == 0 ">
                         <form [formGroup]="form" class="form form-horizontal" novalidate>
                             <div class="form-body pt-2">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{'Project' | translate}}</label>
-                                            <mat-select placeholder="Project" (selectionChange)="sortingChange($event)"
-                                                formControlName="projectId" class="form-control pt-2">
-                                                <mat-select-filter [displayMember]="'value'" [array]="projectSortList"
-                                                    (filteredReturn)="projectSortList =$event">
-                                                </mat-select-filter>
-                                                <mat-option *ngFor="let item of projectSortList" [value]="item.key">
-                                                    {{item.value}}
-                                                </mat-option>
-                                            </mat-select>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory ">{{'Project' | translate}}</label>
+                                                <mat-select placeholder="Project"
+                                                    (selectionChange)="sortingChange($event)"
+                                                    formControlName="projectId" class="form-control pt-2"
+                                                    [disabled]="this.id!=0">
+                                                    <mat-select-filter [displayMember]="'value'"
+                                                        [array]="projectSortList"
+                                                        (filteredReturn)="filterprojectSortList = $event">
+                                                    </mat-select-filter>
+                                                    <mat-option *ngFor="let item of filterprojectSortList"
+                                                        [value]="item.key">
+                                                        {{item.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <!-- <p *ngFor="let item of projectSortList">{{item.value}}</p> -->
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory">{{'Employee' | translate}}</label>
                                             <mat-select placeholder="Employee" (selectionChange)="sortingChange($event)"
@@ -44,6 +50,61 @@
                                                 </mat-option>
                                             </mat-select>
                                         </div>
+                                    </div> -->
+                                    </div>
+                                </fieldset>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <section class="example-section selectall">
+                                            <mat-checkbox class="btn-block" formControlName="firstListDatas"
+                                                labelPosition="before" (change)="selectAllTransfer($event)">Select All
+                                                Employees
+                                            </mat-checkbox>
+                                        </section>
+                                        <!-- <mat-form-field>
+                                            <input type="text" [(ngModel)]="searchText1" (keyup)="applyFilter()"
+                                                placeholder="Search..." [ngModelOptions]="{standalone: true}" matInput>
+                                        </mat-form-field> -->
+                                        <mat-selection-list #list formControlName="unmappedEmployeeIds"
+                                            [(ngModel)]="select" class="border"
+                                            (selectionChange)="onNgModelChange($event)">
+                                            <mat-list-option *ngFor="let obj of filterunmappedEmployeeList"
+                                                [value]="obj" class="matlistd"
+                                                style="margin-bottom: 10px;margin-top: 5px;">
+                                                {{obj.value}}
+                                            </mat-list-option>
+                                        </mat-selection-list>
+                                    </div>
+                                    <div class="col-md-1 text">
+                                        <i class="fa fa-arrow-right sty" matTooltip="{{'Transfer'|translate}}"
+                                            aria-hidden="true" (click)="moveToTransfer();"></i>
+                                        <br>
+                                        <i *ngIf="mappedEmployeeList?.length > 0" class="fa fa-arrow-left sty"
+                                            matTooltip="{{'Remove'|translate}}" aria-hidden="true"
+                                            (click)="removedToTransfer();"></i>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <section class="example-section selectall">
+                                            <mat-checkbox class="btn-block" formControlName="secondListDatas"
+                                                [(ngModel)]="isSelectAllRemoveTransfer" labelPosition="before"
+                                                (change)="selectAllRemoveTransfer($event)">Select All Employees
+                                            </mat-checkbox>
+                                        </section>
+                                        <!-- <mat-form-field>
+                                            <input type="text" [(ngModel)]="searchText2" (keyup)="applyFilter()"
+                                                placeholder="Search..." [ngModelOptions]="{standalone: true}" matInput>
+                                        </mat-form-field> -->
+                                        <mat-selection-list #list formControlName="mappedEmployeeIds"
+                                            [(ngModel)]="selected" class="border"
+                                            (selectionChange)="onNgModelChange($event)">
+                                            <mat-list-option *ngFor="let list of filtermappedEmployeeList"
+                                                [value]="list" [disabled]="list?.disabled" class="matlistd"
+                                                style="margin-bottom: 10px;margin-top: 5px;">
+
+                                                {{list.value}}
+                                            </mat-list-option>
+                                            <br>
+                                        </mat-selection-list>
                                     </div>
                                 </div>
                                 <div class="form-actions mb-2 mt-3" style="float: right;">
@@ -61,6 +122,28 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class="px-3" *ngIf="actionInfo == 1 ">
+                        <h4>Project Name :</h4>
+                        <h5>{{this.viewdata.projectName}}</h5>
+                        <br><br>
+                        <h4>Employees</h4>
+                        <div>
+                            <ul *ngFor="let item of viewdata.projectEmployees">
+                                <tr>
+                                    <td>{{item.employeeName}}</td>
+                                </tr>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="float:right;">
+                                <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
+                                    (click)="onCancel()">
+                                    <i class="fa fa-close"></i>
+                                    {{'Cancel' | translate}}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
