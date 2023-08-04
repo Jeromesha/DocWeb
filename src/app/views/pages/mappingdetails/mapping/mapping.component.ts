@@ -134,14 +134,11 @@ export class MappingComponent implements OnInit {
   // }
 
   onSubmit() {
-    let unmappedEmployeeIds = this.filterunmappedEmployeeList.array.forEach(element => {
-      element.key;
-    });
     const projectemployeeData =
     {
       "projectId": this.form.value.projectId,
-      "unmappedEmployees": unmappedEmployeeIds,
-      "mappedEmployees": this.filtermappedEmployeeList.map((key) => [key])
+      "unmappedEmployees": this.filterunmappedEmployeeList.map(pair => pair.key),
+      "mappedEmployees": this.filtermappedEmployeeList.map(pair => pair.key)
     }
     debugger;
     console.log(projectemployeeData);
