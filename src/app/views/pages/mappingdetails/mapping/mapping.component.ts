@@ -142,6 +142,19 @@ export class MappingComponent implements OnInit {
     }
     debugger;
     console.log(projectemployeeData);
+
+    if (this.form.valid) {
+      debugger
+      this.mappingservice.savemapping(projectemployeeData).subscribe(result => {
+        if (result && result.isSuccess) {
+          this._location.back();
+          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
+        }
+
+      });
+    } else {
+      this.validateFormControl();
+    }
   }
 
   validateFormControl() {
