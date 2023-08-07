@@ -179,7 +179,7 @@
                                 <!-- <div class="row"> -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'DOB' | translate}}</label>
+                                            <label class="mandatory ">{{'Actual DOB' | translate}}</label>
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control" placeholder="Select DOB" [max]="date"
                                                     formControlName="dateOfBirth" [owlDateTimeTrigger]="dt1" [disabled]="actionInfo == 1"
@@ -204,7 +204,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Actual DOB' | translate}}</label>
                                             <div class="input-group mb-0 ">
@@ -230,7 +230,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Joining Date' | translate}}</label>
@@ -501,9 +501,9 @@
                                         <div class="form-group">
                                           <label class="mandatory">Excluded from timesheet &nbsp;</label> <br>
                                           <mat-radio-group aria-label="Select an option" (change)="changeOptions($event)" required>
-                                            <mat-radio-button value="1" [checked]="">Yes
+                                            <mat-radio-button value="1" [checked]="timeSheetTrue">Yes
                                             </mat-radio-button>&nbsp;
-                                            <mat-radio-button value="3" [checked]="">No
+                                            <mat-radio-button value="3" [checked]="timeSheetFalse">No
                                             </mat-radio-button>
                                           </mat-radio-group>
                                         </div>
