@@ -305,7 +305,7 @@
                                 <!-- </div> -->
 
                                 <!-- <div class="row"> -->
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Project' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="defaultProjectId" [disabled]="actionInfo == 1"
@@ -327,8 +327,8 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- <div class="col-md-6">
+                                    </div> -->
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                           <label class="mandatory">Project</label>
                                           <ng-multiselect-dropdown formControlName="defaultProjectId" placeholder="Select"
@@ -336,11 +336,11 @@
                                           </ng-multiselect-dropdown>
                 
                                           <small class="form-text  danger mandatory"
-                                            *ngIf="!form.get('manufacturerType').valid && (form.get('manufacturerType').dirty || form.get('manufacturerType').touched)">
+                                            *ngIf="!form.get('defaultProjectId').valid && (form.get('defaultProjectId').dirty || form.get('defaultProjectId').touched)">
                                            
                                           </small>
                                         </div>
-                                      </div> -->
+                                      </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Work Location' | translate}}</label>

@@ -22,7 +22,7 @@ import { MatSelectFilterModule } from 'mat-select-filter';
 import { DirectivesModule } from '../../layout/directives/directives.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 const routes: Routes = [
   {
       path: '',
@@ -62,6 +62,7 @@ const routes: Routes = [
     MatSelectFilterModule,
     MatCheckboxModule,
     MatRadioModule,
+    NgMultiSelectDropDownModule.forRoot(),
     // NgMultiSelectDropDownModule
   ]
 })
