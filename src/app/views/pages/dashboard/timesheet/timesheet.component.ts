@@ -12,6 +12,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 
 
 import * as moment from 'moment';
+import { add } from 'lodash';
 
 
 @Component({
@@ -111,6 +112,9 @@ export class TimesheetComponent implements OnInit {
 
   }
   timeChange() {
+    console.log((this.form.value.hours).format('HH:mm'));
+    
+    console.log(parseInt(moment(this.form.value.hours).format('HH:mm')));
 
   }
   endtimeChange() {
@@ -146,6 +150,18 @@ export class TimesheetComponent implements OnInit {
           }
           this.form.patchValue(this.data);
           this.Getproject();
+          const unixTimestamp = this.data.hours * 1000;
+    
+    // Convert the UNIX timestamp to a Date object
+    const now = new Date();
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0)
+    let st=new Date(now);
+    console.log(st);
+    
+          this.form.controls['hours'].setValue(moment(st).add(this.data.hours,'hours'))
           // if (this.formEditMode === false) {
           //   this.isReadOnly = false;
           //   this.form.disable();
@@ -156,7 +172,9 @@ export class TimesheetComponent implements OnInit {
       this.isReadOnly = true;
     }
   }
-
+  private formatWithLeadingZero(value: number): string {
+    return value.toString().padStart(2, '0');
+  }
   validateFormControl() {
     Object.keys(this.form.controls).forEach(field => {
       const control = this.form.get(field);
@@ -170,6 +188,8 @@ export class TimesheetComponent implements OnInit {
 
   onSubmit() {
     debugger;
+
+    
     if(this.form.value.IsLeave == 2){
       this.form.controls['hours'].setValidators(Validators.required);
       this.form.controls['hours'].updateValueAndValidity();

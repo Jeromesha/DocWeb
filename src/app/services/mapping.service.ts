@@ -8,11 +8,11 @@ export class MappingServices {
 
     constructor(private dataService: DataService) {
     };
-    GetProject() {
-        return this.dataService.getData('/api/lookup/1', true);
+    GetLookup(id: number) {
+        return this.dataService.getData('/api/lookup/' + id, true);
     }
-    GetEmployee() {
-        return this.dataService.getData('/api/lookup/2', true);
+    GetLookupById(moduletype: number, id: number) {
+        return this.dataService.getData('/api/lookup/' + moduletype + '/' + id, true);
     }
     MapProjectEmployee(result: any) {
         return this.dataService.post('/api/projectemployee/', result).map(response => {
@@ -22,5 +22,12 @@ export class MappingServices {
     }
     getById(id: number, refresh: boolean) {
         return this.dataService.getData('/api/projectemployee/' + id, refresh);
+    }
+    savemapping(result: any) {
+        debugger
+        return this.dataService.post('/api/projectemployee', result).map(response => {
+            this.dataService.clearRouteCache(this.getEventRoute);
+            return response;
+        });
     }
 }
