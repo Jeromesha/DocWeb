@@ -20,7 +20,10 @@ export class EmployeedetailsService {
   {
     return this.dataService.getData('/api/worklocationlookup',refresh)
   }
-
+  getHybridProject(refresh:boolean,id)
+  {
+    return this.dataService.getData('/api/worklocationlookup',refresh)
+  }
   getDesignationList(refresh:boolean)
   {
     return  this.dataService.getData('/api/lookup/designation',refresh)

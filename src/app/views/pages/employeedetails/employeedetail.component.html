@@ -85,6 +85,29 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Gender' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="gender" [disabled]="actionInfo == 1"
+                                                class="form-control pd" placeholder="Select Gender">
+                                                <mat-select-filter [displayMember]="'value'" [array]="genderList"
+                                                    (filteredReturn)="filtergenderList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filtergenderList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.gender.errors && (form.controls.gender.dirty || form.controls.gender.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.gender.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Gender' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 <!-- </div> -->
                                 <!-- <div class="row"> -->
                                     <div class="col-md-6">
@@ -122,7 +145,7 @@
                                     </div>
                                 <!-- </div> -->
                                 <!-- <div class="row"> -->
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'SVN Username' | translate}}</label>
                                             <input type="text" class="form-control " formControlName="svnUserName" [ngClass]="{'disable':actionInfo == 1}"
@@ -136,8 +159,8 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                    </div> -->
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'SVN Password' | translate}}</label>
                                             <input type="text" class="form-control " formControlName="svnPassword" [ngClass]="{'disable':actionInfo == 1}"
@@ -151,12 +174,12 @@
 
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 <!-- </div> -->
                                 <!-- <div class="row"> -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'DOB' | translate}}</label>
+                                            <label class="mandatory ">{{'Actual DOB' | translate}}</label>
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control" placeholder="Select DOB" [max]="date"
                                                     formControlName="dateOfBirth" [owlDateTimeTrigger]="dt1" [disabled]="actionInfo == 1"
@@ -181,6 +204,33 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Actual DOB' | translate}}</label>
+                                            <div class="input-group mb-0 ">
+                                                <input class="form-control" placeholder="Select DOB" [max]="date"
+                                                    formControlName="actualDob" [owlDateTimeTrigger]="dt4" [disabled]="actionInfo == 1"
+                                                    [owlDateTime]="dt4">
+                                                <owl-date-time [pickerType]="'calendar'" #dt4>
+                                                </owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt4">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt4>
+                                                    </owl-date-time>
+                                                </div>
+                                            </div>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.actualDob.errors && (form.controls.actualDob.dirty || form.controls.actualDob.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.actualDob.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Actual DOB' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div> -->
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Joining Date' | translate}}</label>
@@ -212,7 +262,7 @@
                                 <!-- <div class="row"> -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'Marriage Date' | translate}}</label>
+                                            <label class="">{{'Marriage Date' | translate}}</label>
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control" placeholder="Select Marriage Date" [disabled]="actionInfo == 1"
                                                     formControlName="marriageDate" [owlDateTimeTrigger]="dt3" [max]="date"
@@ -255,7 +305,7 @@
                                 <!-- </div> -->
 
                                 <!-- <div class="row"> -->
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Project' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="defaultProjectId" [disabled]="actionInfo == 1"
@@ -277,7 +327,20 @@
 
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="mandatory">Project</label>
+                                          <ng-multiselect-dropdown formControlName="defaultProjectId" placeholder="Select"
+                                            [settings]="dropdownSettings" [data]='projectList'>
+                                          </ng-multiselect-dropdown>
+                
+                                          <small class="form-text  danger mandatory"
+                                            *ngIf="!form.get('defaultProjectId').valid && (form.get('defaultProjectId').dirty || form.get('defaultProjectId').touched)">
+                                           
+                                          </small>
+                                        </div>
+                                      </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Work Location' | translate}}</label>
@@ -298,6 +361,30 @@
                                                 <span *ngIf="form.controls.locationId.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'Work Location' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Hybride Location' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="hybridLocationId" [disabled]="actionInfo == 1"
+                                                class="form-control pd" placeholder="Select Work Location">
+                                                <mat-select-filter [displayMember]="'value'"
+                                                    [array]="hybridLocationList"
+                                                    (filteredReturn)="filterHybridlocationList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterHybridlocationList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.hybridLocationId.errors && (form.controls.hybridLocationId.dirty || form.controls.hybridLocationId.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.hybridLocationId.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Hybrid Location' | translate}} {{'IsRequired' | translate}}</span>
 
                                             </div>
                                         </div>
@@ -328,29 +415,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{'Gender' | translate}}</label>
-                                            <mat-select aria-label="true" formControlName="gender" [disabled]="actionInfo == 1"
-                                                class="form-control pd" placeholder="Select Gender">
-                                                <mat-select-filter [displayMember]="'value'" [array]="genderList"
-                                                    (filteredReturn)="filtergenderList =$event">
-                                                </mat-select-filter>
-                                                <mat-option *ngFor="let item of filtergenderList" [value]="item.key"
-                                                    class="disp">
-                                                    {{item.value}}
-                                                </mat-option>
-                                            </mat-select>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.gender.errors && (form.controls.gender.dirty || form.controls.gender.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.gender.errors?.required"
-                                                    class="form-text  danger mandatory">
-                                                    {{'Gender' | translate}} {{'IsRequired' | translate}}</span>
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
                                 <!-- </div> -->
 
                                 <!-- <div class="row"> -->
@@ -359,6 +424,29 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Reporting Person' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="reportingPersonId" [ngClass]="{'disable':actionInfo == 1}"
+                                                class="form-control pd" placeholder="Select Reporting Person">
+                                                <mat-select-filter [displayMember]="'value'" [array]="reportingList"
+                                                    (filteredReturn)="filterreportingList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterreportingList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.reportingPersonId.errors && (form.controls.reportingPersonId.dirty || form.controls.reportingPersonId.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.reportingPersonId.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Reporting Person' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Second Reporting Person' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="secLelreportingPersonId" [ngClass]="{'disable':actionInfo == 1}"
                                                 class="form-control pd" placeholder="Select Reporting Person">
                                                 <mat-select-filter [displayMember]="'value'" [array]="reportingList"
                                                     (filteredReturn)="filterreportingList =$event">
@@ -409,6 +497,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="mandatory">Excluded from timesheet &nbsp;</label> <br>
+                                          <mat-radio-group aria-label="Select an option" (change)="changeOptions($event)" required>
+                                            <mat-radio-button value="1" [checked]="timeSheetTrue">Yes
+                                            </mat-radio-button>&nbsp;
+                                            <mat-radio-button value="3" [checked]="timeSheetFalse">No
+                                            </mat-radio-button>
+                                          </mat-radio-group>
+                                        </div>
+                                      </div>
                                     <div class="col-md-4" style="padding-top: 25px;">
                                         <div class="form-check form-check-flat form-check-primary">
                                             <!-- <label class="form-check-label" >
@@ -434,6 +533,7 @@
                                             </mat-checkbox>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div class="form-actions mb-2 mt-3" style="float: right;">

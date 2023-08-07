@@ -55,6 +55,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/project-details/project-details.module").then((m) => m.ProjectDetailsModule)
       },
+      {
+        path: "weeklytimesheetaprove",
+        loadChildren: () =>
+          import("./../../views/pages/weeklytimesheetaproved/weeklytimesheetaproved.module").then((m) => m.WeeklytimesheetaprovedModule)
+      },
     ],
   },
 ];

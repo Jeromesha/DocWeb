@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add Project' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View Project' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit Project' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add Project Details' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View Project Details' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit Project Details' | translate}}</h4>
     </div>
 </div>
 <div class="row text-left">
@@ -24,7 +24,7 @@
                                                     (filteredReturn)="filterclintdata =$event">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterclintdata" [value]="item.key">
-                                                    {{item.value}}
+                                                    {{item.value}} ({{item.key}}) 
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
@@ -99,7 +99,7 @@
                                     </div>
 
                                    
-                                    <div class="col-md-6" >
+                                    <!-- <div class="col-md-6" >
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Technologytype"|translate}}</label>
                                             <mat-select placeholder="Select Technology" [disabled]="isdisable"
@@ -119,20 +119,32 @@
                                                 {{'Technologytype' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
                                         </div>
-                                    </div>
-                              
+                                    </div> -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label class="mandatory">{{"Technologytype"|translate}}</label>
+                                          <ng-multiselect-dropdown formControlName="technologyTypeId" placeholder="Select Technology"
+                                            [settings]="dropdownSettings" [data]='filtertechnologytypelist'>
+                                          </ng-multiselect-dropdown>
+                
+                                          <small class="form-text  danger mandatory"
+                                            *ngIf="!form.get('technologyTypeId').valid && (form.get('technologyTypeId').dirty || form.get('technologyTypeId').touched)">
+                                           
+                                          </small>
+                                        </div>
+                                      </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'Repository Name' | translate}}</label>
+                                            <label class="mandatory ">{{'Git Repository' | translate}}</label>
                                             <input type="text" class="form-control"
-                                                formControlName="repositoryName" placeholder="{{'Repository Name' | translate}}" autocomplete="off">
+                                                formControlName="repositoryName" placeholder="{{'Git Repository' | translate}}" autocomplete="off">
                                             <div class="valid-error"
                                                 *ngIf="form.controls.repositoryName.errors && (form.controls.repositoryName.dirty || form.controls.repositoryName.touched)"
                                                 text-wrap>
                                                 <span *ngIf="form.controls.repositoryName.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    {{'Repository Name' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Git Repository' | translate}} {{'IsRequired' | translate}}</span>
                                                 
                                             </div>
                                         </div>
@@ -225,6 +237,27 @@
                                             <span *ngIf="form.controls.projectStatusId.errors?.required"
                                                 class="form-text danger mandatory">
                                                 {{'Projectstatus' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"Nature of the project"|translate}}</label>
+                                            <mat-select placeholder='{{"Projectstatus"|translate}}' 
+                                                formControlName="natureofproject" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="natureofprojectlist"
+                                                    (filteredReturn)="filternatureofprojectlist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filternatureofprojectlist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.natureofproject.errors && (form.controls.natureofproject.dirty || form.controls.natureofproject.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.natureofproject.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Nature of the project' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
                                         </div>
                                     </div>

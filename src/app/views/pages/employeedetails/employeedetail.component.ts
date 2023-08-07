@@ -46,6 +46,11 @@ export class EmployeedetailComponent implements OnInit {
   -----END PUBLIC KEY-----`;
   date: Date;
   disab: boolean;
+  hybridLocationList: any[];
+  filterHybridlocationList: any[];
+  dropdownSettings:{};
+  timeSheetTrue: boolean = false;
+  timeSheetFalse: boolean = true;
 
   
   constructor(private route: ActivatedRoute,
@@ -88,12 +93,21 @@ export class EmployeedetailComponent implements OnInit {
     this.reportPersonLookup();
     this.roleLookup();
     this.designationLookup();
+    // this.getHybridLocation()
     this.date=new Date()
     if(this.id>0)
     {
       this.getEmpDetails();
       this.disab=true;
     }
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'key',
+      textField: 'value',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true
+    };
 
   }
 
@@ -106,8 +120,9 @@ export class EmployeedetailComponent implements OnInit {
       'roleId': ['', Validators.required],
       'mobile': ['', Validators.required],
       'email': ['', Validators.required],
-      'svnUserName': ['', Validators.required],
-      'svnPassword': ['', Validators.required],
+      // 'svnUserName': ['', Validators.required],
+      'hybridLocationId': ['',],
+      'secLelreportingPersonId':[''],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
       'marriageDate': [''],
@@ -169,6 +184,14 @@ export class EmployeedetailComponent implements OnInit {
     })
   }
 
+  // getHybridLocation(){
+  //   this.empDetailsService.getHybridProject(true,7).subscribe((res) => {
+  //     this.hybridLocationList = [];
+  //     this.filterHybridlocationList = [];
+  //     this.hybridLocationList = res;
+  //     this.filterHybridlocationList = this.filterHybridlocationList.slice();
+  //   })
+  // }
 
   designationLookup(){
     this.empDetailsService.getDesignationList(true).subscribe((res)=>{
@@ -193,9 +216,25 @@ export class EmployeedetailComponent implements OnInit {
     this.navigationService.gotoEmployee();
 
   }
-
+  changeOptions(event){
+if(event.value == 1){
+this.timeSheetTrue = true;
+this.timeSheetFalse  = false;
+}else{
+  this.timeSheetTrue = false;
+  this.timeSheetFalse  = true;
+}
+  }
   onSubmit() {
-    
+    const projectId = [];
+      debugger
+      const selectedPrijectList = this.form.get('defaultProjectId').value;
+      if (selectedPrijectList && selectedPrijectList.length > 0) {
+        selectedPrijectList.forEach(element => {
+          projectId.push(element.key);
+        });
+      }
+
     let obj=this.designationList.filter(x=>x.key==this.form.value.designationTypeId)
     console.log(obj);
     
@@ -207,6 +246,7 @@ export class EmployeedetailComponent implements OnInit {
     
       var data = this.form.value;
       data.password = '';
+      data.defaultProjectId=projectId,
       data.employeeProfileStream = '';
       data.isSystemGeneratedPassword = false
       data.designation = obj[0].value;
