@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,9 @@ import * as _ from 'lodash';
 import { AlertService } from 'src/app/services/alert.service';
 import { MappingServices } from 'src/app/services/mapping.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-mapping',
@@ -20,6 +23,13 @@ export class MappingComponent implements OnInit {
   form: FormGroup;
   routeParams: any;
   pattern: any;
+  data = [];
+  dataSource = new MatTableDataSource(this.data);
+  unmapped = new MatTableDataSource();
+  mapped = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   emailpattern: any;
   projectSortList: any[] = [];
   employeeSortList: any[] = [];
@@ -41,6 +51,13 @@ export class MappingComponent implements OnInit {
   filterprojectSortList: any[];
   searchText2: string = "";
   searchText1: string = "";
+  datasource: any;
+  displayedColumns: string[] = [
+    "Employee Code",
+    "Employee Name",
+    "Phone Number",
+    "Email"
+  ];
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -55,7 +72,7 @@ export class MappingComponent implements OnInit {
     this.id = +this.routeParams.id;
     //this.id = 0;
 
-    this.actionInfo = this.routeParams.actionInfo
+    this.actionInfo = this.routeParams.actionInfo;
     //this.actionInfo = 0;
     if (this.id === 0) {
       this.submitbtn = 'Save';
@@ -77,6 +94,8 @@ export class MappingComponent implements OnInit {
     this.getEditdata();
     this.getViewdata()
     console.log('Ajith');
+    this.unmapped = new MatTableDataSource(this.filtermappedEmployeeList);
+    this.mapped = new MatTableDataSource(this.filtermappedEmployeeList);
 
   }
 
@@ -148,7 +167,7 @@ export class MappingComponent implements OnInit {
       this.mappingservice.savemapping(projectemployeeData).subscribe(result => {
         if (result && result.isSuccess) {
           this._location.back();
-          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
+          this.alertService.success(this.id == 0 ? "Employee added Successfully" : "Employees updated Successfully");
         }
 
       });
@@ -173,8 +192,21 @@ export class MappingComponent implements OnInit {
     if (this.actionInfo == 1) {
       this.mappingservice.getById(this.id, true).subscribe(result => {
         this.viewdata = result;
-        console.log(">>>?", this.viewdata);
+        this.dataSource = new MatTableDataSource(this.viewdata.employees);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        console.log(">>>?", this.dataSource);
+
       });
+      // this.viewdata = {
+      //   projectName: 'Test',
+      //   repository: 'ATS(abcd)',
+      //   noofemployees: 1,
+      //   employees: [{
+      //     EmpCode: '0396',
+      //     employeeName: 'Ajith'
+      //   }]
+      // }
     }
   }
 
@@ -206,19 +238,19 @@ export class MappingComponent implements OnInit {
       this.filterunmappedEmployeeList = this.unmappedEmployeeList.slice();
     });
   }
-  applyFilter() {
-    debugger;
-    if (this.searchText1 != "") {
-      this.filterunmappedEmployeeList = this.unmappedEmployeeList.filter((item) =>
-        item.value.toLowerCase().includes(this.searchText1.toLowerCase())
-      );
-    }
-    if (this.searchText2 != "") {
-      this.filtermappedEmployeeList = this.mappedEmployeeList.filter((item) =>
-        item.value.toLowerCase().includes(this.searchText2.toLowerCase())
-      );
-    }
-  }
+  //applyFilter() {
+  // debugger;
+  // if (this.searchText1 != "") {
+  //   this.filterunmappedEmployeeList = this.unmappedEmployeeList.filter((item) =>
+  //     item.value.toLowerCase().includes(this.searchText1.toLowerCase())
+  //   );
+  // }
+  // if (this.searchText2 != "") {
+  //   this.filtermappedEmployeeList = this.mappedEmployeeList.filter((item) =>
+  //     item.value.toLowerCase().includes(this.searchText2.toLowerCase())
+  //   );
+  // }
+  //}
   getProject() {
     debugger
     this.mappingservice.GetLookup(1).subscribe(result => {
@@ -230,65 +262,77 @@ export class MappingComponent implements OnInit {
     this._location.back();
   }
 
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+  applyFilterUnmapped(event: Event) {
+    debugger;
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filterunmappedEmployeeList.value.filter = filterValue.trim().toLowerCase();
+    // if (this.filtermappedEmployeeList.paginator) {
+    //   this.filtermappedEmployeeList.paginator.firstPage();
+    // }
+  }
+  applyFilterMapped(event: Event) {
+    debugger;
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filtermappedEmployeeList.value.filter = filterValue.trim().toLowerCase();
+    // if (this.filtermappedEmployeeList.paginator) {
+    //   this.filtermappedEmployeeList.paginator.firstPage();
+    // }
+  }
 
 
   moveToTransfer() {
-    if (this.filtermappedEmployeeList.length > 0) {
-      if (this.filterunmappedEmployeeList.length > 0) {
-        let data = this.filterunmappedEmployeeList.filter((item) => item.isSelect == true);
-        if (data.length > 0) {
-          data.forEach(element => {
-            element.disabled = false
-          });
-          debugger
-          // this.mappedEmployeeList.forEach((e) => { e.disabled = e.isSelect == true ? false : true; });
-          this.filtermappedEmployeeList = data.concat(this.filtermappedEmployeeList);
+    if (this.filterunmappedEmployeeList.length > 0) {
+      let data = this.filterunmappedEmployeeList.filter((item) => item.isSelect == true);
+      if (data.length > 0) {
+        data.forEach(element => {
+          element.disabled = false
+        });
+        debugger
+        // this.mappedEmployeeList.forEach((e) => { e.disabled = e.isSelect == true ? false : true; });
+        this.filtermappedEmployeeList = data.concat(this.filtermappedEmployeeList);
 
-          this.filterunmappedEmployeeList = this.filterunmappedEmployeeList.filter((item) => item.isSelect !== true);
-          this.isSelectAllTransfer = false;
-          this.filtermappedEmployeeList.forEach((e) => { e.isSelect = false; });
-        } else {
-          let msg = "Please select atleast one data to transfer";
-          this.alertService.info(msg);
-        }
-        //this.mappedEmployeeList = this.mappedEmployeeList.concat(data);
+        this.filterunmappedEmployeeList = this.filterunmappedEmployeeList.filter((item) => item.isSelect !== true);
+        this.isSelectAllTransfer = false;
+        this.filtermappedEmployeeList.forEach((e) => { e.isSelect = false; });
       } else {
-        this.select = this.filterunmappedEmployeeList;
+        let msg = "Please select atleast one data to transfer";
+        this.alertService.info(msg);
       }
+      //this.mappedEmployeeList = this.mappedEmployeeList.concat(data);
     } else {
-      let msg = "Please select the employee";
-      this.alertService.info(msg);
+      this.select = this.filterunmappedEmployeeList;
     }
   }
 
   removedToTransfer() {
     debugger
-    if (this.filterunmappedEmployeeList.length > 0) {
-      if (this.filtermappedEmployeeList.length > 0) {
-        let data = this.filtermappedEmployeeList.filter((item) => item.isSelect == true);
-        if (data.length > 0) {
-          data.forEach(element => {
-            element.disabled = false
-          });
-          debugger
-          // this.mappedEmployeeList.forEach((e) => { e.disabled = e.isSelect == true ? false : true; });
-          this.filterunmappedEmployeeList = data.concat(this.filterunmappedEmployeeList);
+    if (this.filtermappedEmployeeList.length > 0) {
+      let data = this.filtermappedEmployeeList.filter((item) => item.isSelect == true);
+      if (data.length > 0) {
+        data.forEach(element => {
+          element.disabled = false
+        });
+        debugger
+        // this.mappedEmployeeList.forEach((e) => { e.disabled = e.isSelect == true ? false : true; });
+        this.filterunmappedEmployeeList = data.concat(this.filterunmappedEmployeeList);
 
-          this.filtermappedEmployeeList = this.filtermappedEmployeeList.filter((item) => item.isSelect !== true);
-          this.isSelectAllRemoveTransfer = false;
-          this.filterunmappedEmployeeList.forEach((e) => { e.isSelect = false; });
-        } else {
-          let msg = "Please select atleast one data to transfer";
-          this.alertService.info(msg);
-        }
-        //this.unmappedEmployeeList = this.unmappedEmployeeList.concat(data);
+        this.filtermappedEmployeeList = this.filtermappedEmployeeList.filter((item) => item.isSelect !== true);
+        this.isSelectAllRemoveTransfer = false;
+        this.filterunmappedEmployeeList.forEach((e) => { e.isSelect = false; });
       } else {
-        this.select = this.filtermappedEmployeeList;
+        let msg = "Please select atleast one data to transfer";
+        this.alertService.info(msg);
       }
+      //this.unmappedEmployeeList = this.unmappedEmployeeList.concat(data);
     } else {
-      let msg = "Please select the employee";
-      this.alertService.info(msg);
+      this.select = this.filtermappedEmployeeList;
     }
     // if (this.mappedEmployeeList.length > 0) {
     //   let data: any = this.mappedEmployeeList.filter((item) => item.isSelect == true);

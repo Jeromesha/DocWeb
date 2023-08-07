@@ -21,11 +21,11 @@ export class MappingServices {
         });
     }
     getById(id: number, refresh: boolean) {
-        return this.dataService.getData('/api/projectemployee/' + id, refresh);
+        return this.dataService.getData('/api/projectemployee/details/' + id, refresh);
     }
     savemapping(result: any) {
         debugger
-        return this.dataService.post('/api/projectemployee', result).map(response => {
+        return this.dataService.post('/api/projectemployee/projectemployeemapping', result).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });
