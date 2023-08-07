@@ -12,7 +12,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 
 
 import * as moment from 'moment';
-import { add } from 'lodash';
+import { add, result } from 'lodash';
 
 
 @Component({
@@ -52,6 +52,8 @@ export class TimesheetComponent implements OnInit {
   SaveTimesheet: any[];
   isLeave: boolean = true;
   SortList: any;
+  projecttypelist: any;
+  filterprojecttypelist: any;
 
 
 
@@ -87,17 +89,20 @@ export class TimesheetComponent implements OnInit {
   ngOnInit() {
     this.initializeValidators();
     this.Getproject();
+    this.GetTaskType();
     this.get(true);
+    this.form.controls["entryDate"].setValue(new Date);
   }
 
   initializeValidators() {
     this.form = this.formBuilder.group({
       id: [0],
       description: [''],
-      hours: [null],
+      hours: [moment().startOf('day').add(8, 'hours').toDate()],
       IsLeave: [2, [Validators.required]],
       entryDate: ['', [Validators.required]],
       EmployeeId: [0],
+      taskType:[null],
       projectId: [null],
       timeIn: [null],
       timeOut: [null],
@@ -112,6 +117,7 @@ export class TimesheetComponent implements OnInit {
 
   }
   timeChange() {
+    const selectedTime = moment(this.form.value.hours, 'HH:mm');
     console.log((this.form.value.hours).format('HH:mm'));
     
     console.log(parseInt(moment(this.form.value.hours).format('HH:mm')));
@@ -138,6 +144,13 @@ export class TimesheetComponent implements OnInit {
     });
   }
 
+  GetTaskType()
+{
+  this.timesheetService.getLookup(13,true).subscribe(result =>{
+    this.projecttypelist = result;
+    this.filterprojecttypelist = this.projecttypelist;
+  })
+}
   get(refresh: boolean) {
     debugger
     if (this.id > 0) {
@@ -225,6 +238,7 @@ export class TimesheetComponent implements OnInit {
           description:this.form.value.description,
           projectId:this.form.value.IsLeave == 1 ? 0: this.form.value.projectId,
           taskId:0,
+          taskType:this.form.value.taskType,
           employeeId:this.userSessionService.userId(),
           isLeave:this.form.value.IsLeave == 1 ? true : false,
           // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)

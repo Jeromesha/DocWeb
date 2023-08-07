@@ -82,7 +82,7 @@ export class WeeklytimesheetaprovelComponent implements OnInit {
 
   getprojectdetailsdata(){
     debugger;
-    this.projectdetailsservice.getdata(true).subscribe((result) =>{
+    this.projectdetailsservice.getunapproveddata(this.id, this.actionInfo).subscribe((result) =>{
       console.log("}}}?",result)
       this.loading = false;
       this.data = result;
