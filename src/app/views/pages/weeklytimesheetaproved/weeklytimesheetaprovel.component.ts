@@ -165,13 +165,13 @@ export class WeeklytimesheetaprovelComponent implements OnInit {
 
   approve() {
     console.log(">:",this.approvelid);
-    // var projectdata = 
-    //  { 
-    //   id:this.id,
-    // }
+    var data = 
+     { 
+      id:this.approvelid,
+    }
     // if () {
       debugger
-      this.projectdetailsservice.Approve(this.approvelid).subscribe(result => {
+      this.projectdetailsservice.Approve(data).subscribe(result => {
         const msg1 = this.translate.instant('Savedsuccessfully');
         const msg2 = this.translate.instant('Updatedsuccessfully');
         const msg3 = this.translate.instant('Region');
