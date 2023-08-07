@@ -16,6 +16,10 @@ export class ProjectdetailsService {
     return this.dataService.post('/api/project', result)
 }
 
+Approve(result: any) {
+  return this.dataService.post('api/timesheet/updatetimesheet', result)
+}
+
 getById(id: number, refresh: boolean) {
     debugger;
     return this.dataService.getData('/api/project/' + id, refresh);
@@ -41,6 +45,10 @@ getProjectStatus(refresh:boolean){
 
 getdata(refresh:boolean){
   return this.dataService.getData('/api/project', refresh);
+}
+
+getunapproveddata(projectid: any, employeeid: any){
+  return this.dataService.getData('/timesheetbytimsheetid/' + projectid + '/' + employeeid, true);
 }
 
 }

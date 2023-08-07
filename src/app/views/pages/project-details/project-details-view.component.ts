@@ -115,6 +115,15 @@ export class ProjectDetailsViewComponent implements OnInit {
     }else{
       this.isDisable = false;
     }
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'key',
+      textField: 'value',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true
+    };
+
   }
 
   initializeValidators() {
