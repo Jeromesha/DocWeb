@@ -83,6 +83,27 @@
 
                                         <div class="col-md-6" *ngIf="isLeave">
                                             <div class="form-group">
+                                                <label class="mandatory ">{{'Task Type' | translate}}</label>
+                                                <mat-select [disabled]="actionInfo == 1" placeholder="Task Type"
+                                                    (selectionChange)="sortingChange($event)"
+                                                    formControlName="taskType" class="form-control pt-2">
+                                                    <mat-select-filter [displayMember]="'value'"
+                                                        [array]="projecttypelist"
+                                                        (filteredReturn)="filterprojecttypelist =$event">
+                                                    </mat-select-filter>
+                                                    <mat-option *ngFor="let item of filterprojecttypelist" [value]="item.key">
+                                                        {{item.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <span class="form-text text-muted danger mandatory"
+                                                    *ngIf="!form.get('taskType').valid && (form.get('taskType').dirty || form.get('taskType').touched)">
+                                                    {{'Task Type' | translate}} {{'IsRequired' | translate}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" *ngIf="isLeave">
+                                            <div class="form-group">
                                                 <label class="mandatory">{{'Hours' | translate}}
                                                 </label>
                                                 <input class="form-control" formControlName="hours"
