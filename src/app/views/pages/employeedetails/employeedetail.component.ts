@@ -46,6 +46,9 @@ export class EmployeedetailComponent implements OnInit {
   -----END PUBLIC KEY-----`;
   date: Date;
   disab: boolean;
+  hybridLocationList: any[];
+  filterHybridlocationList: any[];
+  dropdownSettings:{};
 
   
   constructor(private route: ActivatedRoute,
@@ -94,6 +97,14 @@ export class EmployeedetailComponent implements OnInit {
       this.getEmpDetails();
       this.disab=true;
     }
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'key',
+      textField: 'value',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true
+    };
 
   }
 
@@ -106,8 +117,10 @@ export class EmployeedetailComponent implements OnInit {
       'roleId': ['', Validators.required],
       'mobile': ['', Validators.required],
       'email': ['', Validators.required],
-      'svnUserName': ['', Validators.required],
-      'svnPassword': ['', Validators.required],
+      // 'svnUserName': ['', Validators.required],
+      'hybridLocationId': ['', Validators.required],
+      'actualDob':[''],
+      'secLelreportingPersonId':[''],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
       'marriageDate': [''],
@@ -169,6 +182,14 @@ export class EmployeedetailComponent implements OnInit {
     })
   }
 
+  getHybridLocation(){
+    this.empDetailsService.getHybridProject(true,7).subscribe((res) => {
+      this.hybridLocationList = [];
+      this.filterHybridlocationList = [];
+      this.hybridLocationList = res;
+      this.filterHybridlocationList = this.filterHybridlocationList.slice();
+    })
+  }
 
   designationLookup(){
     this.empDetailsService.getDesignationList(true).subscribe((res)=>{
@@ -193,7 +214,9 @@ export class EmployeedetailComponent implements OnInit {
     this.navigationService.gotoEmployee();
 
   }
+  changeOptions(event){
 
+  }
   onSubmit() {
     
     let obj=this.designationList.filter(x=>x.key==this.form.value.designationTypeId)
