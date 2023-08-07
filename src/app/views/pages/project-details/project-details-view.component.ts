@@ -63,6 +63,8 @@ export class ProjectDetailsViewComponent implements OnInit {
   filterprojectleadlist: any;
   projectleadlist: any;
   isdisable: boolean;
+  natureofprojectlist: any;
+  filternatureofprojectlist: any;
 
 
 
@@ -107,6 +109,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.getprojectLead();
     this.gettechnologytype();
     this.getProjectStatus();
+    this.getNatureoftheproject();
     this.get(true);
     this.maxDate = new Date();
     this.scheduledEndmax = new Date();
@@ -136,9 +139,10 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectTypeId: ["",Validators.required],
       technologyTypeId: [null, Validators.required],
       repositoryName: [null, Validators.required],
+      natureofproject:[null],
       repositoryUrl: [null, Validators.required],
       startDate: [null, Validators.required],
-      endDate: [null, Validators.required],
+      endDate: [null],
       projectStatusId: [null, Validators.required],
       projectLeadId: [null, Validators.required]
     });
@@ -244,6 +248,14 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(10,true).subscribe(result =>{
       this.ProjectStatuslist = result;
       this.filterprojectstatuslist = this.ProjectStatuslist;
+    })
+  }
+
+  getNatureoftheproject(){
+    debugger;
+    this.projectdetailsservice.getLookup(14,true).subscribe(result =>{
+      this.natureofprojectlist = result;
+      this.filternatureofprojectlist = this.natureofprojectlist;
     })
   }
 

@@ -29,6 +29,8 @@ import { TimeSheetService } from "src/app/services/timesheet.service";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ProjectDetailsViewComponent } from './project-details-view.component';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 const routes: Routes = [
   {
@@ -78,6 +80,7 @@ const routes: Routes = [
     PlotlyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ]
 })
 export class ProjectDetailsModule { }
