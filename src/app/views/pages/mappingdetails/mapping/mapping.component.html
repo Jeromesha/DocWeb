@@ -58,13 +58,12 @@
                                         <section class="example-section selectall">
                                             <mat-checkbox class="btn-block" formControlName="firstListDatas"
                                                 labelPosition="before" (change)="selectAllTransfer($event)">Select All
-                                                Employees
                                             </mat-checkbox>
                                         </section>
                                         <mat-form-field class="col-12">
                                             <input type="text" [(ngModel)]="searchText1"
-                                                (keyup)="applyFilterUnmapped($event)" placeholder="Search..."
-                                                [ngModelOptions]="{standalone: true}" matInput>
+                                                (keyup)="applyFilterSearch1($event)" placeholder="Search..."
+                                                [ngModelOptions]="{standalone: true}" matInput #searchInput1>
                                         </mat-form-field>
                                         <mat-selection-list #list formControlName="unmappedEmployeeIds"
                                             [(ngModel)]="select" class="border"
@@ -88,13 +87,13 @@
                                         <section class="example-section selectall">
                                             <mat-checkbox class="btn-block" formControlName="secondListDatas"
                                                 [(ngModel)]="isSelectAllRemoveTransfer" labelPosition="before"
-                                                (change)="selectAllRemoveTransfer($event)">Select All Employees
+                                                (change)="selectAllRemoveTransfer($event)">Select All
                                             </mat-checkbox>
                                         </section>
                                         <mat-form-field class="col-12">
                                             <input type="text" [(ngModel)]="searchText2"
-                                                (keyup)="applyFilterMapped($event)" placeholder="Search..."
-                                                [ngModelOptions]="{standalone: true}" matInput>
+                                                (keyup)="applyFilterSearch2($event)" placeholder="Search..."
+                                                [ngModelOptions]="{standalone: true}" matInput #searchInput2>
                                         </mat-form-field>
                                         <mat-selection-list #list formControlName="mappedEmployeeIds"
                                             [(ngModel)]="selected" class="border"
@@ -125,38 +124,21 @@
                             </div>
                         </form>
                     </div>
-                    <div *ngIf="actionInfo == 1 ">
+                    <div [ngClass]="actionInfo == 1?'show':'hide' ">
                         <div class="card">
                             <div class="card-content">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-3">
-                                            <p>Project Name : <span color="primary">{{viewdata.projectName}}</span></p>
+                                            <p>Project Name : <span color="primary">{{viewdata?.projectName}}</span></p>
                                         </div>
                                         <div class="col-6">
-                                            <p>Repository : {{viewdata.repository}}</p>
+                                            <p>Repository : {{viewdata?.repository}}</p>
                                         </div>
                                         <div class="col-3">
-                                            <p>No Of Employees : {{viewdata.noOfEmployees}}</p>
+                                            <p>No Of Employees : {{viewdata?.noOfEmployees}}</p>
                                         </div>
                                     </div>
-
-                                    <!-- <tr>
-                                            <td>Project Name :</td>
-                                            <td>{{viewdata.projectName}}</td>
-                                        </tr> -->
-                                    <!-- <div class="row">
-                                        <tr>
-                                            <td>Repository :</td>
-                                            <td>{{viewdata.repository}}</td>
-                                        </tr>
-                                    </div>
-                                    <div class="row">
-                                        <tr>
-                                            <td>No Of Employees :</td>
-                                            <td>{{viewdata.noOfEmployees}}</td>
-                                        </tr>
-                                    </div> -->
                                 </div>
                             </div>
                         </div><br><br>
@@ -207,17 +189,6 @@
                         <mat-paginator #paginator [length]="dataSource!=null && dataSource.filteredData.length"
                             [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]">
                         </mat-paginator><br>
-                        <!-- <h4>Project Name :</h4>
-                        <h5>{{this.viewdata.projectName}}</h5>
-                        <br><br>
-                        <h4>Employees</h4>
-                        <div>
-                            <ul *ngFor="let item of viewdata.projectEmployees">
-                                <tr>
-                                    <td>{{item.employeeName}}</td>
-                                </tr>
-                            </ul>
-                        </div> -->
                         <div class="form-actions mb-2 mt-3" style="float:right;">
                             <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel" (click)="onCancel()">
                                 <i class="fa fa-close"></i>
