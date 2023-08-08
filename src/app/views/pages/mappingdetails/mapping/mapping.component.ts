@@ -25,11 +25,12 @@ export class MappingComponent implements OnInit {
   pattern: any;
   data = [];
   dataSource = new MatTableDataSource(this.data);
-  unmapped = new MatTableDataSource();
-  mapped = new MatTableDataSource();
+  //unmapped = new MatTableDataSource();
+  //mapped = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
+
   emailpattern: any;
   projectSortList: any[] = [];
   employeeSortList: any[] = [];
@@ -58,6 +59,8 @@ export class MappingComponent implements OnInit {
     "Phone Number",
     "Email"
   ];
+  selectedmappedlist: any;
+  selectedunmappedlist: any;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -94,8 +97,8 @@ export class MappingComponent implements OnInit {
     this.getEditdata();
     this.getViewdata()
     console.log('Ajith');
-    this.unmapped = new MatTableDataSource(this.filtermappedEmployeeList);
-    this.mapped = new MatTableDataSource(this.filtermappedEmployeeList);
+    //this.unmapped = new MatTableDataSource(this.filtermappedEmployeeList);
+    //this.mapped = new MatTableDataSource(this.filtermappedEmployeeList);
 
   }
 
@@ -156,8 +159,8 @@ export class MappingComponent implements OnInit {
     const projectemployeeData =
     {
       "projectId": this.form.value.projectId,
-      "unmappedEmployees": this.filterunmappedEmployeeList.map(pair => pair.key),
-      "mappedEmployees": this.filtermappedEmployeeList.map(pair => pair.key)
+      "unmappedEmployees": this.selectedunmappedlist.map(pair => pair.key),
+      "mappedEmployees": this.selectedmappedlist.map(pair => pair.key)
     }
     debugger;
     console.log(projectemployeeData);
@@ -229,28 +232,29 @@ export class MappingComponent implements OnInit {
   getMappedEmployees(id: number) {
     this.mappingservice.GetLookupById(11, id).subscribe(result => {
       this.mappedEmployeeList = result;
+      this.selectedmappedlist = this.mappedEmployeeList.slice();
       this.filtermappedEmployeeList = this.mappedEmployeeList.slice();
     });
   }
   getUnmappedEmployees(id: number) {
     this.mappingservice.GetLookupById(12, id).subscribe(result => {
       this.unmappedEmployeeList = result;
+      this.selectedunmappedlist = this.unmappedEmployeeList.slice();
       this.filterunmappedEmployeeList = this.unmappedEmployeeList.slice();
     });
   }
-  //applyFilter() {
-  // debugger;
-  // if (this.searchText1 != "") {
-  //   this.filterunmappedEmployeeList = this.unmappedEmployeeList.filter((item) =>
-  //     item.value.toLowerCase().includes(this.searchText1.toLowerCase())
-  //   );
-  // }
-  // if (this.searchText2 != "") {
-  //   this.filtermappedEmployeeList = this.mappedEmployeeList.filter((item) =>
-  //     item.value.toLowerCase().includes(this.searchText2.toLowerCase())
-  //   );
-  // }
-  //}
+  applyFilterSearch1(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filterunmappedEmployeeList = this.unmappedEmployeeList.filter((item) =>
+      item.value.toLowerCase().includes(filterValue.toLowerCase())
+    );
+  }
+  applyFilterSearch2(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filtermappedEmployeeList = this.mappedEmployeeList.filter((item) =>
+      item.value.toLowerCase().includes(filterValue.toLowerCase())
+    );
+  }
   getProject() {
     debugger
     this.mappingservice.GetLookup(1).subscribe(result => {
@@ -269,22 +273,6 @@ export class MappingComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  applyFilterUnmapped(event: Event) {
-    debugger;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filterunmappedEmployeeList.value.filter = filterValue.trim().toLowerCase();
-    // if (this.filtermappedEmployeeList.paginator) {
-    //   this.filtermappedEmployeeList.paginator.firstPage();
-    // }
-  }
-  applyFilterMapped(event: Event) {
-    debugger;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filtermappedEmployeeList.value.filter = filterValue.trim().toLowerCase();
-    // if (this.filtermappedEmployeeList.paginator) {
-    //   this.filtermappedEmployeeList.paginator.firstPage();
-    // }
-  }
 
 
   moveToTransfer() {
@@ -292,12 +280,17 @@ export class MappingComponent implements OnInit {
       let data = this.filterunmappedEmployeeList.filter((item) => item.isSelect == true);
       if (data.length > 0) {
         data.forEach(element => {
-          element.disabled = false
+          element.disabled = false;
+          this.selectedunmappedlist = this.selectedunmappedlist.filter(x => x.key != element.key);
         });
         debugger
-        // this.mappedEmployeeList.forEach((e) => { e.disabled = e.isSelect == true ? false : true; });
+        this.unmappedEmployeeList = this.selectedunmappedlist;
         this.filtermappedEmployeeList = data.concat(this.filtermappedEmployeeList);
-
+        //data.forEach(element => {
+        this.selectedmappedlist = data.concat(this.selectedmappedlist);//this.selectedmappedlist.filter(x => x.key != element.key);
+        //});
+        // this.selectedmappedlist = this.selectedmappedlist.filter(x => x.key == data.key);
+        this.mappedEmployeeList = this.selectedmappedlist;
         this.filterunmappedEmployeeList = this.filterunmappedEmployeeList.filter((item) => item.isSelect !== true);
         this.isSelectAllTransfer = false;
         this.filtermappedEmployeeList.forEach((e) => { e.isSelect = false; });
@@ -305,24 +298,26 @@ export class MappingComponent implements OnInit {
         let msg = "Please select atleast one data to transfer";
         this.alertService.info(msg);
       }
-      //this.mappedEmployeeList = this.mappedEmployeeList.concat(data);
     } else {
       this.select = this.filterunmappedEmployeeList;
     }
   }
 
   removedToTransfer() {
-    debugger
     if (this.filtermappedEmployeeList.length > 0) {
       let data = this.filtermappedEmployeeList.filter((item) => item.isSelect == true);
       if (data.length > 0) {
         data.forEach(element => {
-          element.disabled = false
+          element.disabled = false;
+          this.selectedmappedlist = this.selectedmappedlist.filter(x => x.key != element.key);
         });
         debugger
-        // this.mappedEmployeeList.forEach((e) => { e.disabled = e.isSelect == true ? false : true; });
+        this.mappedEmployeeList = this.selectedmappedlist;
         this.filterunmappedEmployeeList = data.concat(this.filterunmappedEmployeeList);
-
+        //data.forEach(element => {
+        this.selectedunmappedlist = data.concat(this.selectedunmappedlist);//this.selectedunmappedlist.filter(x => x.key != element.key);
+        // });
+        this.unmappedEmployeeList = this.selectedunmappedlist;
         this.filtermappedEmployeeList = this.filtermappedEmployeeList.filter((item) => item.isSelect !== true);
         this.isSelectAllRemoveTransfer = false;
         this.filterunmappedEmployeeList.forEach((e) => { e.isSelect = false; });
@@ -330,31 +325,9 @@ export class MappingComponent implements OnInit {
         let msg = "Please select atleast one data to transfer";
         this.alertService.info(msg);
       }
-      //this.unmappedEmployeeList = this.unmappedEmployeeList.concat(data);
     } else {
       this.select = this.filtermappedEmployeeList;
     }
-    // if (this.mappedEmployeeList.length > 0) {
-    //   let data: any = this.mappedEmployeeList.filter((item) => item.isSelect == true);
-    //   this.mappedEmployeeList = this.mappedEmployeeList.filter((item) => item.isSelect == false);
-    //   data.forEach(e => { e.isSelect = true; });
-    //   this.unmappedEmployeeList = data.concat(this.unmappedEmployeeList);
-    //   this.mappedEmployeeList = this.mappedEmployeeList.filter((item) => item.isSelect == false);
-    //   if (data.length > 0) {
-    //     // this.mappedEmployeeList.splice(data,1);
-    //     data.forEach(e => { e.isSelect = false; });
-
-    //   } else {
-    //     let msg = "Please select atleast one data to transfer";
-    //     this.alertService.info(msg);
-    //   }
-
-    //   this.isSelectAllRemoveTransfer = false;
-    // } else {
-    //   this.totalAmount = 0;
-    //   let msg = "Please select atleast one data to transfer";
-    //   this.alertService.info(msg);
-    // }
   }
   selectAllTransfer(event) {
     debugger
