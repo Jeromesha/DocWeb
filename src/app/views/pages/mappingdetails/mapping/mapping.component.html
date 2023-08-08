@@ -57,7 +57,8 @@
                                     <div class="col-md-5">
                                         <section class="example-section selectall">
                                             <mat-checkbox class="btn-block" formControlName="firstListDatas"
-                                                labelPosition="before" (change)="selectAllTransfer($event)">Select All
+                                                [(ngModel)]="isSelectAllTransfer" labelPosition="before"
+                                                (change)="selectAllTransfer($event)">Select All
                                             </mat-checkbox>
                                         </section>
                                         <mat-form-field class="col-12">
