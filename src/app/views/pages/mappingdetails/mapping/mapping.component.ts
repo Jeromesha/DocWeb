@@ -122,7 +122,6 @@ export class MappingComponent implements OnInit {
   }
 
   sortingChange(event) {
-    debugger;
     if (event.value != null) {
       this.showdescription = true;
     }
@@ -162,11 +161,7 @@ export class MappingComponent implements OnInit {
       "unmappedEmployees": this.selectedunmappedlist.map(pair => pair.key),
       "mappedEmployees": this.selectedmappedlist.map(pair => pair.key)
     }
-    debugger;
-    console.log(projectemployeeData);
-
     if (this.form.valid) {
-      debugger
       this.mappingservice.savemapping(projectemployeeData).subscribe(result => {
         if (result && result.isSuccess) {
           this._location.back();
@@ -198,8 +193,6 @@ export class MappingComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.viewdata.employees);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        console.log(">>>?", this.dataSource);
-
       });
       // this.viewdata = {
       //   projectName: 'Test',
@@ -256,7 +249,6 @@ export class MappingComponent implements OnInit {
     );
   }
   getProject() {
-    debugger
     this.mappingservice.GetLookup(1).subscribe(result => {
       this.projectSortList = result;
       this.filterprojectSortList = this.projectSortList.slice();
@@ -283,7 +275,6 @@ export class MappingComponent implements OnInit {
           element.disabled = false;
           this.selectedunmappedlist = this.selectedunmappedlist.filter(x => x.key != element.key);
         });
-        debugger
         this.unmappedEmployeeList = this.selectedunmappedlist;
         this.filtermappedEmployeeList = data.concat(this.filtermappedEmployeeList);
         //data.forEach(element => {
@@ -311,7 +302,6 @@ export class MappingComponent implements OnInit {
           element.disabled = false;
           this.selectedmappedlist = this.selectedmappedlist.filter(x => x.key != element.key);
         });
-        debugger
         this.mappedEmployeeList = this.selectedmappedlist;
         this.filterunmappedEmployeeList = data.concat(this.filterunmappedEmployeeList);
         //data.forEach(element => {
@@ -330,7 +320,6 @@ export class MappingComponent implements OnInit {
     }
   }
   selectAllTransfer(event) {
-    debugger
     if (event.checked) {
       this.isSelectAllTransfer = true;
       this.select = this.filterunmappedEmployeeList;
@@ -346,7 +335,6 @@ export class MappingComponent implements OnInit {
     }
   }
   selectAllRemoveTransfer(event) {
-    debugger
     if (event.checked) {
       this.isSelectAllRemoveTransfer = true;
       this.selected = this.filtermappedEmployeeList;
@@ -369,6 +357,7 @@ export class MappingComponent implements OnInit {
       this.isSelectAllTransfer = false;
     } else {
       array.isSelect = true;
+      this.isSelectAllRemoveTransfer = false;
     }
   }
 }
