@@ -32,12 +32,16 @@ export class WeeklytimesheetaprovelComponent implements OnInit {
   UserId: any;
   displayedColumns: string[] = [
     "action",
-    "clintid",
-    "projectname",
+    "entryDate",
+    "hours",
+    "description",
+    "employeeId",
+    "isLeave",
   ];
 
   public excelColumns: string[];
   approvelid: any [] = [];
+  approvedStatusid: any[] =[];
 
   constructor(
     public navigationService: NavigationService,
@@ -109,18 +113,18 @@ export class WeeklytimesheetaprovelComponent implements OnInit {
       }
 
       this.excelColumns = [
-        "S.No",
-        "clintid",
-        "projectname",
-        "projecttype",
-        "projectlead",
-        "Technologytype",
-        "Repositoryname",
-        "Repositoryurl",
-        "ScheduledStart",
-        "ScheduledEnd",
-        "projectstatus",
-        "action"
+        // "S.No",
+        "entryDate",
+        "hours",
+        "description",
+        "employeeId",
+        "isLeave",
+        // "Repositoryname",
+        // "Repositoryurl",
+        // "ScheduledStart",
+        // "ScheduledEnd",
+        // "projectstatus",
+        // "action"
       ];
 
      
@@ -158,9 +162,10 @@ export class WeeklytimesheetaprovelComponent implements OnInit {
     this._location.back();
   }
 
-  isActive(id){
+  isActive(id,approvedStatusType){
     debugger;
     this.approvelid.push(id) ;
+    this.approvedStatusid.push(approvedStatusType);
   }
 
   approve() {
@@ -168,6 +173,7 @@ export class WeeklytimesheetaprovelComponent implements OnInit {
     var data = 
      { 
       id:this.approvelid,
+      approvedStatusTypeid: this.approvedStatusid,
     }
     // if () {
       debugger
