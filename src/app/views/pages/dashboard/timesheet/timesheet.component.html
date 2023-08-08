@@ -86,7 +86,7 @@
                                                 <label class="mandatory ">{{'Task Type' | translate}}</label>
                                                 <mat-select [disabled]="actionInfo == 1" placeholder="Task Type"
                                                     (selectionChange)="sortingChange($event)"
-                                                    formControlName="taskType" class="form-control pt-2">
+                                                    formControlName="taskTypeId" class="form-control pt-2">
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="projecttypelist"
                                                         (filteredReturn)="filterprojecttypelist =$event">
@@ -96,7 +96,7 @@
                                                     </mat-option>
                                                 </mat-select>
                                                 <span class="form-text text-muted danger mandatory"
-                                                    *ngIf="!form.get('taskType').valid && (form.get('taskType').dirty || form.get('taskType').touched)">
+                                                    *ngIf="!form.get('taskTypeId').valid && (form.get('taskTypeId').dirty || form.get('taskTypeId').touched)">
                                                     {{'Task Type' | translate}} {{'IsRequired' | translate}}
                                                 </span>
                                             </div>
@@ -157,9 +157,9 @@
                                             </div>
                                         </div>
                                     </div> -->
-                                    </div>
+                                    <!-- </div>
 
-                                    <div class="row">
+                                    <div class="row"> -->
 
 
                                         <div class="col-md-6" *ngIf="this.showdescription==true">

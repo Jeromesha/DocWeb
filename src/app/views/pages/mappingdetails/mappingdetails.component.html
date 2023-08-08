@@ -37,11 +37,11 @@
         <ng-container matColumnDef="Employees">
             <mat-header-cell *matHeaderCellDef mat-sort-header="Employees">{{'Employees' | translate}}
             </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
+            <mat-cell *matCellDef="let dataField" align="center">
                 <ul *ngFor="let emp of dataField.projectEmployees">
                     <tr>
                         <td>
-                            <p class="text-truncate txtalign lbl-pointer pt-1">{{emp.employeeName}}
+                            <p class="text-truncate txtalign lbl-pointer">{{emp.employeeName}}
                             </p>
 
                         </td>

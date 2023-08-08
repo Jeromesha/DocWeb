@@ -41,7 +41,7 @@ export class MappingdetailsComponent implements OnInit {
 
     this.UserId = this.usersessionService.userId();
     this.getMappingDetail(this.UserId);
-    //this.getRedistrationData();
+    this.refresh();
   }
 
   refresh() {
