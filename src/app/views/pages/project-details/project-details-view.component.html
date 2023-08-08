@@ -123,11 +123,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                           <label class="mandatory">{{"Technologytype"|translate}}</label>
-                                          <ng-multiselect-dropdown formControlName="technologyTypeId" placeholder="Select Technology"
+                                          <ng-multiselect-dropdown  [disabled]="this.actionInfo == 1" formControlName="technologyTypeId" placeholder="Select Technology"
                                             [settings]="dropdownSettings" [data]='filtertechnologytypelist'>
                                           </ng-multiselect-dropdown>
                 
-                                          <small class="form-text  danger mandatory"
+                                          <small class="form-text  danger "
                                             *ngIf="!form.get('technologyTypeId').valid && (form.get('technologyTypeId').dirty || form.get('technologyTypeId').touched)">
                                            
                                           </small>

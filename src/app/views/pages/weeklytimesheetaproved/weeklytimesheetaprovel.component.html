@@ -29,45 +29,45 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
-        <ng-container matColumnDef="clintid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="clientName">{{'client Id' |
+        <ng-container matColumnDef="entryDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Entry Date' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.clientName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.entryDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="projectname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectName">{{'Project Name' | translate}}
+        <ng-container matColumnDef="hours">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.hours}}</p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="projecttype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectTypeName">{{'Project Type' | translate}}
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="description">{{'Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectTypeName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Technologytype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="technologyTypeName">{{'Technology Type' | translate}}
+        <ng-container matColumnDef="employeeId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="employeeId">{{'Employee Id' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.technologyTypeName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.employeeId}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Repositoryname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryName">{{'Repository Name' | translate}}
+        <ng-container matColumnDef="isLeave">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="isLeave">{{'Repository Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.isLeave == true ? "Yes": "No"}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Repositoryurl">
+        <!-- <ng-container matColumnDef="Repositoryurl">
             <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryUrl">{{'Repository Url' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
@@ -94,7 +94,7 @@
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
-        </ng-container>
+        </ng-container> -->
         <!-- <ng-container matColumnDef="projectlead">
             <mat-header-cell *matHeaderCellDef mat-sort-header="projectStatusName">{{'Project Leader Name' | translate}}
             </mat-header-cell>
@@ -106,7 +106,7 @@
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar">
                 <mat-checkbox class="form-check-label cursor-pointer checkboxL"
-                formControlName="fillTimesheet" (click)="isActive(dataField.id)" >
+                formControlName="fillTimesheet" (click)="isActive(dataField.id,dataField.approvedStatusType)" >
             </mat-checkbox>
             </mat-cell>
         </ng-container>
