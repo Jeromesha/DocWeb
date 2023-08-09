@@ -314,17 +314,18 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
-      SecondryleadId:this.form.value.SecondryleadId,
-      technologyTypeId: technologyTypeId,
+      secondaryLeadId:this.form.value.SecondryleadId,
+      technologyType: technologyTypeId,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
       startDate: this.form.value.startDate,
       endDate: this.form.value.endDate,
-      projectStatusId: this.form.value.projectStatusId,
+      projectStatus: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId,
-      natureofproject: this.form.value.natureofproject
+      natureOfProjectType: this.form.value.natureofproject
 
     }
+    
 
     if (this.form.valid) {
       debugger
