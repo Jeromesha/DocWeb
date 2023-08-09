@@ -27,7 +27,7 @@
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
         <ng-container matColumnDef="EntryDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="EntryDate">{{'EntryDate'|translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'EntryDate'|translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.entryDate |date:'dd-MM-yyyy'}}</p>
@@ -35,7 +35,7 @@
         </ng-container>
 
         <ng-container matColumnDef="Hours">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Hours">{{'Hours' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.hours}}</p>
@@ -43,14 +43,14 @@
         </ng-container>
 
         <ng-container matColumnDef="Description">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Description">{{'Task Description' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="description">{{'Task Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Project">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Project">{{'Project Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{'Project Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
@@ -74,12 +74,12 @@
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" style="display: flex;justify-content: center;">
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
-                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                (click)="goToAction(dataField.id, 0)">
-                <i class="fa fa-pencil-square-o fa-2x editclr"></i>
-                <!-- <i class="btn-icon-prepend fa fa-edit"></i> -->
-                <!-- <img src="../../../../../assets/images/editicon.png" style="width: 25px;"> -->
-              </button>
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
+                    (click)="goToAction(dataField.id, 0)">
+                    <i class="fa fa-pencil-square-o fa-2x editclr"></i>
+                    <!-- <i class="btn-icon-prepend fa fa-edit"></i> -->
+                    <!-- <img src="../../../../../assets/images/editicon.png" style="width: 25px;"> -->
+                </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
                     (click)="goToAction(dataField.id,1)">

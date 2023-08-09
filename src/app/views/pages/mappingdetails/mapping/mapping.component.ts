@@ -161,7 +161,10 @@ export class MappingComponent implements OnInit {
       "unmappedEmployees": this.selectedunmappedlist.map(pair => pair.key),
       "mappedEmployees": this.selectedmappedlist.map(pair => pair.key)
     }
-    if (this.form.valid) {
+    if (!(this.selectedmappedlist.length >= 1)) {
+      this.alertService.warning("Please select atleast one employee to map");
+    }
+    else if (this.form.valid) {
       this.mappingservice.savemapping(projectemployeeData).subscribe(result => {
         if (result && result.isSuccess) {
           this._location.back();
