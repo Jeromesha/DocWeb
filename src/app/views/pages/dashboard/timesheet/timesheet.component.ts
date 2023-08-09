@@ -107,7 +107,7 @@ export class TimesheetComponent implements OnInit {
       IsLeave: [2, [Validators.required]],
       entryDate: ['', [Validators.required]],
       EmployeeId: [0],
-      taskTypeId: [null],
+      taskTypeId: ['', Validators.required],
       projectId: [null],
       timeIn: [null],
       timeOut: [null],
