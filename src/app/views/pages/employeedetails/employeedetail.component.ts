@@ -273,7 +273,7 @@ export class EmployeedetailComponent implements OnInit {
       // this.form.controls['strpassword'].setValue(encryptedPassword)
  
       var data = this.form.value;
-      data.password = '';
+      data.password = null;
       data.projectId = projectId,
         data.employeeProfileStream = '';
         data.isFirstLogin = true,
