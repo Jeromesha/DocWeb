@@ -30,15 +30,15 @@ export class TimeSheetService {
     gettimesheetById(id: number, refresh: boolean) {
         return this.dataService.getData('/api/timesheet/timesheetbytimsheetid/' + id, refresh);
     }
-    getTimesheet(id: number, refresh: boolean){
+    getTimesheet(id: number, refresh: boolean) {
         return this.dataService.getData('/api/timesheet/timesheetsbyid/' + id, refresh);
     }
     getproject() {
         return this.dataService.getData('/api/lookup/3', true);
     }
-    getLookup(moduletype: number, refresh:boolean){
+    getLookup(moduletype: number, refresh: boolean) {
         return this.dataService.getData('/api/lookup/' + moduletype, refresh);
-      }
+    }
 
     savetimsheet(result: any) {
         debugger
@@ -46,6 +46,9 @@ export class TimeSheetService {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });
+    }
+    getDefaultProject() {
+        return this.dataService.getData('/api/timesheet/getdefaultprojectid', true);
     }
 
 }

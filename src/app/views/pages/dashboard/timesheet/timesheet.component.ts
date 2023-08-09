@@ -55,6 +55,7 @@ export class TimesheetComponent implements OnInit {
   SortList: any;
   projecttypelist: any;
   filterprojecttypelist: any = [];
+  defaultProject: any;
   mindate: Date;
   maxdate: Date;
 
@@ -94,6 +95,7 @@ export class TimesheetComponent implements OnInit {
   ngOnInit() {
     this.initializeValidators();
     this.Getproject();
+    this.GetdefaultProject();
     this.GetTaskType();
     this.get(true);
     this.form.controls["entryDate"].setValue(new Date);
@@ -146,6 +148,12 @@ export class TimesheetComponent implements OnInit {
       console.log(">>>?", result);
       this.SortList = result
       this.filterSortList = this.SortList.slice();
+    });
+  }
+  GetdefaultProject() {
+    this.timesheetService.getDefaultProject().subscribe(result => {
+      this.defaultProject = result;
+      this.form.controls["projectId"].setValue(this.defaultProject);
     });
   }
 
