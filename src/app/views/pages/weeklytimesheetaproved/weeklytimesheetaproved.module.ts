@@ -31,6 +31,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { MappingdetailServices } from 'src/app/services/mappingdetails.service';
 import { MappingServices } from 'src/app/services/mapping.service';
 
+PlotlyModule.plotlyjs = PlotlyJS;
+
 const routes: Routes = [
   {
     path: '',
