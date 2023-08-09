@@ -316,6 +316,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectStatusId: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId,
       natureofproject: this.form.value.natureofproject
+      
     }
 
     if (this.form.valid) {
