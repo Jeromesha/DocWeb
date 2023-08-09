@@ -3,7 +3,6 @@ import { Location } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "src/app/core/guard/auth.guard";
 import { BaseComponent } from "./base/base.component";
-import { TimesheetComponent } from "../pages/dashboard/timesheet/timesheet.component";
 
 const routes: Routes = [
   {
@@ -43,13 +42,13 @@ const routes: Routes = [
             (m) => m.TimesheetModule
           ),
       },
-      {
-        path: "timesheet/:id/:actionInfo",
-        loadChildren: () =>
-          import("./../../views/pages/dashboard/timesheet/timesheet.module").then(
-            (m) => m.TimesheetModule
-          ),
-      },
+      // {
+      //   path: "timesheet/:id/:actionInfo",
+      //   loadChildren: () =>
+      //     import("./../../views/pages/dashboard/timesheet/timesheet.module").then(
+      //       (m) => m.TimesheetModule
+      //     ),
+      // },
       {
         path: "projectdetails",
         loadChildren: () =>

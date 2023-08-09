@@ -70,7 +70,6 @@ export class TimesheetComponent implements OnInit {
     private translate: TranslateService) {
     this.routeParams = route.snapshot.params;
     debugger
-    this.id = JSON.parse(this.routeParams.id);
     this.id = parseInt(this.routeParams.id);
     //this.id = 0;
     debugger
