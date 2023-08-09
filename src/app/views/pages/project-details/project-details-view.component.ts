@@ -14,6 +14,7 @@ import { result } from 'lodash';
 import { timeout } from 'rxjs-compat/operator/timeout';
 import { Observable } from 'rxjs';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
+import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 
 @Component({
   selector: 'app-project-details-view',
@@ -65,6 +66,8 @@ export class ProjectDetailsViewComponent implements OnInit {
   isdisable: boolean;
   natureofprojectlist: any;
   filternatureofprojectlist: any;
+  reportingList: any[];
+  filterreportingList: any[];
 
 
 
@@ -78,6 +81,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     private translate: TranslateService,
     private timesheetService: TimeSheetService,
     private projectdetailsservice: ProjectdetailsService,
+    private empDetailsService:EmployeedetailsService,
     // private router: Router
   ) {
     this.routeParams = route.snapshot.params;
@@ -144,7 +148,9 @@ export class ProjectDetailsViewComponent implements OnInit {
       startDate: [null, Validators.required],
       endDate: [null],
       projectStatusId: [null, Validators.required],
-      projectLeadId: [null, Validators.required]
+      projectLeadId: [null, Validators.required],
+      // reportingPersonId:[null],
+      secLelreportingPersonId:[null]
     });
   }
 
@@ -250,7 +256,14 @@ export class ProjectDetailsViewComponent implements OnInit {
       this.filterprojectstatuslist = this.ProjectStatuslist;
     })
   }
-
+  reportPersonLookup() {
+    this.empDetailsService.getProject(true, 2).subscribe((res) => {
+      this.reportingList = [];
+      this.filterreportingList = [];
+      this.reportingList = res;
+      this.filterreportingList = this.reportingList.slice();
+    })
+  }
   getNatureoftheproject(){
     debugger;
     this.projectdetailsservice.getLookup(14,true).subscribe(result =>{
@@ -273,6 +286,13 @@ export class ProjectDetailsViewComponent implements OnInit {
   }
 
   onSubmit() {
+    let technologyTypeId = [];
+    const selectedPrijectList = this.form.get('technologyTypeId').value;
+    if (selectedPrijectList && selectedPrijectList.length > 0) {
+      selectedPrijectList.forEach(element => {
+        technologyTypeId.push(element.key);
+      });
+    }
     console.log(">:",this.form.value.clintid);
     debugger;
     let client=this.form.value.clientId;
@@ -283,7 +303,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
-      technologyTypeId: tech,
+      technologyTypeId: technologyTypeId,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
       startDate: this.form.value.startDate,
