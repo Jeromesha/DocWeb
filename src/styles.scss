@@ -277,7 +277,9 @@ select,
   min-height: 48% !important;
   position: static;
 }
-
+.centered-cell {
+  text-align: center; /* Horizontally center content */
+}
 .btn.btn-primary.mr-1.btnupdate {
   background-color: #3E65A6 !important;
 }

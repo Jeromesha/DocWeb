@@ -353,19 +353,7 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory">Default Project</label>
-                                            <ng-multiselect-dropdown formControlName="defaultProjectId"
-                                                placeholder="Select" [settings]="dropdownSettings" [data]='projectList'>
-                                            </ng-multiselect-dropdown>
-
-                                            <small class="form-text  danger mandatory"
-                                                *ngIf="!form.get('defaultProjectId').valid && (form.get('defaultProjectId').dirty || form.get('defaultProjectId').touched)">
-
-                                            </small>
-                                        </div>
-                                    </div> -->
+                                   
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Default Project' | translate}}</label>
@@ -382,11 +370,11 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.locationId.errors && (form.controls.locationId.dirty || form.controls.locationId.touched)"
+                                                *ngIf="form.controls.defaultProjectId.errors && (form.controls.defaultProjectId.dirty || form.controls.defaultProjectId.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.locationId.errors?.required"
+                                                <span *ngIf="form.controls.defaultProjectId.errors?.required"
                                                     class="form-text  danger mandatory">
-                                                    {{'Work Location' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Default Project' | translate}} {{'IsRequired' | translate}}</span>
 
                                             </div>
                                         </div>
@@ -467,15 +455,15 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.reportingPersonId.errors?.required"
                                                     class="form-text  danger mandatory">
-                                                    {{'Reporting Person' | translate}} {{'IsRequired'
-                                                    |translate}}</span>
+                                                    {{'Reporting Person' | translate}} {{'IsRequired' | translate}}</span>
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'Second Reporting Person' | translate}}</label>
-                                            <mat-select aria-label="true" formControlName="secLelreportingPersonId"
+                                            <label class=" ">{{'Second Reporting Person' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="secondryReportPerson"
                                                 [ngClass]="{'disable':actionInfo == 1}" class="form-control pd"
                                                 placeholder="Select Reporting Person">
                                                 <mat-select-filter [displayMember]="'value'" [array]="reportingList"
@@ -487,9 +475,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.secLelreportingPersonId.errors && (form.controls.secLelreportingPersonId.dirty || form.controls.secLelreportingPersonId.touched)"
+                                                *ngIf="form.controls.secondryReportPerson.errors && (form.controls.secondryReportPerson.dirty || form.controls.secondryReportPerson.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.secLelreportingPersonId.errors?.required"
+                                                <span *ngIf="form.controls.secondryReportPerson.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'Reporting Person' | translate}} {{'IsRequired' |
                                                     translate}}</span>
@@ -500,7 +488,7 @@
                                     <div class="col-md-6" *ngIf="!disab">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Password' | translate}}</label>
-                                            <input type="text" class="form-control " formControlName="stringPswrd"
+                                            <input type="text" class="form-control " formControlName="stringPswrd" (blur)="encrypt()"
                                                 placeholder="Password" autocomplete="off" inputText>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.stringPswrd.errors && (form.controls.stringPswrd.dirty || form.controls.stringPswrd.touched)"
@@ -535,7 +523,7 @@
                                             <mat-radio-group aria-label="Select an option"
                                                 (change)="changeOptions($event)" formControlName="fillTimesheet"
                                                 required>
-                                                <mat-radio-button value="1" [checked]="timeSheetTrue">Yes
+                                                <mat-radio-button value ="1" [checked]="timeSheetTrue">Yes
                                                 </mat-radio-button>&nbsp;
                                                 <mat-radio-button value="3" [checked]="timeSheetFalse">No
                                                 </mat-radio-button>

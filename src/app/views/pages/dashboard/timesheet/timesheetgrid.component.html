@@ -72,7 +72,7 @@
         </ng-container> -->
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
-            <mat-cell *matCellDef="let dataField" class="button-bar" style="display: flex;justify-content: center;">
+            <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
                     (click)="goToAction(dataField.id, 0)">

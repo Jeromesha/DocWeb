@@ -53,6 +53,7 @@ export class EmployeedetailComponent implements OnInit {
   timeSheetFalse: boolean = true;
   defaultProjectList: any = [];
   filterdefaultProjectList: any;
+  encryptedPassword: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -121,23 +122,20 @@ export class EmployeedetailComponent implements OnInit {
       'roleId': ['', Validators.required],
       'mobile': ['', Validators.required],
       'email': ['', Validators.required],
-      // 'svnUserName': ['', Validators.required],
-      // 'hybridLocationId': ['',],
-      'secLelreportingPersonId': ['', Validators.required],
+      'secondryReportPerson': ['',],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
       'marriageDate': [''],
-      // 'empShortName': ['', Validators.required],
       'defaultProjectId': ['', Validators.required],
       'locationId': ['', Validators.required],
       'designationTypeId': ['', Validators.required],
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
       'projectId': ['', Validators.required],
-      // 'isFirstLogin': [''],
-      'fillTimesheet': ['', Validators.required],
-      'reportingPersonId': [''],
-      'stringPswrd': ['', Validators.required]
+      'fillTimesheet': [false],
+      'reportingPersonId': ['', Validators.required],
+      'stringPswrd': ['', Validators.required],
+       
     })
   }
 
@@ -167,7 +165,8 @@ export class EmployeedetailComponent implements OnInit {
     }else{
       const index = this.filterdefaultProjectList.findIndex(selectedItem => selectedItem.key === event.key);
     if (index !== -1) {
-      this.filterdefaultProjectList.splice(index, 1);
+      this.defaultProjectList.splice(index, 1);
+      this.filterdefaultProjectList = this.defaultProjectList.slice();
     }
     }
     
@@ -219,12 +218,12 @@ export class EmployeedetailComponent implements OnInit {
       this.filterdesignationList = this.designationList.slice()
     })
   }
-  fillTimesheet(event) {
-    console.log(event.checked);
-    console.log(this.form.value.fillTimesheet);
+  // fillTimesheet(event) {
+  //   console.log(event.checked);
+  //   console.log(this.form.value.fillTimesheet);
 
-    this.checkedTickfill = event.target.checked
-  }
+  //   this.checkedTickfill = event.target.checked
+  // }
 
   isActive(event) {
     this.checkedTicktActive = event.target.checked
@@ -243,6 +242,12 @@ export class EmployeedetailComponent implements OnInit {
       this.timeSheetFalse = true;
     }
   }
+
+  encrypt()
+  {
+    var rsa = forge.pki.publicKeyFromPem(this.publicKey);
+    this.encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
+  }
   onSubmit() {
     const projectId = [];
     debugger
@@ -257,19 +262,20 @@ export class EmployeedetailComponent implements OnInit {
     console.log(obj);
 
     if (this.form.valid) {
-      var rsa = forge.pki.publicKeyFromPem(this.publicKey);
-      var encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
+     
       // this.form.controls['strpassword'].setValue(encryptedPassword)
-
+ 
       var data = this.form.value;
       data.password = '';
       data.projectId = projectId,
         data.employeeProfileStream = '';
+        data.isFirstLogin = true,
       data.isSystemGeneratedPassword = false
       data.designation = obj[0].value;
       data.uniqueCode = this.form.value.empCode;
-      data.stringPswrd = encryptedPassword;
+      data.stringPswrd = this.encryptedPassword;
       data.marriageDate = this.form.value.marriageDate == "" ? null : this.form.value.marriageDate;
+     data.fillTimesheet = this.timeSheetTrue;
       console.log(data.Designation);
       this.empDetailsService.saveEmployee(data).subscribe((res) => {
         console.log(res, 'savvvv');
@@ -285,7 +291,7 @@ export class EmployeedetailComponent implements OnInit {
     else {
       this.validateFormControl()
     }
-
+    // encryptedPassword = ''
   }
 
   validateFormControl() {
