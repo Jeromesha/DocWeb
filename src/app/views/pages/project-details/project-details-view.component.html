@@ -17,8 +17,8 @@
                                 <div class="row" >
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{"clintid"|translate}}</label>
-                                            <mat-select placeholder="Select Clint"  [disabled]="isdisable"
+                                            <label class="mandatory ">{{"Client Name"|translate}}</label>
+                                            <mat-select placeholder="Select Client Name"  [disabled]="isdisable"
                                                 formControlName="clientId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="clintdata"
                                                     (filteredReturn)="filterclintdata =$event">
@@ -32,7 +32,7 @@
                                             text-wrap>
                                             <span *ngIf="form.controls.clientId.errors?.required"
                                                 class="form-text danger mandatory">
-                                                {{'clintid' | translate}} {{'IsRequired' | translate}}</span>
+                                                {{'Client Name' | translate}} {{'IsRequired' | translate}}</span>
                                            
                                         </div>
                                         </div>
@@ -54,32 +54,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{"Bussiness Unit"|translate}}</label>
-                                            <mat-select placeholder="{{'projecttype'|translate}}"  [disabled]="isdisable"  
-                                                formControlName="projectTypeId" class="form-control pt-2">
-                                                <mat-select-filter [displayMember]="'value'" [array]="projecttypelist"
-                                                    (filteredReturn)="filterprojecttypelist =$event">
-                                                </mat-select-filter>
-                                                <mat-option *ngFor="let item of filterprojecttypelist" [value]="item.key">
-                                                    {{item.value}}
-                                                </mat-option>
-                                            </mat-select>
-                                            <div class="valid-error"
-                                            *ngIf="form.controls.projectTypeId.errors && (form.controls.projectTypeId.dirty || form.controls.projectTypeId.touched)"
-                                            text-wrap>
-                                            <span *ngIf="form.controls.projectTypeId.errors?.required"
-                                                class="form-text danger mandatory">
-                                                {{'Project Type' | translate}} {{'IsRequired' | translate}}</span>
-                                        </div>
-                                        </div>
-                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{"Project Lead"|translate}}</label>
-                                            <mat-select placeholder="Project Lead" 
+                                            <label class="mandatory ">{{"primary Lead"|translate}}</label>
+                                            <mat-select placeholder="primary Lead" 
                                                 formControlName="projectLeadId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
                                                     (filteredReturn)="filterprojectleadlist =$event">
@@ -93,19 +72,19 @@
                                             text-wrap>
                                             <span *ngIf="form.controls.projectLeadId.errors?.required"
                                                 class="form-text danger mandatory">
-                                                {{'Project Type' | translate}} {{'IsRequired' | translate}}</span>
+                                                {{'primary Lead' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class=" ">{{'Second Project Lead' | translate}}</label>
+                                            <label class=" ">{{'secondary Lead' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="secLelreportingPersonId" [ngClass]="{'disable':actionInfo == 1}"
-                                                class="form-control pt-2" placeholder="Select Reporting Person">
-                                                <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
-                                                    (filteredReturn)="filterprojectleadlist =$event">
+                                                class="form-control pt-2" placeholder="secondary Lead">
+                                                <mat-select-filter [displayMember]="'value'" [array]="secprojectleadlist"
+                                                    (filteredReturn)="secfilterprojectleadlist =$event">
                                                 </mat-select-filter>
-                                                <mat-option *ngFor="let item of filterprojectleadlist" [value]="item.key"
+                                                <mat-option *ngFor="let item of secfilterprojectleadlist" [value]="item.key"
                                                     class="disp">
                                                     {{item.value}}
                                                 </mat-option>
@@ -115,7 +94,7 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.secLelreportingPersonId.errors?.required"
                                                     class="form-text  danger mandatory">
-                                                    {{'Reporting Person' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'secondary Lead' | translate}} {{'IsRequired' | translate}}</span>
 
                                             </div>
                                         </div>
@@ -142,17 +121,45 @@
                                         </div>
                                         </div>
                                     </div> -->
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"Bussiness Unit"|translate}}</label>
+                                            <mat-select placeholder="{{'Bussiness Unit'|translate}}"  [disabled]="isdisable"  
+                                                formControlName="projectTypeId" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="projecttypelist"
+                                                    (filteredReturn)="filterprojecttypelist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterprojecttypelist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.projectTypeId.errors && (form.controls.projectTypeId.dirty || form.controls.projectTypeId.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.projectTypeId.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Bussiness Unit' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                           <label class="mandatory">{{"TexTac"|translate}}</label>
-                                          <ng-multiselect-dropdown  [disabled]="this.actionInfo == 1" formControlName="technologyTypeId" placeholder="Select Technology"
+                                          <ng-multiselect-dropdown class="custom-dropdown"  [disabled]="this.actionInfo == 1" formControlName="technologyTypeId" placeholder="Select TexTac"
                                             [settings]="dropdownSettings" [data]='filtertechnologytypelist'>
                                           </ng-multiselect-dropdown>
                 
-                                          <small class="form-text  danger "
-                                            *ngIf="!form.get('technologyTypeId').valid && (form.get('technologyTypeId').dirty || form.get('technologyTypeId').touched)">
-                                           
-                                          </small>
+                                          <div class="valid-error"
+                                          *ngIf="form.controls.technologyTypeId.errors && (form.controls.technologyTypeId.dirty || form.controls.technologyTypeId.touched)"
+                                          text-wrap>
+                                          <span *ngIf="form.controls.technologyTypeId.errors?.required"
+                                              class="form-text danger mandatory">
+                                              {{'TexTac' | translate}} {{'IsRequired' | translate}}</span>
+                                      </div>
                                         </div>
                                       </div>
 
@@ -266,7 +273,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Nature of the project"|translate}}</label>
-                                            <mat-select placeholder='{{"Projectstatus"|translate}}' 
+                                            <mat-select placeholder='{{"Select Nature of the project"|translate}}' 
                                                 formControlName="natureofproject" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="natureofprojectlist"
                                                     (filteredReturn)="filternatureofprojectlist =$event">

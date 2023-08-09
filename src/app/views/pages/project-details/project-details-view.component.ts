@@ -68,6 +68,8 @@ export class ProjectDetailsViewComponent implements OnInit {
   filternatureofprojectlist: any;
   reportingList: any[];
   filterreportingList: any[];
+  secprojectleadlist: any;
+  secfilterprojectleadlist: any;
 
 
 
@@ -143,7 +145,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectTypeId: ["",Validators.required],
       technologyTypeId: [null, Validators.required],
       repositoryName: [null, Validators.required],
-      natureofproject:[null],
+      natureofproject:[null, Validators.required],
       repositoryUrl: [null, Validators.required],
       startDate: [null, Validators.required],
       endDate: [null],
@@ -237,6 +239,8 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(2,true).subscribe(result =>{
       this.projectleadlist = result;
       this.filterprojectleadlist = this.projectleadlist;
+      this.secprojectleadlist = result;
+      this.secfilterprojectleadlist = this.secprojectleadlist;
       console.log(">/>?",result);
     })
   }
@@ -303,13 +307,15 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
+      secLelreportingPersonId:this.form.value.secLelreportingPersonId,
       technologyTypeId: technologyTypeId,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
       startDate: this.form.value.startDate,
       endDate: this.form.value.endDate,
       projectStatusId: this.form.value.projectStatusId,
-      projectLeadId: this.form.value.projectLeadId
+      projectLeadId: this.form.value.projectLeadId,
+      natureofproject: this.form.value.natureofproject
     }
 
     if (this.form.valid) {

@@ -29,7 +29,7 @@
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
         <ng-container matColumnDef="clintid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="clientName">{{'client Id' |
+            <mat-header-cell *matHeaderCellDef mat-sort-header="clientName">{{'Client Name' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
@@ -46,21 +46,21 @@
         </ng-container>
 
         <ng-container matColumnDef="projecttype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectTypeName">{{'Project Type' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="projectTypeName">{{'Bussiness Unit' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectTypeName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Technologytype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="technologyTypeName">{{'Technology Type' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="technologyTypeName">{{'TexTac' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.technologyTypeName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Repositoryname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryName">{{'Repository Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryName">{{'Git Repository' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryName}}</p>
@@ -74,14 +74,14 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledStart">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="startDate">{{'Scheduled Start' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="startDate">{{'Start Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.startDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledEnd">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="endDate">{{'Scheduled End' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="endDate">{{' End Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.endDate | date : 'dd-MM-YYYY'}}</p>
