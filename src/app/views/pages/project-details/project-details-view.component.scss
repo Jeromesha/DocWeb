@@ -86,7 +86,7 @@ pointer-events: none !important;
 //   color: #a09c9c !important; 
 // }
 
-.multiselect-dropdown[_ngcontent-dit-c263] .dropdown-btn[_ngcontent-dit-c263] {
+:host::ng-deep .multiselect-dropdown .dropdown-btn {
   display: inline-block;
   border: 1px solid #adadad;
   width: 100%;
