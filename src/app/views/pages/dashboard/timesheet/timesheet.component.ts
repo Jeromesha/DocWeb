@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
+import { OwlDateTime } from 'ng-pick-datetime/date-time/date-time.class';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
@@ -54,7 +55,8 @@ export class TimesheetComponent implements OnInit {
   SortList: any;
   projecttypelist: any;
   filterprojecttypelist: any = [];
-
+  mindate: Date;
+  maxdate: Date;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -84,6 +86,9 @@ export class TimesheetComponent implements OnInit {
     this.pattern = /^[^\s]+(\s+[^\s]+)*$/;
     this.emailpattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.clientId = this.userSessionService.getCurrentClientId();
+    this.maxdate = new Date();
+    this.mindate = new Date(this.maxdate);
+    this.mindate.setDate(this.maxdate.getDate() - 39);
   }
 
   ngOnInit() {

@@ -48,17 +48,19 @@ export class EmployeedetailComponent implements OnInit {
   disab: boolean;
   hybridLocationList: any[];
   filterHybridlocationList: any[];
-  dropdownSettings:{};
+  dropdownSettings: {};
   timeSheetTrue: boolean = false;
   timeSheetFalse: boolean = true;
+  defaultProjectList: any = [];
+  filterdefaultProjectList: any;
 
-  
+
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private empDetailsService: EmployeedetailsService,
-    private alertService:AlertService,
-    private navigationService:NavigationService
-    ) {
+    private alertService: AlertService,
+    private navigationService: NavigationService
+  ) {
     this.routeparams = this.route.snapshot.params;
     this.actionInfo = this.routeparams.actionInfo;
     this.id = this.routeparams.id;
@@ -94,11 +96,10 @@ export class EmployeedetailComponent implements OnInit {
     this.roleLookup();
     this.designationLookup();
     // this.getHybridLocation()
-    this.date=new Date()
-    if(this.id>0)
-    {
+    this.date = new Date()
+    if (this.id > 0) {
       this.getEmpDetails();
-      this.disab=true;
+      this.disab = true;
     }
     this.dropdownSettings = {
       singleSelection: false,
@@ -113,7 +114,7 @@ export class EmployeedetailComponent implements OnInit {
 
   initialValidators() {
     this.form = this.formBuilder.group({
-      "Id":[0],
+      "Id": [0],
       'empCode': ['', Validators.required],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required],
@@ -121,29 +122,30 @@ export class EmployeedetailComponent implements OnInit {
       'mobile': ['', Validators.required],
       'email': ['', Validators.required],
       // 'svnUserName': ['', Validators.required],
-      'hybridLocationId': ['',],
-      'secLelreportingPersonId':[''],
+      // 'hybridLocationId': ['',],
+      'secLelreportingPersonId': ['', Validators.required],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
       'marriageDate': [''],
-      'empShortName': ['', Validators.required],
+      // 'empShortName': ['', Validators.required],
       'defaultProjectId': ['', Validators.required],
       'locationId': ['', Validators.required],
       'designationTypeId': ['', Validators.required],
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
-      'isFirstLogin': [''],
-      'fillTimesheet': [''],
-      'reportingPersonId': ['', Validators.required],
+      'projectId': ['', Validators.required],
+      // 'isFirstLogin': [''],
+      'fillTimesheet': ['', Validators.required],
+      'reportingPersonId': [''],
       'stringPswrd': ['', Validators.required]
     })
   }
 
-  getEmpDetails(){
-    this.empDetailsService.getEmpDetail(true,this.id).subscribe((res)=>{
+  getEmpDetails() {
+    this.empDetailsService.getEmpDetail(true, this.id).subscribe((res) => {
       console.log(res);
       this.form.patchValue(res);
-      
+
     })
   }
 
@@ -154,12 +156,28 @@ export class EmployeedetailComponent implements OnInit {
       this.filterprojectList = [];
       this.projectList = res;
       this.filterprojectList = this.projectList.slice();
-
     })
   }
-
+  getDefaultProjectList(event,id) {
+    debugger
+    if(id == 1){
+      let projectId = event;
+      this.defaultProjectList.push(projectId);
+      this.filterdefaultProjectList = this.defaultProjectList.slice();
+    }else{
+      const index = this.filterdefaultProjectList.findIndex(selectedItem => selectedItem.key === event.key);
+    if (index !== -1) {
+      this.filterdefaultProjectList.splice(index, 1);
+    }
+    }
+    
+    // this.filterdefaultProjectList
+  }
+  isItemSelected(item: any): boolean {
+    return this.filterdefaultProjectList.some(selectedItem => selectedItem.id === item.id);
+  }
   roleLookup() {
-    this.empDetailsService.getProject(true,5).subscribe((res) => {
+    this.empDetailsService.getProject(true, 5).subscribe((res) => {
       this.roleList = [];
       this.filterroleType = [];
       this.roleList = res;
@@ -176,7 +194,7 @@ export class EmployeedetailComponent implements OnInit {
   }
 
   locationLookup() {
-    this.empDetailsService.getProject(true,7).subscribe((res) => {
+    this.empDetailsService.getProject(true, 7).subscribe((res) => {
       this.locationList = [];
       this.filterlocationList = [];
       this.locationList = res;
@@ -193,12 +211,12 @@ export class EmployeedetailComponent implements OnInit {
   //   })
   // }
 
-  designationLookup(){
-    this.empDetailsService.getDesignationList(true).subscribe((res)=>{
-      this.designationList=[];
-      this.filterdesignationList=[];
-      this.designationList=res;
-      this.filterdesignationList=this.designationList.slice()
+  designationLookup() {
+    this.empDetailsService.getDesignationList(true).subscribe((res) => {
+      this.designationList = [];
+      this.filterdesignationList = [];
+      this.designationList = res;
+      this.filterdesignationList = this.designationList.slice()
     })
   }
   fillTimesheet(event) {
@@ -216,57 +234,55 @@ export class EmployeedetailComponent implements OnInit {
     this.navigationService.gotoEmployee();
 
   }
-  changeOptions(event){
-if(event.value == 1){
-this.timeSheetTrue = true;
-this.timeSheetFalse  = false;
-}else{
-  this.timeSheetTrue = false;
-  this.timeSheetFalse  = true;
-}
+  changeOptions(event) {
+    if (event.value == 1) {
+      this.timeSheetTrue = true;
+      this.timeSheetFalse = false;
+    } else {
+      this.timeSheetTrue = false;
+      this.timeSheetFalse = true;
+    }
   }
   onSubmit() {
     const projectId = [];
-      debugger
-      const selectedPrijectList = this.form.get('defaultProjectId').value;
-      if (selectedPrijectList && selectedPrijectList.length > 0) {
-        selectedPrijectList.forEach(element => {
-          projectId.push(element.key);
-        });
-      }
+    debugger
+    const selectedPrijectList = this.form.get('projectId').value;
+    if (selectedPrijectList && selectedPrijectList.length > 0) {
+      selectedPrijectList.forEach(element => {
+        projectId.push(element.key);
+      });
+    }
 
-    let obj=this.designationList.filter(x=>x.key==this.form.value.designationTypeId)
+    let obj = this.designationList.filter(x => x.key == this.form.value.designationTypeId)
     console.log(obj);
-    
-    if (this.form.valid) 
-    {
-    var rsa = forge.pki.publicKeyFromPem(this.publicKey);
-    var encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
-    // this.form.controls['strpassword'].setValue(encryptedPassword)
-    
+
+    if (this.form.valid) {
+      var rsa = forge.pki.publicKeyFromPem(this.publicKey);
+      var encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
+      // this.form.controls['strpassword'].setValue(encryptedPassword)
+
       var data = this.form.value;
       data.password = '';
-      data.defaultProjectId=projectId,
-      data.employeeProfileStream = '';
+      data.projectId = projectId,
+        data.employeeProfileStream = '';
       data.isSystemGeneratedPassword = false
       data.designation = obj[0].value;
       data.uniqueCode = this.form.value.empCode;
-      data.stringPswrd=encryptedPassword;
-      data.marriageDate=this.form.value.marriageDate==""?null:this.form.value.marriageDate;
+      data.stringPswrd = encryptedPassword;
+      data.marriageDate = this.form.value.marriageDate == "" ? null : this.form.value.marriageDate;
       console.log(data.Designation);
-      this.empDetailsService.saveEmployee(data).subscribe((res)=>{
-        console.log(res,'savvvv');
-        if(res.isSuccess){
+      this.empDetailsService.saveEmployee(data).subscribe((res) => {
+        console.log(res, 'savvvv');
+        if (res.isSuccess) {
           this.alertService.success("Employee Details saved successfully.");
           this.navigationService.gotoEmployee();
         }
-        else{
+        else {
           this.alertService.error(res.failures[0])
         }
       })
-    } 
-    else
-     {
+    }
+    else {
       this.validateFormControl()
     }
 
