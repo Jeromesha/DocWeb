@@ -27,9 +27,9 @@ export class TimesheetgridComponent implements OnInit {
   displayedColumns: string[] = [
     "action",
     "EntryDate",
+    "Project",
     "Hours",
-    "Description",
-    "Project"
+    "Description"
   ];
   public excelColumns: string[];
   constructor(
