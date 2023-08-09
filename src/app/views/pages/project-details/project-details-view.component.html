@@ -79,7 +79,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class=" ">{{'secondary Lead' | translate}}</label>
-                                            <mat-select aria-label="true" formControlName="secLelreportingPersonId" [ngClass]="{'disable':actionInfo == 1}"
+                                            <mat-select aria-label="true" formControlName="SecondryleadId" [ngClass]="{'disable':actionInfo == 1}"
                                                 class="form-control pt-2" placeholder="secondary Lead">
                                                 <mat-select-filter [displayMember]="'value'" [array]="secprojectleadlist"
                                                     (filteredReturn)="secfilterprojectleadlist =$event">
@@ -90,9 +90,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.secLelreportingPersonId.errors && (form.controls.secLelreportingPersonId.dirty || form.controls.secLelreportingPersonId.touched)"
+                                                *ngIf="form.controls.SecondryleadId.errors && (form.controls.SecondryleadId.dirty || form.controls.SecondryleadId.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.secLelreportingPersonId.errors?.required"
+                                                <span *ngIf="form.controls.SecondryleadId.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'secondary Lead' | translate}} {{'IsRequired' | translate}}</span>
 
@@ -163,7 +163,7 @@
                                         </div>
                                       </div>
 
-                                      
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Git Repository' | translate}}</label>

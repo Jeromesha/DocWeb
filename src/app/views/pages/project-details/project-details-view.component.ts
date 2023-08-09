@@ -152,7 +152,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectStatusId: [null, Validators.required],
       projectLeadId: [null, Validators.required],
       // reportingPersonId:[null],
-      secLelreportingPersonId:[null]
+      SecondryleadId:[null]
     });
   }
 
@@ -203,9 +203,12 @@ export class ProjectDetailsViewComponent implements OnInit {
   get(refresh: boolean) {
     if (this.id > 0) {
       this.projectdetailsservice.getById(this.id, refresh).subscribe(result => {
+    debugger;
         this.data = result;
+        console.log("?>",this.data);
         if (this.data) {
           this.form.patchValue(this.data);
+          // this.form.controls['projectTypeId'].setValue(this.data.projectTypeId)
           if (this.formEditMode === false) {
             this.isReadOnly = false;
             this.form.disable();
@@ -242,6 +245,8 @@ export class ProjectDetailsViewComponent implements OnInit {
       this.secprojectleadlist = result;
       this.secfilterprojectleadlist = this.secprojectleadlist;
       console.log(">/>?",result);
+    this.get(true);
+
     })
   }
 
@@ -290,6 +295,8 @@ export class ProjectDetailsViewComponent implements OnInit {
   }
 
   onSubmit() {
+
+   
     let technologyTypeId = [];
     const selectedPrijectList = this.form.get('technologyTypeId').value;
     if (selectedPrijectList && selectedPrijectList.length > 0) {
@@ -307,7 +314,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
-      secLelreportingPersonId:this.form.value.secLelreportingPersonId,
+      SecondryleadId:this.form.value.SecondryleadId,
       technologyTypeId: technologyTypeId,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
@@ -316,7 +323,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectStatusId: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId,
       natureofproject: this.form.value.natureofproject
-      
+
     }
 
     if (this.form.valid) {
