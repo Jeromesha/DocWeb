@@ -143,7 +143,14 @@ export class EmployeedetailComponent implements OnInit {
     this.empDetailsService.getEmpDetail(true, this.id).subscribe((res) => {
       console.log(res);
       this.form.patchValue(res);
-
+      if (res.fillTimesheet == true) {
+        this.timeSheetTrue = true;
+        this.timeSheetFalse = false;
+      } else {
+        this.timeSheetTrue = false;
+        this.timeSheetFalse = true;
+      }
+      // this.projectLookUp()
     })
   }
 
