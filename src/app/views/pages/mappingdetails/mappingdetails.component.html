@@ -1,11 +1,11 @@
 <div class="pl-1 pr-1 mb-1">
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
-        <div class="col-md-10 col-sm-12">
+        <!-- <div class="col-md-10 col-sm-12"> -->
             <h4 class="text-bold-500 text-left hearder-text">
                 Project Employee Mapping
             </h4>
-        </div>
-        <div class="d-flex align-items-center flex-wrap text-nowrap">
+        <div style="float: right;">
+        <!-- <div class="d-flex align-items-center flex-wrap text-nowrap"> -->
             <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
                 <i class="btn-icon-prepend fa fa-plus"></i>
                 {{'Add' | translate}}
@@ -51,18 +51,18 @@
         </ng-container>
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
-            <mat-cell *matCellDef="let dataField" class="button-bar">
-
+            <mat-cell *matCellDef="let dataField" class="button-bar" style="display: flex;justify-content: center;">
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
+                (click)="goToAction(dataField.id,0)">
+                <i class="fa fa-edit fa-2x editclr"></i>
+            </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
                     (click)="goToAction(dataField.id,1)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
-                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="goToAction(dataField.id,0)">
-                    <i class="fa fa-edit fa-2x editclr"></i>
-                </button>
+                
 
             </mat-cell>
         </ng-container>
