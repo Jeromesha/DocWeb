@@ -152,7 +152,9 @@ export class TimesheetComponent implements OnInit {
   GetdefaultProject() {
     this.timesheetService.getDefaultProject().subscribe(result => {
       this.defaultProject = result;
-      this.form.controls["projectId"].setValue(this.defaultProject);
+      if (this.id == 0) {
+        this.form.controls["projectId"].setValue(this.defaultProject);
+      }
     });
   }
 
