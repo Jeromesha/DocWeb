@@ -148,7 +148,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectName: [null, Validators.required],
       projectTypeId: ["",Validators.required],
       technologyType: [null, Validators.required],
-      repositoryName: [null, Validators.required],
+      repositoryType: [null, Validators.required],
       natureOfProjectType:[null, Validators.required],
       repositoryUrl: [null, Validators.required],
       startDate: [null, Validators.required],
@@ -334,13 +334,13 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectTypeId: this.form.value.projectTypeId,
       secondaryLeadId:this.form.value.secondaryLeadId,
       technologyType: technologyTypeId,
-      repositoryName: this.form.value.repositoryName,
+      repositoryType: this.form.value.repositoryType,
       repositoryUrl: this.form.value.repositoryUrl,
       startDate: this.form.value.startDate,
       endDate: this.form.value.endDate,
-      projectStatus: this.form.value.projectStatusId,
+      projectStatusId: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId,
-      natureOfProjectType: this.form.value.natureofproject
+      natureOfProjectType: this.form.value.natureOfProjectType
 
     }
     
@@ -350,7 +350,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       this.projectdetailsservice.save(projectdata).subscribe(result => {
         const msg1 = this.translate.instant('Savedsuccessfully');
         const msg2 = this.translate.instant('Updatedsuccessfully');
-        const msg3 = this.translate.instant('Region');
+        const msg3 = this.translate.instant('Project Details');
         const sucessmsg = this.id == 0 ? msg1 : msg2;
         this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
       });

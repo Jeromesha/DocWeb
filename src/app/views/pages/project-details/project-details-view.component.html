@@ -188,7 +188,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Repository"|translate}}</label>
                                             <mat-select placeholder="{{'Repository'|translate}}"    
-                                                formControlName="repositoryName" class="form-control pt-2">
+                                                formControlName="repositoryType" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="GitRepositorylist"
                                                     (filteredReturn)="filterGitRepositorylist =$event">
                                                 </mat-select-filter>
@@ -197,9 +197,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                            *ngIf="form.controls.repositoryName.errors && (form.controls.repositoryName.dirty || form.controls.repositoryName.touched)"
+                                            *ngIf="form.controls.repositoryType.errors && (form.controls.repositoryType.dirty || form.controls.repositoryType.touched)"
                                             text-wrap>
-                                            <span *ngIf="form.controls.repositoryName.errors?.required"
+                                            <span *ngIf="form.controls.repositoryType.errors?.required"
                                                 class="form-text danger mandatory">
                                                 {{'Repository' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
