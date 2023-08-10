@@ -40,8 +40,7 @@
               <a class="nav-link side-nav-link-a-ref" *ngIf="hasItems(subitem) && subitem.isVisible"
                 href="javascript:void(0);">
                 <i class="fonticon {{ subitem.icon }}" *ngIf="subitem.icon"></i>
-                <span class="link-title"> &nbsp;&nbsp;&nbsp;&nbsp;{{ subitem.labeimport("./../../views/pages/dashboard/timesheet/timesheet.module").then((m) => m.TimesheetModule
-                  // ),l | translate}}</span>
+                <span class="link-title"> &nbsp;&nbsp;&nbsp;&nbsp;{{ subitem.label | translate}}</span>
                 <span class="link-arrow" data-feather="chevron-down" appFeatherIcon></span>
               </a>
 
