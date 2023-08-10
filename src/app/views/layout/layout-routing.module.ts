@@ -46,14 +46,19 @@ const routes: Routes = [
       {
         path: "timesheet/:id/:actionInfo",
         loadChildren: () =>
-          import("./../../views/pages/dashboard/timesheet/timesheet.module").then(
-            (m) => m.TimesheetModule
+          import("./../../views/pages/dashboard/timesheet/timesheet.module").then((m) => m.TimesheetModule
           ),
       },
       {
         path: "projectdetails",
         loadChildren: () =>
           import("./../../views/pages/project-details/project-details.module").then((m) => m.ProjectDetailsModule)
+      },
+
+      {
+        path: "employeeleaverecords",
+        loadChildren: () =>
+          import("./../../views/pages/employeeleaverecords/employeeleaverecords.module").then((m) => m.employeeleaverecordsModule)
       },
     ],
   },
