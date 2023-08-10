@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
+import { OwlDateTime } from 'ng-pick-datetime/date-time/date-time.class';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
@@ -12,7 +13,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 
 
 import * as moment from 'moment';
-import { add } from 'lodash';
+import { add, result } from 'lodash';
 
 
 @Component({
@@ -47,12 +48,16 @@ export class TimesheetComponent implements OnInit {
   show2: boolean;
   clientId: any;
   emailpattern: RegExp;
-  filterSortList: { key: number; value: string; }[];
+  filterSortList: any[];
   showdescription: boolean = false;
   SaveTimesheet: any[];
   isLeave: boolean = true;
   SortList: any;
-
+  projecttypelist: any;
+  filterprojecttypelist: any = [];
+  defaultProject: any;
+  mindate: Date;
+  maxdate: Date;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -65,7 +70,6 @@ export class TimesheetComponent implements OnInit {
     private translate: TranslateService) {
     this.routeParams = route.snapshot.params;
     debugger
-    this.id = JSON.parse(this.routeParams.id);
     this.id = parseInt(this.routeParams.id);
     //this.id = 0;
     debugger
@@ -82,22 +86,29 @@ export class TimesheetComponent implements OnInit {
     this.pattern = /^[^\s]+(\s+[^\s]+)*$/;
     this.emailpattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.clientId = this.userSessionService.getCurrentClientId();
+    this.maxdate = new Date();
+    this.mindate = new Date(this.maxdate);
+    this.mindate.setDate(this.maxdate.getDate() - 39);
   }
 
   ngOnInit() {
     this.initializeValidators();
     this.Getproject();
+    this.GetdefaultProject();
+    this.GetTaskType();
     this.get(true);
+    this.form.controls["entryDate"].setValue(new Date);
   }
 
   initializeValidators() {
     this.form = this.formBuilder.group({
       id: [0],
       description: [''],
-      hours: [null],
+      hours: [moment().startOf('day').add(8, 'hours').toDate()],
       IsLeave: [2, [Validators.required]],
       entryDate: ['', [Validators.required]],
       EmployeeId: [0],
+      taskTypeId: ['', Validators.required],
       projectId: [null],
       timeIn: [null],
       timeOut: [null],
@@ -112,8 +123,9 @@ export class TimesheetComponent implements OnInit {
 
   }
   timeChange() {
+    const selectedTime = moment(this.form.value.hours, 'HH:mm');
     console.log((this.form.value.hours).format('HH:mm'));
-    
+
     console.log(parseInt(moment(this.form.value.hours).format('HH:mm')));
 
   }
@@ -137,7 +149,21 @@ export class TimesheetComponent implements OnInit {
       this.filterSortList = this.SortList.slice();
     });
   }
+  GetdefaultProject() {
+    this.timesheetService.getDefaultProject().subscribe(result => {
+      this.defaultProject = result;
+      if (this.id == 0) {
+        this.form.controls["projectId"].setValue(this.defaultProject);
+      }
+    });
+  }
 
+  GetTaskType() {
+    this.timesheetService.getLookup(13, true).subscribe(result => {
+      this.projecttypelist = result;
+      this.filterprojecttypelist = this.projecttypelist;
+    })
+  }
   get(refresh: boolean) {
     debugger
     if (this.id > 0) {
@@ -145,28 +171,25 @@ export class TimesheetComponent implements OnInit {
         this.data = result;
         if (this.data) {
           // this.form.controls['hours'].setValue(13:03")
-          if(this.data.description){
+          if (this.data.description) {
             this.showdescription = true
           }
           this.form.patchValue(this.data);
           this.Getproject();
+          this.GetTaskType();
           const unixTimestamp = this.data.hours * 1000;
-    
-    // Convert the UNIX timestamp to a Date object
-    const now = new Date();
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-    now.setMilliseconds(0)
-    let st=new Date(now);
-    console.log(st);
-    
-          this.form.controls['hours'].setValue(moment(st).add(this.data.hours,'hours'))
-          // if (this.formEditMode === false) {
-          //   this.isReadOnly = false;
-          //   this.form.disable();
-          //   this.isDisable = true;
-          // }
+
+          // Convert the UNIX timestamp to a Date object
+          const now = new Date();
+          now.setHours(0);
+          now.setMinutes(0);
+          now.setSeconds(0);
+          now.setMilliseconds(0)
+          let st = new Date(now);
+          console.log(st);
+
+          this.form.controls['hours'].setValue(moment(st).add(this.data.hours, 'hours'))
+
         }
       });
       this.isReadOnly = true;
@@ -189,8 +212,8 @@ export class TimesheetComponent implements OnInit {
   onSubmit() {
     debugger;
 
-    
-    if(this.form.value.IsLeave == 2){
+
+    if (this.form.value.IsLeave == 2) {
       this.form.controls['hours'].setValidators(Validators.required);
       this.form.controls['hours'].updateValueAndValidity();
       // this.form.controls['timeIn'].setValidators(Validators.required);
@@ -201,7 +224,7 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['description'].updateValueAndValidity();
       this.form.controls['projectId'].setValidators(Validators.required);
       this.form.controls['projectId'].updateValueAndValidity();
-    }else{
+    } else {
       this.form.controls['hours'].clearValidators();
       this.form.controls['hours'].updateValueAndValidity();
       // this.form.controls['timeIn'].clearValidators();
@@ -214,22 +237,23 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['projectId'].updateValueAndValidity();
     }
     this.form.controls['entryDate'].setValue(moment(this.form.value.entryDate).format("YYYY-MM-DD"));
-        const timesheetData =
-   
+    const timesheetData =
+
     {
       timesheets: [
         {
-          id:this.id,
-          entryDate:moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
-          hours:this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
-          description:this.form.value.description,
-          projectId:this.form.value.IsLeave == 1 ? 0: this.form.value.projectId,
-          taskId:0,
-          employeeId:this.userSessionService.userId(),
-          isLeave:this.form.value.IsLeave == 1 ? true : false,
+          id: this.id,
+          entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
+          hours: this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
+          description: this.form.value.description,
+          projectId: this.form.value.IsLeave == 1 ? 0 : this.form.value.projectId,
+          taskId: 0,
+          taskTypeId: this.form.value.taskTypeId,
+          employeeId: this.userSessionService.userId(),
+          isLeave: this.form.value.IsLeave == 1 ? true : false,
           // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)
           // timeOut:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeOut).format('HH:mm:ss'), // Adjusted to use TimeSpan format (hh:mm:ss)
-          taskStatusId:0
+          taskStatusId: 0
         }
       ]
     }
@@ -237,17 +261,17 @@ export class TimesheetComponent implements OnInit {
     if (this.form.valid) {
       debugger
       this.timesheetService.savetimsheet(timesheetData).subscribe(result => {
-        if(result && result.isSuccess){
+        if (result && result.isSuccess) {
           this._location.back();
-          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully":"Time Sheet Updated Successfully");
+          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
 
           // const msg1 = this.translate.instant('Savedsuccessfully');
           // const msg2 = this.translate.instant('Updatedsuccessfully');
           // const msg3 = this.translate.instant('');
           // const sucessmsg = this.id == 0 ? msg1 : msg2;
-          
+
         }
-        
+
       });
     } else {
       this.validateFormControl();
@@ -281,15 +305,15 @@ export class TimesheetComponent implements OnInit {
   onbtnClick(id) {
     debugger
     if (id == 1) {
-      
+
       this.isLeave = false;
-     
-      
+
+
     }
     else {
       // this.form.controls['choices'].setValue(id);
       this.isLeave = true;
-     
+
     }
 
 

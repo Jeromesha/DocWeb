@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProjectDetailsComponent } from './project-details.component';
+import { WeeklytimesheetaprovelComponent } from './weeklytimesheetaprovel.component';
+import { WeeklytimesheetaprovedComponent } from './weeklytimesheetaproved.component';
 import { Routes, RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FeahterIconModule } from "src/app/core/feather-icon/feather-icon.module";
@@ -27,31 +28,34 @@ import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { TimeSheetService } from "src/app/services/timesheet.service";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { ProjectDetailsViewComponent } from './project-details-view.component';
-import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MappingdetailServices } from 'src/app/services/mappingdetails.service';
+import { MappingServices } from 'src/app/services/mapping.service';
 
+PlotlyModule.plotlyjs = PlotlyJS;
 
 const routes: Routes = [
   {
     path: '',
-    component: ProjectDetailsComponent
+    component: WeeklytimesheetaprovedComponent
   },
   {
     path: ":id/:actionInfo",
-    component: ProjectDetailsViewComponent
+    component: WeeklytimesheetaprovelComponent
   },
 ];
 
+
 @NgModule({
-  declarations: [ProjectDetailsComponent, ProjectDetailsViewComponent],
+  declarations: [
+    WeeklytimesheetaprovelComponent,
+    WeeklytimesheetaprovedComponent
+  ],
   providers: [
-    DashboardService,
     ExcelService,
     TimeSheetService,
     NotifyService,
     DatePipe,
-    ProjectdetailsService
+    MappingdetailServices, MappingServices
   ],
   imports: [
     CommonModule,
@@ -80,7 +84,6 @@ const routes: Routes = [
     PlotlyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    NgMultiSelectDropDownModule.forRoot(),
   ]
 })
-export class ProjectDetailsModule { }
+export class WeeklytimesheetaprovedModule { }

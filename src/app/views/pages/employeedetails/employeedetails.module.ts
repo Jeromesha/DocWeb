@@ -21,7 +21,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { DirectivesModule } from '../../layout/directives/directives.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatRadioModule } from '@angular/material/radio';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 const routes: Routes = [
   {
       path: '',
@@ -60,7 +61,9 @@ const routes: Routes = [
     MatSelectModule,
     MatSelectFilterModule,
     MatCheckboxModule,
-
+    MatRadioModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    // NgMultiSelectDropDownModule
   ]
 })
 export class EmployeedetailsModule { }

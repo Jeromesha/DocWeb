@@ -14,6 +14,7 @@ import { result } from 'lodash';
 import { timeout } from 'rxjs-compat/operator/timeout';
 import { Observable } from 'rxjs';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
+import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 
 @Component({
   selector: 'app-project-details-view',
@@ -63,6 +64,13 @@ export class ProjectDetailsViewComponent implements OnInit {
   filterprojectleadlist: any;
   projectleadlist: any;
   isdisable: boolean;
+  natureofprojectlist: any;
+  filternatureofprojectlist: any;
+  reportingList: any[];
+  filterreportingList: any[];
+  secprojectleadlist: any;
+  secfilterprojectleadlist: any;
+  filtertechtype: any;
 
 
 
@@ -76,6 +84,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     private translate: TranslateService,
     private timesheetService: TimeSheetService,
     private projectdetailsservice: ProjectdetailsService,
+    private empDetailsService:EmployeedetailsService,
     // private router: Router
   ) {
     this.routeParams = route.snapshot.params;
@@ -107,6 +116,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.getprojectLead();
     this.gettechnologytype();
     this.getProjectStatus();
+    this.getNatureoftheproject();
     this.get(true);
     this.maxDate = new Date();
     this.scheduledEndmax = new Date();
@@ -115,6 +125,15 @@ export class ProjectDetailsViewComponent implements OnInit {
     }else{
       this.isDisable = false;
     }
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'key',
+      textField: 'value',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true
+    };
+
   }
 
   initializeValidators() {
@@ -125,13 +144,17 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId: [null, Validators.required],
       projectName: [null, Validators.required],
       projectTypeId: ["",Validators.required],
-      technologyTypeId: [null, Validators.required],
+      technologyType: [null, Validators.required],
       repositoryName: [null, Validators.required],
+      natureOfProjectType:[null, Validators.required],
       repositoryUrl: [null, Validators.required],
       startDate: [null, Validators.required],
-      endDate: [null, Validators.required],
+      endDate: [null],
       projectStatusId: [null, Validators.required],
-      projectLeadId: [null, Validators.required]
+      projectLeadId: [null, Validators.required],
+      // reportingPersonId:[null],
+      secondaryLeadId:[null],
+      // natureOfProjectType:[null]
     });
   }
 
@@ -182,9 +205,13 @@ export class ProjectDetailsViewComponent implements OnInit {
   get(refresh: boolean) {
     if (this.id > 0) {
       this.projectdetailsservice.getById(this.id, refresh).subscribe(result => {
+    debugger;
         this.data = result;
+        console.log("?>",this.data);
+        // this.filtertechtype = this.data.technologyType;
         if (this.data) {
           this.form.patchValue(this.data);
+          // this.form.controls['projectTypeId'].setValue(this.data.projectTypeId)
           if (this.formEditMode === false) {
             this.isReadOnly = false;
             this.form.disable();
@@ -218,7 +245,11 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(2,true).subscribe(result =>{
       this.projectleadlist = result;
       this.filterprojectleadlist = this.projectleadlist;
+      this.secprojectleadlist = result;
+      this.secfilterprojectleadlist = this.secprojectleadlist;
       console.log(">/>?",result);
+    this.get(true);
+
     })
   }
 
@@ -227,6 +258,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(9,true).subscribe(result =>{
       this.technologytypelist = result;
       this.filtertechnologytypelist = this.technologytypelist;
+      
     })
   }
 
@@ -235,6 +267,21 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(10,true).subscribe(result =>{
       this.ProjectStatuslist = result;
       this.filterprojectstatuslist = this.ProjectStatuslist;
+    })
+  }
+  reportPersonLookup() {
+    this.empDetailsService.getProject(true, 2).subscribe((res) => {
+      this.reportingList = [];
+      this.filterreportingList = [];
+      this.reportingList = res;
+      this.filterreportingList = this.reportingList.slice();
+    })
+  }
+  getNatureoftheproject(){
+    debugger;
+    this.projectdetailsservice.getLookup(14,true).subscribe(result =>{
+      this.natureofprojectlist = result;
+      this.filternatureofprojectlist = this.natureofprojectlist;
     })
   }
 
@@ -252,24 +299,37 @@ export class ProjectDetailsViewComponent implements OnInit {
   }
 
   onSubmit() {
+
+   
+    let technologyTypeId = [];
+    const selectedPrijectList = this.form.get('technologyType').value;
+    if (selectedPrijectList && selectedPrijectList.length > 0) {
+      selectedPrijectList.forEach(element => {
+        technologyTypeId.push(element.key);
+      });
+    }
     console.log(">:",this.form.value.clintid);
     debugger;
     let client=this.form.value.clientId;
-    let tech=this.form.value.technologyTypeId;
+    let tech=this.form.value.technologyType;
     var projectdata = 
      { 
       id:this.id,
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
-      technologyTypeId: tech,
+      secondaryLeadId:this.form.value.secondaryLeadId,
+      technologyType: technologyTypeId,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
       startDate: this.form.value.startDate,
       endDate: this.form.value.endDate,
-      projectStatusId: this.form.value.projectStatusId,
-      projectLeadId: this.form.value.projectLeadId
+      projectStatus: this.form.value.projectStatusId,
+      projectLeadId: this.form.value.projectLeadId,
+      natureOfProjectType: this.form.value.natureofproject
+
     }
+    
 
     if (this.form.valid) {
       debugger

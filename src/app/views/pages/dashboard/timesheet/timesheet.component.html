@@ -21,7 +21,8 @@
                                                 <div class="input-group mb-0 ">
                                                     <input class="form-control" [disabled]="actionInfo == 1"
                                                         placeholder="Select Date" formControlName="entryDate"
-                                                        [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
+                                                        [owlDateTimeTrigger]="dt1" [min]="this.mindate"
+                                                        [max]="this.maxdate" [owlDateTime]="dt1">
                                                     <owl-date-time [pickerType]="'calendar'" #dt1>
                                                     </owl-date-time>
                                                     <div class="input-group-append">
@@ -66,8 +67,7 @@
                                                 <mat-select [disabled]="actionInfo == 1" placeholder="Project"
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="projectId" class="form-control pt-2">
-                                                    <mat-select-filter [displayMember]="'value'"
-                                                        [array]="SortList"
+                                                    <mat-select-filter [displayMember]="'value'" [array]="SortList"
                                                         (filteredReturn)="filterSortList =$event">
                                                     </mat-select-filter>
                                                     <mat-option *ngFor="let item of filterSortList" [value]="item.key">
@@ -77,6 +77,28 @@
                                                 <span class="form-text text-muted danger mandatory"
                                                     *ngIf="!form.get('projectId').valid && (form.get('projectId').dirty || form.get('projectId').touched)">
                                                     {{'Project' | translate}} {{'IsRequired' | translate}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" *ngIf="isLeave">
+                                            <div class="form-group">
+                                                <label class="mandatory ">{{'Task Type' | translate}}</label>
+                                                <mat-select [disabled]="actionInfo == 1" placeholder="Task Type"
+                                                    (selectionChange)="sortingChange($event)"
+                                                    formControlName="taskTypeId" class="form-control pt-2">
+                                                    <mat-select-filter [displayMember]="'value'"
+                                                        [array]="projecttypelist"
+                                                        (filteredReturn)="filterprojecttypelist =$event">
+                                                    </mat-select-filter>
+                                                    <mat-option *ngFor="let item of filterprojecttypelist"
+                                                        [value]="item.key">
+                                                        {{item.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <span class="form-text text-muted danger mandatory"
+                                                    *ngIf="!form.get('taskTypeId').valid && (form.get('taskTypeId').dirty || form.get('taskTypeId').touched)">
+                                                    {{'Task Type' | translate}} {{'IsRequired' | translate}}
                                                 </span>
                                             </div>
                                         </div>
@@ -136,14 +158,14 @@
                                             </div>
                                         </div>
                                     </div> -->
-                                    </div>
+                                        <!-- </div>
 
-                                    <div class="row">
+                                    <div class="row"> -->
 
 
-                                        <div class="col-md-6" *ngIf="this.showdescription==true">
+                                        <div class="col-md-6" *ngIf="this.showdescription==true && isLeave">
                                             <div class="form-group">
-                                                <label class="mandatory ">{{'Description' | translate}}</label>
+                                                <label class="mandatory ">{{'Task Description' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
                                                     formControlName="description" autocomplete="off">
                                      </textarea>

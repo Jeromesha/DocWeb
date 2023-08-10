@@ -40,6 +40,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-toggle-switch';
+
 import { EmployeedetailsComponent } from './views/pages/employeedetails/employeedetails.component';
 
 

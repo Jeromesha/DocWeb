@@ -1,16 +1,17 @@
 <div class="pl-1 pr-1 mb-1">
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
-        <!-- <div class="col-md-10 col-sm-12"> -->
+        <div class="col-md-10 col-sm-12">
             <h4 class="text-bold-500 text-left hearder-text">
-                Project Details
+                Weekly Timesheet Approval
             </h4>
-        <!-- </div> -->
-        <div class="" style="float: right;">
-            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
-                <i class="btn-icon-prepend fa fa-plus"></i>
-                {{'Add' | translate}}
-            </button>
-            <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" (click)="refresh()">
+        </div>
+        <div class="d-flex align-items-center flex-wrap text-nowrap">
+            <button type="reset" class="btn btn-primary mr-1 btncancel"
+            (click)="onCancel()">
+            <i class="fa fa-arrow-circle-left"></i>
+            {{'Back' | translate}}
+        </button>
+            <button type="button" matRipple class="btn btnrefresh mr-2 " (click)="refresh()">
                 <i class="btn-icon-prepend fa fa-refresh"></i>
                 {{'Refresh' | translate}}
             </button>
@@ -28,45 +29,45 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
-        <ng-container matColumnDef="clintid">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="clientName">{{'Client Name' |
+        <ng-container matColumnDef="entryDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Entry Date' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.clientName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.entryDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="projectname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectName">{{'Project Name' | translate}}
+        <ng-container matColumnDef="hours">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.hours}}</p>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="projecttype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="projectTypeName">{{'Bussiness Unit' | translate}}
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="description">{{'Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.projectTypeName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Technologytype">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="technologyTypeName">{{'TexTac' | translate}}
+        <ng-container matColumnDef="employeeId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="employeeId">{{'Employee Id' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.technologyTypeName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.employeeId}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Repositoryname">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryName">{{'Git Repository' | translate}}
+        <ng-container matColumnDef="isLeave">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="isLeave">{{'Repository Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.isLeave == true ? "Yes": "No"}}</p>
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Repositoryurl">
+        <!-- <ng-container matColumnDef="Repositoryurl">
             <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryUrl">{{'Repository Url' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
@@ -74,14 +75,14 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledStart">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="startDate">{{'Start Date' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="startDate">{{'Scheduled Start' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.startDate | date : 'dd-MM-YYYY'}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="ScheduledEnd">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="endDate">{{' End Date' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="endDate">{{'Scheduled End' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.endDate | date : 'dd-MM-YYYY'}}</p>
@@ -93,28 +94,20 @@
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
-        </ng-container>
+        </ng-container> -->
         <!-- <ng-container matColumnDef="projectlead">
             <mat-header-cell *matHeaderCellDef mat-sort-header="projectStatusName">{{'Project Leader Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
-            
         </ng-container> -->
-        <ng-container fxFlex="10" matColumnDef="action">
+        <ng-container fxFlex="1" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
-            <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
-                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.id,0)">
-                    <i class="fa fa-pencil-square-o fa-2x editclr"></i>
-                </button>
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
-                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                (click)="goToAction(dataField.id,1)">
-                <i class="fa fa-eye fa-2x eyeclr"></i>
-            </button>
+            <mat-cell *matCellDef="let dataField" class="button-bar">
+                <mat-checkbox class="form-check-label cursor-pointer checkboxL"
+                formControlName="fillTimesheet" (click)="isActive(dataField.id,dataField.approvedStatusType)" >
+            </mat-checkbox>
             </mat-cell>
         </ng-container>
 
@@ -127,3 +120,15 @@
 <mat-paginator #paginator [length]="dataSource!=null && dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
     [pageSizeOptions]="[10, 25, 50, 100]">
 </mat-paginator><br>
+<div class="row">
+    <div class="col-11">
+
+    </div>
+    <div class="col-1">
+        <button type="button" matRipple style="background-color: rgb(7, 25, 104); color: aliceblue;" class="btn mr-2 d-flex align-items-left flex-wrap text-nowrap" (click)="approve()">
+            <!-- <i class="btn-icon-prepend fa fa-refresh"></i> -->
+            {{'Approve' | translate}}
+        </button>
+    </div>
+    
+</div>

@@ -28,6 +28,11 @@ import { MappingServices } from "src/app/services/mapping.service";
 import { MappingdetailsComponent } from "./mappingdetails.component";
 import { MappingdetailServices } from "src/app/services/mappingdetails.service";
 import { MappingComponent } from "./mapping/mapping.component";
+import { MatListModule } from '@angular/material/list';
+import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
+
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
+
 
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -73,10 +78,31 @@ const routes: Routes = [
     NgbProgressbarModule,
     NgbTooltipModule,
     MatRadioModule,
+    MatListModule,
     MatCheckboxModule,
     PlotlyModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    FormsModule,
+    FeahterIconModule,
+    NgbDropdownModule,
+    FormsModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatSelectFilterModule,
+    MatListModule,
+    MatCheckboxModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -1,21 +1,28 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import * as moment from 'moment';
-import { AlertService } from 'src/app/services/alert.service';
-import { ExcelService } from 'src/app/services/excel.service';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { ActivatedRoute, Router } from '@angular/router';
+import { result } from 'lodash';
+import * as moment from "moment";
+import { AlertService } from "src/app/services/alert.service";
+import { DashboardService } from "src/app/services/dashboard.service";
+import { ExcelService } from "src/app/services/excel.service";
 import { MappingdetailServices } from 'src/app/services/mappingdetails.service';
-import { NavigationService } from 'src/app/services/navigation.service';
-import { UserSessionService } from 'src/app/services/usersession.service';
+import { NavigationService } from "src/app/services/navigation.service";
+import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
+import { UserSessionService } from "src/app/services/usersession.service";
+
 
 @Component({
-  selector: 'app-mappingdetails',
-  templateUrl: './mappingdetails.component.html',
-  styleUrls: ['./mappingdetails.component.scss']
+  selector: 'app-weeklytimesheetaproved',
+  templateUrl: './weeklytimesheetaproved.component.html',
+  styleUrls: ['./weeklytimesheetaproved.component.scss']
 })
-export class MappingdetailsComponent implements OnInit {
-
+export class WeeklytimesheetaprovedComponent implements OnInit {
+  routeParams: any;
+  id = 0;
+  actionInfo = 0;
   loading: boolean;
   data = [];
   dataSource = new MatTableDataSource(this.data);
@@ -24,7 +31,6 @@ export class MappingdetailsComponent implements OnInit {
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   UserId: any;
   displayedColumns: string[] = [
-    "action",
     "Project",
     "Employees"
   ];
@@ -33,15 +39,18 @@ export class MappingdetailsComponent implements OnInit {
     public navigationService: NavigationService,
     private mappingdetailServices: MappingdetailServices,
     private excelService: ExcelService,
+    route: ActivatedRoute,
     private usersessionService: UserSessionService,
     private alertService: AlertService
-  ) { }
+  ) { 
+   
+  }
 
   ngOnInit(): void {
-
+    debugger;
     this.UserId = this.usersessionService.userId();
     this.getMappingDetail(this.UserId);
-    this.refresh();
+    //this.getRedistrationData();
   }
 
   refresh() {
@@ -72,4 +81,10 @@ export class MappingdetailsComponent implements OnInit {
   goToAction(id: number, actioninfo: number) {
     this.navigationService.goToMapping(id, actioninfo);
   }
+  viewemplayee(projectid: number, employeid: number){
+    this.navigationService.goToemplayeeview(projectid, employeid);
+  }
+
+ 
+
 }

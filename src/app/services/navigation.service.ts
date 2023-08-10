@@ -25,6 +25,11 @@ export class NavigationService {
     this.router.navigate(['/mappingdetails/' + id, actionInfo]);
   }
 
+  goToemplayeeview(id: any, actionInfo: number){
+    debugger;
+    this.router.navigate(['/weeklytimesheetaprove/' + id, actionInfo]);
+  }
+
   goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {
     this.router.navigate(['/villageuserdetail-edit/' + VillagePanchayatId + '/' + userId + '/' + actionInfo]);
   }
