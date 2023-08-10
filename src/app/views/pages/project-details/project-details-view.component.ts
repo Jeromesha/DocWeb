@@ -70,6 +70,7 @@ export class ProjectDetailsViewComponent implements OnInit {
   filterreportingList: any[];
   secprojectleadlist: any;
   secfilterprojectleadlist: any;
+  filtertechtype: any;
 
 
 
@@ -143,16 +144,17 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId: [null, Validators.required],
       projectName: [null, Validators.required],
       projectTypeId: ["",Validators.required],
-      technologyTypeId: [null, Validators.required],
+      technologyType: [null, Validators.required],
       repositoryName: [null, Validators.required],
-      natureofproject:[null, Validators.required],
+      natureOfProjectType:[null, Validators.required],
       repositoryUrl: [null, Validators.required],
       startDate: [null, Validators.required],
       endDate: [null],
       projectStatusId: [null, Validators.required],
       projectLeadId: [null, Validators.required],
       // reportingPersonId:[null],
-      SecondryleadId:[null]
+      secondaryLeadId:[null],
+      // natureOfProjectType:[null]
     });
   }
 
@@ -206,6 +208,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     debugger;
         this.data = result;
         console.log("?>",this.data);
+        // this.filtertechtype = this.data.technologyType;
         if (this.data) {
           this.form.patchValue(this.data);
           // this.form.controls['projectTypeId'].setValue(this.data.projectTypeId)
@@ -215,6 +218,8 @@ export class ProjectDetailsViewComponent implements OnInit {
             this.isDisable = true;
             //this.isReadOnly = false;
           }
+      this.gettechnologytype();
+
         }
       });
       this.isReadOnly = true;
@@ -255,6 +260,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(9,true).subscribe(result =>{
       this.technologytypelist = result;
       this.filtertechnologytypelist = this.technologytypelist;
+      
     })
   }
 
@@ -298,7 +304,7 @@ export class ProjectDetailsViewComponent implements OnInit {
 
    
     let technologyTypeId = [];
-    const selectedPrijectList = this.form.get('technologyTypeId').value;
+    const selectedPrijectList = this.form.get('technologyType').value;
     if (selectedPrijectList && selectedPrijectList.length > 0) {
       selectedPrijectList.forEach(element => {
         technologyTypeId.push(element.key);
@@ -307,24 +313,25 @@ export class ProjectDetailsViewComponent implements OnInit {
     console.log(">:",this.form.value.clintid);
     debugger;
     let client=this.form.value.clientId;
-    let tech=this.form.value.technologyTypeId;
+    let tech=this.form.value.technologyType;
     var projectdata = 
      { 
       id:this.id,
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
-      SecondryleadId:this.form.value.SecondryleadId,
-      technologyTypeId: technologyTypeId,
+      secondaryLeadId:this.form.value.secondaryLeadId,
+      technologyType: technologyTypeId,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
       startDate: this.form.value.startDate,
       endDate: this.form.value.endDate,
-      projectStatusId: this.form.value.projectStatusId,
+      projectStatus: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId,
-      natureofproject: this.form.value.natureofproject
+      natureOfProjectType: this.form.value.natureofproject
 
     }
+    
 
     if (this.form.valid) {
       debugger
