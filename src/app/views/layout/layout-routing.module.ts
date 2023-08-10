@@ -52,12 +52,20 @@ const routes: Routes = [
       {
         path: "projectdetails",
         loadChildren: () =>
+          // import("./../../views/pages/dashboard/timesheet/timesheet.module").then((m) => m.TimesheetModule
+          // ),
           import("./../../views/pages/project-details/project-details.module").then((m) => m.ProjectDetailsModule)
       },
       {
         path: "weeklytimesheetaprove",
         loadChildren: () =>
           import("./../../views/pages/weeklytimesheetaproved/weeklytimesheetaproved.module").then((m) => m.WeeklytimesheetaprovedModule)
+      },
+
+      {
+        path: "employeeleaverecords",
+        loadChildren: () =>
+          import("./../../views/pages/employeeleaverecords/employeeleaverecords.module").then((m) => m.employeeleaverecordsModule)
       },
     ],
   },
