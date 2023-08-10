@@ -340,7 +340,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       endDate: this.form.value.endDate,
       projectStatusId: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId,
-      natureOfProjectType: this.form.value.natureofproject
+      natureOfProjectType: this.form.value.natureOfProjectType
 
     }
     
