@@ -31,6 +31,7 @@ import { ProjectDetailsViewComponent } from './project-details-view.component';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+PlotlyModule.plotlyjs = PlotlyJS;
 
 const routes: Routes = [
   {
