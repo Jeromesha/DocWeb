@@ -338,7 +338,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       repositoryUrl: this.form.value.repositoryUrl,
       startDate: this.form.value.startDate,
       endDate: this.form.value.endDate,
-      projectStatus: this.form.value.projectStatusId,
+      projectStatusId: this.form.value.projectStatusId,
       projectLeadId: this.form.value.projectLeadId,
       natureOfProjectType: this.form.value.natureofproject
 
