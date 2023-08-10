@@ -110,7 +110,7 @@
                                                 </label>
                                                 <input class="form-control" formControlName="hours"
                                                     [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
-                                                    (dateTimeInput)="timeChange()">
+                                                    (dateTimeInput)="timeChange()" [readonly]="true">
 
                                                 <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
                                                 <div class="valid-error"

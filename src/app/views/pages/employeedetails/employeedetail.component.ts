@@ -54,6 +54,8 @@ export class EmployeedetailComponent implements OnInit {
   defaultProjectList: any = [];
   filterdefaultProjectList: any;
   encryptedPassword: string;
+  secondaryreportingList: any;
+  filtersecondaryreportingList: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -222,6 +224,11 @@ export class EmployeedetailComponent implements OnInit {
       this.filterreportingList = [];
       this.reportingList = res;
       this.filterreportingList = this.reportingList.slice();
+
+      this.secondaryreportingList = [];
+      this.filtersecondaryreportingList = [];
+      this.secondaryreportingList = res;
+      this.filtersecondaryreportingList = this.secondaryreportingList.slice();
     })
   }
 

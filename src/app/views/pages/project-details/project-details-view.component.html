@@ -58,8 +58,8 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{"primary Lead"|translate}}</label>
-                                            <mat-select placeholder="primary Lead" 
+                                            <label class="mandatory ">{{"Primary Lead"|translate}}</label>
+                                            <mat-select placeholder="Primary Lead" 
                                                 formControlName="projectLeadId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
                                                     (filteredReturn)="filterprojectleadlist =$event">
@@ -73,7 +73,7 @@
                                             text-wrap>
                                             <span *ngIf="form.controls.projectLeadId.errors?.required"
                                                 class="form-text danger mandatory">
-                                                {{'primary Lead' | translate}} {{'IsRequired' | translate}}</span>
+                                                {{'Primary Lead' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
                                         </div>
                                     </div>
@@ -81,7 +81,7 @@
                                         <div class="form-group">
                                             <label class=" ">{{'secondary Lead' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="secondaryLeadId" [ngClass]="{'disable':actionInfo == 1}"
-                                                class="form-control pt-2" placeholder="secondary Lead">
+                                                class="form-control pt-2" placeholder="Secondary Lead">
                                                 <mat-select-filter [displayMember]="'value'" [array]="secprojectleadlist"
                                                     (filteredReturn)="secfilterprojectleadlist =$event">
                                                 </mat-select-filter>
@@ -126,8 +126,8 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{"Bussiness Unit"|translate}}</label>
-                                            <mat-select placeholder="{{'Bussiness Unit'|translate}}"    
+                                            <label class="mandatory ">{{"Business Unit"|translate}}</label>
+                                            <mat-select placeholder="{{'Business Unit'|translate}}"    
                                                 formControlName="projectTypeId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="projecttypelist"
                                                     (filteredReturn)="filterprojecttypelist =$event">
@@ -141,7 +141,7 @@
                                             text-wrap>
                                             <span *ngIf="form.controls.projectTypeId.errors?.required"
                                                 class="form-text danger mandatory">
-                                                {{'Bussiness Unit' | translate}} {{'IsRequired' | translate}}</span>
+                                                {{'Business Unit' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
                                         </div>
                                     </div>
@@ -278,6 +278,28 @@
                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <label class="mandatory ">{{"Nature of the project"|translate}}</label>
+                                            <mat-select placeholder='{{"Select Nature of the project"|translate}}' 
+                                                formControlName="natureOfProjectType" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="natureofprojectlist"
+                                                    (filteredReturn)="filternatureofprojectlist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filternatureofprojectlist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.natureOfProjectType.errors && (form.controls.natureOfProjectType.dirty || form.controls.natureOfProjectType.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.natureOfProjectType.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Nature of The Project' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label class="mandatory ">{{"Projectstatus"|translate}}</label>
                                             <mat-select placeholder='{{"Projectstatus"|translate}}' 
                                                 formControlName="projectStatusId" class="form-control pt-2">
@@ -297,27 +319,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{"Nature of the project"|translate}}</label>
-                                            <mat-select placeholder='{{"Select Nature of the project"|translate}}' 
-                                                formControlName="natureOfProjectType" class="form-control pt-2">
-                                                <mat-select-filter [displayMember]="'value'" [array]="natureofprojectlist"
-                                                    (filteredReturn)="filternatureofprojectlist =$event">
-                                                </mat-select-filter>
-                                                <mat-option *ngFor="let item of filternatureofprojectlist" [value]="item.key">
-                                                    {{item.value}}
-                                                </mat-option>
-                                            </mat-select>
-                                            <div class="valid-error"
-                                            *ngIf="form.controls.natureOfProjectType.errors && (form.controls.natureOfProjectType.dirty || form.controls.natureOfProjectType.touched)"
-                                            text-wrap>
-                                            <span *ngIf="form.controls.natureOfProjectType.errors?.required"
-                                                class="form-text danger mandatory">
-                                                {{'Nature of the project' | translate}} {{'IsRequired' | translate}}</span>
-                                        </div>
-                                        </div>
-                                    </div>
+                                  
 
                                 </div>
                             </fieldset>
