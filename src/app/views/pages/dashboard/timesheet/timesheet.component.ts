@@ -55,6 +55,7 @@ export class TimesheetComponent implements OnInit {
   SortList: any;
   projecttypelist: any;
   filterprojecttypelist: any = [];
+  defaultProject: any;
   mindate: Date;
   maxdate: Date;
 
@@ -69,7 +70,6 @@ export class TimesheetComponent implements OnInit {
     private translate: TranslateService) {
     this.routeParams = route.snapshot.params;
     debugger
-    this.id = JSON.parse(this.routeParams.id);
     this.id = parseInt(this.routeParams.id);
     //this.id = 0;
     debugger
@@ -94,6 +94,7 @@ export class TimesheetComponent implements OnInit {
   ngOnInit() {
     this.initializeValidators();
     this.Getproject();
+    this.GetdefaultProject();
     this.GetTaskType();
     this.get(true);
     this.form.controls["entryDate"].setValue(new Date);
@@ -146,6 +147,14 @@ export class TimesheetComponent implements OnInit {
       console.log(">>>?", result);
       this.SortList = result
       this.filterSortList = this.SortList.slice();
+    });
+  }
+  GetdefaultProject() {
+    this.timesheetService.getDefaultProject().subscribe(result => {
+      this.defaultProject = result;
+      if (this.id == 0) {
+        this.form.controls["projectId"].setValue(this.defaultProject);
+      }
     });
   }
 
