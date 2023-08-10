@@ -79,7 +79,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class=" ">{{'secondary Lead' | translate}}</label>
-                                            <mat-select aria-label="true" formControlName="SecondryleadId" [ngClass]="{'disable':actionInfo == 1}"
+                                            <mat-select aria-label="true" formControlName="secondaryLeadId" [ngClass]="{'disable':actionInfo == 1}"
                                                 class="form-control pt-2" placeholder="secondary Lead">
                                                 <mat-select-filter [displayMember]="'value'" [array]="secprojectleadlist"
                                                     (filteredReturn)="secfilterprojectleadlist =$event">
@@ -90,9 +90,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.SecondryleadId.errors && (form.controls.SecondryleadId.dirty || form.controls.SecondryleadId.touched)"
+                                                *ngIf="form.controls.secondaryLeadId.errors && (form.controls.secondaryLeadId.dirty || form.controls.secondaryLeadId.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.SecondryleadId.errors?.required"
+                                                <span *ngIf="form.controls.secondaryLeadId.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'secondary Lead' | translate}} {{'IsRequired' | translate}}</span>
 
@@ -149,14 +149,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                           <label class="mandatory">{{"TexTac"|translate}}</label>
-                                          <ng-multiselect-dropdown class="custom-dropdown"  [disabled]="this.actionInfo == 1" formControlName="technologyTypeId" placeholder="Select TexTac"
+                                          <ng-multiselect-dropdown class="custom-dropdown"  [disabled]="this.actionInfo == 1" formControlName="technologyType" placeholder="Select TexTac"
                                             [settings]="dropdownSettings" [data]='filtertechnologytypelist'>
                                           </ng-multiselect-dropdown>
                 
                                           <div class="valid-error"
-                                          *ngIf="form.controls.technologyTypeId.errors && (form.controls.technologyTypeId.dirty || form.controls.technologyTypeId.touched)"
+                                          *ngIf="form.controls.technologyType.errors && (form.controls.technologyType.dirty || form.controls.technologyType.touched)"
                                           text-wrap>
-                                          <span *ngIf="form.controls.technologyTypeId.errors?.required"
+                                          <span *ngIf="form.controls.technologyType.errors?.required"
                                               class="form-text danger mandatory">
                                               {{'TexTac' | translate}} {{'IsRequired' | translate}}</span>
                                       </div>

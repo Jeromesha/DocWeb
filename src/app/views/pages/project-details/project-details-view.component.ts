@@ -143,7 +143,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId: [null, Validators.required],
       projectName: [null, Validators.required],
       projectTypeId: ["",Validators.required],
-      technologyTypeId: [null, Validators.required],
+      technologyType: [null, Validators.required],
       repositoryName: [null, Validators.required],
       natureofproject:[null, Validators.required],
       repositoryUrl: [null, Validators.required],
@@ -152,7 +152,8 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectStatusId: [null, Validators.required],
       projectLeadId: [null, Validators.required],
       // reportingPersonId:[null],
-      SecondryleadId:[null]
+      secondaryLeadId:[null],
+      natureOfProjectType:[null]
     });
   }
 
@@ -298,7 +299,7 @@ export class ProjectDetailsViewComponent implements OnInit {
 
    
     let technologyTypeId = [];
-    const selectedPrijectList = this.form.get('technologyTypeId').value;
+    const selectedPrijectList = this.form.get('technologyType').value;
     if (selectedPrijectList && selectedPrijectList.length > 0) {
       selectedPrijectList.forEach(element => {
         technologyTypeId.push(element.key);
@@ -307,14 +308,14 @@ export class ProjectDetailsViewComponent implements OnInit {
     console.log(">:",this.form.value.clintid);
     debugger;
     let client=this.form.value.clientId;
-    let tech=this.form.value.technologyTypeId;
+    let tech=this.form.value.technologyType;
     var projectdata = 
      { 
       id:this.id,
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
-      secondaryLeadId:this.form.value.SecondryleadId,
+      secondaryLeadId:this.form.value.secondaryLeadId,
       technologyType: technologyTypeId,
       repositoryName: this.form.value.repositoryName,
       repositoryUrl: this.form.value.repositoryUrl,
