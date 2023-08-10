@@ -167,7 +167,7 @@
                                       </div>
 
 
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Git Repository' | translate}}</label>
                                             <input type="text" class="form-control"
@@ -180,6 +180,28 @@
                                                     {{'Git Repository' | translate}} {{'IsRequired' | translate}}</span>
                                                 
                                             </div>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"Git Repository"|translate}}</label>
+                                            <mat-select placeholder="{{'Git Repository'|translate}}"  [disabled]="isdisable"  
+                                                formControlName="repositoryName" class="form-control pt-2">
+                                                <mat-select-filter [displayMember]="'value'" [array]="GitRepositorylist"
+                                                    (filteredReturn)="filterGitRepositorylist =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterGitRepositorylist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                            *ngIf="form.controls.repositoryName.errors && (form.controls.repositoryName.dirty || form.controls.repositoryName.touched)"
+                                            text-wrap>
+                                            <span *ngIf="form.controls.repositoryName.errors?.required"
+                                                class="form-text danger mandatory">
+                                                {{'Git Repository' | translate}} {{'IsRequired' | translate}}</span>
+                                        </div>
                                         </div>
                                     </div>
 

@@ -71,6 +71,8 @@ export class ProjectDetailsViewComponent implements OnInit {
   secprojectleadlist: any;
   secfilterprojectleadlist: any;
   filtertechtype: any;
+  GitRepositorylist: any;
+  filterGitRepositorylist: any;
 
 
 
@@ -116,6 +118,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.getprojectLead();
     this.gettechnologytype();
     this.getProjectStatus();
+    this.getGitRepository();
     this.getNatureoftheproject();
     this.get(true);
     this.maxDate = new Date();
@@ -271,6 +274,15 @@ export class ProjectDetailsViewComponent implements OnInit {
       this.filterprojectstatuslist = this.ProjectStatuslist;
     })
   }
+
+  getGitRepository(){
+    debugger;
+    this.projectdetailsservice.getLookup(15,true).subscribe(result =>{
+      this.GitRepositorylist = result;
+      this.filterGitRepositorylist = this.GitRepositorylist;
+    })
+  }
+
   reportPersonLookup() {
     this.empDetailsService.getProject(true, 2).subscribe((res) => {
       this.reportingList = [];
