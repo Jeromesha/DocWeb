@@ -22,37 +22,35 @@ export class EmployeedetailsComponent implements OnInit {
 
   displayedColumns: string[] = [
     "action",
-    "empCode",
     "firstName",
     "email",
     "mobile",
     "joiningDate",
     "designation"
   ];
-  constructor(private navigationService:NavigationService,
-    private employeeService:EmployeedetailsService) { }
+  constructor(private navigationService: NavigationService,
+    private employeeService: EmployeedetailsService) { }
 
   ngOnInit(): void {
     this.getEmpDetails();
   }
 
-  goToAction(id,actionInfo){
-    this.navigationService.gotoEmployeeDetails(id,actionInfo)
+  goToAction(id, actionInfo) {
+    this.navigationService.gotoEmployeeDetails(id, actionInfo)
   }
 
-  getEmpDetails()
-  {
-    this.employeeService.getGridDetails(true).subscribe((res)=>{
+  getEmpDetails() {
+    this.employeeService.getGridDetails(true).subscribe((res) => {
       this.data = res;
       this.dataSource = new MatTableDataSource(this.data);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       console.log(res);
-      
+
     })
   }
 
-  refresh(){
+  refresh() {
     this.getEmpDetails();
   }
   applyFilter(event: Event) {
