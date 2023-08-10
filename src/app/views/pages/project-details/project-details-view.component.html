@@ -18,7 +18,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Client Name"|translate}}</label>
-                                            <mat-select placeholder="Select Client Name"  [disabled]="isdisable"
+                                            <mat-select placeholder="Select Client Name"  
                                                 formControlName="clientId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="clintdata"
                                                     (filteredReturn)="filterclintdata =$event">
@@ -40,8 +40,9 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <!-- [ngClass]="{'disable':isdisable}" // if want to disable use this -->
                                             <label class="mandatory ">{{'projectname' | translate}}</label>
-                                            <input type="text" class="form-control" [ngClass]="{'disable':isdisable}"
+                                            <input type="text" class="form-control" 
                                                 formControlName="projectName" placeholder="{{'Project Name' | translate}}" autocomplete="off">
                                             <div class="valid-error"
                                                 *ngIf="form.controls.projectName.errors && (form.controls.projectName.dirty || form.controls.projectName.touched)"
@@ -126,7 +127,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Bussiness Unit"|translate}}</label>
-                                            <mat-select placeholder="{{'Bussiness Unit'|translate}}"  [disabled]="isdisable"  
+                                            <mat-select placeholder="{{'Bussiness Unit'|translate}}"    
                                                 formControlName="projectTypeId" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="projecttypelist"
                                                     (filteredReturn)="filterprojecttypelist =$event">
@@ -185,8 +186,8 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{"Git Repository"|translate}}</label>
-                                            <mat-select placeholder="{{'Git Repository'|translate}}"  [disabled]="isdisable"  
+                                            <label class="mandatory ">{{"Repository"|translate}}</label>
+                                            <mat-select placeholder="{{'Repository'|translate}}"    
                                                 formControlName="repositoryName" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="GitRepositorylist"
                                                     (filteredReturn)="filterGitRepositorylist =$event">
@@ -200,14 +201,14 @@
                                             text-wrap>
                                             <span *ngIf="form.controls.repositoryName.errors?.required"
                                                 class="form-text danger mandatory">
-                                                {{'Git Repository' | translate}} {{'IsRequired' | translate}}</span>
+                                                {{'Repository' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'Git Repository Url' | translate}}</label>
+                                            <label class="mandatory ">{{'Repository Url' | translate}}</label>
                                             <input type="text" class="form-control"
                                                 formControlName="repositoryUrl" placeholder="{{'Repository Url' | translate}}" autocomplete="off">
                                             <div class="valid-error"
