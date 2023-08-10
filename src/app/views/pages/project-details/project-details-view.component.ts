@@ -350,7 +350,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       this.projectdetailsservice.save(projectdata).subscribe(result => {
         const msg1 = this.translate.instant('Savedsuccessfully');
         const msg2 = this.translate.instant('Updatedsuccessfully');
-        const msg3 = this.translate.instant('Region');
+        const msg3 = this.translate.instant('Project Details');
         const sucessmsg = this.id == 0 ? msg1 : msg2;
         this.alertService.result(result, true, msg3 + ' ' + sucessmsg);
       });
