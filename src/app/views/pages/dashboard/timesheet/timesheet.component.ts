@@ -155,6 +155,9 @@ export class TimesheetComponent implements OnInit {
       if (this.id == 0) {
         this.form.controls["projectId"].setValue(this.defaultProject);
       }
+      if (this.defaultProject != 0) {
+        this.showdescription == true;
+      }
     });
   }
 
