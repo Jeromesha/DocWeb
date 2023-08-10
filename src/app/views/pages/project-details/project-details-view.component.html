@@ -151,7 +151,7 @@
                                           <label class="mandatory">{{"TexTac"|translate}}</label>
                                           <ng-multiselect-dropdown class="custom-dropdown"  [disabled]="this.actionInfo == 1" formControlName="technologyType" placeholder="Select TexTac"
                                             [settings]="dropdownSettings" [data]='filtertechnologytypelist'> 
-                                            <mat-option *ngFor="let item of filtertechtype" [value]="item.key">
+                                            <mat-option *ngFor="let item of filtertechnologytypelist" [value]="item.key">
                                                 {{item.value}}
                                             </mat-option>
                                           </ng-multiselect-dropdown>
@@ -278,7 +278,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Nature of the project"|translate}}</label>
                                             <mat-select placeholder='{{"Select Nature of the project"|translate}}' 
-                                                formControlName="natureofproject" class="form-control pt-2">
+                                                formControlName="natureOfProjectType" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="natureofprojectlist"
                                                     (filteredReturn)="filternatureofprojectlist =$event">
                                                 </mat-select-filter>
@@ -287,9 +287,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                            *ngIf="form.controls.natureofproject.errors && (form.controls.natureofproject.dirty || form.controls.natureofproject.touched)"
+                                            *ngIf="form.controls.natureOfProjectType.errors && (form.controls.natureOfProjectType.dirty || form.controls.natureOfProjectType.touched)"
                                             text-wrap>
-                                            <span *ngIf="form.controls.natureofproject.errors?.required"
+                                            <span *ngIf="form.controls.natureOfProjectType.errors?.required"
                                                 class="form-text danger mandatory">
                                                 {{'Nature of the project' | translate}} {{'IsRequired' | translate}}</span>
                                         </div>
