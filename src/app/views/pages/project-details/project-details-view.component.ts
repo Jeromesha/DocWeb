@@ -218,10 +218,11 @@ export class ProjectDetailsViewComponent implements OnInit {
             this.isDisable = true;
             //this.isReadOnly = false;
           }
+      this.gettechnologytype();
+
         }
       });
       this.isReadOnly = true;
-      this.gettechnologytype();
     }
   }
   getclint(){
