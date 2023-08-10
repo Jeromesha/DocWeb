@@ -22,7 +22,7 @@ export class EmployeedetailComponent implements OnInit {
   roleList: any[];
   filterroleType: any[];
   projectList: any[];
-  filterprojectList: any[];
+  filterprojectList: any[] = [];
   filterlocationList: any[];
   locationList: any[];
   filtergenderList: any[];
@@ -91,7 +91,9 @@ export class EmployeedetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialValidators();
-    this.projectLookUp();
+    if (this.id == 0) {
+      this.projectLookUp(true);
+    }
     this.locationLookup();
     this.reportPersonLookup();
     this.roleLookup();
@@ -135,14 +137,33 @@ export class EmployeedetailComponent implements OnInit {
       'fillTimesheet': [false],
       'reportingPersonId': ['', Validators.required],
       'stringPswrd': ['', Validators.required],
-       
+
     })
   }
 
   getEmpDetails() {
     this.empDetailsService.getEmpDetail(true, this.id).subscribe((res) => {
       console.log(res);
+      // res.projectId = [161,162]
+      // res.projectId = [
+      // {
+      //   key: 1,
+      //   value: 'test1'
+      // },
+      // {
+      //   key: 162,
+      //   value: 'chennai'
+      // }];
+      // res.defaultProjectId = 162;
       this.form.patchValue(res);
+      this.projectLookUp(res);
+      debugger
+      // res.projectId.forEach(element => {
+      //   this.getDefaultProjectList(element,1)
+      // });
+      
+
+      debugger
       if (res.fillTimesheet == true) {
         this.timeSheetTrue = true;
         this.timeSheetFalse = false;
@@ -150,33 +171,38 @@ export class EmployeedetailComponent implements OnInit {
         this.timeSheetTrue = false;
         this.timeSheetFalse = true;
       }
-      // this.projectLookUp()
     })
   }
 
-  projectLookUp() {
+  projectLookUp(result) {
     this.empDetailsService.getProject(true, 1).subscribe((res) => {
+      debugger
       console.log(res);
       this.projectList = [];
       this.filterprojectList = [];
       this.projectList = res;
       this.filterprojectList = this.projectList.slice();
+      if(result){
+        console.log(typeof result.projectId)
+       let projetId = result.projectId.filter(a => a.key == result.defaultProjectId)
+       this.getDefaultProjectList(projetId[0],1)
+      }
     })
   }
   getDefaultProjectList(event,id) {
     debugger
-    if(id == 1){
+    if (id == 1) {
       let projectId = event;
       this.defaultProjectList.push(projectId);
       this.filterdefaultProjectList = this.defaultProjectList.slice();
-    }else{
+    } else {
       const index = this.filterdefaultProjectList.findIndex(selectedItem => selectedItem.key === event.key);
-    if (index !== -1) {
-      this.defaultProjectList.splice(index, 1);
-      this.filterdefaultProjectList = this.defaultProjectList.slice();
+      if (index !== -1) {
+        this.defaultProjectList.splice(index, 1);
+        this.filterdefaultProjectList = this.defaultProjectList.slice();
+      }
     }
-    }
-    
+
     // this.filterdefaultProjectList
   }
   isItemSelected(item: any): boolean {
@@ -250,8 +276,7 @@ export class EmployeedetailComponent implements OnInit {
     }
   }
 
-  encrypt()
-  {
+  encrypt() {
     var rsa = forge.pki.publicKeyFromPem(this.publicKey);
     this.encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
   }
@@ -269,20 +294,20 @@ export class EmployeedetailComponent implements OnInit {
     console.log(obj);
 
     if (this.form.valid) {
-     
+
       // this.form.controls['strpassword'].setValue(encryptedPassword)
- 
+
       var data = this.form.value;
       data.password = null;
       data.projectId = projectId,
         data.employeeProfileStream = '';
-        data.isFirstLogin = true,
-      data.isSystemGeneratedPassword = false
+      data.isFirstLogin = true,
+        data.isSystemGeneratedPassword = false
       data.designation = obj[0].value;
       data.uniqueCode = this.form.value.empCode;
       data.stringPswrd = this.encryptedPassword;
       data.marriageDate = this.form.value.marriageDate == "" ? null : this.form.value.marriageDate;
-     data.fillTimesheet = this.timeSheetTrue;
+      data.fillTimesheet = this.timeSheetTrue;
       console.log(data.Designation);
       this.empDetailsService.saveEmployee(data).subscribe((res) => {
         console.log(res, 'savvvv');
