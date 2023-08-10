@@ -151,9 +151,9 @@
                                           <label class="mandatory">{{"TexTac"|translate}}</label>
                                           <ng-multiselect-dropdown class="custom-dropdown"  [disabled]="this.actionInfo == 1" formControlName="technologyType" placeholder="Select TexTac"
                                             [settings]="dropdownSettings" [data]='filtertechnologytypelist'> 
-                                            <mat-option *ngFor="let item of filtertechnologytypelist" [value]="item.key">
+                                            <!-- <mat-option *ngFor="let item of filtertechnologytypelist" [value]="item.key">
                                                 {{item.value}}
-                                            </mat-option>
+                                            </mat-option> -->
                                           </ng-multiselect-dropdown>
                 
                                           <div class="valid-error"

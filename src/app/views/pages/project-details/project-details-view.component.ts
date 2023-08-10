@@ -221,6 +221,7 @@ export class ProjectDetailsViewComponent implements OnInit {
         }
       });
       this.isReadOnly = true;
+      this.gettechnologytype();
     }
   }
   getclint(){
