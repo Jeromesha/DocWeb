@@ -70,6 +70,7 @@ export class ProjectDetailsViewComponent implements OnInit {
   filterreportingList: any[];
   secprojectleadlist: any;
   secfilterprojectleadlist: any;
+  filtertechtype: any;
 
 
 
@@ -207,6 +208,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     debugger;
         this.data = result;
         console.log("?>",this.data);
+        this.filtertechtype = this.data.technologyType;
         if (this.data) {
           this.form.patchValue(this.data);
           // this.form.controls['projectTypeId'].setValue(this.data.projectTypeId)
@@ -256,6 +258,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.projectdetailsservice.getLookup(9,true).subscribe(result =>{
       this.technologytypelist = result;
       this.filtertechnologytypelist = this.technologytypelist;
+      
     })
   }
 
