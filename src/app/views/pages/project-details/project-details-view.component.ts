@@ -146,7 +146,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectTypeId: ["",Validators.required],
       technologyType: [null, Validators.required],
       repositoryName: [null, Validators.required],
-      natureofproject:[null, Validators.required],
+      natureOfProjectType:[null, Validators.required],
       repositoryUrl: [null, Validators.required],
       startDate: [null, Validators.required],
       endDate: [null],
@@ -154,7 +154,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectLeadId: [null, Validators.required],
       // reportingPersonId:[null],
       secondaryLeadId:[null],
-      natureOfProjectType:[null]
+      // natureOfProjectType:[null]
     });
   }
 
@@ -208,7 +208,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     debugger;
         this.data = result;
         console.log("?>",this.data);
-        this.filtertechtype = this.data.technologyType;
+        // this.filtertechtype = this.data.technologyType;
         if (this.data) {
           this.form.patchValue(this.data);
           // this.form.controls['projectTypeId'].setValue(this.data.projectTypeId)
