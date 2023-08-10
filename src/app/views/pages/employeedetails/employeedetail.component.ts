@@ -136,7 +136,7 @@ export class EmployeedetailComponent implements OnInit {
       'projectId': ['', Validators.required],
       'fillTimesheet': [false],
       'reportingPersonId': ['', Validators.required],
-      'stringPswrd': ['', Validators.required],
+      'stringPswrd': ['',],
 
     })
   }
@@ -281,6 +281,13 @@ export class EmployeedetailComponent implements OnInit {
     this.encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
   }
   onSubmit() {
+    if(this.id == 0){
+      this.form.controls['stringPswrd'].setValidators(Validators.required);
+      this.form.controls['stringPswrd'].updateValueAndValidity();
+    }else{
+      this.form.controls['stringPswrd'].clearValidators();
+      this.form.controls['stringPswrd'].updateValueAndValidity();
+    }
     const projectId = [];
     debugger
     const selectedPrijectList = this.form.get('projectId').value;
