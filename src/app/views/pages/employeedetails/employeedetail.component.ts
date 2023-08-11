@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, PatternValidator, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import * as forge from "node-forge";
@@ -338,6 +338,10 @@ export class EmployeedetailComponent implements OnInit {
       this.validateFormControl()
     }
     // encryptedPassword = ''
+  }
+
+  myFunction(event){
+    
   }
 
   validateFormControl() {

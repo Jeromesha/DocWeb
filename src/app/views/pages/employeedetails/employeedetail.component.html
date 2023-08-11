@@ -17,9 +17,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Employee Code' | translate}}</label>
-                                            <input type="text" class="form-control" formControlName="empCode"
+                                            <input type="text" class="form-control" formControlName="empCode" maxlength="4"
                                                 [disabled]="disab" [ngClass]="{'disable':actionInfo == 1 || id>0}"
-                                                placeholder="Employee Code" autocomplete="off" inputText>
+                                                placeholder="Employee Code" autocomplete="off" onkeypress='return (event.charCode >= 48 && event.charCode <= 57)' inputText>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.empCode.errors && (form.controls.empCode.dirty || form.controls.empCode.touched)"
                                                 text-wrap>

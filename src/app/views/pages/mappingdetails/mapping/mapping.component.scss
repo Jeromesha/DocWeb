@@ -78,3 +78,23 @@
 .show {
     display: block;
 }
+
+@media (min-width: 768px){
+.col-md-5 {
+    flex: 0 0 41.6666666667%;
+    max-width: 41.6666666667%;
+    margin-top: 40px;
+}
+}
+.heading {
+    font-weight: 600;
+    margin-left: 180px;
+    line-height: 1.2;
+    margin-bottom: 0;
+}
+.headin1g {
+    font-weight: 600;
+    margin-left: 160px;
+    line-height: 1.2;
+    margin-bottom: 0;
+}
