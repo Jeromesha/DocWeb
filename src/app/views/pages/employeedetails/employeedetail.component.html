@@ -180,68 +180,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- </div> -->
-                                    <!-- <div class="row"> -->
-                                    <!-- <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{'SVN Username' | translate}}</label>
-                                            <input type="text" class="form-control " formControlName="svnUserName" [ngClass]="{'disable':actionInfo == 1}"
-                                                placeholder="SVN Username" autocomplete="off" inputText>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.svnUserName.errors && (form.controls.svnUserName.dirty || form.controls.svnUserName.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.svnUserName.errors?.required"
-                                                    class="form-text  danger mandatory">
-                                                    {{'SVN Username' | translate}} {{'IsRequired' | translate}}</span>
-
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    <!-- <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{'SVN Password' | translate}}</label>
-                                            <input type="text" class="form-control " formControlName="svnPassword" [ngClass]="{'disable':actionInfo == 1}"
-                                                placeholder="SVN Password" autocomplete="off" inputText>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.svnPassword.errors && (form.controls.svnPassword.dirty || form.controls.svnPassword.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.svnPassword.errors?.required"
-                                                    class="form-text  danger mandatory">
-                                                    {{'SVN Password' | translate}} {{'IsRequired' | translate}}</span>
-
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    <!-- </div> -->
-                                    <!-- <div class="row"> -->
-
-                                    <!-- <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory ">{{'Actual DOB' | translate}}</label>
-                                            <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select DOB" [max]="date"
-                                                    formControlName="actualDob" [owlDateTimeTrigger]="dt4" [disabled]="actionInfo == 1"
-                                                    [owlDateTime]="dt4">
-                                                <owl-date-time [pickerType]="'calendar'" #dt4>
-                                                </owl-date-time>
-                                                <div class="input-group-append">
-                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt4">
-                                                        <i class="fa fa-calendar-check-o"></i>
-                                                    </span>
-                                                    <owl-date-time [pickerType]="'calendar'" #dt4>
-                                                    </owl-date-time>
-                                                </div>
-                                            </div>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.actualDob.errors && (form.controls.actualDob.dirty || form.controls.actualDob.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.actualDob.errors?.required"
-                                                    class="form-text  danger mandatory">
-                                                    {{'Actual DOB' | translate}} {{'IsRequired' | translate}}</span>
-
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                    
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Joining Date' | translate}}</label>
@@ -343,7 +282,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory">Project</label>
-                                            <ng-multiselect-dropdown formControlName="projectId" placeholder="Select Project" 
+                                            <ng-multiselect-dropdown [disabled]="actionInfo == 1" formControlName="projectId" placeholder="Select Project" 
                                                 [settings]="dropdownSettings"(onSelect)="getDefaultProjectList($event,1)"  (onDeSelect)="getDefaultProjectList($event,2)" [data]='projectList'>
                                             </ng-multiselect-dropdown>
 
@@ -523,7 +462,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory">Excluded from timesheet &nbsp;</label> <br>
-                                            <mat-radio-group aria-label="Select an option"
+                                            <mat-radio-group [disabled]="actionInfo == 1" aria-label="Select an option"
                                                 (change)="changeOptions($event)" formControlName="fillTimesheet"
                                                 required>
                                                 <mat-radio-button value ="1" [checked]="timeSheetTrue">Yes
@@ -533,20 +472,7 @@
                                             </mat-radio-group>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-4" style="padding-top: 25px;">
-                                        <div class="form-check form-check-flat form-check-primary">
-                                            <mat-checkbox class="form-check-label cursor-pointer checkboxL"
-                                                formControlName="fillTimesheet" (click)="fillTimesheet($event)" >Need to fill timesheet
-                                            </mat-checkbox>
-
-                                        </div>
-                                        <div class="form-check form-check-flat form-check-primary">
-                                            <mat-checkbox class="form-check-label cursor-pointer checkboxL"
-                                                formControlName="isFirstLogin" (click)="isActive($event)"> Is Active
-                                            </mat-checkbox>
-                                        </div>
-                                    </div> -->
-
+                                   
                                 </div>
 
                                 <div class="form-actions mb-2 mt-3" style="float: right;">
