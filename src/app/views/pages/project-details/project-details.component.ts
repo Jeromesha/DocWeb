@@ -66,23 +66,8 @@ export class ProjectDetailsComponent implements OnInit {
   ngOnInit(): void {
     debugger;
     this.UserId = this.usersessionService.userId();
-    // this.gettimesheet(this.UserId);
     this.getprojectdetailsdata();
   }
-
-  // gettimesheet(userId: any) {
-  //   // this.loading = true;
-  //   this.dashboardService.gettimesheet(userId, true).subscribe((res) => {
-  //     if (res) {
-  //       this.loading = false;
-  //       this.data = res;
-  //       this.dataSource = new MatTableDataSource(this.data);
-  //       this.dataSource.sort = this.sort;
-  //       this.dataSource.paginator = this.paginator;
-  //     }
-  //   });
-  // }
-
   getprojectdetailsdata(){
     debugger;
     this.projectdetailsservice.getdata(true).subscribe((result) =>{

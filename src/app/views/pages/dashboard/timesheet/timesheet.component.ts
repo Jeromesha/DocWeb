@@ -155,6 +155,9 @@ export class TimesheetComponent implements OnInit {
       if (this.id == 0) {
         this.form.controls["projectId"].setValue(this.defaultProject);
       }
+      if (this.defaultProject != 0) {
+        this.showdescription == true;
+      }
     });
   }
 
@@ -233,6 +236,8 @@ export class TimesheetComponent implements OnInit {
       // this.form.controls['timeOut'].updateValueAndValidity;
       this.form.controls['description'].clearValidators();
       this.form.controls['description'].updateValueAndValidity();
+      this.form.controls['taskTypeId'].clearValidators();
+      this.form.controls['taskTypeId'].updateValueAndValidity();
       this.form.controls['projectId'].clearValidators();
       this.form.controls['projectId'].updateValueAndValidity();
     }
@@ -245,10 +250,10 @@ export class TimesheetComponent implements OnInit {
           id: this.id,
           entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
           hours: this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
-          description: this.form.value.description,
+          description: this.form.value.IsLeave == 1 ? '' : this.form.value.description,
           projectId: this.form.value.IsLeave == 1 ? 0 : this.form.value.projectId,
           taskId: 0,
-          taskTypeId: this.form.value.taskTypeId,
+          taskTypeId: this.form.value.IsLeave == 1 ? 0 : this.form.value.taskTypeId,
           employeeId: this.userSessionService.userId(),
           isLeave: this.form.value.IsLeave == 1 ? true : false,
           // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)
@@ -304,18 +309,19 @@ export class TimesheetComponent implements OnInit {
   }
   onbtnClick(id) {
     debugger
-    if (id == 1) {
+    if (this.actionInfo != 1) {
+      if (id == 1) {
 
-      this.isLeave = false;
+        this.isLeave = false;
 
 
+      }
+      else {
+        // this.form.controls['choices'].setValue(id);
+        this.isLeave = true;
+
+      }
     }
-    else {
-      // this.form.controls['choices'].setValue(id);
-      this.isLeave = true;
-
-    }
-
 
   }
 }

@@ -35,4 +35,10 @@ export class EmployeeleaverecordsComponent implements OnInit {
       console.log(">/>?",result);
     })
   }
+  onCancel(){
+
+  }
+  onSubmit(){
+    
+  }
 }

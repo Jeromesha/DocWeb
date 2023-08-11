@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, PatternValidator, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import * as forge from "node-forge";
@@ -54,6 +54,8 @@ export class EmployeedetailComponent implements OnInit {
   defaultProjectList: any = [];
   filterdefaultProjectList: any;
   encryptedPassword: string;
+  secondaryreportingList: any;
+  filtersecondaryreportingList: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -222,6 +224,11 @@ export class EmployeedetailComponent implements OnInit {
       this.filterreportingList = [];
       this.reportingList = res;
       this.filterreportingList = this.reportingList.slice();
+
+      this.secondaryreportingList = [];
+      this.filtersecondaryreportingList = [];
+      this.secondaryreportingList = res;
+      this.filtersecondaryreportingList = this.secondaryreportingList.slice();
     })
   }
 
@@ -331,6 +338,10 @@ export class EmployeedetailComponent implements OnInit {
       this.validateFormControl()
     }
     // encryptedPassword = ''
+  }
+
+  myFunction(event){
+    
   }
 
   validateFormControl() {
