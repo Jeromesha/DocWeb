@@ -192,6 +192,10 @@ export class TimesheetComponent implements OnInit {
           console.log(st);
 
           this.form.controls['hours'].setValue(moment(st).add(this.data.hours, 'hours'))
+          if(this.data.isLeave == true){
+            this.form.controls['IsLeave'].setValue(true);
+            this.isLeave=false
+          }
 
         }
       });
@@ -313,7 +317,6 @@ export class TimesheetComponent implements OnInit {
       if (id == 1) {
 
         this.isLeave = false;
-
 
       }
       else {
