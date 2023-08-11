@@ -37,21 +37,21 @@ export class ProjectDetailsComponent implements OnInit {
     "Repositoryurl",
     "ScheduledStart",
     "ScheduledEnd",
-    "projectstatus",
-    "natureofprojectlist"
+    "natureofprojectlist",
+    "projectstatus"
   ];
 
-   // "S.No",
-      // "clintid",
-      // "projectname",
-      // "projecttype",
-      // "Technologytype",
-      // "Repositoryname",
-      // "Repositoryurl",
-      // "ScheduledStart",
-      // "ScheduledEnd",
-      // "projectstatus",
-      // "action"
+  // "S.No",
+  // "clintid",
+  // "projectname",
+  // "projecttype",
+  // "Technologytype",
+  // "Repositoryname",
+  // "Repositoryurl",
+  // "ScheduledStart",
+  // "ScheduledEnd",
+  // "projectstatus",
+  // "action"
   public excelColumns: string[];
 
   constructor(
@@ -69,10 +69,10 @@ export class ProjectDetailsComponent implements OnInit {
     this.UserId = this.usersessionService.userId();
     this.getprojectdetailsdata();
   }
-  getprojectdetailsdata(){
+  getprojectdetailsdata() {
     debugger;
-    this.projectdetailsservice.getdata(true).subscribe((result) =>{
-      console.log("}}}?",result)
+    this.projectdetailsservice.getdata(true).subscribe((result) => {
+      console.log("}}}?", result)
       this.loading = false;
       this.data = result;
       this.dataSource = new MatTableDataSource(this.data);
@@ -115,7 +115,7 @@ export class ProjectDetailsComponent implements OnInit {
         "action"
       ];
 
-     
+
 
       const excelList = [];
       exportData.forEach((a, index) => {
@@ -143,7 +143,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   refresh() {
-    this.searchInput.nativeElement.value = ""; 
+    this.searchInput.nativeElement.value = "";
     this.getprojectdetailsdata();
   }
 
