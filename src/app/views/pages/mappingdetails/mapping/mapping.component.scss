@@ -87,14 +87,13 @@
 }
 }
 .heading {
-    font-weight: 600;
-    margin-left: 180px;
-    line-height: 1.2;
-    margin-bottom: 0;
+    display: flex;
+   justify-content: center;
+//    align-items: center;
+
 }
-.headin1g {
-    font-weight: 600;
-    margin-left: 160px;
-    line-height: 1.2;
-    margin-bottom: 0;
+:host::ng-deep  .mat-checkbox-label-before .mat-checkbox-inner-container {
+    order: 0 !important;
+     margin-left: 7px; 
+    // margin-right: 0px;
 }

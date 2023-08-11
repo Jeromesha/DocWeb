@@ -54,14 +54,14 @@
                                     </div>
                                 </fieldset>
 
-                                <div class="row" style="margin-top: 20px;">
+                                <div class="row" >
                                     <div class="col-md-5">
                                 <h4 class="heading">Employees Available To Add</h4>
 
                                         <section class="example-section selectall mt-4">
                                             <mat-checkbox class="btn-block" formControlName="firstListDatas"
                                                 [(ngModel)]="isSelectAllTransfer" labelPosition="before"
-                                                (change)="selectAllTransfer($event)">Select All
+                                                (change)="selectAllTransfer($event)">&nbsp; Select All
                                             </mat-checkbox>
                                         </section>
                                         <mat-form-field class="col-12">
@@ -88,7 +88,7 @@
                                             (click)="removedToTransfer();"></i>
                                     </div>
                                     <div class="col-md-5">
-                                <h4 class="headin1g">Employees Available In Project</h4>
+                                <h4 class="heading">Employees Available In Project</h4>
 
                                         <section class="example-section selectall mt-4">
                                             <mat-checkbox class="btn-block" formControlName="secondListDatas"
