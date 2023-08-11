@@ -285,9 +285,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory">Project</label>
-                                            <ng-multiselect-dropdown [disabled]="id != 0  "
-                                                formControlName="projectId" placeholder="Select Project"
-                                                [settings]="dropdownSettings"
+                                            <ng-multiselect-dropdown [disabled]="id != 0  " formControlName="projectId"
+                                                placeholder="Select Project" [settings]="dropdownSettings"
                                                 (onSelect)="getDefaultProjectList($event,1)"
                                                 (onDeSelect)="getDefaultProjectList($event,2)" [data]='projectList'>
                                             </ng-multiselect-dropdown>
@@ -413,7 +412,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class=" ">{{'Secondary Reporting Person' | translate}}</label>
-                                            <mat-select aria-label="true" formControlName="secondryReportPerson"
+                                            <mat-select aria-label="true" formControlName="secondlvlReportingPersonId"
                                                 [ngClass]="{'disable':actionInfo == 1}" class="form-control pd"
                                                 placeholder="Select Secondary Reporting Person">
                                                 <mat-select-filter [displayMember]="'value'"

@@ -128,7 +128,7 @@ export class EmployeedetailComponent implements OnInit {
       'roleId': ['', Validators.required],
       'mobile': ['', Validators.required],
       'email': ['', Validators.required],
-      'secondryReportPerson': ['',],
+      'secondlvlReportingPersonId': ['',],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
       'marriageDate': [''],
@@ -304,14 +304,14 @@ export class EmployeedetailComponent implements OnInit {
 
       var data = this.form.value;
       data.password = null;
-      data.projectId = projectId,
-        data.employeeProfileStream = '';
-      data.isFirstLogin = true,
-        data.isSystemGeneratedPassword = false
+      data.projectId = projectId;
+      data.employeeProfileStream = '';
+      data.isFirstLogin = true;
+      data.isSystemGeneratedPassword = false
       data.designation = obj[0].value;
       data.uniqueCode = this.form.value.empCode;
       data.stringPswrd = this.encryptedPassword;
-      data.marriageDate = this.form.value.marriageDate == "" ? null :moment(this.form.value.marriageDate).format('YYYY-MM-DD');
+      data.marriageDate = this.form.value.marriageDate == "" ? null : moment(this.form.value.marriageDate).format('YYYY-MM-DD');
       data.fillTimesheet = this.timeSheetTrue;
       data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
       data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
@@ -319,10 +319,10 @@ export class EmployeedetailComponent implements OnInit {
       this.empDetailsService.saveEmployee(data).subscribe((res) => {
         console.log(res, 'savvvv');
         if (res.isSuccess) {
-          if(this.id == 0){
-            this.alertService.success(data.firstName+' ' + data.lastName +"'s details "+ "saved successfully.");
-          }else{
-            this.alertService.success(data.firstName+' ' + data.lastName +"'s details " + "Updated successfully.");
+          if (this.id == 0) {
+            this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "saved successfully.");
+          } else {
+            this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "Updated successfully.");
 
           }
           this.navigationService.gotoEmployee();
