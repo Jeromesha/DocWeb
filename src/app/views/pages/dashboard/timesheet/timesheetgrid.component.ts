@@ -26,7 +26,7 @@ export class TimesheetgridComponent implements OnInit {
   UserId: any;
   displayedColumns: string[] = [
     "action",
-    "EntryDate",
+    "entryDate",
     "Project",
     "Hours",
     "Description"
