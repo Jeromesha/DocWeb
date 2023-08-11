@@ -6,6 +6,7 @@ import * as forge from "node-forge";
 import * as _ from 'lodash';
 import { AlertService } from 'src/app/services/alert.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-employeedetail',
@@ -50,7 +51,7 @@ export class EmployeedetailComponent implements OnInit {
   filterHybridlocationList: any[];
   dropdownSettings: {};
   timeSheetTrue: boolean;
-  timeSheetFalse: boolean = true;
+  timeSheetFalse: boolean;
   defaultProjectList: any = [];
   filterdefaultProjectList: any;
   encryptedPassword: string;
@@ -68,7 +69,7 @@ export class EmployeedetailComponent implements OnInit {
     this.routeparams = this.route.snapshot.params;
     this.actionInfo = this.routeparams.actionInfo;
     this.id = this.routeparams.id;
-    if (this.id === 0) {
+    if (this.id == 0) {
       this.submitbtn = 'Save';
 
     } else {
@@ -121,7 +122,7 @@ export class EmployeedetailComponent implements OnInit {
   initialValidators() {
     this.form = this.formBuilder.group({
       "Id": [this.id],
-      'empCode': ['', Validators.required],
+      'empCode': [0, Validators.required],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required],
       'roleId': ['', Validators.required],
@@ -137,7 +138,7 @@ export class EmployeedetailComponent implements OnInit {
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
       'projectId': ['', Validators.required],
-      'fillTimesheet': [, Validators.required],
+      'fillTimesheet': [],
       'reportingPersonId': ['', Validators.required],
       'stringPswrd': ['',],
 
@@ -147,16 +148,15 @@ export class EmployeedetailComponent implements OnInit {
   getEmpDetails() {
     this.empDetailsService.getEmpDetail(true, this.id).subscribe((res) => {
       debugger
+      this.form.patchValue(res);
+      this.projectLookUp(res);
       if (res.fillTimesheet == true) {
         this.timeSheetTrue = true;
         this.timeSheetFalse = false;
       } else {
-        this.timeSheetTrue = false;
         this.timeSheetFalse = true;
+        this.timeSheetTrue = false;
       }
-      this.form.patchValue(res);
-      this.projectLookUp(res);
-     
     })
   }
 
@@ -311,8 +311,10 @@ export class EmployeedetailComponent implements OnInit {
       data.designation = obj[0].value;
       data.uniqueCode = this.form.value.empCode;
       data.stringPswrd = this.encryptedPassword;
-      data.marriageDate = this.form.value.marriageDate == "" ? null : this.form.value.marriageDate;
+      data.marriageDate = this.form.value.marriageDate == "" ? null :moment(this.form.value.marriageDate).format('YYYY-MM-DD');
       data.fillTimesheet = this.timeSheetTrue;
+      data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
+      data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
       console.log(data.Designation);
       this.empDetailsService.saveEmployee(data).subscribe((res) => {
         console.log(res, 'savvvv');

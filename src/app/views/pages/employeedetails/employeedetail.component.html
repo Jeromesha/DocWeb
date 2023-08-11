@@ -19,7 +19,7 @@
                                             <label class="mandatory ">{{'Employee Code' | translate}}</label>
                                             <input type="text" class="form-control" formControlName="empCode"
                                                 maxlength="4" [disabled]="disab"
-                                                [ngClass]="{'disable':actionInfo == 1 || id>0}"
+                                                [ngClass]="{'disable':actionInfo == 1 || id > 0}"
                                                 placeholder="Employee Code" autocomplete="off"
                                                 onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'
                                                 inputText>
