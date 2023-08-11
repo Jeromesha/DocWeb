@@ -130,4 +130,19 @@ export class TimesheetgridComponent implements OnInit {
       this.loading = false;
     }, 500);
   }
+
+  deleteRow(id){
+    let data = id
+    this.timesheetService.savetimsheet(data).subscribe(result => {
+      if (result && result.isSuccess) {
+        this.alertService.success("Deleted Successfully");
+
+        // const msg1 = this.translate.instant('Savedsuccessfully');
+        // const msg2 = this.translate.instant('Updatedsuccessfully');
+        // const msg3 = this.translate.instant('');
+        // const sucessmsg = this.id == 0 ? msg1 : msg2;
+
+      }
+  }); 
+}
 }

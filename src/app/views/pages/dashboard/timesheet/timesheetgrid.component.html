@@ -73,6 +73,7 @@
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
+            
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
                     (click)="goToAction(dataField.id, 0)">
@@ -86,6 +87,13 @@
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                     <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
                 </button>
+
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
+                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
+                (click)="deleteRow(dataField.id)">
+                <i class="fa fa-trash fa-2x"></i>
+                <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
+            </button>
 
             </mat-cell>
         </ng-container>
