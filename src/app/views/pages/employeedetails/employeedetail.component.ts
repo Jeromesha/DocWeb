@@ -319,7 +319,12 @@ export class EmployeedetailComponent implements OnInit {
       this.empDetailsService.saveEmployee(data).subscribe((res) => {
         console.log(res, 'savvvv');
         if (res.isSuccess) {
-          this.alertService.success("Employee Details saved successfully.");
+          if(this.id == 0){
+            this.alertService.success(data.firstName+' ' + data.lastName +"'s details "+ "saved successfully.");
+          }else{
+            this.alertService.success(data.firstName+' ' + data.lastName +"'s details " + "Updated successfully.");
+
+          }
           this.navigationService.gotoEmployee();
         }
         else {
