@@ -38,6 +38,7 @@ export class ProjectDetailsComponent implements OnInit {
     "ScheduledStart",
     "ScheduledEnd",
     "projectstatus",
+    "natureofprojectlist"
   ];
 
    // "S.No",

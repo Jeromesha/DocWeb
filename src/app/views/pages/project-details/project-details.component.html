@@ -94,6 +94,13 @@
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="natureofprojectlist">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="natureofprojectlist">{{'Nature Of Project' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.natureofprojectlist}}</p>
+            </mat-cell>
+        </ng-container>
         <!-- <ng-container matColumnDef="projectlead">
             <mat-header-cell *matHeaderCellDef mat-sort-header="projectStatusName">{{'Project Leader Name' | translate}}
             </mat-header-cell>
