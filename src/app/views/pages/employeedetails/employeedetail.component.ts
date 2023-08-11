@@ -131,7 +131,7 @@ export class EmployeedetailComponent implements OnInit {
       'secondlvlReportingPersonId': ['',],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
-      'marriageDate': [''],
+      'marriageDate': [null],
       'defaultProjectId': ['', Validators.required],
       'locationId': ['', Validators.required],
       'designationTypeId': ['', Validators.required],
