@@ -1,9 +1,9 @@
 <div class="pl-1 pr-1 mb-1">
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <!-- <div class="col-md-10 col-sm-12"> -->
-            <h4 class="text-bold-500 text-left hearder-text">
-                Project Details
-            </h4>
+        <h4 class="text-bold-500 text-left hearder-text">
+            Project Details
+        </h4>
         <!-- </div> -->
         <div class="" style="float: right;">
             <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
@@ -94,6 +94,14 @@
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.projectStatusName}}</p>
             </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="natureofprojectlist">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="natureoftheProject">{{'Nature Of Project' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">
+                    {{dataField.natureoftheProject}}</p>
+            </mat-cell>
+        </ng-container>
         <!-- <ng-container matColumnDef="projectlead">
             <mat-header-cell *matHeaderCellDef mat-sort-header="projectStatusName">{{'Project Leader Name' | translate}}
             </mat-header-cell>
@@ -111,10 +119,10 @@
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
-                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                (click)="goToAction(dataField.id,1)">
-                <i class="fa fa-eye fa-2x eyeclr"></i>
-            </button>
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
+                    (click)="goToAction(dataField.id,1)">
+                    <i class="fa fa-eye fa-2x eyeclr"></i>
+                </button>
             </mat-cell>
         </ng-container>
 

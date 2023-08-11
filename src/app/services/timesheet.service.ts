@@ -47,6 +47,15 @@ export class TimeSheetService {
             return response;
         });
     }
+
+    delete(id: number) {
+        debugger
+        return this.dataService.delete('/api/timesheet/deletetimesheetbyid/'+id).map(response => {
+            this.dataService.clearRouteCache(this.getEventRoute);
+            return response;
+        });
+    }
+
     getDefaultProject() {
         return this.dataService.getData('/api/timesheet/getdefaultprojectid', true);
     }

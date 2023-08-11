@@ -131,11 +131,12 @@ export class TimesheetgridComponent implements OnInit {
     }, 500);
   }
 
-  deleteRow(id){
+  deleteRow(id) {
     let data = id
-    this.timesheetService.savetimsheet(data).subscribe(result => {
-      if (result && result.isSuccess) {
-        this.alertService.success("Deleted Successfully");
+    this.timesheetService.delete(data).subscribe(result => {
+      if (result) {
+        this.refresh();
+        this.alertService.success("Deleted Succussfully");
 
         // const msg1 = this.translate.instant('Savedsuccessfully');
         // const msg2 = this.translate.instant('Updatedsuccessfully');
@@ -143,6 +144,6 @@ export class TimesheetgridComponent implements OnInit {
         // const sucessmsg = this.id == 0 ? msg1 : msg2;
 
       }
-  }); 
-}
+    });
+  }
 }

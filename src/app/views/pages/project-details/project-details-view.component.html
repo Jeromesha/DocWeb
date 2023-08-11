@@ -282,7 +282,7 @@
                                             <mat-select placeholder='{{"Select Nature of the project"|translate}}' 
                                                 formControlName="natureOfProjectType" class="form-control pt-2">
                                                 <mat-select-filter [displayMember]="'value'" [array]="natureofprojectlist"
-                                                    (filteredReturn)="filternatureofprojectlist =$event">
+                                                    (filteredReturn)="filternatureofprojectlist =$event" >
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filternatureofprojectlist" [value]="item.key">
                                                     {{item.value}}
