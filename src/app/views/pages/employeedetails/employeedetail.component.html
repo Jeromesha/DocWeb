@@ -285,7 +285,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory">Project</label>
-                                            <ng-multiselect-dropdown [disabled]="actionInfo == 1"
+                                            <ng-multiselect-dropdown [disabled]="id != 0  "
                                                 formControlName="projectId" placeholder="Select Project"
                                                 [settings]="dropdownSettings"
                                                 (onSelect)="getDefaultProjectList($event,1)"

@@ -122,7 +122,7 @@ export class EmployeedetailComponent implements OnInit {
   initialValidators() {
     this.form = this.formBuilder.group({
       "Id": [this.id],
-      'empCode': [0, Validators.required],
+      'empCode': [, Validators.required],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required],
       'roleId': ['', Validators.required],
