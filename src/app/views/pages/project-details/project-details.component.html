@@ -63,7 +63,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="repositoryName">{{'Repository' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.repositoryName == 1? "Git":"SVN"}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Repositoryurl">
