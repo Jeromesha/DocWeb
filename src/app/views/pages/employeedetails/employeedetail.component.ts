@@ -311,7 +311,7 @@ export class EmployeedetailComponent implements OnInit {
       data.designation = obj[0].value;
       data.uniqueCode = this.form.value.empCode;
       data.stringPswrd = this.encryptedPassword;
-      data.marriageDate = this.form.value.marriageDate == "Invalid date" ? null : moment(this.form.value.marriageDate).format('YYYY-MM-DD');
+      data.marriageDate = this.form.value.marriageDate == null ? null : moment(this.form.value.marriageDate).format('YYYY-MM-DD');
       data.fillTimesheet = this.timeSheetTrue;
       data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
       data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
