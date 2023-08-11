@@ -49,13 +49,14 @@ export class EmployeedetailComponent implements OnInit {
   hybridLocationList: any[];
   filterHybridlocationList: any[];
   dropdownSettings: {};
-  timeSheetTrue: boolean = false;
+  timeSheetTrue: boolean;
   timeSheetFalse: boolean = true;
   defaultProjectList: any = [];
   filterdefaultProjectList: any;
   encryptedPassword: string;
   secondaryreportingList: any;
   filtersecondaryreportingList: any;
+  result: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -68,10 +69,10 @@ export class EmployeedetailComponent implements OnInit {
     this.actionInfo = this.routeparams.actionInfo;
     this.id = this.routeparams.id;
     if (this.id === 0) {
-      this.submitbtn = 'Update';
+      this.submitbtn = 'Save';
 
     } else {
-      this.submitbtn = 'Save';
+      this.submitbtn = 'Update';
 
     }
     if (this.actionInfo == 1) {
@@ -136,7 +137,7 @@ export class EmployeedetailComponent implements OnInit {
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
       'projectId': ['', Validators.required],
-      'fillTimesheet': [false],
+      'fillTimesheet': [, Validators.required],
       'reportingPersonId': ['', Validators.required],
       'stringPswrd': ['',],
 
@@ -145,26 +146,6 @@ export class EmployeedetailComponent implements OnInit {
 
   getEmpDetails() {
     this.empDetailsService.getEmpDetail(true, this.id).subscribe((res) => {
-      console.log(res);
-      // res.projectId = [161,162]
-      // res.projectId = [
-      // {
-      //   key: 1,
-      //   value: 'test1'
-      // },
-      // {
-      //   key: 162,
-      //   value: 'chennai'
-      // }];
-      // res.defaultProjectId = 162;
-      this.form.patchValue(res);
-      this.projectLookUp(res);
-      debugger
-      // res.projectId.forEach(element => {
-      //   this.getDefaultProjectList(element,1)
-      // });
-      
-
       debugger
       if (res.fillTimesheet == true) {
         this.timeSheetTrue = true;
@@ -173,6 +154,9 @@ export class EmployeedetailComponent implements OnInit {
         this.timeSheetTrue = false;
         this.timeSheetFalse = true;
       }
+      this.form.patchValue(res);
+      this.projectLookUp(res);
+     
     })
   }
 
@@ -184,28 +168,34 @@ export class EmployeedetailComponent implements OnInit {
       this.filterprojectList = [];
       this.projectList = res;
       this.filterprojectList = this.projectList.slice();
-      if(result){
-        console.log(typeof result.projectId)
-       let projetId = result.projectId.filter(a => a.key == result.defaultProjectId)
-       this.getDefaultProjectList(projetId[0],1)
+      debugger
+      if (result) {
+        console.log(typeof result.projectId);
+        let projetId = result.projectId.filter(a => a.key == result.defaultProjectId);
+        this.getDefaultProjectList(projetId[0], 1)
       }
     })
   }
-  getDefaultProjectList(event,id) {
+  getDefaultProjectList(event, id) {
     debugger
     if (id == 1) {
       let projectId = event;
       this.defaultProjectList.push(projectId);
       this.filterdefaultProjectList = this.defaultProjectList.slice();
+      if (id > 0) {
+        this.filterdefaultProjectList = this.form.value.projectId;
+      }
     } else {
       const index = this.filterdefaultProjectList.findIndex(selectedItem => selectedItem.key === event.key);
       if (index !== -1) {
         this.defaultProjectList.splice(index, 1);
         this.filterdefaultProjectList = this.defaultProjectList.slice();
+        if (id > 0) {
+          this.filterdefaultProjectList = this.form.value.projectId;
+        }
       }
     }
 
-    // this.filterdefaultProjectList
   }
   isItemSelected(item: any): boolean {
     return this.filterdefaultProjectList.some(selectedItem => selectedItem.id === item.id);
@@ -274,7 +264,8 @@ export class EmployeedetailComponent implements OnInit {
 
   }
   changeOptions(event) {
-    if (event.value == 1) {
+    debugger
+    if (event.value == "1") {
       this.timeSheetTrue = true;
       this.timeSheetFalse = false;
     } else {
@@ -288,10 +279,10 @@ export class EmployeedetailComponent implements OnInit {
     this.encryptedPassword = window.btoa(rsa.encrypt(this.form.value.stringPswrd));
   }
   onSubmit() {
-    if(this.id == 0){
+    if (this.id == 0) {
       this.form.controls['stringPswrd'].setValidators(Validators.required);
       this.form.controls['stringPswrd'].updateValueAndValidity();
-    }else{
+    } else {
       this.form.controls['stringPswrd'].clearValidators();
       this.form.controls['stringPswrd'].updateValueAndValidity();
     }
@@ -340,8 +331,8 @@ export class EmployeedetailComponent implements OnInit {
     // encryptedPassword = ''
   }
 
-  myFunction(event){
-    
+  myFunction(event) {
+
   }
 
   validateFormControl() {

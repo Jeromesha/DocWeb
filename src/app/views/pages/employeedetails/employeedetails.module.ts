@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { EmployeedetailsComponent } from './employeedetails.component';
 import { EmployeedetailComponent } from './employeedetail.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -37,6 +37,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ EmployeedetailsComponent, EmployeedetailComponent],
+  providers:[ DatePipe],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

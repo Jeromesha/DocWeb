@@ -39,14 +39,14 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="joiningDate">{{'Joining Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.joiningDate | date : 'dd-MM-YYYY'}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.joiningDate}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="mobile">
             <mat-header-cell *matHeaderCellDef mat-sort-header="mobile">{{'Mobile Number' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.mobile }}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.mobile}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="email">

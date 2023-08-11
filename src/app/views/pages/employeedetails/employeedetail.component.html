@@ -17,9 +17,12 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Employee Code' | translate}}</label>
-                                            <input type="text" class="form-control" formControlName="empCode" maxlength="4"
-                                                [disabled]="disab" [ngClass]="{'disable':actionInfo == 1 || id>0}"
-                                                placeholder="Employee Code" autocomplete="off" onkeypress='return (event.charCode >= 48 && event.charCode <= 57)' inputText>
+                                            <input type="text" class="form-control" formControlName="empCode"
+                                                maxlength="4" [disabled]="disab"
+                                                [ngClass]="{'disable':actionInfo == 1 || id>0}"
+                                                placeholder="Employee Code" autocomplete="off"
+                                                onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'
+                                                inputText>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.empCode.errors && (form.controls.empCode.dirty || form.controls.empCode.touched)"
                                                 text-wrap>
@@ -180,7 +183,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Joining Date' | translate}}</label>
@@ -282,20 +285,23 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory">Project</label>
-                                            <ng-multiselect-dropdown [disabled]="actionInfo == 1" formControlName="projectId" placeholder="Select Project" 
-                                                [settings]="dropdownSettings"(onSelect)="getDefaultProjectList($event,1)"  (onDeSelect)="getDefaultProjectList($event,2)" [data]='projectList'>
+                                            <ng-multiselect-dropdown [disabled]="actionInfo == 1"
+                                                formControlName="projectId" placeholder="Select Project"
+                                                [settings]="dropdownSettings"
+                                                (onSelect)="getDefaultProjectList($event,1)"
+                                                (onDeSelect)="getDefaultProjectList($event,2)" [data]='projectList'>
                                             </ng-multiselect-dropdown>
 
                                             <div class="valid-error"
-                                            *ngIf="form.controls.projectId.errors && (form.controls.projectId.dirty || form.controls.projectId.touched)"
-                                            text-wrap>
-                                            <span *ngIf="form.controls.projectId.errors?.required"
-                                                class="form-text danger mandatory">
-                                                {{'Project' | translate}} {{'IsRequired' | translate}}</span>
-                                        </div>
+                                                *ngIf="form.controls.projectId.errors && (form.controls.projectId.dirty || form.controls.projectId.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.projectId.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    {{'Project' | translate}} {{'IsRequired' | translate}}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Default Project' | translate}}</label>
@@ -316,7 +322,8 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.defaultProjectId.errors?.required"
                                                     class="form-text  danger mandatory">
-                                                    {{'Default Project' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Default Project' | translate}} {{'IsRequired' |
+                                                    translate}}</span>
 
                                             </div>
                                         </div>
@@ -397,7 +404,8 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.reportingPersonId.errors?.required"
                                                     class="form-text  danger mandatory">
-                                                    {{'Reporting Person' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Reporting Person' | translate}} {{'IsRequired' |
+                                                    translate}}</span>
 
                                             </div>
                                         </div>
@@ -408,11 +416,12 @@
                                             <mat-select aria-label="true" formControlName="secondryReportPerson"
                                                 [ngClass]="{'disable':actionInfo == 1}" class="form-control pd"
                                                 placeholder="Select Secondary Reporting Person">
-                                                <mat-select-filter [displayMember]="'value'" [array]="secondaryreportingList"
+                                                <mat-select-filter [displayMember]="'value'"
+                                                    [array]="secondaryreportingList"
                                                     (filteredReturn)="filtersecondaryreportingList =$event">
                                                 </mat-select-filter>
-                                                <mat-option *ngFor="let item of filtersecondaryreportingList" [value]="item.key"
-                                                    class="disp">
+                                                <mat-option *ngFor="let item of filtersecondaryreportingList"
+                                                    [value]="item.key" class="disp">
                                                     {{item.value}}
                                                 </mat-option>
                                             </mat-select>
@@ -430,8 +439,8 @@
                                     <div class="col-md-6" *ngIf="!disab">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Password' | translate}}</label>
-                                            <input type="text" class="form-control " formControlName="stringPswrd" (blur)="encrypt()"
-                                                placeholder="Password" autocomplete="off" inputText>
+                                            <input type="text" class="form-control " formControlName="stringPswrd"
+                                                (blur)="encrypt()" placeholder="Password" autocomplete="off" inputText>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.stringPswrd.errors && (form.controls.stringPswrd.dirty || form.controls.stringPswrd.touched)"
                                                 text-wrap>
@@ -448,7 +457,7 @@
                                             <textarea type="text" [ngClass]="{'disable':actionInfo == 1}"
                                                 class="form-control" maxlength="250" [disabled]="actionInfo == 1"
                                                 placeholder="Address" formControlName="address" autocomplete="off">
-                                     </textarea>
+                                            </textarea>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.address.errors && (form.controls.address.dirty || form.controls.address.touched)"
                                                 text-wrap>
@@ -465,14 +474,23 @@
                                             <mat-radio-group [disabled]="actionInfo == 1" aria-label="Select an option"
                                                 (change)="changeOptions($event)" formControlName="fillTimesheet"
                                                 required>
-                                                <mat-radio-button value ="1" [checked]="timeSheetTrue">Yes
+                                                <mat-radio-button value="1" [checked]="timeSheetTrue">Yes
                                                 </mat-radio-button>&nbsp;
-                                                <mat-radio-button value="3" [checked]="timeSheetFalse">No
+                                                <mat-radio-button value="2" [checked]="timeSheetFalse">No
                                                 </mat-radio-button>
                                             </mat-radio-group>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.fillTimesheet.errors && (form.controls.fillTimesheet.dirty || form.controls.fillTimesheet.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.fillTimesheet.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Excluded from timesheet' | translate}} {{'IsRequired' |
+                                                    translate}}</span>
+
+                                            </div>
                                         </div>
                                     </div>
-                                   
+
                                 </div>
 
                                 <div class="form-actions mb-2 mt-3" style="float: right;">
