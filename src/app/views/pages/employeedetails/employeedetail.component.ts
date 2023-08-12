@@ -116,7 +116,12 @@ export class EmployeedetailComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       allowSearchFilter: true
     };
+    if(this.id==0)
+    {
+      this.timeSheetFalse=true;
+     this.form.controls['fillTimesheet'].setValue('2')
 
+    }
   }
 
   initialValidators() {

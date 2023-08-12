@@ -478,15 +478,7 @@
                                                 <mat-radio-button value="2" [checked]="timeSheetFalse">No
                                                 </mat-radio-button>
                                             </mat-radio-group>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.fillTimesheet.errors && (form.controls.fillTimesheet.dirty || form.controls.fillTimesheet.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.fillTimesheet.errors?.required"
-                                                    class="form-text  danger mandatory">
-                                                    {{'Excluded from timesheet' | translate}} {{'IsRequired' |
-                                                    translate}}</span>
-
-                                            </div>
+                                            
                                         </div>
                                     </div>
 
