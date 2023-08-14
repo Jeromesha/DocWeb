@@ -3,6 +3,8 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import * as moment from "moment";
+import { TranslateService } from '@ngx-translate/core';
+import swal from "sweetalert2";
 import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
 import { ExcelService } from "src/app/services/excel.service";
@@ -35,6 +37,7 @@ export class TimesheetgridComponent implements OnInit {
   constructor(
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
+    public translate: TranslateService,
     private excelService: ExcelService,
     private usersessionService: UserSessionService,
     private timesheetService: TimeSheetService,
@@ -145,5 +148,32 @@ export class TimesheetgridComponent implements OnInit {
 
       }
     });
+  }
+
+  onDelete(e: Event, id: any) {
+    e.preventDefault();
+    const title = this.translate.instant('DeleteConfirmation');
+    const txt = this.translate.instant('Are you sure you want to delete?');
+    const Yes = this.translate.instant('Yes');
+    const No = this.translate.instant('No');
+    swal.fire({
+      title,
+      text: txt,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: Yes,
+      cancelButtonText: No,
+    }).then((result) => {
+      if (result.value) {
+        this.timesheetService.delete(id).subscribe(result => {
+          if (result) {
+            this.refresh();
+            this.alertService.success("Deleted Succussfully");
+          }
+        });
+      }
+    })
   }
 }

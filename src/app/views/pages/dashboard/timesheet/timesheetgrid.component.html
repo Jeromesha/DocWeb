@@ -1,8 +1,8 @@
 <div class="pl-1 pr-1 mb-1">
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
-            <h4 class="text-bold-500 text-left hearder-text">
-                Time Sheet
-            </h4>
+        <h4 class="text-bold-500 text-left hearder-text">
+            Time Sheet
+        </h4>
         <div class="" style="float:right;">
             <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
                 <i class="btn-icon-prepend fa fa-plus"></i>
@@ -56,7 +56,7 @@
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
             </mat-cell>
         </ng-container>
-        
+
         <!-- <ng-container matColumnDef="TimeIn">
             <mat-header-cell *matHeaderCellDef mat-sort-header="TimeIn">{{'TimeIn' | translate}}
             </mat-header-cell>
@@ -74,7 +74,7 @@
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
-            
+
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
                     (click)="goToAction(dataField.id, 0)">
@@ -90,11 +90,11 @@
                 </button>
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
-                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
-                (click)="deleteRow(dataField.id)">
-                <i class="fa fa-trash fa-2x"></i>
-                <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
-            </button>
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
+                    (click)="onDelete($event,dataField.id)">
+                    <i class="fa fa-trash fa-2x"></i>
+                    <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
+                </button>
 
             </mat-cell>
         </ng-container>
