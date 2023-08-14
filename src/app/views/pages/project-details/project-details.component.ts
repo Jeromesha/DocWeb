@@ -7,7 +7,7 @@ import { result } from 'lodash';
 import * as moment from "moment";
 import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
-import { ExcelService } from "src/app/services/excel.service";
+
 import { NavigationService } from "src/app/services/navigation.service";
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { UserSessionService } from "src/app/services/usersession.service";
@@ -52,12 +52,11 @@ export class ProjectDetailsComponent implements OnInit {
   // "ScheduledEnd",
   // "projectstatus",
   // "action"
-  public excelColumns: string[];
+  public: string[];
 
   constructor(
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
-    private excelService: ExcelService,
     private usersessionService: UserSessionService,
     private alertService: AlertService,
     private projectdetailsservice: ProjectdetailsService,
@@ -90,56 +89,6 @@ export class ProjectDetailsComponent implements OnInit {
   }
   goToAction(id: number, actioninfo: number) {
     this.navigationService.goToproject(id, actioninfo);
-  }
-  exportAsXLSX(): void {
-    this.loading = true;
-    setTimeout(() => {
-      var exportData = this.data;
-      if (!exportData || exportData.length === 0) {
-        this.alertService.info("No data available to export");
-        return;
-      }
-
-      this.excelColumns = [
-        "S.No",
-        "clintid",
-        "projectname",
-        "projecttype",
-        "projectlead",
-        "Technologytype",
-        "Repositoryname",
-        "Repositoryurl",
-        "ScheduledStart",
-        "ScheduledEnd",
-        "projectstatus",
-        "action"
-      ];
-
-
-
-      const excelList = [];
-      exportData.forEach((a, index) => {
-        let fillUpDate = moment(a.registrationTs).format('DD-MM-YYYY');
-        excelList.push({
-          sNo: index + 1,
-          registrationRefNo: a.registrationRefNo,
-          registrationTs: fillUpDate,
-          organisationTypeName: a.organisationTypeName,
-          organisationName: a.organisationName,
-          gstNo: a.gstNo,
-          contactPersonName: a.contactPersonName,
-          contactPersonMobileNo: a.contactPersonMobileNo,
-          contactPersonEmail: a.contactPersonEmail,
-          indoorType: a.indoorType,
-        });
-      });
-      this.excelService.exportAsExcelFile(
-        excelList,
-        "Project Details",
-        this.excelColumns
-      );
-      this.loading = false;
-    }, 500);
   }
 
   refresh() {

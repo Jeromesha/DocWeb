@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import swal from "sweetalert2";
 import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
-import { ExcelService } from "src/app/services/excel.service";
+
 import { NavigationService } from "src/app/services/navigation.service";
 import { TimeSheetService } from "src/app/services/timesheet.service";
 import { UserSessionService } from "src/app/services/usersession.service";
@@ -33,12 +33,11 @@ export class TimesheetgridComponent implements OnInit {
     "Hours",
     "Description"
   ];
-  public excelColumns: string[];
+  public: string[];
   constructor(
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
     public translate: TranslateService,
-    private excelService: ExcelService,
     private usersessionService: UserSessionService,
     private timesheetService: TimeSheetService,
     private alertService: AlertService
@@ -80,60 +79,6 @@ export class TimesheetgridComponent implements OnInit {
     debugger
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
-  exportAsXLSX(): void {
-    this.loading = true;
-    setTimeout(() => {
-      var exportData = this.data;
-      if (!exportData || exportData.length === 0) {
-        this.alertService.info("No data available to export");
-        return;
-      }
-
-      this.excelColumns = [
-        "S.No",
-        "Booking Reference Number",
-        "Booking Date",
-        "Organisation Type",
-        "Organisation / Agency Name",
-        "GST IN",
-        "Contact Person Name",
-        "Mobile Number",
-        "E-Mail",
-        "Indoor Type",
-        "Outdoor Type",
-        "Total Cost (inc of GST 18%)",
-        "Payment Status"
-
-      ];
-
-      const excelList = [];
-      exportData.forEach((a, index) => {
-        let fillUpDate = moment(a.registrationTs).format('DD-MM-YYYY');
-        excelList.push({
-          sNo: index + 1,
-          registrationRefNo: a.registrationRefNo,
-          registrationTs: fillUpDate,
-          organisationTypeName: a.organisationTypeName,
-          organisationName: a.organisationName,
-          gstNo: a.gstNo,
-          contactPersonName: a.contactPersonName,
-          contactPersonMobileNo: a.contactPersonMobileNo,
-          contactPersonEmail: a.contactPersonEmail,
-          indoorType: a.indoorType,
-          outdoorTypeName: a.outdoorTypeName,
-          totalCost: a.totalCost,
-          paymentstatus: a.registrationStatusTypeName
-        });
-      });
-      this.excelService.exportAsExcelFile(
-        excelList,
-        "Registration Report",
-        this.excelColumns
-      );
-      this.loading = false;
-    }, 500);
-  }
-
   deleteRow(id) {
     let data = id
     this.timesheetService.delete(data).subscribe(result => {

@@ -7,7 +7,7 @@ import { result } from 'lodash';
 import * as moment from "moment";
 import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
-import { ExcelService } from "src/app/services/excel.service";
+
 import { MappingdetailServices } from 'src/app/services/mappingdetails.service';
 import { NavigationService } from "src/app/services/navigation.service";
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
@@ -34,16 +34,15 @@ export class WeeklytimesheetaprovedComponent implements OnInit {
     "Project",
     "Employees"
   ];
-  public excelColumns: string[];
+  public: string[];
   constructor(
     public navigationService: NavigationService,
     private mappingdetailServices: MappingdetailServices,
-    private excelService: ExcelService,
     route: ActivatedRoute,
     private usersessionService: UserSessionService,
     private alertService: AlertService
-  ) { 
-   
+  ) {
+
   }
 
   ngOnInit(): void {
@@ -81,10 +80,10 @@ export class WeeklytimesheetaprovedComponent implements OnInit {
   goToAction(id: number, actioninfo: number) {
     this.navigationService.goToMapping(id, actioninfo);
   }
-  viewemplayee(projectid: number, employeid: number){
-    this.navigationService.goToemplayeeview(projectid, employeid);
+  viewemployee(projectid: number, employeid: number) {
+    this.navigationService.goToemployeeview(projectid, employeid);
   }
 
- 
+
 
 }

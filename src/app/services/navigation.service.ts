@@ -25,28 +25,17 @@ export class NavigationService {
     this.router.navigate(['/mappingdetails/' + id, actionInfo]);
   }
 
-  goToemplayeeview(id: any, actionInfo: number){
+  goToemployeeview(id: any, actionInfo: number) {
     debugger;
     this.router.navigate(['/weeklytimesheetaprove/' + id, actionInfo]);
   }
 
-  goTovillageuserEdit(VillagePanchayatId: number, userId: number, actionInfo: number) {
-    this.router.navigate(['/villageuserdetail-edit/' + VillagePanchayatId + '/' + userId + '/' + actionInfo]);
-  }
   goToLogin() {
     this.router.navigate(['/auth/login']);
   }
 
   goToUnAuthorized() {
     this.router.navigate(['/unauthorized']);
-  }
-
-  goTOMiPage() {
-    this.router.navigate(['/ribbion']);
-  }
-
-  goTOMiDashboard() {
-    this.router.navigate(['/minewdashboard']);
   }
 
   goToSessionTimedOut() {
@@ -64,34 +53,12 @@ export class NavigationService {
   goToProfile(id: number, actionInfo: number) {
     this.router.navigate(['/profile/' + id, actionInfo]);
   }
-
-  goToDistrict(id: number, actionInfo: number) {
-    this.router.navigate(['/district/' + id, actionInfo]);
-  }
-
-  goToBlock(id: number, actionInfo: number) {
-    this.router.navigate(['/block/' + id, actionInfo]);
-  }
-
-  goToSector(id: number, actionInfo: number) {
-    this.router.navigate(['/sector/' + id, actionInfo]);
-  }
-
-  goToAwc(id: number, actionInfo: number) {
-    this.router.navigate(['/awc/' + id, actionInfo]);
-  }
-
-  goToAwcPage() {
-    this.router.navigate(['/awc/']);
-  }
-
   gotoEmployeeDetails(id: number, actionInfo: number) {
     this.router.navigate(['/employeedetails/' + id, actionInfo])
   }
   gotoEmployee() {
     this.router.navigate(['/employeedetails/'])
   }
-
 
 }
 

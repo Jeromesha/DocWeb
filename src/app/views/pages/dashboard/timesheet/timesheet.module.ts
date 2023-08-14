@@ -24,7 +24,6 @@ import { MatSelectFilterModule } from 'mat-select-filter';
 import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { FeahterIconModule } from 'src/app/core/feather-icon/feather-icon.module';
 import { DashboardService } from 'src/app/services/dashboard.service';
-import { ExcelService } from 'src/app/services/excel.service';
 import { NotifyService } from 'src/app/services/notifyService';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -58,7 +57,6 @@ export const MY_CUSTOM_FORMATS = {
   declarations: [TimesheetComponent, TimesheetgridComponent],
   providers: [
     DashboardService,
-    ExcelService,
     TimeSheetService,
     NotifyService,
     DatePipe,

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FeahterIconModule } from "src/app/core/feather-icon/feather-icon.module";
 import { NgbDropdownModule, NgbProgressbarModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { DashboardService } from "src/app/services/dashboard.service";
-import { ExcelService } from "src/app/services/excel.service";
+
 import { TranslateModule } from "@ngx-translate/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -50,13 +50,13 @@ const routes: Routes = [
   declarations: [EmployeeleaverecordsComponent],
   providers: [
     DashboardService,
-    ExcelService,
+
     NotifyService,
     DatePipe,
-    {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
-    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS},
-   // { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: false } } ,
-    {provide: OWL_DATE_TIME_LOCALE, useValue: 'ist'},
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+    // { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: false } } ,
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'ist' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } }
   ],
   imports: [

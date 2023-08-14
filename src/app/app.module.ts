@@ -19,7 +19,6 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NavigationService } from './services/navigation.service';
-import { ExcelService } from './services/excel.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { LightboxModule } from 'ngx-lightbox';
 import { UserIdleModule } from 'angular-user-idle';
@@ -54,8 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     ErrorPageComponent,
-   
-   
+
+
 
   ],
   imports: [
@@ -119,7 +118,6 @@ export function createTranslateLoader(http: HttpClient) {
     AuthenticationService,
     AlertService,
     RoleService,
-    ExcelService,
     UserSessionService,
     {
       provide: HTTP_INTERCEPTORS,

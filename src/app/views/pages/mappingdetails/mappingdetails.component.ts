@@ -4,7 +4,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { AlertService } from 'src/app/services/alert.service';
-import { ExcelService } from 'src/app/services/excel.service';
 import { MappingdetailServices } from 'src/app/services/mappingdetails.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
@@ -28,11 +27,10 @@ export class MappingdetailsComponent implements OnInit {
     "Project",
     "Employees"
   ];
-  public excelColumns: string[];
+  public: string[];
   constructor(
     public navigationService: NavigationService,
     private mappingdetailServices: MappingdetailServices,
-    private excelService: ExcelService,
     private usersessionService: UserSessionService,
     private alertService: AlertService
   ) { }

@@ -5,7 +5,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import * as moment from "moment";
 import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
-import { ExcelService } from "src/app/services/excel.service";
+
 import { NavigationService } from "src/app/services/navigation.service";
 import { UserSessionService } from "src/app/services/usersession.service";
 
@@ -33,11 +33,10 @@ export class DashboardComponent implements OnInit {
     "TimeIn",
     "TimeOut"
   ];
-  public excelColumns: string[];
+  public: string[];
   constructor(
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
-    private excelService: ExcelService,
     private usersessionService: UserSessionService,
     private alertService: AlertService
   ) { }
@@ -76,58 +75,5 @@ export class DashboardComponent implements OnInit {
   }
   goToAction(id: number, actioninfo: number) {
     this.navigationService.goToTimeSheet(id, actioninfo);
-  }
-  exportAsXLSX(): void {
-    this.loading = true;
-    setTimeout(() => {
-      var exportData = this.data;
-      if (!exportData || exportData.length === 0) {
-        this.alertService.info("No data available to export");
-        return;
-      }
-
-      this.excelColumns = [
-        "S.No",
-        "Booking Reference Number",
-        "Booking Date",
-        "Organisation Type",
-        "Organisation / Agency Name",
-        "GST IN",
-        "Contact Person Name",
-        "Mobile Number",
-        "E-Mail",
-        "Indoor Type",
-        "Outdoor Type",
-        "Total Cost (inc of GST 18%)",
-        "Payment Status"
-
-      ];
-
-      const excelList = [];
-      exportData.forEach((a, index) => {
-        let fillUpDate = moment(a.registrationTs).format('DD-MM-YYYY');
-        excelList.push({
-          sNo: index + 1,
-          registrationRefNo: a.registrationRefNo,
-          registrationTs: fillUpDate,
-          organisationTypeName: a.organisationTypeName,
-          organisationName: a.organisationName,
-          gstNo: a.gstNo,
-          contactPersonName: a.contactPersonName,
-          contactPersonMobileNo: a.contactPersonMobileNo,
-          contactPersonEmail: a.contactPersonEmail,
-          indoorType: a.indoorType,
-          outdoorTypeName: a.outdoorTypeName,
-          totalCost: a.totalCost,
-          paymentstatus: a.registrationStatusTypeName
-        });
-      });
-      this.excelService.exportAsExcelFile(
-        excelList,
-        "Registration Report",
-        this.excelColumns
-      );
-      this.loading = false;
-    }, 500);
   }
 }
