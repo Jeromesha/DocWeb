@@ -148,17 +148,20 @@ input[readonly] {
   pointer-events: none !important;
   opacity: 1.35 !important;
 }
-.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
-  border-color:#3E65A6 !important; 
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #3E65A6 !important;
 }
-.mat-radio-button.mat-accent .mat-radio-inner-circle{
-  color:#3E65A6!important;
-  background-color:#3E65A6!important ;
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  color: #3E65A6 !important;
+  background-color: #3E65A6 !important;
 }
 
 .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-    background-color:#3E65A6!important;
+  background-color: #3E65A6 !important;
 }
+
 .btnadd,
 .btnsave {
   background-color: #3E65A6 !important;
@@ -277,9 +280,12 @@ select,
   min-height: 48% !important;
   position: static;
 }
+
 .centered-cell {
-  text-align: center; /* Horizontally center content */
+  text-align: center;
+  /* Horizontally center content */
 }
+
 .btn.btn-primary.mr-1.btnupdate {
   background-color: #3E65A6 !important;
 }
@@ -375,6 +381,10 @@ mat-form-field.mb-0 {
 
 .eyeclr {
   color: #71B03C;
+}
+
+.trashclr {
+  color: #ed2435;
 }
 
 @media only screen and (max-width: 500px) and (min-width: 320px) {
@@ -799,6 +809,7 @@ $custom-theme: mat-light-theme($custom-primary, $custom-accent);
   font-family: "Overpass", sans-serif !important;
   color: #d0cdd2 !important;
 }
+
 .sidebar .sidebar-body .sidebar-nav .nav-item:hover .nav-link {
   color: #3e65a6 !important;
 }

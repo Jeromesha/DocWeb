@@ -14,41 +14,48 @@ export class ProjectdetailsService {
 
   save(result: any) {
     return this.dataService.post('/api/project', result)
-}
+  }
 
-Approve(result: any) {
-  return this.dataService.post('api/timesheet/updatetimesheet', result)
-}
+  Approve(result: any) {
+    return this.dataService.post('api/timesheet/updatetimesheet', result)
+  }
 
-getById(id: number, refresh: boolean) {
+  getById(id: number, refresh: boolean) {
     debugger;
     return this.dataService.getData('/api/project/' + id, refresh);
-}
-// api/lookup/{moduletype:int}
+  }
+  // api/lookup/{moduletype:int}
 
-getLookup(moduletype: number, refresh:boolean){
-  return this.dataService.getData('/api/lookup/' + moduletype, refresh);
-}
+  getLookup(moduletype: number, refresh: boolean) {
+    return this.dataService.getData('/api/lookup/' + moduletype, refresh);
+  }
 
-getProjectType(refresh:boolean){
-  return this.dataService.getData('/api/lookup/projecttype', refresh)
-}
+  getProjectType(refresh: boolean) {
+    return this.dataService.getData('/api/lookup/projecttype', refresh)
+  }
 
-getTechnologyType(refresh:boolean){
-  return this.dataService.getData('/api/Technologytype', refresh)
-}
+  getTechnologyType(refresh: boolean) {
+    return this.dataService.getData('/api/Technologytype', refresh)
+  }
 
-getProjectStatus(refresh:boolean){
-  return this.dataService.getData('/api/projectstatuslookup', refresh)
-}
+  getProjectStatus(refresh: boolean) {
+    return this.dataService.getData('/api/projectstatuslookup', refresh)
+  }
 
 
-getdata(refresh:boolean){
-  return this.dataService.getData('/api/project', refresh);
-}
+  getdata(refresh: boolean) {
+    return this.dataService.getData('/api/project', refresh);
+  }
 
-getunapproveddata(projectid: any, employeeid: any){
-  return this.dataService.getData('/api/timesheet/timesheetbytimsheetid/' + projectid + '/' + employeeid, true);
-}
+  getunapproveddata(projectid: any, employeeid: any) {
+    return this.dataService.getData('/api/timesheet/timesheetbytimsheetid/' + projectid + '/' + employeeid, true);
+  }
+  delete(id: number) {
+    debugger
+    return this.dataService.post('/api/project/deleteprojectbyid/' + id, true).map(response => {
+      this.dataService.clearRouteCache('/api/project');
+      return response;
+    });
+  }
 
 }

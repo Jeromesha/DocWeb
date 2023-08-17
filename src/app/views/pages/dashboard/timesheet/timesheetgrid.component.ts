@@ -117,6 +117,9 @@ export class TimesheetgridComponent implements OnInit {
             this.refresh();
             this.alertService.success("Deleted Succussfully");
           }
+          else{
+            this.alertService.error("Deletion unsuccussful");
+          }
         });
       }
     })

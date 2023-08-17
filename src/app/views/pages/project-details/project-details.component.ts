@@ -7,7 +7,8 @@ import { result } from 'lodash';
 import * as moment from "moment";
 import { AlertService } from "src/app/services/alert.service";
 import { DashboardService } from "src/app/services/dashboard.service";
-
+import swal from "sweetalert2";
+import { TranslateService } from '@ngx-translate/core';
 import { NavigationService } from "src/app/services/navigation.service";
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { UserSessionService } from "src/app/services/usersession.service";
@@ -59,6 +60,7 @@ export class ProjectDetailsComponent implements OnInit {
     private dashboardService: DashboardService,
     private usersessionService: UserSessionService,
     private alertService: AlertService,
+    public translate: TranslateService,
     private projectdetailsservice: ProjectdetailsService,
     // private router: Router
   ) { }
@@ -96,4 +98,33 @@ export class ProjectDetailsComponent implements OnInit {
     this.getprojectdetailsdata();
   }
 
+  onDelete(e: Event, id: any) {
+    e.preventDefault();
+    const title = this.translate.instant('DeleteConfirmation');
+    const txt = this.translate.instant('Are you sure you want to delete?');
+    const Yes = this.translate.instant('Yes');
+    const No = this.translate.instant('No');
+    swal.fire({
+      title,
+      text: txt,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: Yes,
+      cancelButtonText: No,
+    }).then((result) => {
+      if (result.value) {
+        this.projectdetailsservice.delete(id).subscribe(result => {
+          if (result) {
+            this.refresh();
+            this.alertService.success("Deleted Succussfully");
+          }
+          else {
+            this.alertService.error("Deletion unsuccussful");
+          }
+        });
+      }
+    })
+  }
 }

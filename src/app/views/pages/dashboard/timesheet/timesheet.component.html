@@ -19,7 +19,7 @@
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Date' | translate}}</label>
                                                 <div class="input-group mb-0 ">
-                                                    <input class="form-control" [disabled]="actionInfo == 1"
+                                                    <input class="form-control" [disabled]="this.id != 0"
                                                         placeholder="Select Date" formControlName="entryDate"
                                                         [owlDateTimeTrigger]="dt1" [min]="this.mindate"
                                                         [max]="this.maxdate" [owlDateTime]="dt1">

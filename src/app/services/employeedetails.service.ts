@@ -42,4 +42,11 @@ export class EmployeedetailsService {
   getEmpDetail(refresh,id){
     return this.dataService.getData('/api/employee/'+id,refresh)
   }
+  delete(id: number) {
+    debugger
+    return this.dataService.post('/api/employee/deleteemployeebyid/'+id,true).map(response => {
+        this.dataService.clearRouteCache('/api/employee');
+        return response;
+    });
+}
 }

@@ -78,6 +78,12 @@
                     (click)="goToAction(dataField.id,1)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
+                    (click)="onDelete($event,dataField.id)">
+                    <i class="fa fa-trash fa-2x trashclr"></i>
+                    <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
+                </button>
 
             </mat-cell>
         </ng-container>

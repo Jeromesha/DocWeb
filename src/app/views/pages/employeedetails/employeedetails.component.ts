@@ -1,9 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import swal from "sweetalert2";
+import { AlertService } from 'src/app/services/alert.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employeedetails',
@@ -29,7 +32,10 @@ export class EmployeedetailsComponent implements OnInit {
     "designation"
   ];
   constructor(private navigationService: NavigationService,
-    private employeeService: EmployeedetailsService) { }
+    public translate: TranslateService,
+    private employeeService: EmployeedetailsService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit(): void {
     this.getEmpDetails();
@@ -51,6 +57,7 @@ export class EmployeedetailsComponent implements OnInit {
   }
 
   refresh() {
+    this.searchInput.nativeElement.value = "";
     this.getEmpDetails();
   }
   applyFilter(event: Event) {
@@ -59,5 +66,34 @@ export class EmployeedetailsComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  onDelete(e: Event, id: any) {
+    e.preventDefault();
+    const title = this.translate.instant('DeleteConfirmation');
+    const txt = this.translate.instant('Are you sure you want to delete?');
+    const Yes = this.translate.instant('Yes');
+    const No = this.translate.instant('No');
+    swal.fire({
+      title,
+      text: txt,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: Yes,
+      cancelButtonText: No,
+    }).then((result) => {
+      if (result.value) {
+        this.employeeService.delete(id).subscribe(result => {
+          if (result) {
+            this.refresh();
+            this.alertService.success("Deleted Succussfully");
+          }
+          else {
+            this.alertService.error("Deletion unsuccussful");
+          }
+        });
+      }
+    })
   }
 }
