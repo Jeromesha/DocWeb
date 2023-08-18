@@ -19,7 +19,7 @@
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Date' | translate}}</label>
                                                 <div class="input-group mb-0 ">
-                                                    <input class="form-control" [disabled]="this.id != 0"
+                                                    <input class="form-control" [disabled]="actionInfo ==1"
                                                         placeholder="Select Date" formControlName="entryDate"
                                                         [owlDateTimeTrigger]="dt1" [min]="this.mindate"
                                                         [max]="this.maxdate" [owlDateTime]="dt1">
@@ -168,7 +168,8 @@
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Task Description' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
-                                                    formControlName="description" placeholder="Task Description" autocomplete="off">
+                                                    formControlName="description" placeholder="Task Description"
+                                                    autocomplete="off">
                                      </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
