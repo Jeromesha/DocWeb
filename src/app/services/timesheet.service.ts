@@ -42,7 +42,7 @@ export class TimeSheetService {
 
     savetimsheet(result: any) {
         debugger
-        return this.dataService.post('/api/timesheet', result).map(response => {
+        return this.dataService.post('/api/timesheet/save', result).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });
@@ -50,7 +50,7 @@ export class TimeSheetService {
 
     delete(id: number) {
         debugger
-        return this.dataService.delete('/api/timesheet/deletetimesheetbyid/'+id).map(response => {
+        return this.dataService.delete('/api/timesheet/deletetimesheetbyid/' + id).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });
