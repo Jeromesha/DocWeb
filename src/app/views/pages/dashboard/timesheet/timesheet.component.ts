@@ -192,9 +192,9 @@ export class TimesheetComponent implements OnInit {
           console.log(st);
 
           this.form.controls['hours'].setValue(moment(st).add(this.data.hours, 'hours'))
-          if(this.data.isLeave == true){
+          if (this.data.isLeave == true) {
             this.form.controls['IsLeave'].setValue(true);
-            this.isLeave=false
+            this.isLeave = false
           }
 
         }
@@ -247,25 +247,20 @@ export class TimesheetComponent implements OnInit {
     }
     this.form.controls['entryDate'].setValue(moment(this.form.value.entryDate).format("YYYY-MM-DD"));
     const timesheetData =
-
     {
-      timesheets: [
-        {
-          id: this.id,
-          entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
-          hours: this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
-          description: this.form.value.IsLeave == 1 ? '' : this.form.value.description,
-          projectId: this.form.value.IsLeave == 1 ? 0 : this.form.value.projectId,
-          taskId: 0,
-          taskTypeId: this.form.value.IsLeave == 1 ? 0 : this.form.value.taskTypeId,
-          employeeId: this.userSessionService.userId(),
-          isLeave: this.form.value.IsLeave == 1 ? true : false,
-          // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)
-          // timeOut:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeOut).format('HH:mm:ss'), // Adjusted to use TimeSpan format (hh:mm:ss)
-          taskStatusId: 0
-        }
-      ]
-    }
+      id: this.id,
+      entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00.566Z",
+      hours: this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
+      description: this.form.value.IsLeave == 1 ? '' : this.form.value.description,
+      projectId: this.form.value.IsLeave == 1 ? 0 : this.form.value.projectId,
+      taskId: 0,
+      taskTypeId: this.form.value.IsLeave == 1 ? 0 : this.form.value.taskTypeId,
+      employeeId: this.userSessionService.userId(),
+      isLeave: this.form.value.IsLeave == 1 ? true : false,
+      // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)
+      // timeOut:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeOut).format('HH:mm:ss'), // Adjusted to use TimeSpan format (hh:mm:ss)
+      taskStatusId: 0
+    };
 
     if (this.form.valid) {
       debugger
