@@ -95,7 +95,8 @@ export const MY_CUSTOM_FORMATS = {
     MatCheckboxModule,
     PlotlyModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    MatSelectModule
   ],
 })
 export class TimesheetModule { }

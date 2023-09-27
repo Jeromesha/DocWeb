@@ -32,6 +32,7 @@ import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTi
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import { MY_CUSTOM_FORMATS } from "../dashboard/timesheet/timesheet.module";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
+import { ShowreportComponent } from './showreport/showreport.component';
 
 
 
@@ -41,13 +42,13 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 const routes: Routes = [
   {
-    path: '',
+    path:'',
     component: EmployeeleaverecordsComponent
   }
 ];
 
 @NgModule({
-  declarations: [EmployeeleaverecordsComponent],
+  declarations: [EmployeeleaverecordsComponent, ShowreportComponent],
   providers: [
     DashboardService,
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -11,11 +11,26 @@ import { DashboardService } from "src/app/services/dashboard.service";
 import { NavigationService } from "src/app/services/navigation.service";
 import { TimeSheetService } from "src/app/services/timesheet.service";
 import { UserSessionService } from "src/app/services/usersession.service";
+import { animate, state, style, transition, trigger } from "@angular/animations";
+
 
 @Component({
   selector: 'app-timesheetgrid',
   templateUrl: './timesheetgrid.component.html',
-  styleUrls: ['./timesheetgrid.component.scss']
+  styleUrls: ['./timesheetgrid.component.scss'],
+  animations: [
+    trigger("detailExpand", [
+      state(
+        "collapsed",
+        style({ height: "0px", minHeight: "0", visibility: "hidden" })
+      ),
+      state("expanded", style({ height: "*", visibility: "visible" })),
+      transition(
+        "expanded <=> collapsed",
+        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+      ),
+    ]),
+  ],
 })
 export class TimesheetgridComponent implements OnInit {
 
@@ -26,13 +41,23 @@ export class TimesheetgridComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   UserId: any;
+  expandedElement: any;
+
+  resultArray: any;
+
+  @Input() actioninfo: any;
+
   displayedColumns: string[] = [
     "action",
     "entryDate",
-    "Project",
-    "Hours",
-    "Description"
+    //"Project",
+    "arrowUpDown",
+    "Hours"
+    //"Description"
   ];
+
+
+
   public: string[];
   constructor(
     public navigationService: NavigationService,
@@ -55,18 +80,74 @@ export class TimesheetgridComponent implements OnInit {
     this.gettimesheet(this.UserId);
   }
 
+
+
+  // gettimesheet(userId: any) {
+  //   // this.loading = true;
+  //   this.timesheetService.getTimesheet(userId, true).subscribe((res) => {
+  //     if (res) {
+  //       this.loading = false;
+  //       this.data = res;
+  //       this.dataSource = new MatTableDataSource(this.data);
+  //       this.dataSource.sort = this.sort;
+  //       this.dataSource.paginator = this.paginator;
+  //     }
+  //   });
+  // }
+
+
+
   gettimesheet(userId: any) {
     // this.loading = true;
     this.timesheetService.getTimesheet(userId, true).subscribe((res) => {
       if (res) {
         this.loading = false;
-        this.data = res;
-        this.dataSource = new MatTableDataSource(this.data);
+
+        const uniqueDates = Array.from(new Set(res.map(v => moment(v.entryDate).format('YYYY-MM-DD'))));
+
+        this.resultArray = uniqueDates.map(date => {
+          const dropdownData = res.filter(item => moment(item.entryDate).format('YYYY-MM-DD') === date);
+
+          const formattedDropdownData = this.formatDropdownData(dropdownData);
+
+
+          return {
+            date,
+            totalHours: this.calculateTotalHoursForDate(dropdownData),
+            dropdownData: formattedDropdownData
+          };
+        });
+
+        console.log(this.resultArray);
+
+        this.dataSource = new MatTableDataSource(this.resultArray);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
     });
   }
+
+  calculateTotalHoursForDate(data: any[]): string {
+    const totalMinutes = data.reduce((total, item) => total + item.hours, 0);
+    const totalHours = this.convertMinutesToHoursAndMinutes(totalMinutes);
+    return totalHours;
+
+  }
+  formatDropdownData(data: any[]): any[] {
+    return data.map(item => ({
+      ...item,
+      hours: (this.convertMinutesToHoursAndMinutes(item.hours))
+    }));
+  }
+
+  convertMinutesToHoursAndMinutes(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const hoursString = hours < 10 ? `0${hours}` : `${hours}`;
+    const minutesString = remainingMinutes < 10 ? `0${remainingMinutes}` : `${remainingMinutes}`;
+    return `${hoursString}:${minutesString}`;
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -117,11 +198,54 @@ export class TimesheetgridComponent implements OnInit {
             this.refresh();
             this.alertService.success("Deleted Succussfully");
           }
-          else{
+          else {
             this.alertService.error("Deletion unsuccussful");
           }
         });
       }
     })
+  }
+
+  deleteAll(e: Event, date: any) {
+    debugger;
+    let result = [];
+    result = this.resultArray;
+    console.log(result);
+    for (const item of result) {
+      if (item.date === date) {
+        e.preventDefault();
+        const title = this.translate.instant('DeleteConfirmation');
+        const txt = this.translate.instant('Are you sure you want to delete?');
+        const Yes = this.translate.instant('Yes');
+        const No = this.translate.instant('No');
+        swal.fire({
+          title,
+          text: txt,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: Yes,
+          cancelButtonText: No,
+        }).then((result) => {
+          if (result.value) {
+            for (const i of item.dropdownData) {
+              this.timesheetService.delete(i.id).subscribe(result => {
+                if (result) {
+                  this.refresh();
+                  this.alertService.success("Deleted Succussfully");
+                }
+                else {
+                  this.alertService.error("Deletion unsuccussful");
+                }
+              });
+            }
+          }
+        })
+      }
+    }
+
+
+
   }
 }

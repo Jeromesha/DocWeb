@@ -5,6 +5,8 @@
 
     </div>
 </div>
+
+
 <div class="row text-left">
     <div class="col-md-12">
         <div class="card">
@@ -21,14 +23,14 @@
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control" placeholder="Select Date"
                                                     formControlName="startts" [owlDateTimeTrigger]="dt1"
-                                                    [owlDateTime]="dt1">
-                                                <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                    [owlDateTime]="dt1" [max]="today">
+                                                <owl-date-time [pickerType]="'calendar'"  #dt1>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
                                                     <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1">
                                                         <i class="fa fa-calendar-check-o"></i>
                                                     </span>
-                                                    <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                    <owl-date-time [pickerType]="'calendar'"  #dt1>
                                                     </owl-date-time>
                                                 </div>
                                             </div>
@@ -44,14 +46,14 @@
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control"
                                                     placeholder="Select Date" formControlName="endDate"
-                                                    [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
-                                                <owl-date-time [pickerType]="'calendar'" #dt2>
+                                                    [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" [max]="today">
+                                                <owl-date-time [pickerType]="'calendar'"  #dt2>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
                                                     <span class="trigger input-group-text" [owlDateTimeTrigger]="dt2">
                                                         <i class="fa fa-calendar-check-o"></i>
                                                     </span>
-                                                    <owl-date-time [pickerType]="'calendar'" #dt2>
+                                                    <owl-date-time [pickerType]="'calendar'"  #dt2>
                                                     </owl-date-time>
                                                 </div>
                                             </div>
@@ -60,7 +62,7 @@
                                                 {{'Date' | translate}} {{'IsRequired' | translate}}
                                             </span>
                                         </div>
-                                    </div>
+                                    </div> 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Employee Name"|translate}}</label>
@@ -93,7 +95,7 @@
                                         <button class="btn btnsave"
                                             type="submit" (click)="onSubmit()">
                                             <i class="fa fa-save"></i>
-                                            {{'show report' | translate}}
+                                            {{'Show Report' | translate}}
                                         </button>
                                     </div>
                                 </div>
