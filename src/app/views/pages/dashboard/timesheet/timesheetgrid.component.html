@@ -4,7 +4,7 @@
             Time Sheet
         </h4>
         <div class="" style="float:right;">
-            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
+            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToActions(0,0)">
                 <i class="btn-icon-prepend fa fa-plus"></i>
                 {{'Add' | translate}}
             </button>
@@ -32,7 +32,32 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'EntryDate'|translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.date |date:'dd-MM-yyyy'}}</p>
+                <p class="text-truncate txtalign lbl-pointer" style="margin-top: 10px;">{{dataField.date
+                    |date:'dd-MM-yyyy'}}</p>
+                <!-- <button mat-icon-button *ngIf="expandedElement != dataField"
+                    [class.expanded]="expandedElement == dataField" (click)="expandedElement = dataField"
+                    style="float: right; margin-top: -30px;">
+                    <mat-icon style="background-color: #3E65A6; color: #fff;">keyboard_arrow_down</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="expandedElement == dataField"
+                    [class.expanded]="expandedElement == undefined" (click)="expandedElement = undefined"
+                    style="float: right; margin-top: -30px;">
+                    <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
+                </button> -->
+
+                <button mat-icon-button *ngIf="expandedElement?.date!= dataField?.date"
+                    (click)="expandDown(dataField)"
+                    style="float: right; margin-top: -30px;">
+                    <mat-icon style="background-color: #3E65A6; color: #fff;">keyboard_arrow_down</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="expandedElement?.date == dataField?.date"
+                    (click)="expandUp(undefined)"
+                    style="float: right; margin-top: -30px;">
+                    <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
+                </button>
+
+
+
             </mat-cell>
         </ng-container>
 
@@ -45,34 +70,33 @@
         </ng-container>
 
         <ng-container matColumnDef="expandedDetail">
-            <mat-cell *matCellDef="let dataField; let x=dataIndex"
-                style="display: flow-root;">
-                    <table class="Info" style="width: 100%;">
-                        <tr>
-                            <th>S.No</th>
-                            <th>Project Name</th>
-                            <th>Hours</th>
-                            <th>Remarks</th>
-                            <th>Actions</th>
-                        </tr>
+            <mat-cell *matCellDef="let dataField; let x=dataIndex" style="display: flow-root;">
+                <table class="Info" style="width: 100%;">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Project Name</th>
+                        <th>Hours</th>
+                        <th>Remarks</th>
+                        <th>Actions</th>
+                    </tr>
 
-                        <tr *ngFor="let rowData of dataField.dropdownData; let i=index;">
-                            <td style="vertical-align: middle;">
-                                {{i+1}}
-                            </td>
-                            <td style="vertical-align: middle;">
-                                {{rowData.project}}
+                    <tr *ngFor="let rowData of dataField.dropdownData; let i=index;">
+                        <td style="vertical-align: middle;">
+                            {{i+1}}
+                        </td>
+                        <td style="vertical-align: middle;">
+                            {{rowData.project}}
 
-                            </td>
-                            <td style="vertical-align: middle;">
-                                {{rowData.hours}}
+                        </td>
+                        <td style="vertical-align: middle;">
+                            {{rowData.hours}}
 
-                            </td>
-                            <td style="vertical-align: middle;">
-                                {{rowData.description}}
-                            </td>
-                            <td style="vertical-align: middle;text-align: center;">
-                                <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                        </td>
+                        <td style="vertical-align: middle;">
+                            {{rowData.description}}
+                        </td>
+                        <td style="vertical-align: middle;text-align: center;">
+                            <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
                                     color="primary" (click)="goToAction(rowData.id, 0)">
                                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
@@ -82,20 +106,20 @@
                                     color="accent" (click)="goToAction(rowData.id,1)">
                                     <i class="fa fa-eye fa-2x eyeclr"></i>
                                 </button> -->
-                                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
-                                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
-                                    color="danger" (click)="onDelete($event,rowData.id)">
-                                    <i class="fa fa-trash fa-2x trashclr"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
+                            <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
+                                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
+                                (click)="onDelete($event,rowData.id,dataField.date)">
+                                <i class="fa fa-trash fa-2x trashclr"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
             </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="arrowUpDown">
+        <!-- <ng-container matColumnDef="arrowUpDown">
             <mat-header-cell *matHeaderCellDef  style=" flex: 0 0 5%;">
-                <!-- {{'Expand' | translate}}  -->
+                {{'Expand' | translate}} 
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField" style=" flex: 0 0 5%; text-align: center;" >
                 <button mat-icon-button *ngIf="expandedElement != dataField"
@@ -107,60 +131,27 @@
                     <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
                 </button>
             </mat-cell>
-        </ng-container>
-
-
-
-        <!-- <ng-container matColumnDef="Description">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="description">{{'Task Description' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
-            </mat-cell>
-        </ng-container> -->
-        <!-- <ng-container matColumnDef="Project">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{'Project Name' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
-            </mat-cell>
         </ng-container> -->
 
-
-        <!-- <ng-container matColumnDef="TimeIn">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="TimeIn">{{'TimeIn' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.timeIn}}</p>
-            </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="TimeOut">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="TimeOut">{{'TimeOut' | translate}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.timeOut}}</p>
-            </mat-cell>
-        </ng-container> -->
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="goToAction(dataField.id, 0)">
+                    (click)="goToAction(dataField.date, 0)">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.id,1)">
+                    (click)="goToAction(dataField.date,1)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
                 <!--  (click)="onDelete($event,dataField.id)"-->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
-                    (click)="deleteAll($event,dataField.date)"
-                    >
-                    <i class="fa fa-trash fa-2x trashclr"></i> 
+                    (click)="deleteAll($event,dataField.date)">
+                    <i class="fa fa-trash fa-2x trashclr"></i>
                 </button>
 
             </mat-cell>
@@ -168,10 +159,10 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
 
-        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple  class="element-row">
+        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
         </mat-row>
         <mat-row *matRowDef="let row; columns: ['expandedDetail'];"
-            [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'" style="overflow: hidden">
+            [@detailExpand]="row?.date == expandedElement?.date ? 'expanded' : 'collapsed'" style="overflow: hidden">
         </mat-row>
     </mat-table>
 </div>

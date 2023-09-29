@@ -34,6 +34,7 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 })
 export class TimesheetgridComponent implements OnInit {
 
+
   loading: boolean;
   data = [];
   dataSource = new MatTableDataSource(this.data);
@@ -45,15 +46,14 @@ export class TimesheetgridComponent implements OnInit {
 
   resultArray: any;
 
+  expanded = false;
+
   @Input() actioninfo: any;
 
   displayedColumns: string[] = [
     "action",
     "entryDate",
-    //"Project",
-    "arrowUpDown",
     "Hours"
-    //"Description"
   ];
 
 
@@ -95,29 +95,23 @@ export class TimesheetgridComponent implements OnInit {
   //   });
   // }
 
-
-
   gettimesheet(userId: any) {
-    // this.loading = true;
     this.timesheetService.getTimesheet(userId, true).subscribe((res) => {
       if (res) {
         this.loading = false;
-
-        const uniqueDates = Array.from(new Set(res.map(v => moment(v.entryDate).format('YYYY-MM-DD'))));
-
-        this.resultArray = uniqueDates.map(date => {
-          const dropdownData = res.filter(item => moment(item.entryDate).format('YYYY-MM-DD') === date);
-
+        console.log('res' + res);
+        this.resultArray = res.map((entry) => {
+          const formattedDate = moment(entry.entryDate).format('YYYY-MM-DD');
+          const dropdownData = entry.timesheets;
           const formattedDropdownData = this.formatDropdownData(dropdownData);
-
+          const totalHours = this.calculateTotalHoursForDate(dropdownData);
 
           return {
-            date,
-            totalHours: this.calculateTotalHoursForDate(dropdownData),
+            date: formattedDate,
+            totalHours: totalHours,
             dropdownData: formattedDropdownData
           };
         });
-
         console.log(this.resultArray);
 
         this.dataSource = new MatTableDataSource(this.resultArray);
@@ -129,14 +123,13 @@ export class TimesheetgridComponent implements OnInit {
 
   calculateTotalHoursForDate(data: any[]): string {
     const totalMinutes = data.reduce((total, item) => total + item.hours, 0);
-    const totalHours = this.convertMinutesToHoursAndMinutes(totalMinutes);
-    return totalHours;
-
+    return this.convertMinutesToHoursAndMinutes(totalMinutes);
   }
+
   formatDropdownData(data: any[]): any[] {
     return data.map(item => ({
       ...item,
-      hours: (this.convertMinutesToHoursAndMinutes(item.hours))
+      hours: this.convertMinutesToHoursAndMinutes(item.hours)
     }));
   }
 
@@ -156,9 +149,26 @@ export class TimesheetgridComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  goToAction(id: number, actioninfo: number) {
-    debugger
+  //for add.old 
+  goToActions(id: number, actioninfo: number) {
     this.navigationService.goToTimeSheet(id, actioninfo);
+  }
+  // my method for view, edit 
+  goToAction(date: any, actioninfo: number) {
+    debugger
+    let result = [];
+    result = this.resultArray;
+    console.log(result);
+    for (const item of result) {
+      if (item.date === date) {
+        debugger
+        for (const i of item.dropdownData) {
+          debugger
+          this.navigationService.goToTimeSheet(i.id, actioninfo);
+          debugger
+        }
+      }
+    }
   }
   deleteRow(id) {
     let data = id
@@ -166,20 +176,18 @@ export class TimesheetgridComponent implements OnInit {
       if (result) {
         this.refresh();
         this.alertService.success("Deleted Succussfully");
-
-        // const msg1 = this.translate.instant('Savedsuccessfully');
-        // const msg2 = this.translate.instant('Updatedsuccessfully');
-        // const msg3 = this.translate.instant('');
-        // const sucessmsg = this.id == 0 ? msg1 : msg2;
-
       }
     });
   }
 
-  onDelete(e: Event, id: any) {
+  onDelete(e: Event, id: any, date: any) {
+    debugger;
+    const formatDate = moment(date).format('DD-MM-YYYY');
     e.preventDefault();
     const title = this.translate.instant('DeleteConfirmation');
-    const txt = this.translate.instant('Are you sure you want to delete?');
+    //const msg = 'Are you sure you want to delete the data in '+formatDate+' ?';
+    const msg = 'Are you certain about deleting the record for ' + formatDate + ' ?';
+    const txt = this.translate.instant(msg);
     const Yes = this.translate.instant('Yes');
     const No = this.translate.instant('No');
     swal.fire({
@@ -208,14 +216,16 @@ export class TimesheetgridComponent implements OnInit {
 
   deleteAll(e: Event, date: any) {
     debugger;
+    this.loading = true;
     let result = [];
     result = this.resultArray;
-    console.log(result);
+    const formatDate = moment(date).format('DD-MM-YYYY');
     for (const item of result) {
       if (item.date === date) {
         e.preventDefault();
         const title = this.translate.instant('DeleteConfirmation');
-        const txt = this.translate.instant('Are you sure you want to delete?');
+        const msg = 'Are you certain about deleting the records for ' + formatDate + ' ?';
+        const txt = this.translate.instant(msg);
         const Yes = this.translate.instant('Yes');
         const No = this.translate.instant('No');
         swal.fire({
@@ -244,8 +254,22 @@ export class TimesheetgridComponent implements OnInit {
         })
       }
     }
-
-
-
   }
+
+  expandUp(dataField) {
+    debugger;
+    this.expandedElement = {};
+    this.expandedElement = dataField;
+  }
+  expandDown(dataField) {
+    debugger;
+    this.expandedElement = {};
+    this.expandedElement = dataField;
+  }
+
+
+
+
 }
+
+
