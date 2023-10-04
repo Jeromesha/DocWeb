@@ -312,21 +312,21 @@
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="goToAction(dataField.id, 0)">
+                    (click)="goToAction(dataField.id, 0)" *ngIf="actionInfo == 10">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|   translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.id,1)">
+                    (click)="goToAction(dataField.id,1)" *ngIf="actionInfo == 11">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
 
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
+                <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
-                    (click)="onDelete($event,dataField.id)">
+                    (click)="onDelete($event,dataField.id,dataField.entryDate)">
                     <i class="fa fa-trash fa-2x trashclr"></i>
-                </button>
+                </button> -->
 
             </mat-cell>
         </ng-container>

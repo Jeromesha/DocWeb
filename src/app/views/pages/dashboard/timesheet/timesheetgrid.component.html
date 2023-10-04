@@ -4,7 +4,7 @@
             Time Sheet
         </h4>
         <div class="" style="float:right;">
-            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToActions(0,0)">
+            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
                 <i class="btn-icon-prepend fa fa-plus"></i>
                 {{'Add' | translate}}
             </button>
@@ -29,7 +29,7 @@
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc" multiTemplateDataRows>
 
         <ng-container matColumnDef="entryDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'EntryDate'|translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="date">{{'EntryDate'|translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer" style="margin-top: 10px;"
@@ -98,12 +98,12 @@
                             {{rowData.description}}
                         </td>
                         <td style="vertical-align: middle;text-align: center;">
-                            <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                            <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                                 matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
                                 color="primary" (click)="goToAction(rowData.id, 0)">
                                 <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                             </button>
-                                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
+                            <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
                                     color="accent" (click)="goToAction(rowData.id,1)">
                                 <i class="fa fa-eye fa-2x eyeclr"></i>
@@ -141,12 +141,12 @@
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="goToAction(dataField.date, 0)">
+                    (click)="goToActions(dataField.date,10)">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.date,1)">
+                    (click)="goToActions(dataField.date,11)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
                 <!--  (click)="onDelete($event,dataField.id)"-->

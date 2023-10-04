@@ -42,6 +42,10 @@ const routes: Routes = [
     path: ":id/:actionInfo",
     component: TimesheetComponent
   },
+  {
+    path:"date/:date/:actionInfo",
+    component:TimesheetComponent
+  }
 ];
 export const MY_CUSTOM_FORMATS = {
   parseInput: 'DD/MM/YYYY',

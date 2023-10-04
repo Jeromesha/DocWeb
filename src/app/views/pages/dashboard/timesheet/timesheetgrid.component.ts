@@ -12,6 +12,7 @@ import { NavigationService } from "src/app/services/navigation.service";
 import { TimeSheetService } from "src/app/services/timesheet.service";
 import { UserSessionService } from "src/app/services/usersession.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
+import * as _ from "lodash";
 
 
 @Component({
@@ -113,6 +114,8 @@ export class TimesheetgridComponent implements OnInit {
           };
         });
         console.log(this.resultArray);
+        this.resultArray = _.orderBy(this.resultArray, ['date'], ['desc']);
+
 
         this.dataSource = new MatTableDataSource(this.resultArray);
         this.dataSource.sort = this.sort;
@@ -150,25 +153,26 @@ export class TimesheetgridComponent implements OnInit {
     }
   }
   //for add.old 
-  goToActions(id: number, actioninfo: number) {
+  goToAction(id: number, actioninfo: number) {
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
   // my method for view, edit 
-  goToAction(date: any, actioninfo: number) {
+  goToActions(date: Date, actioninfo: number) {
     debugger
-    let result = [];
-    result = this.resultArray;
-    console.log(result);
-    for (const item of result) {
-      if (item.date === date) {
-        debugger
-        for (const i of item.dropdownData) {
-          debugger
-          this.navigationService.goToTimeSheet(i.id, actioninfo);
-          debugger
-        }
-      }
-    }
+    // let result = [];
+    // result = this.resultArray;
+    // console.log(result);
+    // for (const item of result) {
+    //   if (item.date === date) {
+    //     debugger
+    //     for (const i of item.dropdownData) {
+    //       debugger
+    //       this.navigationService.goToTimeSheet(i.id, actioninfo);
+    //       debugger
+    //     }
+    //   }
+    // }
+    this.navigationService.goToTimeSheets(date, actioninfo);
   }
   deleteRow(id) {
     let data = id

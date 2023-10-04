@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,8 +10,8 @@ import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 // import { SaveTimesheet, TimeSheetViewModel } from 'path/to/save-timesheet.model'; // Adjust the path to the correct location of your model
-
-
+import swal from "sweetalert2";
+import { NavigationService } from "src/app/services/navigation.service";
 import * as moment from 'moment';
 import { add, forOwn, result } from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
@@ -30,12 +30,6 @@ export class TimesheetComponent implements OnInit {
   showTable = false;
   defaulttime: any;
   sussana: any;
-  onDelete($event: MouseEvent, arg1: any) {
-    throw new Error('Method not implemented.');
-  }
-  goToAction(arg0: any, arg1: number) {
-    throw new Error('Method not implemented.');
-  }
 
   list: any[] = []
   datalist: any[] = []
@@ -44,15 +38,12 @@ export class TimesheetComponent implements OnInit {
     {
       entryDate: null,
     }
-  //  tableentry: any;
-
-  //  registeredEntries: any[] = [];
-  //  added = false;
 
   dataSource = new MatTableDataSource(this.list);
   //dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   displayedColumns: string[] = [
     "action",
     "entryDate",
@@ -103,8 +94,11 @@ export class TimesheetComponent implements OnInit {
   //isDataEntered: boolean = false;
   private isLeaveValue: number;
 
-
-
+  //my code 
+  date: any;
+  private route: ActivatedRoute;
+  UserId: any;
+  formatdate: any;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -113,19 +107,30 @@ export class TimesheetComponent implements OnInit {
     private alertService: AlertService,
     private userSessionService: UserSessionService,
     private timesheetService: TimeSheetService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    public navigationService: NavigationService) {
     this.routeParams = route.snapshot.params;
     debugger
     this.id = parseInt(this.routeParams.id);
+    //mycode
+    this.actionInfo = this.routeParams.actionInfo;
+    debugger;
+    if (this.actionInfo == 0 || this.actionInfo == 1) {
+      this.id = parseInt(this.routeParams.id);
+    }
+    else {
+      this.date = this.routeParams.id;
+    }
+    //this.id = 0;
     let formattedDate = (moment()).format('DD-MMM-YYYY HH:mm:ss')
     debugger
-    this.actionInfo = this.routeParams.actionInfo
+    //this.actionInfo = this.routeParams.actionInfo
     if (this.id === 0) {
       this.submitbtn = 'Save';
     } else {
       this.submitbtn = 'Update';
     }
-    if (this.actionInfo == 1) {
+    if (this.actionInfo == 1 || this.actionInfo == 11) {
       this.formEditMode = false
     }
     this.pattern = /^[^\s]+(\s+[^\s]+)*$/;
@@ -148,6 +153,9 @@ export class TimesheetComponent implements OnInit {
     this.GetdefaultProject();
     this.GetTaskType();
     this.get(true);
+    this.UserId = this.userSessionService.userId();
+    debugger;
+    this.getgrid(this.UserId, true);
     // this.form.controls["entryDate"].setValue(new Date);// old code
 
     this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
@@ -206,7 +214,7 @@ export class TimesheetComponent implements OnInit {
         let date = i.entryDate;
         date = moment(date).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
         const timesheet = {
-          "id": 0,
+          //"id": 0,
           "entryDate": date,
           "hours": hour,
           "description": i.description,
@@ -326,11 +334,14 @@ export class TimesheetComponent implements OnInit {
     if (this.id > 0) {
       this.timesheetService.gettimesheetById(this.id, refresh).subscribe(result => {
         this.data = result;
+        //console.log('data'+this.data);
         if (this.data) {
           //this.form.controls['hours'].setValue("13:03")
           if (this.data.description) {
             this.showdescription = true
           }
+          debugger
+
           this.form.patchValue(this.data);
           this.Getproject();
           this.GetTaskType();
@@ -356,6 +367,49 @@ export class TimesheetComponent implements OnInit {
       this.isReadOnly = true;
     }
   }
+  getgrid(userId: any, refresh: boolean) {
+    debugger
+    if (this.date) {
+      this.timesheetService.getTimesheet(userId, refresh).subscribe(result => {
+        this.data = result;
+        console.log('data' + this.data);
+        debugger;
+        for (let item of this.data) {
+          this.formatdate = moment(item.entryDate).format('YYYY-MM-DD');
+          debugger;
+          if (this.date === this.formatdate) {
+            //this.dataSource = new MatTableDataSource(item.timesheets);
+            const convertedData = item.timesheets.map(entry => ({
+              ...entry,
+              hours: this.convertMinutesToHHMM(entry.hours)
+            }));
+            this.dataSource = new MatTableDataSource(convertedData);
+            this.Getproject();
+            this.GetTaskType();
+            if (item.timesheets.isLeave == true) {
+              this.form.controls['IsLeave'].setValue(true);
+              this.isLeave = false
+            }
+          }
+        }
+      });
+      this.isReadOnly = true;
+    }
+  }
+  convertMinutesToHHMM(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const hoursStr = hours < 10 ? '0' + hours : '' + hours;
+    const minutesStr = remainingMinutes < 10 ? '0' + remainingMinutes : '' + remainingMinutes;
+    return hoursStr + ':' + minutesStr;
+  }
+
+
+  goToAction(id: number, actioninfo: number) {
+    debugger;
+    this.navigationService.goToTimeSheet(id, actioninfo);
+  }
+
   private formatWithLeadingZero(value: number): string {
     return value.toString().padStart(2, '0');
   }
@@ -489,6 +543,52 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
+  // // Function to reset the data entered flag (e.g., when "Leave" button is clicked)
+  // resetDataEntered() {
+  //   this.isDataEntered = false;
+  // }
+
+  // onDelete(e: Event, id: any, date: any) {
+  //   debugger;
+  //   const formatDate = moment(date).format('DD-MM-YYYY');
+  //   e.preventDefault();
+  //   const title = this.translate.instant('DeleteConfirmation');
+  //   const msg = 'Are you certain about deleting the record for ' + formatDate + ' ?';
+  //   const txt = this.translate.instant(msg);
+  //   const Yes = this.translate.instant('Yes');
+  //   const No = this.translate.instant('No');
+  //   swal.fire({
+  //     title,
+  //     text: txt,
+  //     icon: 'question',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: Yes,
+  //     cancelButtonText: No,
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       this.timesheetService.delete(id).subscribe(result => {
+  //         if (result) {
+  //           debugger;
+  //           this.refresh();
+  //           this.alertService.success("Deleted Succussfully");
+  //         }
+  //         else {
+  //           this.alertService.error("Deletion unsuccussful");
+  //         }
+  //       });
+  //     }
+  //   })
+  // }
+
+  //   refresh() {
+  //     debugger
+  //     this.searchInput.nativeElement.value = "";
+  //     //this.gettimesheet(this.UserId);
+  //     debugger;
+  //     this.getgrid(this.UserId,true);
+  //   }
 }
 
 

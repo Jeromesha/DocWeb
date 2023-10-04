@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Injectable()
 
@@ -14,6 +15,15 @@ export class NavigationService {
     debugger;
     this.router.navigate(['/timesheet/' + id, actionInfo]);
   }
+
+
+  //my code 
+  goToTimeSheets(date: Date, actionInfo: number) {
+    debugger;
+    const formattedDate = moment(date).format('YYYY-MM-DD');
+    this.router.navigate(['/timesheet/' + formattedDate, actionInfo]);
+  }
+
 
   goToproject(id: number, actionInfo: number) {
     debugger;
