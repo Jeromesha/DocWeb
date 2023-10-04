@@ -246,7 +246,8 @@
                                         {{'Add' | translate}}
                                     </button> 
                                 (click)="showTable = true"-->
-                                    <button (click)="showTable = true"
+                                    <button (click)="showTable = true" 
+                                        *ngIf=formEditMode
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
@@ -272,7 +273,7 @@
 </div>
 <br>
 <!-- *ngIf="showTable" -->
-<div class="table-responsive" *ngIf="showTable">
+<div class="table-responsive" >
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
         <ng-container matColumnDef="entryDate">
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Date'|translate}}
@@ -286,7 +287,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.hours | date: 'HH:mm'}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.hours}}</p>
             </mat-cell>
         </ng-container>
 
@@ -306,19 +307,21 @@
             </mat-cell>
         </ng-container>
 
-
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
+                <!-- (click)="goToAction(dataField.id, 0)" -->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="goToAction(dataField.id, 0)" *ngIf="actionInfo == 10">
+                    (click)="onAction(dataField.id, true)"
+                     *ngIf="actionInfo == 10">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
-
+                <!-- (click)="goToAction(dataField.id,1)" -->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|   translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToAction(dataField.id,1)" *ngIf="actionInfo == 11">
+                    (click)="onAction(dataField.id, true)"
+                     *ngIf="actionInfo == 11">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
 
