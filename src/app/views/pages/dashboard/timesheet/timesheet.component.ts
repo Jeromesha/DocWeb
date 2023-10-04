@@ -382,6 +382,7 @@ export class TimesheetComponent implements OnInit {
             const convertedData = item.timesheets.map(entry => ({
               ...entry,
               hours: this.convertMinutesToHHMM(entry.hours)
+
             }));
             this.dataSource = new MatTableDataSource(convertedData);
             this.Getproject();

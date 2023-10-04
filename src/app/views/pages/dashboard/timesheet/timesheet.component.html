@@ -246,7 +246,7 @@
                                         {{'Add' | translate}}
                                     </button> 
                                 (click)="showTable = true"-->
-                                    <button (click)="showTable = true"
+                                    <button *ngIf=formEditMode
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
@@ -272,7 +272,7 @@
 </div>
 <br>
 <!-- *ngIf="showTable" -->
-<div class="table-responsive" *ngIf="showTable">
+<div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
         <ng-container matColumnDef="entryDate">
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Date'|translate}}
@@ -286,7 +286,14 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.hours | date: 'HH:mm'}}</p>
+                <ng-container *ngIf="actionInfo == 11 || actionInfo == 10; else formattedHoursTemplate">
+                    <!-- Display this when actionInfo is 1 or 0 -->
+                    <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
+                </ng-container>
+                <ng-template #formattedHoursTemplate>
+                    <!-- Display this when actionInfo is not 1 or 0 -->
+                    <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours | date:'HH:mm' }}</p>
+                </ng-template>
             </mat-cell>
         </ng-container>
 
