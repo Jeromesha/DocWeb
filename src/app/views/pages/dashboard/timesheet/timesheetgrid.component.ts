@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -35,7 +35,7 @@ import * as _ from "lodash";
 })
 export class TimesheetgridComponent implements OnInit {
 
-
+  @Output() showTable;
   loading: boolean;
   data = [];
   dataSource = new MatTableDataSource(this.data);

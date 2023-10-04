@@ -141,12 +141,14 @@
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="goToActions(dataField.date,10)">
+                    (click)="goToActions(dataField.date,10)"
+                    (click)="showTable = true">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToActions(dataField.date,11)">
+                    (click)="goToActions(dataField.date,11)"
+                    (click)="showTable = true">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
                 <!--  (click)="onDelete($event,dataField.id)"-->

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -131,7 +131,7 @@ export class TimesheetComponent implements OnInit {
       this.submitbtn = 'Update';
     }
     if (this.actionInfo == 1 || this.actionInfo == 11) {
-      this.formEditMode = false
+      this.formEditMode = false;
     }
     this.pattern = /^[^\s]+(\s+[^\s]+)*$/;
     this.emailpattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -379,11 +379,14 @@ export class TimesheetComponent implements OnInit {
           debugger;
           if (this.date === this.formatdate) {
             //this.dataSource = new MatTableDataSource(item.timesheets);
+            debugger;
             const convertedData = item.timesheets.map(entry => ({
               ...entry,
               hours: this.convertMinutesToHHMM(entry.hours)
 
             }));
+            debugger;
+            console.log('convert ',convertedData)
             this.dataSource = new MatTableDataSource(convertedData);
             this.Getproject();
             this.GetTaskType();
@@ -409,6 +412,28 @@ export class TimesheetComponent implements OnInit {
   goToAction(id: number, actioninfo: number) {
     debugger;
     this.navigationService.goToTimeSheet(id, actioninfo);
+  }
+
+  onAction(id:any, refresh: boolean) {
+    debugger
+    if (id > 0) {
+      this.timesheetService.gettimesheetById(id, refresh).subscribe(result => {
+        this.data = result;
+        if (this.data) {
+          // const convertedData = this.data.map(entry => ({
+          //   ...entry,
+          //   hours: this.convertMinutesToHHMM(entry.hours)
+          // }));
+          this.form.patchValue( this.data);
+          this.Getproject();
+          this.GetTaskType();
+          if (this.data.isLeave == true) {
+            this.form.controls['IsLeave'].setValue(true);
+            this.isLeave = false
+          }
+        }
+      });
+    }
   }
 
   private formatWithLeadingZero(value: number): string {
