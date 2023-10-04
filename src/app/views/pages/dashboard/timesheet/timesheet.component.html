@@ -54,14 +54,18 @@
 
                                                     <mat-button-toggle
                                                         [ngClass]="this.form.value.IsLeave == 1 ? 'btnred' :''"
-                                                        (click)="onbtnClick(1)" [value]="1">Leave</mat-button-toggle>
+                                                        (click)="onbtnClick(1)" [value]="1"
+                                                        [disabled]="list.length > 0">Leave
+                                                    </mat-button-toggle>
+
                                                     <mat-button-toggle
                                                         [ngClass]="this.form.value.IsLeave == 2 ? 'butgreen' :''"
-                                                        (click)="onbtnClick(2)" [value]="2">Present</mat-button-toggle>
+                                                        (click)="onbtnClick(2)" [value]="2">Present
+                                                    </mat-button-toggle>
                                                 </mat-button-toggle-group>
                                             </div>
                                         </div> -->
-
+                                        <!-- working but not needed -->
                                         <div class="col-md-6" style="display: flex; align-items: end;">
                                             <div class="form-group">
                                                 <mat-button-toggle-group formControlName="IsLeave"
@@ -75,27 +79,15 @@
                                                         [ngClass]="form.value.IsLeave === 2 ? 'butgreen' : ''"
                                                         (click)="onbtnClick(2)" [value]="2"
                                                         [disabled]="form.value.IsLeave === 1 || rowCount > 0 || actionInfo == 1">Present</mat-button-toggle>
-                                                    <!-- <mat-button-toggle
-                                                        [ngClass]="form.value.IsLeave === 1 ? 'btnred' : ''"
-                                                        (click)="onbtnClick(1)" [value]="1"
-                                                        *ngIf="form.value.IsLeave === 1 && rowCount === 0">Leave</mat-button-toggle>
-
-                                                    <mat-button-toggle
-                                                        [ngClass]="form.value.IsLeave === 2 ? 'butgreen' : ''"
-                                                        (click)="onbtnClick(2); resetDataEntered();" [value]="2"
-                                                        *ngIf="form.value.IsLeave === 1 && rowCount===0 || actionInfo == 1 || isDataEntered">Present</mat-button-toggle> -->
                                                 </mat-button-toggle-group>
-
-
-
-
                                             </div>
                                         </div>
+
                                         <!-- </div> -->
 
 
                                         <!-- <div class="row" *ngIf="this.form.value.IsLeave==2"> -->
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" *ngIf="isLeave">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Project' | translate}}</label>
                                                 <mat-select [disabled]="actionInfo == 1" placeholder="Project"
@@ -115,7 +107,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6" *ngIf="isLeave">
+                                        <div class="col-md-6" *ngIf="this.form.value.IsLeave==2">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Task Type' | translate}}</label>
                                                 <mat-select [disabled]="actionInfo == 1" placeholder="Task Type"
@@ -247,12 +239,17 @@
                                         <i class="fa fa-close"></i>
                                         {{'Cancel' | translate}}
                                     </button>
-                                    <button *ngIf=formEditMode
+                                    <!-- <button *ngIf=formEditMode
                                         [ngClass]="id === 0 ? 'btn mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i>
                                         {{'Add' | translate}}
-
+                                    </button> 
+                                (click)="showTable = true"-->
+                                    <button (click)="showTable = true"
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" (click)="onAdd()">
+                                        <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
                                     </button>
                                     <!-- <button type="submit" (click)="onAdd()" [ngClass]="{'custom-button': !editMode, 'disabled-button': editMode}" [disabled]="editMode" >Add</button>
                                     </div> -->
@@ -273,14 +270,15 @@
         </div>
     </div>
 </div>
-
-<div class="table-responsive">
+<br>
+<!-- *ngIf="showTable" -->
+<div class="table-responsive" *ngIf="showTable">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
         <ng-container matColumnDef="entryDate">
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Date'|translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.formData.entryDate |date:'dd-MM-yyyy'}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.entryDate |date:'dd-MM-yyyy'}}</p>
             </mat-cell>
         </ng-container>
 
@@ -288,7 +286,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.formData.hours | date: 'HH:mm'}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.hours | date: 'HH:mm'}}</p>
             </mat-cell>
         </ng-container>
 
@@ -296,7 +294,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="remarks">{{'Remarks' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.formData.description}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
             </mat-cell>
         </ng-container>
 
@@ -304,7 +302,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{'Project Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.data}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
             </mat-cell>
         </ng-container>
 

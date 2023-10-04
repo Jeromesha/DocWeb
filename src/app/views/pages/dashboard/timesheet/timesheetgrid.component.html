@@ -32,7 +32,9 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'EntryDate'|translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer" style="margin-top: 10px;">{{dataField.date
+                <p class="text-truncate txtalign lbl-pointer" style="margin-top: 10px;"
+                    [style.color]="dataField.dropdownData[0].isLeave ? 'red' : 'black'">
+                    {{dataField.date
                     |date:'dd-MM-yyyy'}}</p>
                 <!-- <button mat-icon-button *ngIf="expandedElement != dataField"
                     [class.expanded]="expandedElement == dataField" (click)="expandedElement = dataField"
@@ -45,13 +47,11 @@
                     <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
                 </button> -->
 
-                <button mat-icon-button *ngIf="expandedElement?.date!= dataField?.date"
-                    (click)="expandDown(dataField)"
+                <button mat-icon-button *ngIf="expandedElement?.date!= dataField?.date" (click)="expandDown(dataField)"
                     style="float: right; margin-top: -30px;">
                     <mat-icon style="background-color: #3E65A6; color: #fff;">keyboard_arrow_down</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="expandedElement?.date == dataField?.date"
-                    (click)="expandUp(undefined)"
+                <button mat-icon-button *ngIf="expandedElement?.date == dataField?.date" (click)="expandUp(undefined)"
                     style="float: right; margin-top: -30px;">
                     <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
                 </button>
@@ -65,7 +65,9 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.totalHours}}</p>
+                <p class="text-truncate txtalign lbl-pointer"
+                    [style.color]="dataField.dropdownData[0].isLeave ? 'red' : 'black'">
+                    {{dataField.totalHours}}</p>
             </mat-cell>
         </ng-container>
 
@@ -97,15 +99,15 @@
                         </td>
                         <td style="vertical-align: middle;text-align: center;">
                             <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
-                                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
-                                    color="primary" (click)="goToAction(rowData.id, 0)">
-                                    <i class="fa fa-pencil-square-o fa-2x editclr"></i>
-                                </button>
+                                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
+                                color="primary" (click)="goToAction(rowData.id, 0)">
+                                <i class="fa fa-pencil-square-o fa-2x editclr"></i>
+                            </button>
                                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
                                     color="accent" (click)="goToAction(rowData.id,1)">
-                                    <i class="fa fa-eye fa-2x eyeclr"></i>
-                                </button> -->
+                                <i class="fa fa-eye fa-2x eyeclr"></i>
+                            </button> -->
                             <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
                                 matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
                                 (click)="onDelete($event,rowData.id,dataField.date)">

@@ -27,7 +27,9 @@ import * as _ from 'lodash';
   styleUrls: ['./timesheet.component.scss']
 })
 export class TimesheetComponent implements OnInit {
+  showTable = false;
   defaulttime: any;
+  sussana: any;
   onDelete($event: MouseEvent, arg1: any) {
     throw new Error('Method not implemented.');
   }
@@ -37,6 +39,7 @@ export class TimesheetComponent implements OnInit {
 
   list: any[] = []
   datalist: any[] = []
+
   formData =
     {
       entryDate: null,
@@ -47,6 +50,7 @@ export class TimesheetComponent implements OnInit {
   //  added = false;
 
   dataSource = new MatTableDataSource(this.list);
+  //dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   displayedColumns: string[] = [
@@ -97,6 +101,8 @@ export class TimesheetComponent implements OnInit {
   disabled: boolean = false;
   rowCount: number = 0;
   //isDataEntered: boolean = false;
+  private isLeaveValue: number;
+
 
 
 
@@ -111,12 +117,7 @@ export class TimesheetComponent implements OnInit {
     this.routeParams = route.snapshot.params;
     debugger
     this.id = parseInt(this.routeParams.id);
-    //this.id = 0;
     let formattedDate = (moment()).format('DD-MMM-YYYY HH:mm:ss')
-    // this.form = this.formBuilder.group({
-    //   entryDate: [''],
-    //   IsLeave: [0],
-    // });
     debugger
     this.actionInfo = this.routeParams.actionInfo
     if (this.id === 0) {
@@ -133,10 +134,11 @@ export class TimesheetComponent implements OnInit {
     this.maxdate = new Date();
     this.mindate = new Date(this.maxdate);
     this.mindate.setDate(this.maxdate.getDate() - 39);
+    debugger
     //my code
-    this.form = this.formBuilder.group({
-      entryDate: this.formData.entryDate,
-    });
+    // this.form = this.formBuilder.group({
+    //   entryDate: this.formData.entryDate,
+    // });
   }
 
   ngOnInit() {
@@ -153,54 +155,23 @@ export class TimesheetComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-
-  // weekendValidator(control: AbstractControl): ValidationErrors | null {
-  //   const selectedDate = control.value as Date;
-  //   if (selectedDate) {
-  //     const day = selectedDate.getDay();
-  //     if (day === 0 || day === 6) {
-  //       return { weekend: true };
-  //     }
-  //     this.form = this.formBuilder.group({
-  //       entryDate: this.formData.entryDate,
-  //     });
-  //   }
-  //   return null;
-  // }
-
-  // get f(): { [key: string]: AbstractControl } {
-  //   return this.tableentry.controls;
-  // }
-  // onDateSelected(selectedDate: Date) {
-  //   this.formData.entryDate = selectedDate;
-
-  // }
-  //isPresentSelected = false;
-  // selectLeave() {
-  //   debugger
-  //   this.isPresentSelected = false;
-  //   this.form.get('IsLeave').setValue(1);
-  //   this.form.disable();
-  // }
-  // selectPresent() {
-  //   this.isPresentSelected = true;
-  //   this.form.get('IsLeave').setValue(0);
-  //   this.form.enable();
-  // }
-  // In your component
-
-
   onAdd() {
     debugger;
     if (this.form.valid) {
       const formData = this.form.value;
       let data = this.filterSortList.filter(x => x.key == this.form.value.projectId);
-      let dataSource = {
+      // let dataSource = {
+      //   formData: formData,
+      //   // formData.name=data[0].value,
+      //   // data: data[0].value
+      // }
+      this.sussana = {
         formData: formData,
-        data: data[0].value
       }
-      this.datalist = [];
-      this.temproraryList.push(dataSource);
+      this.sussana.formData.project = data[0].value,
+        this.datalist = [];
+      this.temproraryList.push(this.sussana);
+      //let dataSource = this.sussana;
       let sum = 0;
       this.temproraryList.forEach(i => {
         let hours = i.formData.hours;
@@ -214,57 +185,50 @@ export class TimesheetComponent implements OnInit {
         this.temproraryList.pop();
         return;
       }
-      // if (!this.isPresentSelected) {
-      //   this.isPresentSelected = formData.IsLeave === 0;
-      // }
-      this.list.push(dataSource);
+      if (this.list.length > 0 && this.form.value.IsLeave === 2) {
+        formData.IsLeave = 2;
+        //this.isLeaveValue = formData.IsLeave;
+      }
+      if (formData.IsLeave == 2) {
+        this.isLeaveValue = formData.IsLeave;
+      }
+
+      const vathu = this.sussana.formData
+      this.list.push(vathu);
+      console.log('to display', this.list);
       this.list.forEach(field => { field.EmployeeId = this.userSessionService.userId(), field.TaskStatusId = 0 })
       this.list.forEach(field => { field.id = 0 })
-      //   {
-      // //     //   hours: this.form.value.IsLeave == 1 ? 0 : parseInt(moment(this.form.value.hours).format('HH:mm')),
-      // // // this.list.forEach(field =>
-      // // //   {field.hours=((moment(this.form.value.hours).format('HH:mm')))})
-      // //     // let formattedDate = (moment()).format('HH')
-      // //     // this.list.forEach(field =>
-      // //     //   {field.formattedDate= (moment()).format('HH')})
-      // //     }
 
-      // // this.list.push(data[0].value)
-      // //const formattedDate = moment(inputDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
-      //   }
       this.dataSource.data = this.list;
       this.list.forEach(i => {
-        let hour = i.formData.hours;
+        let hour = i.hours;
         hour = parseInt(moment(hour).format("HH")) * 60 + (parseInt(moment(hour).format("mm")));
-        let date = i.formData.entryDate;
+        let date = i.entryDate;
         date = moment(date).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
         const timesheet = {
           "id": 0,
           "entryDate": date,
           "hours": hour,
-          "description": i.formData.description,
-          "projectId": i.formData.projectId,
+          "description": i.description,
+          "projectId": i.projectId,
           "taskId": 0,
           "employeeId": i.EmployeeId,
-          "isLeave": i.formData.IsLeave == 1 ? true : false,
+          "isLeave": i.IsLeave == 1 ? true : false,
           "timeIn": null,
           "timeOut": null,
           "taskStatusId": 0,
           //"project": i.data,
-          "taskTypeId": i.formData.taskTypeId,
+          "taskTypeId": i.taskTypeId,
           "approvedStatusType": 1
         }
         this.datalist.push(timesheet);
 
       })
-      //this.datasource = new MatTableDataSource(this.form.value);
-      //console.log(this.dataSource,"563735735735");
 
-      // Clear the form after adding data
       this.form.reset(
         {
           entryDate: this.formData.entryDate,
-
+          IsLeave: this.isLeaveValue
         }
       );
       this.disabled = true;
@@ -524,14 +488,7 @@ export class TimesheetComponent implements OnInit {
       this.form.patchValue({ IsLeave: 2 });
     }
   }
-  // onDataEntered() {
-  //   this.isDataEntered = true;
-  // }
 
-  // // Function to reset the data entered flag (e.g., when "Leave" button is clicked)
-  // resetDataEntered() {
-  //   this.isDataEntered = false;
-  // }
 }
 
 

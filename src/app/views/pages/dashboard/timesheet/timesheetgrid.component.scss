@@ -35,6 +35,14 @@ td {
 
 }
 
+// .color {
+//   color: red;
+// }
+.red-text {
+  color: red;
+}
+
+
 :host::ng-deep .table-responsive .mat-row {
   display: flex !important;
 }
