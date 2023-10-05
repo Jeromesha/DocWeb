@@ -246,7 +246,7 @@
                                         {{'Add' | translate}}
                                     </button> 
                                 (click)="showTable = true"-->
-                                    <button (click)="showTable = true" *ngIf=formEditMode
+                                    <button (click)="showTable = true" *ngIf="actionInfo == 2 || actionInfo == 10"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
@@ -260,7 +260,14 @@
                                             <i class="fa fa-close"></i>
                                             {{'Cancel' | translate}}
                                         </button> -->
-
+                                    <button *ngIf="actionInfo==0"
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" 
+                                        (click)="onSubmitInEdit()" 
+                                        disable="true">
+                                        <i class="fa fa-save"></i>
+                                        {{submitbtn}}
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -272,7 +279,7 @@
 </div>
 <br>
 <!-- *ngIf="showTable" -->
-<div class="table-responsive">
+<div class="table-responsive" *ngIf="actionInfo!=0">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
         <ng-container matColumnDef="entryDate">
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Date'|translate}}
