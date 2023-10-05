@@ -29,7 +29,7 @@ import * as _ from 'lodash';
 export class TimesheetComponent implements OnInit {
   showTable = false;
   defaulttime: any;
-  sussana: any;
+  edate: any;
 
   list: any[] = []
   datalist: any[] = []
@@ -94,6 +94,7 @@ export class TimesheetComponent implements OnInit {
   //isDataEntered: boolean = false;
   private isLeaveValue: number;
 
+  formentry: any
   //my code 
   date: any;
   private route: ActivatedRoute;
@@ -162,24 +163,27 @@ export class TimesheetComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.formentry = this.formBuilder.group(
+      {
+        entryDate: ['', Validators.required],
+        hours: ['', Validators.required],
+        description: ['', Validators.required],
+        projectId: ['', Validators.required],
+        taskTypeId: ['', Validators.required]
+      });
   }
   onAdd() {
     debugger;
+    this.formentry = this.form;
     if (this.form.valid) {
       const formData = this.form.value;
       let data = this.filterSortList.filter(x => x.key == this.form.value.projectId);
-      // let dataSource = {
-      //   formData: formData,
-      //   // formData.name=data[0].value,
-      //   // data: data[0].value
-      // }
-      this.sussana = {
+      this.edate = {
         formData: formData,
       }
-      this.sussana.formData.project = data[0].value,
+      this.edate.formData.project = data[0].value,
         this.datalist = [];
-      this.temproraryList.push(this.sussana);
-      //let dataSource = this.sussana;
+      this.temproraryList.push(this.edate);
       let sum = 0;
       this.temproraryList.forEach(i => {
         let hours = i.formData.hours;
@@ -193,16 +197,15 @@ export class TimesheetComponent implements OnInit {
         this.temproraryList.pop();
         return;
       }
-      if (this.list.length > 0 && this.form.value.IsLeave === 2) {
-        formData.IsLeave = 2;
-        //this.isLeaveValue = formData.IsLeave;
-      }
       if (formData.IsLeave == 2) {
         this.isLeaveValue = formData.IsLeave;
       }
+      if (formData.IsLeave == 1) {
+        this.isLeaveValue = formData.IsLeave;
+      }
 
-      const vathu = this.sussana.formData
-      this.list.push(vathu);
+      const tempedate = this.edate.formData
+      this.list.push(tempedate);
       console.log('to display', this.list);
       this.list.forEach(field => { field.EmployeeId = this.userSessionService.userId(), field.TaskStatusId = 0 })
       this.list.forEach(field => { field.id = 0 })
@@ -240,25 +243,23 @@ export class TimesheetComponent implements OnInit {
         }
       );
       this.disabled = true;
-
+    }
+    else {
+      this.validateFormControl();
     }
   }
 
   initializeValidators() {
     this.form = this.formBuilder.group({
       id: [0],
-      description: [''],
-      hours: [moment().startOf('day').add(8, 'hours').toDate()], //old code
-
-      // hours: [''],
-      //hours: [null, Validators.required],
+      description: ['', [Validators.required]],
+      hours: [moment().startOf('day').add(8, 'hours').toDate(), [Validators.required]], //old code
       IsLeave: [2, [Validators.required]],
       entryDate: ['', [Validators.required]
-        //, [Validators.required, this.weekendValidator]
       ],
       EmployeeId: [this.id],
-      taskTypeId: [0],
-      projectId: [null],
+      taskTypeId: [0, [Validators.required]],
+      projectId: [null, [Validators.required]],
       timeIn: [null],
       timeOut: [null],
       TaskStatusId: [null],
@@ -386,7 +387,7 @@ export class TimesheetComponent implements OnInit {
 
             }));
             debugger;
-            console.log('convert ',convertedData)
+            console.log('convert ', convertedData)
             this.dataSource = new MatTableDataSource(convertedData);
             this.Getproject();
             this.GetTaskType();
@@ -414,7 +415,7 @@ export class TimesheetComponent implements OnInit {
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
 
-  onAction(id:any, refresh: boolean) {
+  onAction(id: any, refresh: boolean) {
     debugger
     if (id > 0) {
       this.timesheetService.gettimesheetById(id, refresh).subscribe(result => {
@@ -424,7 +425,7 @@ export class TimesheetComponent implements OnInit {
           //   ...entry,
           //   hours: this.convertMinutesToHHMM(entry.hours)
           // }));
-          this.form.patchValue( this.data);
+          this.form.patchValue(this.data);
           this.Getproject();
           this.GetTaskType();
           if (this.data.isLeave == true) {
@@ -440,6 +441,7 @@ export class TimesheetComponent implements OnInit {
     return value.toString().padStart(2, '0');
   }
   validateFormControl() {
+    debugger;
     Object.keys(this.form.controls).forEach(field => {
       const control = this.form.get(field);
       if (control instanceof FormControl) {
@@ -448,6 +450,9 @@ export class TimesheetComponent implements OnInit {
         });
       }
     })
+
+
+
   }
 
 
@@ -514,8 +519,6 @@ export class TimesheetComponent implements OnInit {
         }
 
       });
-    } else {
-      this.validateFormControl();
     }
   }
 
