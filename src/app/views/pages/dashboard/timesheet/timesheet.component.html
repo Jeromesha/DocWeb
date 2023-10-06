@@ -239,6 +239,14 @@
                                         <i class="fa fa-close"></i>
                                         {{'Cancel' | translate}}
                                     </button>
+
+
+                                    <!-- <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" >
+                                    <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;
+                                    Clear
+                                </button> -->
+
+
                                     <!-- <button *ngIf=formEditMode
                                         [ngClass]="id === 0 ? 'btn mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
@@ -246,7 +254,8 @@
                                         {{'Add' | translate}}
                                     </button> 
                                 (click)="showTable = true"-->
-                                    <button (click)="showTable = true" *ngIf="actionInfo == 2 || actionInfo == 10"
+                                    <button (click)="showTable = true" 
+                                    *ngIf="(actionInfo == 2 || actionInfo == 10) && !editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
@@ -260,7 +269,7 @@
                                             <i class="fa fa-close"></i>
                                             {{'Cancel' | translate}}
                                         </button> -->
-                                    <button *ngIf="actionInfo==0"
+                                    <button *ngIf="actionInfo==0 || editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" 
                                         (click)="onSubmitInEdit()" 
@@ -323,16 +332,18 @@
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
-                <!-- (click)="goToAction(dataField.id, 0)" -->
+                <!--  (click)="onAction(dataField.id, true, true)" -->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="onAction(dataField.id, true)" *ngIf="actionInfo == 10">
+                    (click)="editData(dataField,true)" 
+                    *ngIf="actionInfo == 10">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
-                <!-- (click)="goToAction(dataField.id,1)" -->
+                <!--  (click)="onAction(dataField.id, true, false)" -->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|   translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="onAction(dataField.id, true)" *ngIf="actionInfo == 11">
+                    (click)="editData(dataField,false)" 
+                    *ngIf="actionInfo == 11">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
 
