@@ -90,7 +90,8 @@
                                         <div class="col-md-6" *ngIf="isLeave">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Project' | translate}}</label>
-                                                <mat-select [disabled]="actionInfo == 1" placeholder="Project"
+                                                <mat-select placeholder="Project"
+                                                    [disabled]="form.value.IsLeave == 1 && list.length > 0"
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="projectId" class="form-control pt-2">
                                                     <mat-select-filter [displayMember]="'value'" [array]="SortList"
@@ -153,9 +154,11 @@
                                             <div class="form-group">
                                                 <label class="mandatory">{{'Hours' | translate}}
                                                 </label>
-                                                <input class="form-control" formControlName="hours"
+                                                <input type="text" class="form-control" formControlName="hours"
+                                                    [disabled]="form.value.IsLeave == 1 && list.length > 0"
                                                     [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
-                                                    (dateTimeInput)="timeChange()" [readonly]="true">
+                                                    (dateTimeInput)="timeChange()">
+
 
                                                 <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
                                                 <div class="valid-error"
@@ -215,7 +218,9 @@
                                                 <label class="mandatory ">{{'Remarks' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
                                                     formControlName="description" placeholder="Remarks"
-                                                    autocomplete="off">
+                                                    autocomplete="off"
+                                                    [readOnly]="form.value.IsLeave == 1 && list.length > 0">
+
                                      </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
@@ -254,8 +259,8 @@
                                         {{'Add' | translate}}
                                     </button> 
                                 (click)="showTable = true"-->
-                                    <button (click)="showTable = true" 
-                                    *ngIf="(actionInfo == 2 || actionInfo == 10) && !editTrue"
+                                    <button (click)="showTable = true"
+                                        *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) )"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
@@ -271,9 +276,7 @@
                                         </button> -->
                                     <button *ngIf="actionInfo==0 || editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
-                                        type="submit" 
-                                        (click)="onSubmitInEdit()" 
-                                        disable="true">
+                                        type="submit" (click)="onSubmitInEdit()" disable="true">
                                         <i class="fa fa-save"></i>
                                         {{submitbtn}}
                                     </button>
