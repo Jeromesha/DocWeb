@@ -248,6 +248,7 @@ export class TimesheetgridComponent implements OnInit {
                 if (result) {
                   this.refresh();
                   this.alertService.success("Deleted Succussfully");
+                  //swal.fire('Deleted!', 'Your Data has been deleted.', 'success');
                 }
                 else {
                   this.alertService.error("Deletion unsuccussful");

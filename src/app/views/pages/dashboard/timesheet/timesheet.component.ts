@@ -19,6 +19,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FileDetector } from 'protractor';
 import * as _ from 'lodash';
+import Swal from 'sweetalert2';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -183,7 +185,7 @@ export class TimesheetComponent implements OnInit {
         formData: formData,
       }
       this.edate.formData.project = data[0].value,
-        this.datalist = [];
+      //this.datalist = [];
       this.temproraryList.push(this.edate);
       let sum = 0;
       this.temproraryList.forEach(i => {
@@ -390,7 +392,9 @@ export class TimesheetComponent implements OnInit {
             }));
             debugger;
             console.log('convert ', convertedData)
-            this.dataSource = new MatTableDataSource(convertedData);
+            //this.dataSource = new MatTableDataSource(convertedData);
+            //this.list.push(convertedData);
+            this.dataSource.data =convertedData;
             this.Getproject();
             this.GetTaskType();
             if (item.timesheets.isLeave == true) {
@@ -542,8 +546,10 @@ export class TimesheetComponent implements OnInit {
         this._location.back();
         this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
       }
-    });
 
+    });
+    debugger;
+    //this.getgrid(this.UserId, true);
   }
 
 
@@ -623,6 +629,47 @@ export class TimesheetComponent implements OnInit {
       this.form.patchValue({ IsLeave: 2 });
     }
   }
+
+  onDelete(dataField:any) {
+    const index = this.list.indexOf(dataField);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this Data!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    }).then((willDelete) => {
+      if(willDelete.value){
+        this.list.splice(index, 1);
+        this.dataSource.data = this.list;
+        Swal.fire('Deleted!', 'Your Data has been deleted.', 'success');
+      }
+      else{
+        Swal.fire('Cancelled', 'Your Data is safe :)', 'error');
+      }
+    });
+  }
+
+  clearData() {
+    this.form.controls['entryDate'].clearValidators();
+    this.form.controls['entryDate'].setValue('');
+    this.form.controls['IsLeave'].setValue(this.form.value.IsLeave = 2);
+    this.form.controls['projectId'].clearValidators();
+    this.form.controls['projectId'].setValue('');
+    this.form.controls['taskTypeId'].clearValidators();
+    this.form.controls['taskTypeId'].setValue('');
+    this.form.controls['hours'].clearValidators();
+    this.form.controls['hours'].setValue('');
+    //   this.form.controls['hours'].updateValueAndValidity();
+    this.form.controls['description'].clearValidators();
+    this.form.controls['description'].setValue('');
+    //this.form.reset();
+    this.editTrue=false;
+    this.id = 0;    
+    this.isLeave=true;
+  }
+
 
   // // Function to reset the data entered flag (e.g., when "Leave" button is clicked)
   // resetDataEntered() {

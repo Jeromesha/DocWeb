@@ -1,8 +1,9 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add TimeSheet' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{' View TimeSheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 2 && id == 0">&nbsp;{{'Add TimeSheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 11 ">&nbsp;{{' View TimeSheet' | translate}}</h4>
         <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit TimeSheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 10">&nbsp;{{'Edit TimeSheet' | translate}}</h4>
     </div>
 </div>
 <div class="row text-left">
@@ -221,7 +222,7 @@
                                                     autocomplete="off"
                                                     [readOnly]="form.value.IsLeave == 1 && list.length > 0">
 
-                                     </textarea>
+                                    </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
                                                     text-wrap>
@@ -245,12 +246,13 @@
                                         {{'Cancel' | translate}}
                                     </button>
 
-
-                                    <!-- <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" >
-                                    <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;
-                                    Clear
-                                </button> -->
-
+                                    <!-- <button type="button" class="btn btnrefresh mr-2 mb-2" > -->
+                                    <button type="button" class="btn btn-raised btn-warning mr-1 btncancel"
+                                    *ngIf="actionInfo==10||actionInfo==2"
+                                    (click)="clearData()">
+                                        <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;
+                                        {{'Clear' | translate}}
+                                    </button>
 
                                     <!-- <button *ngIf=formEditMode
                                         [ngClass]="id === 0 ? 'btn mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
@@ -260,7 +262,7 @@
                                     </button> 
                                 (click)="showTable = true"-->
                                     <button (click)="showTable = true"
-                                        *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) )"
+                                        *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) ) && (actionInfo == 2 || actionInfo == 10) && !editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
@@ -338,23 +340,21 @@
                 <!--  (click)="onAction(dataField.id, true, true)" -->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="editData(dataField,true)" 
-                    *ngIf="actionInfo == 10">
+                    (click)="editData(dataField,true)" *ngIf="actionInfo == 10">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                 </button>
                 <!--  (click)="onAction(dataField.id, true, false)" -->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|   translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="editData(dataField,false)" 
-                    *ngIf="actionInfo == 11">
+                    (click)="editData(dataField,false)" *ngIf="actionInfo == 11">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
 
-                <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
-                    (click)="onDelete($event,dataField.id,dataField.entryDate)">
+                    *ngIf="actionInfo == 2" (click)="onDelete(dataField)">
                     <i class="fa fa-trash fa-2x trashclr"></i>
-                </button> -->
+                </button>
 
             </mat-cell>
         </ng-container>
