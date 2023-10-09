@@ -110,7 +110,7 @@
 
                                         <div class="col-md-6" *ngIf="this.form.value.IsLeave==2">
                                             <div class="form-group">
-                                                <label class="mandatory ">{{'Task Type' | translate}}</label>
+                                                <label class="mandatory">{{'Task Type' | translate}}</label>
                                                 <mat-select [disabled]="actionInfo == 1" placeholder="Task Type"
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="taskTypeId" class="form-control pt-2">
@@ -252,7 +252,7 @@
                                     </button> 
                                 (click)="showTable = true"-->
                                     <button (click)="showTable = true"
-                                        *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) )"
+                                        *ngIf="(actionInfo == 2 || actionInfo == 10) && (form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0))"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}

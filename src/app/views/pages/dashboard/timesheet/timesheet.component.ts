@@ -175,6 +175,11 @@ export class TimesheetComponent implements OnInit {
   onAdd() {
     debugger;
     this.formentry = this.form;
+    if (this.formentry.value.IsLeave === 1) {
+      this.form.controls["taskTypeId"].clearValidators();
+      this.form.controls["taskTypeId"].updateValueAndValidity();
+
+    }
     if (this.form.valid) {
       const formData = this.form.value;
       let data = this.filterSortList.filter(x => x.key == this.form.value.projectId);
@@ -229,7 +234,7 @@ export class TimesheetComponent implements OnInit {
           "timeOut": null,
           "taskStatusId": 0,
           //"project": i.data,
-          "taskTypeId": i.taskTypeId,
+          "taskTypeId": i.IsLeave == 1 ? 16 : i.taskTypeId,
           "approvedStatusType": 1
         }
         this.datalist.push(timesheet);
@@ -258,7 +263,7 @@ export class TimesheetComponent implements OnInit {
       entryDate: ['', [Validators.required]
       ],
       EmployeeId: [this.id],
-      taskTypeId: [0, [Validators.required]],
+      taskTypeId: ['', [Validators.required]],
       projectId: [null, [Validators.required]],
       timeIn: [null],
       timeOut: [null],
@@ -546,6 +551,16 @@ export class TimesheetComponent implements OnInit {
           // const msg3 = this.translate.instant('');
           // const sucessmsg = this.id == 0 ? msg1 : msg2;
 
+        }
+        else {
+          if (result.failures == "test1") {
+            this.alertService.warning("Your time limit is exeed for this particular date, so you are not able to add value");
+            this.temproraryList.pop();
+          }
+          else {
+            this.alertService.warning("You already entered as leave for this particular date, so you are not able to add value");
+            this.temproraryList.pop();
+          }
         }
 
       });
