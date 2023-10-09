@@ -33,6 +33,9 @@ export class TimeSheetService {
     getTimesheet(id: number, refresh: boolean) {
         return this.dataService.getData('/api/timesheet/timesheetsbyid/' + id, refresh);
     }
+    getTimesheetByDate(id:number, Date:string, refresh:boolean){
+        return this.dataService.getData('/api/timesheet/timesheetbytimsheetidandDate/'+ id+'/' + Date ,refresh);
+    }
     getproject() {
         return this.dataService.getData('/api/lookup/3', true);
     }

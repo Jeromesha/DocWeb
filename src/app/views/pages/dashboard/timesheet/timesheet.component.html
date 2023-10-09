@@ -259,7 +259,7 @@
                                         <i class="fa-solid fa-plus addspan"></i>
                                         {{'Add' | translate}}
                                     </button> 
-                                (click)="showTable = true"-->
+                                        (click)="showTable = true"-->
                                     <button (click)="showTable = true"
                                         *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) ) && (actionInfo == 2 || actionInfo == 10) && !editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
@@ -306,12 +306,12 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <ng-container *ngIf="actionInfo == 11 || actionInfo == 10; else formattedHoursTemplate">
+                <ng-container
+                    *ngIf="(actionInfo == 11 || actionInfo == 10)&& !HoursDataField; else formattedHoursTemplate">
                     <!-- Display this when actionInfo is 1 or 0 -->
                     <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-container>
                 <ng-template #formattedHoursTemplate>
-                    <!-- Display this when actionInfo is not 1 or 0 -->
                     <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours | date:'HH:mm' }}</p>
                 </ng-template>
             </mat-cell>
