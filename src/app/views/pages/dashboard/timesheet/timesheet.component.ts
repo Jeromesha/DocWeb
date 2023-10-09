@@ -326,7 +326,7 @@ export class TimesheetComponent implements OnInit {
 
   initializeValidators() {
     this.form = this.formBuilder.group({
-      id: [0],
+      // id: [0],
       description: ['', [Validators.required]],
       hours: [moment().startOf('day').add(8, 'hours').toDate(), [Validators.required]], //old code
       IsLeave: [2, [Validators.required]],
@@ -618,6 +618,7 @@ export class TimesheetComponent implements OnInit {
       timesheets: this.datalist
     }
     this.timesheetService.savetimsheet(data).subscribe(result => {
+      debugger
       if (result && result.isSuccess) {
         // this._location.back();
         // this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
