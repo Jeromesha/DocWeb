@@ -175,91 +175,174 @@ export class TimesheetComponent implements OnInit {
         taskTypeId: ['', Validators.required]
       });
   }
+  // onAdd() {
+  //   debugger;
+
+  //   this.formentry = this.form;
+  //   if (this.formentry.value.IsLeave === 1) {
+  //     this.form.controls["taskTypeId"].clearValidators();
+  //     this.form.controls["taskTypeId"].updateValueAndValidity();
+
+  //   }
+  //   if (this.form.valid) {
+  //     const formData = this.form.value;
+  //     let data = this.filterSortList.filter(x => x.key == this.form.value.projectId);
+  //     this.edate = {
+  //       formData: formData,
+  //     }
+  //     this.edate.formData.project = data[0].value,
+  //       this.datalist = [];
+  //     this.temproraryList.push(this.edate);
+  //     let sum = 0;
+  //     this.temproraryList.forEach(i => {
+  //       let hours = i.formData.hours;
+  //       hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
+  //       console.log("list", this.datalist)
+  //       sum += hours;
+  //     })
+  //     sum = sum / 60;
+  //     if (sum > 24) {
+  //       this.alertService.warning("Work time is exceeded more than 24 hours");
+  //       this.temproraryList.pop();
+  //       return;
+  //     }
+  //     if (formData.IsLeave == 2) {
+  //       this.isLeaveValue = formData.IsLeave;
+  //     }
+  //     // if (formData.IsLeave == 1) {
+  //     //   this.isLeaveValue = formData.IsLeave;
+  //     // }
+
+  //     const tempedate = this.edate.formData
+  //     this.list.push(tempedate);
+  //     console.log('to display', this.list);
+  //     this.list.forEach(field => { field.EmployeeId = this.userSessionService.userId(), field.TaskStatusId = 0 })
+  //     this.list.forEach(field => { field.id = 0 })
+
+  //     this.dataSource.data = this.list;
+  //     this.list.forEach(i => {
+  //       let hour = i.hours;
+  //       hour = parseInt(moment(hour).format("HH")) * 60 + (parseInt(moment(hour).format("mm")));
+  //       let date = i.entryDate;
+  //       date = moment(date).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+  //       const timesheet = {
+  //         //"id": 0,
+  //         "entryDate": date,
+  //         "hours": hour,
+  //         "description": i.description,
+  //         "projectId": i.projectId,
+  //         "taskId": 0,
+  //         "employeeId": i.EmployeeId,
+  //         "isLeave": i.IsLeave == 1 ? true : false,
+  //         "timeIn": null,
+  //         "timeOut": null,
+  //         "taskStatusId": 0,
+  //         //"project": i.data,
+  //         "taskTypeId": i.IsLeave == 1 ? 16 : i.taskTypeId,
+  //         "approvedStatusType": 1
+  //       }
+  //       this.datalist.push(timesheet);
+
+  //     })
+
+  //     this.form.reset(
+  //       {
+  //         entryDate: this.formData.entryDate,
+  //         IsLeave: this.isLeaveValue
+  //       }
+  //     );
+  //     this.disabled = true;
+  //   }
+  //   else {
+  //     this.validateFormControl();
+  //   }
+  //   //this.editTrue = true;
+  // }
+
   onAdd() {
     debugger;
-    this.formentry = this.form;
-    if (this.formentry.value.IsLeave === 1) {
+    // Check if IsLeave is 1 and clear taskTypeId validators accordingly
+    if (this.form.value.IsLeave === 1) {
       this.form.controls["taskTypeId"].clearValidators();
       this.form.controls["taskTypeId"].updateValueAndValidity();
-
     }
+
+    // Check form validity
     if (this.form.valid) {
+      // Extract form data
       const formData = this.form.value;
-      let data = this.filterSortList.filter(x => x.key == this.form.value.projectId);
-      this.edate = {
-        formData: formData,
-      }
-      this.edate.formData.project = data[0].value,
-      //this.datalist = [];
-      this.temproraryList.push(this.edate);
-      let sum = 0;
-      this.temproraryList.forEach(i => {
-        let hours = i.formData.hours;
-        hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
-        console.log("list", this.datalist)
-        sum += hours;
-      })
-      sum = sum / 60;
-      if (sum > 24) {
+
+      // Get project data based on projectId
+      const projectData = this.filterSortList.find(x => x.key === formData.projectId);
+      formData.project = projectData ? projectData.value : null;
+
+      // Calculate total hours
+      let totalHours = 0;
+      this.temproraryList.forEach(item => {
+        const hours = parseInt(moment(item.formData.hours).format("HH")) * 60 + parseInt(moment(item.formData.hours).format("mm"));
+        totalHours += hours;
+      });
+      totalHours /= 60;
+
+      // Check if total hours exceed 24
+      if (totalHours > 24) {
         this.alertService.warning("Work time is exceeded more than 24 hours");
         this.temproraryList.pop();
         return;
       }
-      if (formData.IsLeave == 2) {
-        this.isLeaveValue = formData.IsLeave;
-      }
-      if (formData.IsLeave == 1) {
-        this.isLeaveValue = formData.IsLeave;
-      }
 
-      const tempedate = this.edate.formData
+      // Set isLeaveValue based on IsLeave
+      this.isLeaveValue = formData.IsLeave;
+
+      // Prepare data for the list and dataSource
+      const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0 };
       this.list.push(tempedate);
-      console.log('to display', this.list);
-      this.list.forEach(field => { field.EmployeeId = this.userSessionService.userId(), field.TaskStatusId = 0 })
-      this.list.forEach(field => { field.id = 0 })
 
       this.dataSource.data = this.list;
-      this.list.forEach(i => {
-        let hour = i.hours;
-        hour = parseInt(moment(hour).format("HH")) * 60 + (parseInt(moment(hour).format("mm")));
-        let date = i.entryDate;
-        date = moment(date).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
-        const timesheet = {
-          //"id": 0,
-          "entryDate": date,
-          "hours": hour,
-          "description": i.description,
-          "projectId": i.projectId,
-          "taskId": 0,
-          "employeeId": i.EmployeeId,
-          "isLeave": i.IsLeave == 1 ? true : false,
-          "timeIn": null,
-          "timeOut": null,
-          "taskStatusId": 0,
-          //"project": i.data,
-          "taskTypeId": i.IsLeave == 1 ? 16 : i.taskTypeId,
-          "approvedStatusType": 1
-        }
-        this.datalist.push(timesheet);
 
-      })
+      // Prepare data for the datalist
+      this.datalist = this.list.map(item => ({
+        entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+        hours: parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
+        description: item.description,
+        projectId: item.projectId,
+        taskId: 0,
+        employeeId: item.EmployeeId,
+        isLeave: item.IsLeave === 1,
+        timeIn: null,
+        timeOut: null,
+        taskStatusId: 0,
+        taskTypeId: item.IsLeave === 1 ? 16 : item.taskTypeId,
+        approvedStatusType: 1
+      }));
+      // Reset the form with specific fields
+      this.form.reset({
+        entryDate: this.formData.entryDate,
+        IsLeave: this.isLeaveValue
+      });
 
-      this.form.reset(
-        {
-          entryDate: this.formData.entryDate,
-          IsLeave: this.isLeaveValue
-        }
-      );
       this.disabled = true;
     }
     else {
       this.validateFormControl();
     }
   }
+  // onEdit() {
+
+  //   debugger;
+
+  //   this.onAdd();
+  //   const existingData = this.getgrid(this.userSessionService.userId(), false);
+
+
+
+
+  // }
+
 
   initializeValidators() {
     this.form = this.formBuilder.group({
-      id: [0],
+      // id: [0],
       description: ['', [Validators.required]],
       hours: [moment().startOf('day').add(8, 'hours').toDate(), [Validators.required]], //old code
       IsLeave: [2, [Validators.required]],
@@ -399,7 +482,7 @@ export class TimesheetComponent implements OnInit {
             console.log('convert ', convertedData)
             //this.dataSource = new MatTableDataSource(convertedData);
             //this.list.push(convertedData);
-            this.dataSource.data =convertedData;
+            this.dataSource.data = convertedData;
             this.Getproject();
             this.GetTaskType();
             if (item.timesheets.isLeave == true) {
@@ -547,12 +630,34 @@ export class TimesheetComponent implements OnInit {
       timesheets: this.datalist
     }
     this.timesheetService.savetimsheet(data).subscribe(result => {
+      debugger
       if (result && result.isSuccess) {
-        this._location.back();
-        this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
+        // this._location.back();
+        if (this.actionInfo == 0) {
+          this._location.back();
+          this.alertService.success("Time Sheet Updated Successfully");
+
+        }
+        else {
+          this.form.reset();
+          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
+          this.getgrid(this.UserId, true);
+
+        }
+      }
+      else {
+        if (result.failures == "test1") {
+          this.alertService.warning("Your time limit is exeed for this particular date, so you are not able to add value");
+          this.temproraryList.pop();
+        }
+        else {
+          this.alertService.warning("You already entered as leave for this particular date, so you are not able to add value");
+          this.temproraryList.pop();
+        }
       }
 
     });
+
     debugger;
     //this.getgrid(this.UserId, true);
   }
@@ -645,7 +750,7 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  onDelete(dataField:any) {
+  onDelete(dataField: any) {
     const index = this.list.indexOf(dataField);
     Swal.fire({
       title: 'Are you sure?',
@@ -655,12 +760,12 @@ export class TimesheetComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'No, cancel!',
     }).then((willDelete) => {
-      if(willDelete.value){
+      if (willDelete.value) {
         this.list.splice(index, 1);
         this.dataSource.data = this.list;
         Swal.fire('Deleted!', 'Your Data has been deleted.', 'success');
       }
-      else{
+      else {
         Swal.fire('Cancelled', 'Your Data is safe :)', 'error');
       }
     });
@@ -680,9 +785,9 @@ export class TimesheetComponent implements OnInit {
     this.form.controls['description'].clearValidators();
     this.form.controls['description'].setValue('');
     //this.form.reset();
-    this.editTrue=false;
-    this.id = 0;    
-    this.isLeave=true;
+    this.editTrue = false;
+    this.id = 0;
+    this.isLeave = true;
   }
 
 

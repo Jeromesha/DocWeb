@@ -253,28 +253,19 @@
                                         {{'Clear' | translate}}
                                     </button>
 
-                                    <!-- <button *ngIf=formEditMode
-                                        [ngClass]="id === 0 ? 'btn mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
-                                        type="submit" (click)="onAdd()">
-                                        <i class="fa-solid fa-plus addspan"></i>
-                                        {{'Add' | translate}}
-                                    </button> 
-                                (click)="showTable = true"-->
+
                                     <button (click)="showTable = true"
                                         *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) ) && (actionInfo == 2 || actionInfo == 10) && !editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
                                     </button>
-                                    <!-- <button type="submit" (click)="onAdd()" [ngClass]="{'custom-button': !editMode, 'disabled-button': editMode}" [disabled]="editMode" >Add</button>
-                                    </div> -->
-                                    <!-- <div class="form-actions mb-2 mt-1"">
-                                        <button type="submit" class="btn btn-raised btn-warning mr-1 btncancel"
-                                        class="custom-button': !editMode, 'disabled-button': editMode"
-                                            (click)="onAdd()">
-                                            <i class="fa fa-close"></i>
-                                            {{'Cancel' | translate}}
-                                        </button> -->
+                                    <!-- <button (click)="showTable = true"
+                                    *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) ) && (actionInfo == 2 || actionInfo == 10)"
+                                    [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                    type="submit" (click)="actionInfo ==2 ? onAdd() : onEdit()">
+                                    <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
+                                </button> -->
                                     <button *ngIf="actionInfo==0 || editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onSubmitInEdit()" disable="true">
