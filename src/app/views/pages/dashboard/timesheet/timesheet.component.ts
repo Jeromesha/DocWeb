@@ -19,6 +19,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FileDetector } from 'protractor';
 import * as _ from 'lodash';
+import Swal from 'sweetalert2';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -100,6 +102,7 @@ export class TimesheetComponent implements OnInit {
   private route: ActivatedRoute;
   UserId: any;
   formatdate: any;
+  editTrue: Boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -187,7 +190,7 @@ export class TimesheetComponent implements OnInit {
         formData: formData,
       }
       this.edate.formData.project = data[0].value,
-        this.datalist = [];
+      //this.datalist = [];
       this.temproraryList.push(this.edate);
       let sum = 0;
       this.temproraryList.forEach(i => {
@@ -394,7 +397,9 @@ export class TimesheetComponent implements OnInit {
             }));
             debugger;
             console.log('convert ', convertedData)
-            this.dataSource = new MatTableDataSource(convertedData);
+            //this.dataSource = new MatTableDataSource(convertedData);
+            //this.list.push(convertedData);
+            this.dataSource.data =convertedData;
             this.Getproject();
             this.GetTaskType();
             if (item.timesheets.isLeave == true) {
@@ -421,25 +426,43 @@ export class TimesheetComponent implements OnInit {
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
 
-  onAction(id: any, refresh: boolean) {
+
+  // this method for fetch the individul data using id asnd fetch that onto form
+
+  // onAction(id: any, refresh: boolean, editTrue: boolean) {
+  //   debugger
+  //   this.editTrue = editTrue;
+  //   if (id > 0) {
+  //     this.timesheetService.gettimesheetById(id, refresh).subscribe(result => {
+  //       this.data = result;
+  //       if (this.data) {
+  //         const formattedHours = this.convertMinutesToHHMM(this.data.hours);
+  //         this.form.patchValue(this.data);
+  //         this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate());
+  //         this.Getproject();
+  //         this.GetTaskType();
+  //         if (this.data.isLeave == true) {
+  //           this.form.controls['IsLeave'].setValue(true);
+  //           this.isLeave = false
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+
+  editData(dataField: any, editTrue: boolean) {
     debugger
-    if (id > 0) {
-      this.timesheetService.gettimesheetById(id, refresh).subscribe(result => {
-        this.data = result;
-        if (this.data) {
-          const formattedHours = this.convertMinutesToHHMM(this.data.hours);
-          this.form.patchValue(this.data);
-          this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate());
-          this.Getproject();
-          this.GetTaskType();
-          if (this.data.isLeave == true) {
-            this.form.controls['IsLeave'].setValue(true);
-            this.isLeave = false
-          }
-        }
-      });
+    this.editTrue = editTrue;
+    this.form.patchValue(dataField);
+    this.form.controls['hours'].setValue(moment().startOf('day').add(dataField.hours, 'hours').toDate());
+    this.Getproject();
+    this.GetTaskType();
+    if (dataField.isLeave == true) {
+      this.form.controls['IsLeave'].setValue(true);
+      this.isLeave = false
     }
   }
+
 
   private formatWithLeadingZero(value: number): string {
     return value.toString().padStart(2, '0');
@@ -465,10 +488,10 @@ export class TimesheetComponent implements OnInit {
     // if (this.form.value.IsLeave == 2) {
     //   this.form.controls['hours'].setValidators(Validators.required);
     //   this.form.controls['hours'].updateValueAndValidity();
-    //   // this.form.controls['timeIn'].setValidators(Validators.required);
-    //   // this.form.controls['timeIn'].updateValueAndValidity();
-    //   // this.form.controls['timeOut'].setValidators(Validators.required);
-    //   // this.form.controls['timeOut'].updateValueAndValidity();
+    //   this.form.controls['timeIn'].setValidators(Validators.required);
+    //   this.form.controls['timeIn'].updateValueAndValidity();
+    //   this.form.controls['timeOut'].setValidators(Validators.required);
+    //   this.form.controls['timeOut'].updateValueAndValidity();
     //   this.form.controls['description'].setValidators(Validators.required);
     //   this.form.controls['description'].updateValueAndValidity();
     //   this.form.controls['projectId'].setValidators(Validators.required);
@@ -477,10 +500,10 @@ export class TimesheetComponent implements OnInit {
     // else {
     //   this.form.controls['hours'].clearValidators();
     //   this.form.controls['hours'].updateValueAndValidity();
-    //   // this.form.controls['timeIn'].clearValidators();
-    //   // this.form.controls['timeIn'].updateValueAndValidity;
-    //   // this.form.controls['timeOut'].clearValidators();
-    //   // this.form.controls['timeOut'].updateValueAndValidity;
+    //   this.form.controls['timeIn'].clearValidators();
+    //   this.form.controls['timeIn'].updateValueAndValidity;
+    //   this.form.controls['timeOut'].clearValidators();
+    //   this.form.controls['timeOut'].updateValueAndValidity;
     //   this.form.controls['description'].clearValidators();
     //   this.form.controls['description'].updateValueAndValidity();
     //   this.form.controls['taskTypeId'].clearValidators();
@@ -528,8 +551,10 @@ export class TimesheetComponent implements OnInit {
         this._location.back();
         this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
       }
-    });
 
+    });
+    debugger;
+    //this.getgrid(this.UserId, true);
   }
 
 
@@ -619,6 +644,47 @@ export class TimesheetComponent implements OnInit {
       this.form.patchValue({ IsLeave: 2 });
     }
   }
+
+  onDelete(dataField:any) {
+    const index = this.list.indexOf(dataField);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this Data!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    }).then((willDelete) => {
+      if(willDelete.value){
+        this.list.splice(index, 1);
+        this.dataSource.data = this.list;
+        Swal.fire('Deleted!', 'Your Data has been deleted.', 'success');
+      }
+      else{
+        Swal.fire('Cancelled', 'Your Data is safe :)', 'error');
+      }
+    });
+  }
+
+  clearData() {
+    this.form.controls['entryDate'].clearValidators();
+    this.form.controls['entryDate'].setValue('');
+    this.form.controls['IsLeave'].setValue(this.form.value.IsLeave = 2);
+    this.form.controls['projectId'].clearValidators();
+    this.form.controls['projectId'].setValue('');
+    this.form.controls['taskTypeId'].clearValidators();
+    this.form.controls['taskTypeId'].setValue('');
+    this.form.controls['hours'].clearValidators();
+    this.form.controls['hours'].setValue('');
+    //   this.form.controls['hours'].updateValueAndValidity();
+    this.form.controls['description'].clearValidators();
+    this.form.controls['description'].setValue('');
+    //this.form.reset();
+    this.editTrue=false;
+    this.id = 0;    
+    this.isLeave=true;
+  }
+
 
   // // Function to reset the data entered flag (e.g., when "Leave" button is clicked)
   // resetDataEntered() {

@@ -98,7 +98,9 @@
                             {{rowData.description}}
                         </td>
                         <td style="vertical-align: middle;text-align: center;">
-                            <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                            <button 
+                                *ngIf="dataField.dropdownData[0].isLeave ? false : true"
+                                data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                                 matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
                                 color="primary" (click)="goToAction(rowData.id, 0)">
                                 <i class="fa fa-pencil-square-o fa-2x editclr"></i>
