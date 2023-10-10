@@ -20,7 +20,7 @@ import { MatSort } from '@angular/material/sort';
 import { FileDetector } from 'protractor';
 import * as _ from 'lodash';
 import Swal from 'sweetalert2';
-import { ChangeDetectorRef } from '@angular/core';
+
 
 
 @Component({
@@ -42,7 +42,6 @@ export class TimesheetComponent implements OnInit {
     }
 
   dataSource = new MatTableDataSource(this.list);
-  //dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
@@ -59,7 +58,6 @@ export class TimesheetComponent implements OnInit {
   form: FormGroup;
   routeParams: any;
   pageTitle: string;
-  // datasource: any[] = [];
   submitbtn: string;
   filesResult: any;
   //selectedImage: any;
@@ -93,17 +91,15 @@ export class TimesheetComponent implements OnInit {
   temproraryList: any[] = [];
   disabled: boolean = false;
   rowCount: number = 0;
-  //isDataEntered: boolean = false;
   private isLeaveValue: number;
 
-  formentry: any
-  //my code 
+  formentry: any;
   date: any;
   private route: ActivatedRoute;
   UserId: any;
   formatdate: any;
   editTrue: Boolean = false;
-  HoursDataField: boolean = false;
+  View: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -145,10 +141,6 @@ export class TimesheetComponent implements OnInit {
     this.mindate = new Date(this.maxdate);
     this.mindate.setDate(this.maxdate.getDate() - 39);
     debugger
-    //my code
-    // this.form = this.formBuilder.group({
-    //   entryDate: this.formData.entryDate,
-    // });
   }
 
   ngOnInit() {
@@ -161,9 +153,9 @@ export class TimesheetComponent implements OnInit {
     this.UserId = this.userSessionService.userId();
     debugger;
     this.getgrid(this.UserId, true);
-    // this.form.controls["entryDate"].setValue(new Date);// old code
 
-    this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
+    //this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
+    this.form.controls["entryDate"].setValue(this.date);
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -259,63 +251,74 @@ export class TimesheetComponent implements OnInit {
   // }
   onAdd() {
     //if (this.id == 0) {
-      debugger;
-      if (this.form.value.IsLeave === 1) {
-        this.form.controls["taskTypeId"].clearValidators();
-        this.form.controls["taskTypeId"].updateValueAndValidity();
+    this.form.controls['hours'].setValidators(Validators.required);
+    this.form.controls['hours'].updateValueAndValidity();
+    this.form.controls['entryDate'].setValidators(Validators.required);
+    this.form.controls['entryDate'].updateValueAndValidity();
+    this.form.controls['taskTypeId'].setValidators(Validators.required);
+    this.form.controls['taskTypeId'].updateValueAndValidity();
+    this.form.controls['description'].setValidators(Validators.required);
+    this.form.controls['description'].updateValueAndValidity();
+    this.form.controls['projectId'].setValidators(Validators.required);
+    this.form.controls['projectId'].updateValueAndValidity()
+    debugger;
+    if (this.form.value.IsLeave === 1) {
+      this.form.controls["taskTypeId"].clearValidators();
+      this.form.controls["taskTypeId"].updateValueAndValidity();
+    }
+    if (this.form.valid) {
+
+      const formData = this.form.value;
+
+      const projectData = this.filterSortList.find(x => x.key === formData.projectId);
+      formData.project = projectData ? projectData.value : null;
+
+      let totalHours = 0;
+      this.temproraryList.forEach(item => {
+        const hours = parseInt(moment(item.formData.hours).format("HH")) * 60 + parseInt(moment(item.formData.hours).format("mm"));
+        totalHours += hours;
+      });
+      totalHours /= 60;
+
+      if (totalHours > 24) {
+        this.alertService.warning("Work time is exceeded more than 24 hours");
+        this.temproraryList.pop();
+        return;
       }
-      if (this.form.valid) {
+      this.isLeaveValue = formData.IsLeave;
 
-        const formData = this.form.value;
+      const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0 };
+      console.log('tempdate',tempedate);
+      this.list.push(tempedate);
 
-        const projectData = this.filterSortList.find(x => x.key === formData.projectId);
-        formData.project = projectData ? projectData.value : null;
+      this.dataSource.data = this.list;
+      this.datalist = this.list.map(item => ({
+        entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+        hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
+        description: item.description,
+        projectId: item.projectId,
+        taskId: 0,
+        //employeeId: item.EmployeeId,
+        employeeId: this.userSessionService.userId(),
+        isLeave: item.IsLeave == 1 ? true : false,
+        timeIn: null,
+        timeOut: null,
+        taskStatusId: 0,
+        taskTypeId: item.IsLeave === 1 ? 16 : item.taskTypeId,
+        approvedStatusType: 1,
+      }));
 
-        let totalHours = 0;
-        this.temproraryList.forEach(item => {
-          const hours = parseInt(moment(item.formData.hours).format("HH")) * 60 + parseInt(moment(item.formData.hours).format("mm"));
-          totalHours += hours;
-        });
-        totalHours /= 60;
+      this.form.reset({
+        entryDate: this.formData.entryDate,
+        IsLeave: this.isLeaveValue
+      });
 
-        if (totalHours > 24) {
-          this.alertService.warning("Work time is exceeded more than 24 hours");
-          this.temproraryList.pop();
-          return;
-        }
-        this.isLeaveValue = formData.IsLeave;
-
-        const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0 };
-        this.list.push(tempedate);
-
-        this.dataSource.data = this.list;
-
-        this.datalist = this.list.map(item => ({
-          entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-          hours: parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
-          description: item.description,
-          projectId: item.projectId,
-          taskId: 0,
-          employeeId: item.EmployeeId,
-          isLeave: item.IsLeave === 1,
-          timeIn: null,
-          timeOut: null,
-          taskStatusId: 0,
-          taskTypeId: item.IsLeave === 1 ? 16 : item.taskTypeId,
-          approvedStatusType: 1
-        }));
-
-        this.form.reset({
-          entryDate: this.formData.entryDate,
-          IsLeave: this.isLeaveValue
-        });
-
-        this.disabled = true;
-      }
-      else {
-        this.validateFormControl();
-      }
-      this.HoursDataField = true;
+      this.disabled = true;
+    }
+    else {
+      this.validateFormControl();
+    }
+    //this.HoursDataField = true;
     //}
     // else{
     //   console.log('success');
@@ -326,7 +329,7 @@ export class TimesheetComponent implements OnInit {
 
   initializeValidators() {
     this.form = this.formBuilder.group({
-      // id: [0],
+      id: [0],
       description: ['', [Validators.required]],
       hours: [moment().startOf('day').add(8, 'hours').toDate(), [Validators.required]], //old code
       IsLeave: [2, [Validators.required]],
@@ -448,42 +451,38 @@ export class TimesheetComponent implements OnInit {
     debugger
     if (this.date) {
       let entryDate = moment(this.date).format("YYYY-MM-DD") + " 00:00:00";
-      //this.timesheetService.getTimesheet(userId, refresh).subscribe(result => {
       this.timesheetService.getTimesheetByDate(userId, entryDate, refresh).subscribe(result => {
         this.data = result;
         console.log('data', this.data);
         debugger;
         for (let item of this.data) {
-          //this.formatdate = moment(item.entryDate).format('YYYY-MM-DD');
-          //     debugger;
-          //     if (this.date === this.formatdate) {
-          //       //this.dataSource = new MatTableDataSource(item.timesheets);
-          //       debugger;
           const convertedData = this.data.map(entry => ({
             ...entry,
             hours: this.convertMinutesToHHMM(entry.hours)
-
           }));
           debugger;
           console.log('convert ', convertedData)
           //this.dataSource = new MatTableDataSource(convertedData);
-          // this.list.push(convertedData);
+          //this.list.push(convertedData);
           this.dataSource.data = convertedData;
+          //this.list=convertedData;
+          //this.dataSource.data = this.list;
           this.Getproject();
           this.GetTaskType();
           this.form.controls['entryDate'].setValue(entryDate);
           this.disabled = true;
           if (this.data.isLeave == true) {
             this.form.controls['IsLeave'].setValue(true);
-            this.isLeave = false
           }
         }
-        // }
       });
       this.isReadOnly = true;
     }
-    //this.clearData();
+    if (this.actionInfo == 11) {
+      this.View = true;
+    }
   }
+
   convertMinutesToHHMM(minutes: number): string {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -534,7 +533,6 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-
   private formatWithLeadingZero(value: number): string {
     return value.toString().padStart(2, '0');
   }
@@ -548,9 +546,6 @@ export class TimesheetComponent implements OnInit {
         });
       }
     })
-
-
-
   }
 
 
@@ -584,9 +579,6 @@ export class TimesheetComponent implements OnInit {
     // }
     debugger
     //this.form.controls['entryDate'].setValue(moment(this.form.value.entryDate).format("YYYY-MM-DD"));
-    const time = moment(this.form.value.hours).format('HH:mm');
-    const [hours, minutes] = time.split(':');
-    const totalMinutes = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
     const timesheetData =
     {
       // id: this.form.value.id,
@@ -600,11 +592,11 @@ export class TimesheetComponent implements OnInit {
       // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)
       // timeOut:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeOut).format('HH:mm:ss'), // Adjusted to use TimeSpan format (hh:mm:ss)
       id: this.form.value.id,
-      entryDate: this.form.value.entryDate,
-      hours: totalMinutes,
+      entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+      hours: parseInt(moment(this.form.value.hours).format("HH")) * 60 + parseInt(moment(this.form.value.hours).format("mm")),
       description: this.form.value.description,
       projectId: this.form.value.projectId,
-      taskTypeId: this.form.value.taskTypeId,
+      taskTypeId: this.form.value.IsLeave == 1 ? 16 : this.form.value.taskTypeId,
       employeeId: this.userSessionService.userId(),
       isLeave: this.form.value.IsLeave == 1 ? true : false,
       taskId: 0,
@@ -619,28 +611,33 @@ export class TimesheetComponent implements OnInit {
     }
     this.timesheetService.savetimsheet(data).subscribe(result => {
       debugger
+      console.log('ta', result);
       if (result && result.isSuccess) {
-        // this._location.back();
-        // this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
-        if (result && result.isSuccess) {
-          // this._location.back();
-          if (this.actionInfo == 0) {
-            this._location.back();
-            this.alertService.success("Time Sheet Updated Successfully");
-          }
-          else {
-            this.form.reset();
-            this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
-            this.getgrid(this.UserId, true);
-            this.clearData();
-
-          }
+        if (this.actionInfo == 0) {
+          this._location.back();
+          this.alertService.success("Time Sheet Updated Successfully");
+        }
+        else {
+          this.form.reset();
+          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
+          this.getgrid(this.UserId, true);
+          this.clearData();
         }
       }
-
+      else {
+        if (result.failures == "test1") {
+          this.alertService.warning("Your time limit is exeed for this particular date, so you are not able to add value");
+          this.temproraryList.pop();
+          console.log("failer1");
+        }
+        else {
+          this.alertService.warning("You already entered as leave for this particular date, so you are not able to add value");
+          this.temproraryList.pop();
+          console.log("failer2s");
+        }
+      }
     });
     debugger;
-    //this.getgrid(this.UserId, true);
   }
 
 
@@ -656,11 +653,6 @@ export class TimesheetComponent implements OnInit {
         if (result && result.isSuccess) {
           this._location.back();
           this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
-
-          // const msg1 = this.translate.instant('Savedsuccessfully');
-          // const msg2 = this.translate.instant('Updatedsuccessfully');
-          // const msg3 = this.translate.instant('');
-          // const sucessmsg = this.id == 0 ? msg1 : msg2;
 
         }
         else {
@@ -751,6 +743,7 @@ export class TimesheetComponent implements OnInit {
       }
     });
     this.disabled = false;
+    //this.clearData();
   }
 
   clearData() {
@@ -778,47 +771,6 @@ export class TimesheetComponent implements OnInit {
   //   this.isDataEntered = false;
   // }
 
-  // onDelete(e: Event, id: any, date: any) {
-  //   debugger;
-  //   const formatDate = moment(date).format('DD-MM-YYYY');
-  //   e.preventDefault();
-  //   const title = this.translate.instant('DeleteConfirmation');
-  //   const msg = 'Are you certain about deleting the record for ' + formatDate + ' ?';
-  //   const txt = this.translate.instant(msg);
-  //   const Yes = this.translate.instant('Yes');
-  //   const No = this.translate.instant('No');
-  //   swal.fire({
-  //     title,
-  //     text: txt,
-  //     icon: 'question',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: Yes,
-  //     cancelButtonText: No,
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       this.timesheetService.delete(id).subscribe(result => {
-  //         if (result) {
-  //           debugger;
-  //           this.refresh();
-  //           this.alertService.success("Deleted Succussfully");
-  //         }
-  //         else {
-  //           this.alertService.error("Deletion unsuccussful");
-  //         }
-  //       });
-  //     }
-  //   })
-  // }
-
-  //   refresh() {
-  //     debugger
-  //     this.searchInput.nativeElement.value = "";
-  //     //this.gettimesheet(this.UserId);
-  //     debugger;
-  //     this.getgrid(this.UserId,true);
-  //   }
 }
 
 

@@ -79,7 +79,18 @@
                         <th>Project Name</th>
                         <th>Hours</th>
                         <th>Remarks</th>
-                        <th>Actions</th>
+                        <th>Actions &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button 
+                                style="width: 30px;"
+                                mat-icon-button color="" 
+                                (click)="goToAction(0,2)"
+                                data-toggle="tooltip" 
+                                data-placement="right" 
+                                matTooltip="{{'Add'|translate}}"
+                                matTooltipPosition="right">
+                                <mat-icon>add</mat-icon>
+                            </button>    
+                        </th>
                     </tr>
 
                     <tr *ngFor="let rowData of dataField.dropdownData; let i=index;">
@@ -98,11 +109,10 @@
                             {{rowData.description}}
                         </td>
                         <td style="vertical-align: middle;text-align: center;">
-                            <button 
-                                *ngIf="dataField.dropdownData[0].isLeave ? false : true"
-                                data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
-                                matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button
-                                color="primary" (click)="goToAction(rowData.id, 0)">
+                            <button *ngIf="dataField.dropdownData[0].isLeave ? false : true" data-toggle="tooltip"
+                                data-placement="right" matTooltip="{{'Edit'|translate}}" matTooltipClass="tooltip-edit"
+                                matTooltipPosition="right" mat-icon-button color="primary"
+                                (click)="goToAction(rowData.id, 0)">
                                 <i class="fa fa-pencil-square-o fa-2x editclr"></i>
                             </button>
                             <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
@@ -141,16 +151,16 @@
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
 
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                <!-- This is for overall edit and this combine the onadd(), getgrid()methods  -->
+                <!-- <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
                     (click)="goToActions(dataField.date,10)"
                     (click)="showTable = true">
                     <i class="fa fa-pencil-square-o fa-2x editclr"></i>
-                </button>
+                </button> -->
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="goToActions(dataField.date,11)"
-                    (click)="showTable = true">
+                    (click)="goToActions(dataField.date,11)" (click)="showTable = true">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
                 <!--  (click)="onDelete($event,dataField.id)"-->
