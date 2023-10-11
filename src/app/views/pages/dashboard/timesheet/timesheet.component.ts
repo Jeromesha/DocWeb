@@ -125,7 +125,6 @@ export class TimesheetComponent implements OnInit {
     //this.id = 0;
     let formattedDate = (moment()).format('DD-MMM-YYYY HH:mm:ss')
     debugger
-    //this.actionInfo = this.routeParams.actionInfo
     if (this.id === 0) {
       this.submitbtn = 'Save';
     } else {
@@ -168,89 +167,8 @@ export class TimesheetComponent implements OnInit {
         taskTypeId: ['', Validators.required]
       });
   }
-  // onAdd() {
-  //   debugger;
-  //   this.formentry = this.form;
-  //   if (this.formentry.value.IsLeave === 1) {
-  //     this.form.controls["taskTypeId"].clearValidators();
-  //     this.form.controls["taskTypeId"].updateValueAndValidity();
 
-  //   }
-  //   if (this.form.valid) {
-  //     const formData = this.form.value;
-  //     let data = this.filterSortList.filter(x => x.key == this.form.value.projectId);
-  //     this.edate = {
-  //       formData: formData,
-  //     }
-  //     this.edate.formData.project = data[0].value,
-  //       this.datalist = [];
-  //       this.temproraryList.push(this.edate);
-  //     let sum = 0;
-  //     this.temproraryList.forEach(i => {
-  //       let hours = i.formData.hours;
-  //       hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
-  //       console.log("list", this.datalist)
-  //       sum += hours;
-  //     })
-  //     sum = sum / 60;
-  //     if (sum > 24) {
-  //       this.alertService.warning("Work time is exceeded more than 24 hours");
-  //       this.temproraryList.pop();
-  //       return;
-  //     }
-  //     if (formData.IsLeave == 2) {
-  //       this.isLeaveValue = formData.IsLeave;
-  //     }
-  //     if (formData.IsLeave == 1) {
-  //       this.isLeaveValue = formData.IsLeave;
-  //     }
-
-  //     const tempedate = this.edate.formData
-  //     this.list.push(tempedate);
-  //     console.log('to display', this.list);
-  //     this.list.forEach(field => { field.EmployeeId = this.userSessionService.userId(), field.TaskStatusId = 0 })
-  //     this.list.forEach(field => { field.id = 0 })
-
-  //     this.dataSource.data = this.list;
-  //     this.list.forEach(i => {
-  //       let hour = i.hours;
-  //       hour = parseInt(moment(hour).format("HH")) * 60 + (parseInt(moment(hour).format("mm")));
-  //       let date = i.entryDate;
-  //       date = moment(date).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
-  //       const timesheet = {
-  //         //"id": 0,
-  //         "entryDate": date,
-  //         "hours": hour,
-  //         "description": i.description,
-  //         "projectId": i.projectId,
-  //         "taskId": 0,
-  //         "employeeId": i.EmployeeId,
-  //         "isLeave": i.IsLeave == 1 ? true : false,
-  //         "timeIn": null,
-  //         "timeOut": null,
-  //         "taskStatusId": 0,
-  //         //"project": i.data,
-  //         "taskTypeId": i.IsLeave == 1 ? 16 : i.taskTypeId,
-  //         "approvedStatusType": 1
-  //       }
-  //       this.datalist.push(timesheet);
-
-  //     })
-
-  //     this.form.reset(
-  //       {
-  //         entryDate: this.formData.entryDate,
-  //         IsLeave: this.isLeaveValue
-  //       }
-  //     );
-  //     this.disabled = true;
-  //   }
-  //   else {
-  //     this.validateFormControl();
-  //   }
-  // }
   onAdd() {
-    //if (this.id == 0) {
     this.form.controls['hours'].setValidators(Validators.required);
     this.form.controls['hours'].updateValueAndValidity();
     this.form.controls['entryDate'].setValidators(Validators.required);
@@ -318,12 +236,6 @@ export class TimesheetComponent implements OnInit {
     else {
       this.validateFormControl();
     }
-    //this.HoursDataField = true;
-    //}
-    // else{
-    //   console.log('success');
-    //   var existingRecord = _.find(this.data, ['id', this.id]);
-    // }
   }
 
 
@@ -333,8 +245,7 @@ export class TimesheetComponent implements OnInit {
       description: ['', [Validators.required]],
       hours: [moment().startOf('day').add(8, 'hours').toDate(), [Validators.required]], //old code
       IsLeave: [2, [Validators.required]],
-      entryDate: ['', [Validators.required]
-      ],
+      entryDate: ['', [Validators.required]],
       EmployeeId: [this.id],
       taskTypeId: ['', [Validators.required]],
       projectId: [null, [Validators.required]],
@@ -342,7 +253,6 @@ export class TimesheetComponent implements OnInit {
       timeOut: [null],
       TaskStatusId: [null],
     });
-    // this.form.get('hours').setValue(this.initialHoursValue);
   }
   sortingChange(event) {
     debugger
@@ -352,12 +262,6 @@ export class TimesheetComponent implements OnInit {
 
 
   }
-  // timeChange(e) {
-  //   debugger;
-  //   const selectedTime = moment(this.form.value.hours, 'HH:mm');
-  //   console.log((this.form.value.hours).format('HH:mm'));
-  //   console.log(parseInt(moment(this.form.value.hours).format('HH:mm')));
-  // }
   timeChange() {
     const selectedTime = moment(this.form.value.hours, 'HH:mm');
     console.log((this.form.value.hours).format('HH:mm'));
@@ -424,17 +328,6 @@ export class TimesheetComponent implements OnInit {
           this.form.patchValue(this.data);
           this.Getproject();
           this.GetTaskType();
-          // const unixTimestamp = this.data.hours * 1000;
-
-          // // Convert the UNIX timestamp to a Date object
-          // const now = new Date();
-          // now.setHours(0);
-          // now.setMinutes(0);
-          // now.setSeconds(0);
-          // now.setMilliseconds(0)
-          // let st = new Date(now);
-          // console.log(st);
-
           this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate())
           if (this.data.isLeave == true) {
             this.form.controls['IsLeave'].setValue(true);
@@ -449,7 +342,17 @@ export class TimesheetComponent implements OnInit {
 
   getgrid(userId: any, refresh: boolean) {
     debugger
-    if (this.date) {
+    // if(this.date && this.actionInfo==2){
+    //   debugger
+    //   let eDate = moment(this.date).format("YYYY-MM-DD");
+    //   this.form.controls['entryDate'].setValue(eDate);
+    //   console.log(eDate)
+    //   this.disabled = true;
+    //   console.log("date success")
+    // }
+    if(this.date) 
+    //else
+    {
       let entryDate = moment(this.date).format("YYYY-MM-DD") + " 00:00:00";
       this.timesheetService.getTimesheetByDate(userId, entryDate, refresh).subscribe(result => {
         this.data = result;
@@ -497,30 +400,6 @@ export class TimesheetComponent implements OnInit {
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
 
-
-  // this method for fetch the individul data using id asnd fetch that onto form
-
-  // onAction(id: any, refresh: boolean, editTrue: boolean) {
-  //   debugger
-  //   this.editTrue = editTrue;
-  //   if (id > 0) {
-  //     this.timesheetService.gettimesheetById(id, refresh).subscribe(result => {
-  //       this.data = result;
-  //       if (this.data) {
-  //         const formattedHours = this.convertMinutesToHHMM(this.data.hours);
-  //         this.form.patchValue(this.data);
-  //         this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate());
-  //         this.Getproject();
-  //         this.GetTaskType();
-  //         if (this.data.isLeave == true) {
-  //           this.form.controls['IsLeave'].setValue(true);
-  //           this.isLeave = false
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
-
   editData(dataField: any, editTrue: boolean) {
     debugger
     this.editTrue = editTrue;
@@ -551,46 +430,9 @@ export class TimesheetComponent implements OnInit {
 
   onSubmitInEdit() {
     debugger
-    // if (this.form.value.IsLeave == 2) {
-    //   this.form.controls['hours'].setValidators(Validators.required);
-    //   this.form.controls['hours'].updateValueAndValidity();
-    //   this.form.controls['timeIn'].setValidators(Validators.required);
-    //   this.form.controls['timeIn'].updateValueAndValidity();
-    //   this.form.controls['timeOut'].setValidators(Validators.required);
-    //   this.form.controls['timeOut'].updateValueAndValidity();
-    //   this.form.controls['description'].setValidators(Validators.required);
-    //   this.form.controls['description'].updateValueAndValidity();
-    //   this.form.controls['projectId'].setValidators(Validators.required);
-    //   this.form.controls['projectId'].updateValueAndValidity();
-    // }
-    // else {
-    //   this.form.controls['hours'].clearValidators();
-    //   this.form.controls['hours'].updateValueAndValidity();
-    //   this.form.controls['timeIn'].clearValidators();
-    //   this.form.controls['timeIn'].updateValueAndValidity;
-    //   this.form.controls['timeOut'].clearValidators();
-    //   this.form.controls['timeOut'].updateValueAndValidity;
-    //   this.form.controls['description'].clearValidators();
-    //   this.form.controls['description'].updateValueAndValidity();
-    //   this.form.controls['taskTypeId'].clearValidators();
-    //   this.form.controls['taskTypeId'].updateValueAndValidity();
-    //   this.form.controls['projectId'].clearValidators();
-    //   this.form.controls['projectId'].updateValueAndValidity();
-    // }
     debugger
-    //this.form.controls['entryDate'].setValue(moment(this.form.value.entryDate).format("YYYY-MM-DD"));
     const timesheetData =
     {
-      // id: this.form.value.id,
-      // entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DD") + "T00:00:00",
-      // hours: this.form.value.IsLeave == 1 ? 480 : parseInt(moment(this.form.value.hours).format('HH:mm')),
-      // description: this.form.value.IsLeave == 1 ? this.form.value.description : this.form.value.description,
-      // projectId: this.form.value.IsLeave == 1 ? 0 : this.form.value.projectId,
-      // taskTypeId: this.form.value.IsLeave == 1 ? 0 : this.form.value.taskTypeId,
-      // employeeId: this.userSessionService.userId(),
-      // isLeave: this.form.value.IsLeave == 1 ? true : false,
-      // timeIn:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeIn).format('HH:mm:ss'),  // Adjusted to use TimeSpan format (hh:mm:ss)
-      // timeOut:this.form.value.IsLeave == 1 ? null:moment(this.form.value.timeOut).format('HH:mm:ss'), // Adjusted to use TimeSpan format (hh:mm:ss)
       id: this.form.value.id,
       entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
       hours: parseInt(moment(this.form.value.hours).format("HH")) * 60 + parseInt(moment(this.form.value.hours).format("mm")),
@@ -719,11 +561,9 @@ export class TimesheetComponent implements OnInit {
   // }
   onbtnClick(option: number) {
     if (option === 1) {
-      // "Leave" button is clicked
       this.form.patchValue({ IsLeave: 1 });
-      this.rowCount = 1; // Disable "Leave" button after adding one row
+      this.rowCount = 1;
     } else if (option === 2) {
-      // "Present" button is clicked
       this.form.patchValue({ IsLeave: 2 });
     }
   }

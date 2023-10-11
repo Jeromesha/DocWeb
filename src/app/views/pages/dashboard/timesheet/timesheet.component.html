@@ -2,7 +2,7 @@
     <div>
         <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 2 && id == 0">&nbsp;{{'Add TimeSheet' | translate}}</h4>
         <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 11 ">&nbsp;{{' View TimeSheet' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit TimeSheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 2 && id !== 0">&nbsp;{{'Edit TimeSheet' | translate}}</h4>
         <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 10">&nbsp;{{'Edit TimeSheet' | translate}}</h4>
     </div>
 </div>
@@ -46,27 +46,6 @@
                                                 </span>
                                             </div>
                                         </div>
-
-                                        <!--Old code-->
-                                        <!-- <div class="col-md-6" style="display: flex; align-items: end;">
-                                            <div class="form-group">
-                                                <mat-button-toggle-group formControlName="IsLeave"
-                                                    [disabled]="actionInfo==1">
-
-                                                    <mat-button-toggle
-                                                        [ngClass]="this.form.value.IsLeave == 1 ? 'btnred' :''"
-                                                        (click)="onbtnClick(1)" [value]="1"
-                                                        [disabled]="list.length > 0">Leave
-                                                    </mat-button-toggle>
-
-                                                    <mat-button-toggle
-                                                        [ngClass]="this.form.value.IsLeave == 2 ? 'butgreen' :''"
-                                                        (click)="onbtnClick(2)" [value]="2">Present
-                                                    </mat-button-toggle>
-                                                </mat-button-toggle-group>
-                                            </div>
-                                        </div> -->
-                                        <!-- working but not needed -->
                                         <div class="col-md-6" style="display: flex; align-items: end;">
                                             <div class="form-group">
                                                 <mat-button-toggle-group formControlName="IsLeave"
@@ -83,11 +62,6 @@
                                                 </mat-button-toggle-group>
                                             </div>
                                         </div>
-
-                                        <!-- </div> -->
-
-
-                                        <!-- <div class="row" *ngIf="this.form.value.IsLeave==2"> -->
                                         <div class="col-md-6" *ngIf="isLeave">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Project' | translate}}</label>
@@ -130,27 +104,6 @@
                                                 </span>
                                             </div>
                                         </div>
-
-                                        <!-- <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="mandatory">{{'Hours' | translate}}
-                                                </label>
-                                                <input class="form-control" formControlName="hours"
-                                                    [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" 
-                                                    [readonly]="true">
-
-                                                <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
-                                                <div class="valid-error"
-                                                    *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
-                                                    text-wrap>
-                                                    <span *ngIf="form.controls.hours.errors?.required"
-                                                        class="form-text text-muted danger mandatory">
-                                                        {{'Hours' | translate}} {{'IsRequired' | translate}}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                       -->
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory">{{'Hours' | translate}}
@@ -172,48 +125,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- <div class="col-md-6" *ngIf="isLeave">
-                                        <div class="form-group">
-                                            <label class="mandatory">{{'Time In' | translate}}
-                                            </label>
-                                            <input class="form-control" formControlName="timeIn"
-                                                [owlDateTimeTrigger]="dt3" [owlDateTime]="dt3"
-                                                (dateTimeInput)="timeChange()">
-
-                                            <owl-date-time [pickerType]="'timer'" #dt3></owl-date-time>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.timeIn.errors && (form.controls.timeIn.dirty || form.controls.timeIn.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.timeIn.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6" *ngIf="isLeave">
-                                        <div class="form-group">
-                                            <label class="mandatory">{{'Time Out' | translate}}
-                                            </label>
-                                            <input class="form-control" formControlName="timeOut"
-                                                [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4"
-                                                (dateTimeInput)="timeChange()">
-
-                                            <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
-                                            <div class="valid-error"
-                                                *ngIf="form.controls.timeOut.errors && (form.controls.timeOut.dirty || form.controls.timeOut.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.timeOut.errors?.required"
-                                                    class="form-text text-muted danger mandatory">
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                        <!-- </div>
-
-                                    <div class="row"> -->
-
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Remarks' | translate}}</label>
@@ -244,33 +155,17 @@
                                         <i class="fa fa-close"></i>
                                         {{'Cancel' | translate}}
                                     </button>
-
-                                    <!-- <button type="button" class="btn btnrefresh mr-2 mb-2" > -->
                                     <button type="button" class="btn btn-raised btn-warning mr-1 btncancel"
                                         *ngIf="actionInfo==10||actionInfo==2" (click)="clearData()">
                                         <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;
                                         {{'Clear' | translate}}
                                     </button>
-
-                                    <!-- <button *ngIf=formEditMode
-                                        [ngClass]="id === 0 ? 'btn mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
-                                        type="submit" (click)="onAdd()">
-                                        <i class="fa-solid fa-plus addspan"></i>
-                                        {{'Add' | translate}}
-                                    </button> 
-                                        (click)="showTable = true"-->
                                     <button (click)="showTable = true"
                                         *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) ) && (actionInfo == 2 || actionInfo == 10) && !editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
                                     </button>
-                                    <!-- <button (click)="showTable = true"
-                                    *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) ) && (actionInfo == 2 || actionInfo == 10)"
-                                    [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
-                                    type="submit" (click)="actionInfo ==2 ? onAdd() : onEdit()">
-                                    <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
-                                </button> -->
                                     <button *ngIf="actionInfo==0 || editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onSubmitInEdit()" disable="true">
@@ -287,7 +182,6 @@
     </div>
 </div>
 <br>
-<!-- *ngIf="showTable" -->
 <div class="table-responsive" *ngIf="actionInfo!=0">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
         <ng-container matColumnDef="entryDate">
@@ -303,10 +197,8 @@
                 {{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <!-- ngIf="(actionInfo == 11 || actionInfo == 10)&& !HoursDataField; else formattedHoursTemplate" -->
                 <ng-container
                     *ngIf="dataField.id!=0; else formattedHoursTemplate">
-                    <!-- Display this when actionInfo is 1 or 0 -->
                     <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-container>
                 <ng-template #formattedHoursTemplate>

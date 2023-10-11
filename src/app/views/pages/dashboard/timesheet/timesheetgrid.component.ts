@@ -152,26 +152,11 @@ export class TimesheetgridComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  //for add.old 
   goToAction(id: number, actioninfo: number) {
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
-  // my method for view, edit 
   goToActions(date: Date, actioninfo: number) {
     debugger
-    // let result = [];
-    // result = this.resultArray;
-    // console.log(result);
-    // for (const item of result) {
-    //   if (item.date === date) {
-    //     debugger
-    //     for (const i of item.dropdownData) {
-    //       debugger
-    //       this.navigationService.goToTimeSheet(i.id, actioninfo);
-    //       debugger
-    //     }
-    //   }
-    // }
     this.navigationService.goToTimeSheets(date, actioninfo);
   }
   deleteRow(id) {
@@ -189,7 +174,6 @@ export class TimesheetgridComponent implements OnInit {
     const formatDate = moment(date).format('DD-MM-YYYY');
     e.preventDefault();
     const title = this.translate.instant('DeleteConfirmation');
-    //const msg = 'Are you sure you want to delete the data in '+formatDate+' ?';
     const msg = 'Are you certain about deleting the record for ' + formatDate + ' ?';
     const txt = this.translate.instant(msg);
     const Yes = this.translate.instant('Yes');

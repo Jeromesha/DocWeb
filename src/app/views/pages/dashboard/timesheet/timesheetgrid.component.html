@@ -36,17 +36,6 @@
                     [style.color]="dataField.dropdownData[0].isLeave ? 'red' : 'black'">
                     {{dataField.date
                     |date:'dd-MM-yyyy'}}</p>
-                <!-- <button mat-icon-button *ngIf="expandedElement != dataField"
-                    [class.expanded]="expandedElement == dataField" (click)="expandedElement = dataField"
-                    style="float: right; margin-top: -30px;">
-                    <mat-icon style="background-color: #3E65A6; color: #fff;">keyboard_arrow_down</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="expandedElement == dataField"
-                    [class.expanded]="expandedElement == undefined" (click)="expandedElement = undefined"
-                    style="float: right; margin-top: -30px;">
-                    <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
-                </button> -->
-
                 <button mat-icon-button *ngIf="expandedElement?.date!= dataField?.date" (click)="expandDown(dataField)"
                     style="float: right; margin-top: -30px;">
                     <mat-icon style="background-color: #3E65A6; color: #fff;">keyboard_arrow_down</mat-icon>
@@ -130,23 +119,6 @@
                 </table>
             </mat-cell>
         </ng-container>
-
-        <!-- <ng-container matColumnDef="arrowUpDown">
-            <mat-header-cell *matHeaderCellDef  style=" flex: 0 0 5%;">
-                {{'Expand' | translate}} 
-            </mat-header-cell>
-            <mat-cell *matCellDef="let dataField" style=" flex: 0 0 5%; text-align: center;" >
-                <button mat-icon-button *ngIf="expandedElement != dataField"
-                    [class.expanded]="expandedElement == dataField" (click)="expandedElement = dataField">
-                    <mat-icon style="background-color: #3E65A6; color: #fff;">keyboard_arrow_down</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="expandedElement == dataField"
-                    [class.expanded]="expandedElement == undefined" (click)="expandedElement = undefined">
-                    <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
-                </button>
-            </mat-cell>
-        </ng-container> -->
-
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
