@@ -7,7 +7,7 @@ import { AuthGuard } from './core/guard/auth.guard';
 import { AppComponent } from './app.component';
 import { ErrorPageComponent } from './views/pages/error-page/error-page.component';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-import { ToastrModule } from 'ngx-toastr';
+//import { ToastrModule } from 'ngx-toastr';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AlertService } from './services/alert.service';
 import { AuthenticationService } from './services/authentication.service';
@@ -82,11 +82,11 @@ export function createTranslateLoader(http: HttpClient) {
     NgbDropdownModule,
     UiSwitchModule,
     HttpClientModule,
-    ToastrModule.forRoot({
-      timeOut: 5000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-    }),
+    // ToastrModule.forRoot({
+    //   timeOut: 5000,
+    //   positionClass: 'toast-top-right',
+    //   preventDuplicates: true,
+    // }),
     // NgHttpLoaderModule.forRoot(),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,

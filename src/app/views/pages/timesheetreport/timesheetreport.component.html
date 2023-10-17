@@ -1,7 +1,8 @@
+
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
 
-        <h4 class="mb-3 mb-md-0">&nbsp;{{'Employee Leave Details' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0">&nbsp;{{'Timesheet Report ' | translate}}</h4>
 
     </div>
 </div>
@@ -23,7 +24,8 @@
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control" placeholder="Select Date"
                                                     formControlName="startts" [owlDateTimeTrigger]="dt1"
-                                                    [owlDateTime]="dt1" [max]="today">
+                                                    [owlDateTime]="dt1" [max]="today"
+                                                    (ngModelChange)="updateEndDate($event)">
                                                 <owl-date-time [pickerType]="'calendar'" #dt1>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
@@ -34,10 +36,6 @@
                                                     </owl-date-time>
                                                 </div>
                                             </div>
-                                            <!-- <span class="form-text text-muted danger mandatory "
-                                                *ngIf="!form.get('startts').valid && (form.get('startts').dirty || form.get('startts').touched)">
-                                                {{'Date' | translate}} {{'IsRequired' | translate}}
-                                            </span> -->
                                             <div class="valid-error"
                                                 *ngIf="form.controls.startts.errors && (form.controls.startts.dirty || form.controls.startts.touched)"
                                                 text-wrap>
@@ -53,7 +51,8 @@
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control" placeholder="Select Date"
                                                     formControlName="endDate" [owlDateTimeTrigger]="dt2"
-                                                    [owlDateTime]="dt2" [max]="today">
+                                                    [owlDateTime]="dt2" [min]="minEndDate"
+                                                    [max]="maxEndDate">
                                                 <owl-date-time [pickerType]="'calendar'" #dt2>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
@@ -64,10 +63,6 @@
                                                     </owl-date-time>
                                                 </div>
                                             </div>
-                                            <!-- <span class="form-text text-muted danger mandatory "
-                                                *ngIf="!form.get('endDate').valid && (form.get('endDate').dirty || form.get('endDate').touched)">
-                                                {{'Date' | translate}} {{'IsRequired' | translate}}
-                                            </span> -->
                                             <div class="valid-error"
                                                 *ngIf="form.controls.endDate.errors && (form.controls.endDate.dirty || form.controls.endDate.touched)"
                                                 text-wrap>
@@ -80,24 +75,76 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{"Employee Name"|translate}}</label>
+                                            <label>{{"Project"|translate}}</label>
+                                            <mat-select placeholder=" Select Project" formControlName="project"
+                                                class="form-control pt-2"
+                                                (selectionChange)="sortingChange($event)">
+                                                <mat-select-filter [displayMember]="'value'" [array]="projectSortList"
+                                                    (filteredReturn)="filterprojectSortList = $event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterprojectSortList"
+                                                    [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <!-- <div class="valid-error"
+                                                *ngIf="form.controls.project.errors && (form.controls.project.dirty || form.controls.project.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.project.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    {{'Project ' | translate}} {{'IsRequired' | translate}}</span>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{'Work Location' | translate}}</label>
+                                            <mat-select placeholder="Select Work Location" formControlName="locationId"
+                                                class="form-control pt-2"
+                                                (selectionChange)="sortingChange($event)">
+                                                <mat-select-filter [displayMember]="'value'" [array]="locationList"
+                                                    (filteredReturn)="filterlocationList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterlocationList" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <!-- <div class="valid-error"
+                                                *ngIf="form.controls.locationId.errors && (form.controls.locationId.dirty || form.controls.locationId.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.locationId.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Work Location' | translate}} {{'IsRequired' | translate}}</span>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{"Employee Name"|translate}}</label>
                                             <mat-select placeholder="Employee Name" formControlName="employeeName"
                                                 class="form-control pt-2">
-                                                <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
+                                                <!-- <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
                                                     (filteredReturn)="filterprojectleadlist =$event">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterprojectleadlist"
                                                     [value]="item.key">
                                                     {{item.value}}
+                                                </mat-option> -->
+                                                <mat-select-filter [displayMember]="'value'" [array]="mappedEmployeeList"
+                                                    (filteredReturn)="filtermappedEmployeeList =$event">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filtermappedEmployeeList"
+                                                    [value]="item.key">
+                                                    {{item.value}}
                                                 </mat-option>
                                             </mat-select>
-                                            <div class="valid-error"
+                                            <!-- <div class="valid-error"
                                                 *ngIf="form.controls.employeeName.errors && (form.controls.employeeName.dirty || form.controls.employeeName.touched)"
                                                 text-wrap>
                                                 <span *ngIf="form.controls.employeeName.errors?.required"
                                                     class="form-text danger mandatory">
                                                     {{'Project Type' | translate}} {{'IsRequired' | translate}}</span>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
 

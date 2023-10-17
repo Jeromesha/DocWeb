@@ -116,10 +116,9 @@ export class EmployeedetailComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       allowSearchFilter: true
     };
-    if(this.id==0)
-    {
-      this.timeSheetFalse=true;
-     this.form.controls['fillTimesheet'].setValue('2')
+    if (this.id == 0) {
+      this.timeSheetFalse = true;
+      this.form.controls['fillTimesheet'].setValue('2')
 
     }
   }
@@ -142,10 +141,12 @@ export class EmployeedetailComponent implements OnInit {
       'designationTypeId': ['', Validators.required],
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
+      'temp_address': ['', Validators.required],
       'projectId': ['', Validators.required],
       'fillTimesheet': [],
       'reportingPersonId': ['', Validators.required],
       'stringPswrd': ['',],
+      'stringPswrd2': ['',],
 
     })
   }
@@ -304,38 +305,42 @@ export class EmployeedetailComponent implements OnInit {
     console.log(obj);
 
     if (this.form.valid) {
-
       // this.form.controls['strpassword'].setValue(encryptedPassword)
+      if (this.form.value.stringPswrd == this.form.value.stringPswrd2) {
+        var data = this.form.value;
+        data.password = null;
+        data.projectId = projectId;
+        data.employeeProfileStream = '';
+        data.isFirstLogin = true;
+        data.isSystemGeneratedPassword = false
+        data.designation = obj[0].value;
+        data.uniqueCode = this.form.value.empCode;
+        data.stringPswrd = this.encryptedPassword;
+        data.marriageDate = this.form.value.marriageDate == null ? null : moment(this.form.value.marriageDate).format('YYYY-MM-DD');
+        data.fillTimesheet = this.timeSheetTrue;
+        data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
+        data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
+        console.log(data.Designation);
+        this.empDetailsService.saveEmployee(data).subscribe((res) => {
+          console.log(res, 'savvvv');
+          if (res.isSuccess) {
+            if (this.id == 0) {
+              this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "saved successfully.");
+            } else {
+              this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "Updated successfully.");
 
-      var data = this.form.value;
-      data.password = null;
-      data.projectId = projectId;
-      data.employeeProfileStream = '';
-      data.isFirstLogin = true;
-      data.isSystemGeneratedPassword = false
-      data.designation = obj[0].value;
-      data.uniqueCode = this.form.value.empCode;
-      data.stringPswrd = this.encryptedPassword;
-      data.marriageDate = this.form.value.marriageDate == null ? null : moment(this.form.value.marriageDate).format('YYYY-MM-DD');
-      data.fillTimesheet = this.timeSheetTrue;
-      data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
-      data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
-      console.log(data.Designation);
-      this.empDetailsService.saveEmployee(data).subscribe((res) => {
-        console.log(res, 'savvvv');
-        if (res.isSuccess) {
-          if (this.id == 0) {
-            this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "saved successfully.");
-          } else {
-            this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "Updated successfully.");
-
+            }
+            this.navigationService.gotoEmployee();
           }
-          this.navigationService.gotoEmployee();
-        }
-        else {
-          this.alertService.error(res.failures[0])
-        }
-      })
+          else {
+            this.alertService.error(res.failures[0])
+          }
+        })
+      }
+      else
+      {
+        this.alertService.error("Password doesn't match");
+      }
     }
     else {
       this.validateFormControl()

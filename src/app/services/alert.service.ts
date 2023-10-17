@@ -1,33 +1,33 @@
 import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 
 @Injectable()
 export class AlertService {
 
-  constructor(private toastr: ToastrService,
+  constructor(//private toastr: ToastrService,
     private _location: Location) {
-    this.toastr.toastrConfig.enableHtml = true;
+    //this.toastr.toastrConfig.enableHtml = true;
   }
 
   success(message: string, keepAfterNavigationChange = false) {
-    this.toastr.success(message);
+    //this.toastr.success(message);
   }
 
   error(message: string, keepAfterNavigationChange = false) {
-    this.toastr.error(message);
+    //this.toastr.error(message);
   }
 
   warning(message: string, keepAfterNavigationChange = false) {
-    this.toastr.warning(message);
+    //this.toastr.warning(message);
   }
 
   info(message: string, keepAfterNavigationChange = false) {
-    this.toastr.info(message);
+    //this.toastr.info(message);
   }
 
   async alert(message: string, title: string) {
-    this.toastr.info(message, title, { closeButton: true, positionClass: 'toast-top-center' });
+    //this.toastr.info(message, title, { closeButton: true, positionClass: 'toast-top-center' });
   }
 
   result(result: any, isSuccessGoBack = false, message: string = null) {

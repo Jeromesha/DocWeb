@@ -337,6 +337,7 @@ export class TimesheetComponent implements OnInit {
         }
       });
       this.isReadOnly = true;
+      this.disabled=true;
     }
   }
 

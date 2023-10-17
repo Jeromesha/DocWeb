@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { TimesheetComponent } from './timesheet.component';
-import { TimesheetgridComponent } from './timesheetgrid.component';
-import { RouterModule, Routes } from '@angular/router';
+import { TimesheetreportComponent } from './timesheetreport.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -16,52 +15,35 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbDropdownModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSelectFilterModule } from 'mat-select-filter';
-import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, DateTimeAdapter, OWL_DATE_TIME_LOCALE, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
+import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import { FeahterIconModule } from 'src/app/core/feather-icon/feather-icon.module';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { MappingServices } from 'src/app/services/mapping.service';
 import { NotifyService } from 'src/app/services/notifyService';
-import { TimeSheetService } from 'src/app/services/timesheet.service';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MY_CUSTOM_FORMATS } from '../dashboard/timesheet/timesheet.module';
+import { ShowreportComponent } from '../employeeleaverecords/showreport/showreport.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: TimesheetgridComponent
-  },
-  {
-    path: ":id/:actionInfo",
-    component: TimesheetComponent
-  },
-  {
-    path:"date/:date/:actionInfo",
-    component:TimesheetComponent
+    path:'',
+    component: TimesheetreportComponent
   }
 ];
-export const MY_CUSTOM_FORMATS = {
-  parseInput: 'DD/MM/YYYY',
-  fullPickerInput: 'DD/MM/YYYY',
-  datePickerInput: 'DD/MM/YYYY',
-  timePickerInput: 'HH:mm',
-  monthYearLabel: 'DD/MM/YYYY',
-  dateA11yLabel: 'DD/MM/YYYY',
-  monthYearA11yLabel: 'DD/MM/YYYY',
-};
 
 @NgModule({
-  declarations: [TimesheetComponent, TimesheetgridComponent],
+  declarations: [
+    TimesheetreportComponent
+  ],
   providers: [
     DashboardService,
-    TimeSheetService,
+    MappingServices,
     NotifyService,
     DatePipe,
-    { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} },
-
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
     { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
     // { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: false } } ,
@@ -93,8 +75,8 @@ export const MY_CUSTOM_FORMATS = {
     MatRadioModule,
     MatCheckboxModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule,
-    MatSelectModule
-  ],
+    OwlNativeDateTimeModule
+  ]
 })
-export class TimesheetModule { }
+export class TimesheetreportModule { }
+

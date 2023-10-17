@@ -23,15 +23,9 @@ import { MatSelectFilterModule } from "mat-select-filter";
 import { DashboardComponent } from "./dashboard.component";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { PlotlyModule } from 'angular-plotly.js';
-import * as PlotlyJS from 'plotly.js-dist-min';
 // import { TimesheetComponent } from "./timesheet/timesheet.component";
 import { TimeSheetService } from "src/app/services/timesheet.service";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
-
-PlotlyModule.plotlyjs = PlotlyJS;
-
 
 
 const routes: Routes = [
@@ -72,7 +66,6 @@ const routes: Routes = [
     NgbTooltipModule,
     MatRadioModule,
     MatCheckboxModule,
-    PlotlyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule
   ],

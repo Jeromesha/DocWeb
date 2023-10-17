@@ -21,8 +21,6 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSelectFilterModule } from "mat-select-filter";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { PlotlyModule } from 'angular-plotly.js';
-import * as PlotlyJS from 'plotly.js-dist-min';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { MappingServices } from "src/app/services/mapping.service";
 import { MappingdetailsComponent } from "./mappingdetails.component";
@@ -32,12 +30,6 @@ import { MatListModule } from '@angular/material/list';
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
-
-
-
-PlotlyModule.plotlyjs = PlotlyJS;
-
-
 
 const routes: Routes = [
   {
@@ -80,7 +72,6 @@ const routes: Routes = [
     MatRadioModule,
     MatListModule,
     MatCheckboxModule,
-    PlotlyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     FormsModule,
