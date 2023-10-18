@@ -1,2 +1,162 @@
 <!-- <div class="back-ground"></div> -->
-<img src="../../../../assets/images/underground constration.svg">
+<div class="row" style="display: flex; justify-content: center; align-items: center;">
+    <!-- <div class="col-md-4 col-sm-4 col-lg-4"></div> -->
+    <!-- <div class="col-md-3 col-sm-3 col-lg-3">
+        
+    </div> -->
+    <div class="form-group">
+        <div class="input-group mb-0">
+            <button mat-mini-fab color="white" (click)="previousDate()"
+                style="margin-top: 0px;height:30px;width: 30px;text-align: center;">
+                <mat-icon style="line-height: 0.6;">arrow_left</mat-icon>
+            </button>&nbsp; &nbsp; &nbsp;
+            <input class="form-control" placeholder="Select Date" [owlDateTime]="dateTimePicker"
+                [(ngModel)]="currentDate" [owlDateTimeTrigger] [owlDateTimeTrigger]="dt1" [min]="this.mindate"
+                [max]="this.maxdate" [owlDateTime]="dt1" style="border-top-left-radius:25px ;
+                border-bottom-left-radius: 25px;">
+            <div class="input-group-append">
+                <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1" style="border-bottom-right-radius:25px;
+                border-top-right-radius:25px;
+                color: black;
+                background-color: white;">
+                    <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+            </div>&nbsp; &nbsp;&nbsp;
+            <button mat-mini-fab color="white" (click)="nextDate()"
+                style="margin-top: 0px;height:30px;width: 30px;text-align: center;">
+                <mat-icon style="line-height: 0.6;">arrow_right</mat-icon>
+            </button>
+
+        </div>
+    </div>
+
+    <!-- <div class="col-md-3 col-sm-3 col-xs-12 col-lg-3">
+    </div> -->
+</div>
+<div class=" row col-md-12">
+    <div class="col-md-4 col-sm-12 col-lg-2 card" style="
+    height: 175px; border-radius: 25px">
+        <div class="">
+            <h4>Start Time</h4>
+            <span>
+                <h2 style="text-align: center;
+                                color:#fd2323;
+                margin-top: 24px;">{{dashboardlist?.StartTime}}</h2>
+                <!-- <p style="text-align: center;
+                color: #add8e6;  margin-top: 24px;">06:00</p> -->
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-2 card" style="height: 175px; border-radius: 25px">
+        <div class="">
+            <h4>Working Time</h4>
+            <span>
+                <h2 style="text-align: center;
+                color: #66e977;
+                margin-top: 24px;">{{dashboardlist?.WorkingTime}}</h2>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-2 card" style="height: 175px;border-radius: 25px">
+        <div class="">
+            <h4>Neutral Time</h4>
+            <span>
+                <h2 style="text-align: center;
+                color: #fae902;
+                margin-top: 24px;">{{dashboardlist?.NeutralTime}}</h2>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-2 card" style="height: 175px; border-radius: 25px">
+        <div class="">
+            <h4>Away Time</h4>
+            <span>
+                <h2 style="text-align: center;
+                color: #02d9ff;
+                margin-top: 24px;">{{dashboardlist?.AwayTime}}</h2>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-2 card" style="height: 175px; border-radius: 25px">
+        <div class="">
+            <h4>Productive Time</h4>
+            <span>
+                <h2 style="text-align: center;
+                color: #af75b1;
+                margin-top: 24px;">{{dashboardlist?.ProductiveTime}}</h2>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12 col-xs-12 col-lg-2 card" style="height: 175px; border-radius: 25px">
+        <div class="">
+            <h4>Last Seen</h4>
+            <span>
+                <h2 style="text-align: center;
+                color: #f55369;
+                margin-top: 24px;">{{dashboardlist?.LastSeen}}</h2>
+            </span>
+        </div>
+    </div>
+</div>
+<br>
+<div class=" row col-md-12">
+    <div class="col-md-12 col-sm-12 col-lg-6 card" style="border-radius: 25px">
+        <div class="">
+            <h4>Time Chart</h4>
+            <!-- <img src="../../assets/testimg/DoughnutChart.png"> -->
+        </div>
+        <div id="chart">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+                [responsive]="chartOptions.responsive" [colors]="chartOptions.colors"
+                [legend]="chartOptions.legend"></apx-chart>
+        </div>
+
+    </div>
+    <div class="col-md-12 col-sm-12 col-lg-6 card" style="border-radius: 25px">
+        <div class="">
+            <h4>Start Time</h4>
+        </div>
+        <div>
+            <h5 class="mb-3 mb-md-0" style="text-align: left;">&nbsp;{{'Work Hours(Avg)' | translate}}</h5>
+            <br>
+            <div class="table-responsive">
+                <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
+                    <ng-container matColumnDef="Name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Name">{{'Name'|translate}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let dataField">
+                            <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">{{dataField.Name}}
+                            </p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Man Days">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Man Days">
+                            {{'Man Days'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let dataField">
+                            <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">
+                                {{dataField.ManDays}}</p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Work Hours Avg">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Work Hours Avg">{{'Work Hours Avg'}}
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let dataField">
+                            <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">
+                                {{dataField.WorkHoursAvg}}</p>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple></mat-row>
+                </mat-table>
+            </div>
+        </div>
+        <div>
+            <br>
+        </div>
+
+    </div>
+</div>

@@ -12,7 +12,7 @@ export class DashboardService {
     gettimesheetById(id: number, refresh: boolean) {
         return this.dataService.getData('/api/timesheet/timesheetbytimsheetid/' + id, refresh);
     }
-    getTimesheet(id: number, refresh: boolean){
+    getTimesheet(id: number, refresh: boolean) {
         return this.dataService.getData('/api/timesheet/timesheetsbyid/' + id, refresh);
     }
     getRegistrationDataById(id: number, refresh: boolean) {
@@ -21,5 +21,7 @@ export class DashboardService {
     downloadReciept(data: any) {
         return this.dataService.post('/api/report', data)
     }
-
+    gettimchamp(id: number, date: Date, refresh: boolean) {
+        return this.dataService.getData('/api/eventdetail/' + id + '/' + date, refresh);
+    }
 }

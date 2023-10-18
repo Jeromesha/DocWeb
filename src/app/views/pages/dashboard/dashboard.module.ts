@@ -27,11 +27,23 @@ import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 // import { TimesheetComponent } from "./timesheet/timesheet.component";
 import { TimeSheetService } from "src/app/services/timesheet.service";
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
+import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MomentDateTimeAdapter } from "ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class";
+// import { MY_FORMATS } from "../employeeleaverecords/showreport/showreport.module";
+import { MatCardModule } from '@angular/material/card';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 PlotlyModule.plotlyjs = PlotlyJS;
-
+export const MY_FORMATS = {
+  parseInput: 'DD/MM/YYYY',
+  fullPickerInput: 'DD/MM/YYYY hh:mm a',
+  datePickerInput: 'DD/MM/YYYY',
+  timePickerInput: 'hh:mm a',
+  monthYearLabel: 'MMM-YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MMMM-YYYY'
+}
 
 
 const routes: Routes = [
@@ -47,6 +59,8 @@ const routes: Routes = [
     DashboardService,
     NotifyService,
     DatePipe,
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_FORMATS },
   ],
   imports: [
     CommonModule,
@@ -74,7 +88,16 @@ const routes: Routes = [
     MatCheckboxModule,
     PlotlyModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    NgApexchartsModule
+
+
   ],
 })
 export class DashboardModule { }

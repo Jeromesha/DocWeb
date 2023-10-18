@@ -39,9 +39,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-toggle-switch';
+import { NgApexchartsModule } from 'ng-apexcharts'
+
 
 import { EmployeedetailsComponent } from './views/pages/employeedetails/employeedetails.component';
-
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -82,6 +83,9 @@ export function createTranslateLoader(http: HttpClient) {
     NgbDropdownModule,
     UiSwitchModule,
     HttpClientModule,
+    NgApexchartsModule,
+
+
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',
