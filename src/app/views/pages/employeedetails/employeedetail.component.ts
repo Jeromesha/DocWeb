@@ -94,6 +94,7 @@ export class EmployeedetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger;
     this.initialValidators();
     if (this.id == 0) {
       this.projectLookUp(true);
@@ -167,9 +168,9 @@ export class EmployeedetailComponent implements OnInit {
   }
 
   projectLookUp(result) {
+    debugger
     this.empDetailsService.getProject(true, 1).subscribe((res) => {
       debugger
-      console.log(res);
       this.projectList = [];
       this.filterprojectList = [];
       this.projectList = res;
@@ -306,7 +307,7 @@ export class EmployeedetailComponent implements OnInit {
 
     if (this.form.valid) {
       // this.form.controls['strpassword'].setValue(encryptedPassword)
-      if (this.form.value.stringPswrd == this.form.value.stringPswrd2) {
+      if (this.form.value.stringPswrd == this.form.value.stringPswrd2 || this.id>0) {
         var data = this.form.value;
         data.password = null;
         data.projectId = projectId;

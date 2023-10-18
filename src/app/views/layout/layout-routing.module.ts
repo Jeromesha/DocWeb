@@ -73,7 +73,7 @@ const routes: Routes = [
           import("./../../views/pages/monthlyrecords/monthlyrecords.module").then((m) => m.MonthlyrecordsModule)
       },
       {
-        path: "timesheetreport",
+        path: "reporttimesheet",
         loadChildren: () =>
           import("./../../views/pages/timesheetreport/timesheetreport.module").then((m) => m.TimesheetreportModule)
       },
