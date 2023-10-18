@@ -450,19 +450,51 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6" *ngIf="!disab">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Confirm Password' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="stringPswrd2"
+                                                (blur)="encrypt()" placeholder="Confirm Password" autocomplete="off" inputText>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.stringPswrd2.errors && (form.controls.stringPswrd2.dirty || form.controls.stringPswrd2.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.stringPswrd2.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Confirm Password' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'Address' | translate}}</label>
+                                            <label class="mandatory ">{{'Present Address' | translate}}</label>
                                             <textarea type="text" [ngClass]="{'disable':actionInfo == 1}"
                                                 class="form-control" maxlength="250" [disabled]="actionInfo == 1"
-                                                placeholder="Address" formControlName="address" autocomplete="off">
+                                                placeholder="Present Address" formControlName="temp_address" autocomplete="off">
+                                            </textarea>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.temp_address.errors && (form.controls.temp_address.dirty || form.controls.temp_address.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.temp_address.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Present Address' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Permanent Address' | translate}}</label>
+                                            <textarea type="text" [ngClass]="{'disable':actionInfo == 1}"
+                                                class="form-control" maxlength="250" [disabled]="actionInfo == 1"
+                                                placeholder="Permanent Address" formControlName="address" autocomplete="off">
                                             </textarea>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.address.errors && (form.controls.address.dirty || form.controls.address.touched)"
                                                 text-wrap>
                                                 <span *ngIf="form.controls.address.errors?.required"
                                                     class="form-text  danger mandatory">
-                                                    {{'Address' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Permanent Address' | translate}} {{'IsRequired' | translate}}</span>
 
                                             </div>
                                         </div>

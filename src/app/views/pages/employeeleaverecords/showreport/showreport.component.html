@@ -2,8 +2,9 @@
 </div>
 <br>
 <div class="header-layout divborder">
-    <!-- <h4 class="col-7 gridheading" *ngIf="data?.ReportType == 1"><i class="fa fa-tint"></i><b>Employee Leave Report</b></h4> -->
-    <h4 class="col-7 gridheading"><i class="fa fa-file"></i><b>Employee Leave Report</b></h4>
+    <h4 class="col-7 gridheading" *ngIf="data.reportType == 1"><i class="fa fa-file"></i><b>Employee Leave Report</b></h4>
+    <h4 class="col-7 gridheading" *ngIf="data.reportType == 2"><i class="fa fa-file"></i><b>Employee Leave Report</b></h4>
+    <!-- <h4 class="col-7 gridheading"><i class="fa fa-file"></i><b>Employee Leave Report</b></h4> -->
 
     <div class="col-5 icon_sec" style="display: flex; float: right;">
         <span class="fa-stack">

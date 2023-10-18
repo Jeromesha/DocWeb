@@ -5,7 +5,8 @@ import { Location } from '@angular/common';
 @Injectable()
 export class AlertService {
 
-  constructor(private toastr: ToastrService,
+  constructor(
+    private toastr: ToastrService,
     private _location: Location) {
     this.toastr.toastrConfig.enableHtml = true;
   }

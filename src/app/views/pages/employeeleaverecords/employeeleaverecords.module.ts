@@ -22,8 +22,6 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSelectFilterModule } from "mat-select-filter";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { PlotlyModule } from 'angular-plotly.js';
-import * as PlotlyJS from 'plotly.js-dist-min';
 // import { TimesheetComponent } from "./timesheet/timesheet.component";
 import { TimeSheetService } from "src/app/services/timesheet.service";
 // import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
@@ -33,12 +31,7 @@ import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment
 import { MY_CUSTOM_FORMATS } from "../dashboard/timesheet/timesheet.module";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
 import { ShowreportComponent } from './showreport/showreport.component';
-
-
-
-PlotlyModule.plotlyjs = PlotlyJS;
-
-
+import { MappingServices } from "src/app/services/mapping.service";
 
 const routes: Routes = [
   {
@@ -48,10 +41,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [EmployeeleaverecordsComponent, ShowreportComponent],
+  declarations: [EmployeeleaverecordsComponent, ShowreportComponent,],
   providers: [
     DashboardService,
-
+    MappingServices,
     NotifyService,
     DatePipe,
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
@@ -84,7 +77,6 @@ const routes: Routes = [
     NgbTooltipModule,
     MatRadioModule,
     MatCheckboxModule,
-    PlotlyModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule
   ],

@@ -29,6 +29,16 @@ export class EmployeedetailsService {
     return  this.dataService.getData('/api/lookup/designation',refresh)
   }
 
+  getEmployeeByLocation(id:any,refresh:boolean){
+    debugger
+    return this.dataService.getData('/api/lookup/worklocationId/'+id,refresh)
+  }
+
+  getEmployeeByProandLocation(proId:any,locationId:any,refresh:boolean){
+    debugger
+    return this.dataService.getData('/api/lookup/pwl/'+proId+"/"+locationId,refresh)
+  }
+
   saveEmployee(data:any)
   {
     return this.dataService.post('/api/employee',data);
