@@ -54,7 +54,7 @@
                                                     <mat-button-toggle
                                                         [ngClass]="this.form.value.IsLeave == 1 ? 'btnred' :''"
                                                         (click)="onbtnClick(1)" [value]="1"
-                                                        [disabled]="list.length > 0">Leave</mat-button-toggle>
+                                                        [disabled]="list.length > 0 || actionInfo==0">Leave</mat-button-toggle>
                                                     <mat-button-toggle
                                                         [ngClass]="form.value.IsLeave === 2 ? 'butgreen' : ''"
                                                         (click)="onbtnClick(2)" [value]="2"
@@ -197,8 +197,7 @@
                 {{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <ng-container
-                    *ngIf="dataField.id!=0; else formattedHoursTemplate">
+                <ng-container *ngIf="dataField.id!=0; else formattedHoursTemplate">
                     <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-container>
                 <ng-template #formattedHoursTemplate>

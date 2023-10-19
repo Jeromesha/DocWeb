@@ -331,13 +331,13 @@ export class TimesheetComponent implements OnInit {
           this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate())
           if (this.data.isLeave == true) {
             this.form.controls['IsLeave'].setValue(true);
-            this.isLeave = false
+            // this.isLeave = false
           }
 
         }
       });
       this.isReadOnly = true;
-      this.disabled=true;
+      this.disabled = true;
     }
   }
 
@@ -351,7 +351,7 @@ export class TimesheetComponent implements OnInit {
     //   this.disabled = true;
     //   console.log("date success")
     // }
-    if(this.date) 
+    if (this.date)
     //else
     {
       let entryDate = moment(this.date).format("YYYY-MM-DD") + " 00:00:00";
