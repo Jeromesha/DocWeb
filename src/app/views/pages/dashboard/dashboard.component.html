@@ -1,39 +1,40 @@
 <!-- <div class="back-ground"></div> -->
-<div class="row" style="display: flex; justify-content: center; align-items: center;">
-    <!-- <div class="col-md-4 col-sm-4 col-lg-4"></div> -->
-    <!-- <div class="col-md-3 col-sm-3 col-lg-3">
-        
-    </div> -->
-    <div class="form-group">
-        <div class="input-group mb-0">
-            <button mat-mini-fab color="white" (click)="previousDate()"
-                style="margin-top: 0px;height:30px;width: 30px;text-align: center;">
-                <mat-icon style="line-height: 0.6;">arrow_left</mat-icon>
-            </button>&nbsp; &nbsp; &nbsp;
-            <input class="form-control" placeholder="Select Date" [owlDateTime]="dateTimePicker"
-                [(ngModel)]="currentDate" [owlDateTimeTrigger] [owlDateTimeTrigger]="dt1" [min]="this.mindate"
-                [max]="this.maxdate" [owlDateTime]="dt1" style="border-top-left-radius:25px ;
-                border-bottom-left-radius: 25px;">
-            <div class="input-group-append">
-                <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1" style="border-bottom-right-radius:25px;
-                border-top-right-radius:25px;
-                color: black;
-                background-color: white;">
-                    <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
-            </div>&nbsp; &nbsp;&nbsp;
-            <button mat-mini-fab color="white" (click)="nextDate()"
-                style="margin-top: 0px;height:30px;width: 30px;text-align: center;">
-                <mat-icon style="line-height: 0.6;">arrow_right</mat-icon>
-            </button>
+<form [formGroup]="form">
+    <div class="row" style="display: flex; justify-content: center; align-items: center;">
+        <div class="form-group">
+            <div class="input-group mb-0">
+                <button mat-mini-fab color="white" (click)="previousDate()"
+                    style="margin-top: 0px;height:30px;width: 30px;text-align: center;">
+                    <mat-icon style="line-height: 0.6;">arrow_left</mat-icon>
+                </button>&nbsp; &nbsp; &nbsp;
+                <input class="form-control" 
+                    placeholder="Select Date" 
+                    [owlDateTime]="dateTimePicker" 
+                    [owlDateTimeTrigger] 
+                    [owlDateTimeTrigger]="dt1" 
+                    [max]="this.maxdate"
+                    [owlDateTime]="dt1" 
+                    style="border-top-left-radius:25px ;border-bottom-left-radius: 25px;"
+                    formControlName="entryDate"
+                    (ngModelChange)="gettimechamp($event)">
+                <div class="input-group-append">
+                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1" style="border-bottom-right-radius:25px;
+                    border-top-right-radius:25px;
+                    color: black;
+                    background-color: white;">
+                        <i class="fa fa-calendar-check-o"></i>
+                    </span>
+                    <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                </div>&nbsp; &nbsp;&nbsp;
+                <button mat-mini-fab color="white" (click)="nextDate()"
+                    style="margin-top: 0px;height:30px;width: 30px;text-align: center;">
+                    <mat-icon style="line-height: 0.6;">arrow_right</mat-icon>
+                </button>
 
+            </div>
         </div>
     </div>
-
-    <!-- <div class="col-md-3 col-sm-3 col-xs-12 col-lg-3">
-    </div> -->
-</div>
+</form>
 <div class=" row col-md-12">
     <div class="col-md-4 col-sm-12 col-lg-2 card" style="
     height: 175px; border-radius: 25px">
@@ -42,7 +43,7 @@
             <span>
                 <h2 style="text-align: center;
                                 color:#fd2323;
-                margin-top: 24px;">{{dashboardlist?.StartTime}}</h2>
+                margin-top: 24px;">{{dashboardlist?.StartTime||'00:00'}}</h2>
                 <!-- <p style="text-align: center;
                 color: #add8e6;  margin-top: 24px;">06:00</p> -->
             </span>
@@ -54,7 +55,7 @@
             <span>
                 <h2 style="text-align: center;
                 color: #66e977;
-                margin-top: 24px;">{{dashboardlist?.WorkingTime}}</h2>
+                margin-top: 24px;">{{dashboardlist?.WorkingTime||'00:00'}}</h2>
             </span>
         </div>
     </div>
@@ -64,7 +65,7 @@
             <span>
                 <h2 style="text-align: center;
                 color: #fae902;
-                margin-top: 24px;">{{dashboardlist?.NeutralTime}}</h2>
+                margin-top: 24px;">{{dashboardlist?.NeutralTime||'00:00'}}</h2>
             </span>
         </div>
     </div>
@@ -74,7 +75,7 @@
             <span>
                 <h2 style="text-align: center;
                 color: #02d9ff;
-                margin-top: 24px;">{{dashboardlist?.AwayTime}}</h2>
+                margin-top: 24px;">{{dashboardlist?.AwayTime||'00:00'}}</h2>
             </span>
         </div>
     </div>
@@ -84,7 +85,7 @@
             <span>
                 <h2 style="text-align: center;
                 color: #af75b1;
-                margin-top: 24px;">{{dashboardlist?.ProductiveTime}}</h2>
+                margin-top: 24px;">{{dashboardlist?.ProductiveTime||'00:00'}}</h2>
             </span>
         </div>
     </div>
@@ -94,7 +95,7 @@
             <span>
                 <h2 style="text-align: center;
                 color: #f55369;
-                margin-top: 24px;">{{dashboardlist?.LastSeen}}</h2>
+                margin-top: 24px;">{{dashboardlist?.LastSeen||'00:00'}}</h2>
             </span>
         </div>
     </div>
@@ -106,10 +107,16 @@
             <h4>Time Chart</h4>
             <!-- <img src="../../assets/testimg/DoughnutChart.png"> -->
         </div>
-        <div id="chart">
+        <div id="chart" *ngIf="display">
             <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
                 [responsive]="chartOptions.responsive" [colors]="chartOptions.colors"
                 [legend]="chartOptions.legend"></apx-chart>
+        </div>
+        <div *ngIf="!display"
+        style="height: 100%;
+        width: 100%;
+        text-align: center;">
+            <h1 style="margin-top:20%;margin-bottom: 20%;color: rgb(213, 212, 212);">Data Not Found</h1>
         </div>
 
     </div>
@@ -117,7 +124,7 @@
         <div class="">
             <h4>Start Time</h4>
         </div>
-        <div>
+        <div  *ngIf="display">
             <h5 class="mb-3 mb-md-0" style="text-align: left;">&nbsp;{{'Work Hours(Avg)' | translate}}</h5>
             <br>
             <div class="table-responsive">
@@ -153,6 +160,12 @@
                     <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple></mat-row>
                 </mat-table>
             </div>
+        </div>
+        <div *ngIf="!display"
+        style="height: 100%;
+        width: 100%;
+        text-align: center;">
+            <h1 style="margin-top:20%;margin-bottom: 20%;color: rgb(213, 212, 212);">Data Not Found</h1>
         </div>
         <div>
             <br>

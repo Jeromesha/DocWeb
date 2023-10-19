@@ -47,10 +47,12 @@ export class DashboardComponent implements OnInit {
 
   loading: boolean;
   jData = [];
-  mindate: Date;
-  maxdate: Date;
-  currentDate: Date;
-  ddate: any;
+  maxdate: Date = new Date();
+  currentDate: any;
+  form: FormGroup;;
+  Databasedate: any;
+  getdate: any;
+  display:boolean=true;
 
   dataSource = new MatTableDataSource(this.jData);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -82,29 +84,37 @@ export class DashboardComponent implements OnInit {
   at: any;
   pt: any;
   ls: any;
+
+
+
+
+
   constructor(
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
     private usersessionService: UserSessionService,
     private alertService: AlertService,
     private dateTimeAdapter: DateTimeAdapter<any>,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private formBuilder: FormBuilder
   ) {
     this.currentDate = new Date();
-    this.ddate = moment(this.currentDate).format('YYYY-MM-DD');
+    this.Databasedate = moment(this.currentDate).format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {
     debugger;
     this.UserId = this.usersessionService.userId();
-    this.timechamp(this.UserId, this.ddate);
+    this.timechamp(this.UserId, this.Databasedate);
     this.jData = [
       { Name: 'John', ManDays: 5, WorkHoursAvg: 8 },
       { Name: 'Alice', ManDays: 4, WorkHoursAvg: 7 },
       { Name: 'Bob', ManDays: 6, WorkHoursAvg: 7.5 }
     ];
     this.dataSource = new MatTableDataSource(this.jData);
-
+    this.form = this.formBuilder.group({
+      entryDate: this.currentDate
+    });
   }
 
   refresh() {
@@ -136,15 +146,25 @@ export class DashboardComponent implements OnInit {
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
   previousDate() {
-    const previousDay = new Date(this.currentDate);
+    debugger
+    const previousDay = this.currentDate;
     previousDay.setDate(this.currentDate.getDate() - 1);
     this.currentDate = previousDay;
+    this.form.controls['entryDate'].setValue(previousDay);
+    this.getdate = moment(this.currentDate).format('YYYY-MM-DD');
+    this.timechamp(this.UserId, this.getdate);
   }
 
   nextDate() {
-    const nextDay = new Date(this.currentDate);
-    nextDay.setDate(this.currentDate.getDate() + 1);
-    this.currentDate = nextDay;
+    debugger;
+    const nextDay = this.currentDate;
+    if (moment(this.maxdate).format('YYYY-MM-DD') > moment(nextDay).format('YYYY-MM-DD')) {
+      nextDay.setDate(this.currentDate.getDate() + 1);
+      this.currentDate = nextDay;
+      this.form.controls['entryDate'].setValue(nextDay);
+      this.getdate = moment(this.currentDate).format('YYYY-MM-DD');
+      this.timechamp(this.UserId, this.getdate);
+    }
   }
 
   convertSecondsToHHMM(seconds: number): string {
@@ -185,22 +205,39 @@ export class DashboardComponent implements OnInit {
   //   });
   //   return chart;
   // }
-  timechamp(id: number, date: Date) {
-    debugger
-    this.dashboardService.gettimchamp(id, date, true).subscribe(result => {
 
+  gettimechamp(object) {
+    debugger;
+    if (moment.isMoment(object)) {
+      this.currentDate = object.toDate();
+      this.getdate = moment(this.currentDate).format('YYYY-MM-DD');
+      console.log('edate', this.getdate)
+      // this.currentDate= object.toDate();
+      this.timechamp(this.UserId, this.getdate);
+    }
+  }
+  timechamp(id: number, date: any) {
+    debugger
+    this.dashboardlist=[];
+    this.dashboardService.gettimchamp(id, date, true).subscribe(result => {
       debugger;
-      //this.dashboardlist = result;
       console.log(result, 'res');
-      this.dashboardlist = {
-        StartTime: moment(result.inTs).format('HH:mm'),
-        WorkingTime: this.convertSecondsToHHMM(result.activeSecond),
-        ProductiveTime: this.convertSecondsToHHMM(result.activeSecond),
-        NeutralTime: this.convertSecondsToHHMM(result.lockSecond),
-        AwayTime: this.convertSecondsToHHMM(result.idleSecond),
-        LastSeen: moment(result.outTs).format('HH:mm')
+      if (result!=null) {
+        this.dashboardlist = {
+          StartTime: moment(result.inTs).format('HH:mm'),
+          WorkingTime: this.convertSecondsToHHMM(result.activeSecond),
+          ProductiveTime: this.convertSecondsToHHMM(result.activeSecond),
+          NeutralTime: this.convertSecondsToHHMM(result.lockSecond),
+          AwayTime: this.convertSecondsToHHMM(result.idleSecond),
+          LastSeen: result.outTs==null|| date==moment(this.maxdate).format('YYYY-MM-DD')?'00:00':moment(result.outTs).format('HH:mm')
+        }
+        this.timechart(this.dashboardlist);
+        this.display=true;
       }
-      this.timechart(this.dashboardlist);
+      else {
+        console.log("no data")
+        this.display=false;
+      }
     });
 
   }
@@ -256,4 +293,5 @@ export class DashboardComponent implements OnInit {
     const [hours, minutes] = time.split(':').map(Number);
     return Number(`${hours}.${minutes}`);
   }
+
 }

@@ -131,7 +131,7 @@ export class EmployeedetailComponent implements OnInit {
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required],
       'roleId': ['', Validators.required],
-      'mobile': ['', Validators.required],
+      'mobile': ['',  [Validators.required, Validators.pattern(/^[6-9]{1}[0-9]{9}$/)]],
       'email': ['', Validators.required],
       'secondlvlReportingPersonId': ['',],
       'dateOfBirth': ['', Validators.required],
@@ -142,7 +142,7 @@ export class EmployeedetailComponent implements OnInit {
       'designationTypeId': ['', Validators.required],
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
-      'temp_address': ['', Validators.required],
+      'temp_address': ['',],
       'projectId': ['', Validators.required],
       'fillTimesheet': [],
       'reportingPersonId': ['', Validators.required],
@@ -289,9 +289,13 @@ export class EmployeedetailComponent implements OnInit {
     if (this.id == 0) {
       this.form.controls['stringPswrd'].setValidators(Validators.required);
       this.form.controls['stringPswrd'].updateValueAndValidity();
+      this.form.controls['stringPswrd2'].setValidators(Validators.required);
+      this.form.controls['stringPswrd2'].updateValueAndValidity();
     } else {
       this.form.controls['stringPswrd'].clearValidators();
       this.form.controls['stringPswrd'].updateValueAndValidity();
+      this.form.controls['stringPswrd2'].clearValidators();
+      this.form.controls['stringPswrd2'].updateValueAndValidity();
     }
     const projectId = [];
     debugger
