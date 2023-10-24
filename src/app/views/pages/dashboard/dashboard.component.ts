@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit {
   Databasedate: any;
   getdate: any;
   display: boolean = true;
+  displaygrid: boolean = true;
   public: string[];
   dateTimePicker: OwlDateTimeComponent<any>;
   dashboardlist: any;
@@ -265,19 +266,27 @@ export class DashboardComponent implements OnInit {
     debugger;
     this.dashboardgrid = [];
     this.dashboardService.gettimegrid(id, date, true).subscribe(res => {
-      this.dashboardgrid = res.map((entry) => {
-        const formateWorkinghrs = this.convertSecondsToHHMM(entry.activeSecond);
-        const formateName = entry.value;
-        const ManDays = 1;
+      debugger;
+      if (res.length == 1 && res[0].activeSecond == 0) {
+        this.displaygrid = false;
+      }
+      else {
+        this.dashboardgrid = res.map((entry) => {
+          const formateWorkinghrs = this.convertSecondsToHHMM(entry.activeSecond);
+          const formateName = entry.value;
+          const ManDays = 1;
 
-        return {
-          Name: formateName,
-          WorkingHours: formateWorkinghrs,
-          ManDays: ManDays
-        };
+          return {
+            Name: formateName,
+            WorkingHours: formateWorkinghrs,
+            ManDays: ManDays
+          };
 
-      });
-      this.dataSource = new MatTableDataSource(this.dashboardgrid);
+        });
+        this.dataSource = new MatTableDataSource(this.dashboardgrid);
+        this.displaygrid=true;
+      }
     });
   }
+
 }
