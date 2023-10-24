@@ -52,29 +52,7 @@ export class DashboardComponent implements OnInit {
   form: FormGroup;;
   Databasedate: any;
   getdate: any;
-  display:boolean=true;
-
-  dataSource = new MatTableDataSource(this.jData);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
-  @ViewChild("chart") chart: ChartComponent;
-
-  public chartOptions: Partial<ChartOptions>;
-  @ViewChild('dt1') dt1: OwlDateTimeComponent<any>;
-  @Input() workingTime: string;
-  @Input() productiveTime: string;
-  @Input() neutralTime: string;
-  @Input() awayTime: string;
-  @Input() lastSeen: string;
-  UserId: any;
-  displayedColumns: string[] = [
-    "Name",
-    "Man Days",
-    "Work Hours Avg",
-  ];
-
-
+  display: boolean = true;
   public: string[];
   dateTimePicker: OwlDateTimeComponent<any>;
   dashboardlist: any;
@@ -84,6 +62,24 @@ export class DashboardComponent implements OnInit {
   at: any;
   pt: any;
   ls: any;
+  dashboardgrid = [];
+
+  //dataSource = new MatTableDataSource(this.jData);
+  dataSource = new MatTableDataSource(this.dashboardgrid);
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
+  @ViewChild("chart") chart: ChartComponent;
+
+  public chartOptions: Partial<ChartOptions>;
+  @ViewChild('dt1') dt1: OwlDateTimeComponent<any>;
+  UserId: any;
+  displayedColumns: string[] = [
+    "Name",
+    "Man Days",
+    "Work Hours Avg",
+  ];
+
 
 
 
@@ -105,13 +101,15 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     debugger;
     this.UserId = this.usersessionService.userId();
+    this.timegrid(this.UserId, this.Databasedate);
     this.timechamp(this.UserId, this.Databasedate);
-    this.jData = [
-      { Name: 'John', ManDays: 5, WorkHoursAvg: 8 },
-      { Name: 'Alice', ManDays: 4, WorkHoursAvg: 7 },
-      { Name: 'Bob', ManDays: 6, WorkHoursAvg: 7.5 }
-    ];
-    this.dataSource = new MatTableDataSource(this.jData);
+
+    // this.jData = [
+    //   { Name: 'John', ManDays: 5, WorkHoursAvg: 8 },
+    //   { Name: 'Alice', ManDays: 4, WorkHoursAvg: 7 },
+    //   { Name: 'Bob', ManDays: 6, WorkHoursAvg: 7.5 }
+    // ];
+    // this.dataSource = new MatTableDataSource(this.jData);
     this.form = this.formBuilder.group({
       entryDate: this.currentDate
     });
@@ -153,6 +151,8 @@ export class DashboardComponent implements OnInit {
     this.form.controls['entryDate'].setValue(previousDay);
     this.getdate = moment(this.currentDate).format('YYYY-MM-DD');
     this.timechamp(this.UserId, this.getdate);
+    this.timegrid(this.UserId, this.getdate);
+
   }
 
   nextDate() {
@@ -164,6 +164,7 @@ export class DashboardComponent implements OnInit {
       this.form.controls['entryDate'].setValue(nextDay);
       this.getdate = moment(this.currentDate).format('YYYY-MM-DD');
       this.timechamp(this.UserId, this.getdate);
+      this.timegrid(this.UserId, this.getdate);
     }
   }
 
@@ -182,30 +183,6 @@ export class DashboardComponent implements OnInit {
     return th;
 
   }
-  // getTimeChart(id: any, date: any) {
-  //   debugger;
-  //   let chart = [5.67, 6.78, 30, 30, 44];
-  //   this.dashboardService.gettimchamp(id, date, true).subscribe(result => {
-  //     let res = {
-  //       StartTime: moment(result.inTs).format('HH:mm'),
-  //       WorkingTime: this.convertSecondsToHHMM(result.activeSecond),
-  //       ProductiveTime: this.convertSecondsToHHMM(result.activeSecond),
-  //       NeutralTime: this.convertSecondsToHHMM(result.lockSecond),
-  //       AwayTime: this.convertSecondsToHHMM(result.idleSecond),
-  //       LastSeen: moment(result.outTs).format('HH:mm')
-  //     };
-  //     chart = [parseInt(res?.StartTime),
-  //     parseInt(res?.WorkingTime),
-  //     parseInt(res?.NeutralTime),
-  //     parseInt(res?.ProductiveTime),
-  //     parseInt(res?.LastSeen),
-  //     parseInt(res?.AwayTime)]
-  //     console.log(chart);
-  //     return chart;
-  //   });
-  //   return chart;
-  // }
-
   gettimechamp(object) {
     debugger;
     if (moment.isMoment(object)) {
@@ -218,25 +195,26 @@ export class DashboardComponent implements OnInit {
   }
   timechamp(id: number, date: any) {
     debugger
-    this.dashboardlist=[];
+    this.dashboardlist = [];
     this.dashboardService.gettimchamp(id, date, true).subscribe(result => {
       debugger;
       console.log(result, 'res');
-      if (result!=null) {
+      if (result != null) {
         this.dashboardlist = {
           StartTime: moment(result.inTs).format('HH:mm'),
           WorkingTime: this.convertSecondsToHHMM(result.activeSecond),
           ProductiveTime: this.convertSecondsToHHMM(result.activeSecond),
           NeutralTime: this.convertSecondsToHHMM(result.lockSecond),
           AwayTime: this.convertSecondsToHHMM(result.idleSecond),
-          LastSeen: result.outTs==null|| date==moment(this.maxdate).format('YYYY-MM-DD')?'00:00':moment(result.outTs).format('HH:mm')
+          LastSeen: result.outTs == null || date == moment(this.maxdate).format('YYYY-MM-DD') ? '00:00' : moment(result.outTs).format('HH:mm')
         }
         this.timechart(this.dashboardlist);
-        this.display=true;
+        this.display = true;
+
       }
       else {
         console.log("no data")
-        this.display=false;
+        this.display = false;
       }
     });
 
@@ -244,18 +222,14 @@ export class DashboardComponent implements OnInit {
   timechart(dashboardlist) {
     debugger
     const dblist = dashboardlist
-    // this.st = (dblist?.StartTime);
     this.wt = this.timeToMinutes(dblist.WorkingTime)
     this.nt = this.timeToMinutes(dblist.NeutralTime)
     this.pt = this.timeToMinutes(dblist.ProductiveTime)
-    // this.ls = (dblist?.LastSeen)
     this.at = this.timeToMinutes(dblist.AwayTime)
     console.log(this.wt, this.nt, this.pt, this.at);
     debugger;
     console.log('chart', this.chart);
     this.chartOptions = {
-      //series: [5.67, 6.78, 30, 30, 44],
-
       series: [this.wt, this.nt, this.pt, this.at],
       chart: {
         type: "donut",
@@ -279,14 +253,7 @@ export class DashboardComponent implements OnInit {
         position: "bottom",
         horizontalAlign: "center"
       },
-      legend1:
-      {
-        position: "bottom",
-        horizontalAlign: "center"
-      }
     };
-    console.log(parseInt(this.dashboardlist?.StartTime), 'hii')
-
   }
   timeToMinutes(time) {
     debugger;
@@ -294,4 +261,23 @@ export class DashboardComponent implements OnInit {
     return Number(`${hours}.${minutes}`);
   }
 
+  timegrid(id: number, date: any) {
+    debugger;
+    this.dashboardgrid = [];
+    this.dashboardService.gettimegrid(id, date, true).subscribe(res => {
+      this.dashboardgrid = res.map((entry) => {
+        const formateWorkinghrs = this.convertSecondsToHHMM(entry.activeSecond);
+        const formateName = entry.value;
+        const ManDays = 1;
+
+        return {
+          Name: formateName,
+          WorkingHours: formateWorkinghrs,
+          ManDays: ManDays
+        };
+
+      });
+      this.dataSource = new MatTableDataSource(this.dashboardgrid);
+    });
+  }
 }

@@ -7,15 +7,9 @@
                     style="margin-top: 0px;height:30px;width: 30px;text-align: center;">
                     <mat-icon style="line-height: 0.6;">arrow_left</mat-icon>
                 </button>&nbsp; &nbsp; &nbsp;
-                <input class="form-control" 
-                    placeholder="Select Date" 
-                    [owlDateTime]="dateTimePicker" 
-                    [owlDateTimeTrigger] 
-                    [owlDateTimeTrigger]="dt1" 
-                    [max]="this.maxdate"
-                    [owlDateTime]="dt1" 
-                    style="border-top-left-radius:25px ;border-bottom-left-radius: 25px;"
-                    formControlName="entryDate"
+                <input class="form-control" placeholder="Select Date" [owlDateTime]="dateTimePicker"
+                    [owlDateTimeTrigger] [owlDateTimeTrigger]="dt1" [max]="this.maxdate" [owlDateTime]="dt1"
+                    style="border-top-left-radius:25px ;border-bottom-left-radius: 25px;" formControlName="entryDate"
                     (ngModelChange)="gettimechamp($event)">
                 <div class="input-group-append">
                     <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1" style="border-bottom-right-radius:25px;
@@ -112,8 +106,7 @@
                 [responsive]="chartOptions.responsive" [colors]="chartOptions.colors"
                 [legend]="chartOptions.legend"></apx-chart>
         </div>
-        <div *ngIf="!display"
-        style="height: 100%;
+        <div *ngIf="!display" style="height: 100%;
         width: 100%;
         text-align: center;">
             <h1 style="margin-top:20%;margin-bottom: 20%;color: rgb(213, 212, 212);">Data Not Found</h1>
@@ -124,7 +117,7 @@
         <div class="">
             <h4>Start Time</h4>
         </div>
-        <div  *ngIf="display">
+        <div *ngIf="display">
             <h5 class="mb-3 mb-md-0" style="text-align: left;">&nbsp;{{'Work Hours(Avg)' | translate}}</h5>
             <br>
             <div class="table-responsive">
@@ -153,7 +146,7 @@
                         </mat-header-cell>
                         <mat-cell *matCellDef="let dataField">
                             <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">
-                                {{dataField.WorkHoursAvg}}</p>
+                                {{dataField.WorkingHours}}</p>
                         </mat-cell>
                     </ng-container>
                     <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
@@ -161,8 +154,7 @@
                 </mat-table>
             </div>
         </div>
-        <div *ngIf="!display"
-        style="height: 100%;
+        <div *ngIf="!display" style="height: 100%;
         width: 100%;
         text-align: center;">
             <h1 style="margin-top:20%;margin-bottom: 20%;color: rgb(213, 212, 212);">Data Not Found</h1>

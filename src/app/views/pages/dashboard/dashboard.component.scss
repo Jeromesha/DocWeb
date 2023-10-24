@@ -41,17 +41,9 @@ h2 {
     margin-top: 24px;
 }
 
-// #chart {
-//     max-width: 380px;
-//     margin: 35px auto;
-//     padding: 0;
-// }
+@media (max-width: 1280px) and (max-height: 800px) {
 
-// .horizontalAlign {
-//     margin-left: -41px;
-// }
-// @media (max-width: 1280px) and (max-height: 800px) {
-//     .your-card {
-//       @extend .col-lg-4;
-//     }
-//   }
+    .cardxs {
+        width: 25%;
+    }
+}

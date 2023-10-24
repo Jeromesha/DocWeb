@@ -24,4 +24,7 @@ export class DashboardService {
     gettimchamp(id: number, date: Date, refresh: boolean) {
         return this.dataService.getData('/api/eventdetail/' + id + '/' + date, refresh);
     }
+    gettimegrid(id: number, date: Date, refresh: boolean) {
+        return this.dataService.getData('/api/eventdetail/GetEventGrid/' + id + '/' + date, refresh);
+    }
 }
