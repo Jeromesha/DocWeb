@@ -67,10 +67,12 @@ export class EmployeedetailsComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  onDelete(e: Event, id: any) {
+  onDelete(e: Event, id: any, name: any) {
+    debugger;
+    const fname = name;
     e.preventDefault();
     const title = this.translate.instant('DeleteConfirmation');
-    const txt = this.translate.instant('Are you sure you want to delete?');
+    const txt = this.translate.instant('Are you sure, Do you want to delete the details of ' + fname + '?');
     const Yes = this.translate.instant('Yes');
     const No = this.translate.instant('No');
     swal.fire({
