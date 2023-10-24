@@ -104,7 +104,7 @@ export class MappingComponent implements OnInit {
 
   initializeValidators() {
     this.form = this.formBuilder.group({
-      projectId: [0, Validators.required],
+      projectId: ['', Validators.required],
       firstListDatas: [],
       secondListDatas: [],
       unmappedEmployeeIds: [0],
@@ -155,24 +155,30 @@ export class MappingComponent implements OnInit {
   // }
 
   onSubmit() {
-    const projectemployeeData =
-    {
-      "projectId": this.form.value.projectId,
-      "unmappedEmployees": this.selectedunmappedlist.map(pair => pair.key),
-      "mappedEmployees": this.selectedmappedlist.map(pair => pair.key)
+    debugger;
+    // if (!(this.selectedmappedlist.length >= 1)) {
+    //   this.alertService.warning("Please select atleast one employee to map");
+    // }
+    if (this.form.valid) {
+      const projectemployeeData =
+      {
+        "projectId": this.form.value.projectId,
+        "unmappedEmployees": this.selectedunmappedlist.map(pair => pair.key),
+        "mappedEmployees": this.selectedmappedlist.map(pair => pair.key)
+      }
+      if (!(this.selectedmappedlist.length >= 1)) {
+        this.alertService.warning("Please select atleast one employee to map");
+      }
+      else {
+        this.mappingservice.savemapping(projectemployeeData).subscribe(result => {
+          if (result && result.isSuccess) {
+            this._location.back();
+            this.alertService.success(this.id == 0 ? "Employee added Successfully" : "Employees updated Successfully");
+          }
+        });
+      }
     }
-    if (!(this.selectedmappedlist.length >= 1)) {
-      this.alertService.warning("Please select atleast one employee to map");
-    }
-    else if (this.form.valid) {
-      this.mappingservice.savemapping(projectemployeeData).subscribe(result => {
-        if (result && result.isSuccess) {
-          this._location.back();
-          this.alertService.success(this.id == 0 ? "Employee added Successfully" : "Employees updated Successfully");
-        }
-
-      });
-    } else {
+    else {
       this.validateFormControl();
     }
   }

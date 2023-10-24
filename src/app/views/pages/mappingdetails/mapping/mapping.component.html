@@ -33,6 +33,13 @@
                                                         {{item.value}}
                                                     </mat-option>
                                                 </mat-select>
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.projectId.errors && (form.controls.projectId.dirty || form.controls.projectId.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.projectId.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        {{'Project ' | translate}} {{'IsRequired' | translate}}</span>
+                                                </div>
                                                 <!-- <p *ngFor="let item of projectSortList">{{item.value}}</p> -->
                                             </div>
                                         </div>
@@ -88,7 +95,7 @@
                                             (click)="removedToTransfer();"></i>
                                     </div>
                                     <div class="col-md-5">
-                                <h4 class="heading">Employees Available In Project</h4>
+                                        <h4 class="heading">Employees Available In Project</h4>
 
                                         <section class="example-section selectall mt-4">
                                             <mat-checkbox class="btn-block" formControlName="secondListDatas"

@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
   displayedColumns: string[] = [
     "Name",
     "Man Days",
-    "Work Hours Avg",
+    "Work Hours",
   ];
 
 
@@ -284,6 +284,7 @@ export class DashboardComponent implements OnInit {
 
         });
         this.dataSource = new MatTableDataSource(this.dashboardgrid);
+        this.dataSource.sort = this.sort;
         this.displaygrid=true;
       }
     });

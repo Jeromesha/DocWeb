@@ -21,9 +21,10 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Start Date' | translate}}</label>
                                             <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select Date"
+                                                <input class="form-control" placeholder="Select Start Date"
                                                     formControlName="startts" [owlDateTimeTrigger]="dt1"
-                                                    [owlDateTime]="dt1" [max]="today">
+                                                    [owlDateTime]="dt1" [max]="today"
+                                                    (ngModelChange)="updateEndDate($event)">
                                                 <owl-date-time [pickerType]="'calendar'" #dt1>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
@@ -43,7 +44,7 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.startts.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    {{'End Date' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Start Date' | translate}} {{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -51,9 +52,11 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'End Date' | translate}}</label>
                                             <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select Date"
+                                                <input class="form-control" placeholder="Select End Date"
                                                     formControlName="endDate" [owlDateTimeTrigger]="dt2"
-                                                    [owlDateTime]="dt2" [max]="today">
+                                                    [owlDateTime]="dt2" 
+                                                    [min]="minEndDate"
+                                                    [max]="maxEndDate">
                                                 <owl-date-time [pickerType]="'calendar'" #dt2>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
@@ -96,7 +99,7 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.employeeName.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    {{'Project Type' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Employee Name ' | translate}} {{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>

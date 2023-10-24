@@ -21,6 +21,10 @@ export class EmployeeleaverecordsComponent implements OnInit {
   projectleadlist: any;
   filterprojectleadlist: any;
   today: Date;
+  startDate: Date;
+  endDate: Date;
+  maxEndDate: Date;
+  minEndDate:Date;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -82,6 +86,24 @@ export class EmployeeleaverecordsComponent implements OnInit {
     }
     else {
       this.validateFormControl();
+    }
+  }
+
+  updateEndDate(event: any) {
+    if (event) {
+      this.startDate = new Date(event);
+      this.endDate = new Date( this.startDate);
+      this.endDate.setDate( this.endDate.getDate() + 30);
+      if ( this.endDate > this.today) {
+        this.maxEndDate = this.today;
+        this.minEndDate= this.startDate;
+      }
+      else {
+        this.minEndDate= this.startDate;
+        this.maxEndDate =  this.endDate;
+      }
+      this.form.controls['endDate'].setValue('');
+      //this.form.controls['endDate'].clearValidators();
     }
   }
   validateFormControl() {

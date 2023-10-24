@@ -22,7 +22,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Start Date' | translate}}</label>
                                             <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select Date"
+                                                <input class="form-control" placeholder="Select Start Date"
                                                     formControlName="startts" [owlDateTimeTrigger]="dt1"
                                                     [owlDateTime]="dt1" [max]="today"
                                                     (ngModelChange)="updateEndDate($event)">
@@ -41,7 +41,7 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.startts.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    {{'End Date' | translate}} {{'IsRequired' | translate}}</span>
+                                                    {{'Start Date' | translate}} {{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -49,7 +49,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'End Date' | translate}}</label>
                                             <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select Date"
+                                                <input class="form-control" placeholder="Select End Date"
                                                     formControlName="endDate" [owlDateTimeTrigger]="dt2"
                                                     [owlDateTime]="dt2" [min]="minEndDate"
                                                     [max]="maxEndDate">
@@ -121,15 +121,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{"Employee Name"|translate}}</label>
-                                            <mat-select placeholder="Employee Name" formControlName="employeeName"
+                                            <mat-select placeholder=" Select Employee Name" formControlName="employeeName"
                                                 class="form-control pt-2">
-                                                <!-- <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
-                                                    (filteredReturn)="filterprojectleadlist =$event">
-                                                </mat-select-filter>
-                                                <mat-option *ngFor="let item of filterprojectleadlist"
-                                                    [value]="item.key">
-                                                    {{item.value}}
-                                                </mat-option> -->
                                                 <mat-select-filter [displayMember]="'value'" [array]="mappedEmployeeList"
                                                     (filteredReturn)="filtermappedEmployeeList =$event">
                                                 </mat-select-filter>
