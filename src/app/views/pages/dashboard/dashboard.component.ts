@@ -271,6 +271,7 @@ export class DashboardComponent implements OnInit {
         this.displaygrid = false;
       }
       else {
+        this.displaygrid = true;
         this.dashboardgrid = res.map((entry) => {
           const formateWorkinghrs = this.convertSecondsToHHMM(entry.activeSecond);
           const formateName = entry.value;
@@ -285,7 +286,7 @@ export class DashboardComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource(this.dashboardgrid);
         this.dataSource.sort = this.sort;
-        this.displaygrid=true;
+
       }
     });
   }
