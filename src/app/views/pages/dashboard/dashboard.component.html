@@ -117,7 +117,7 @@
         <div class="">
             <h4>Start Time</h4>
         </div>
-        <div *ngIf="displaygrid">
+        <div [ngClass]="displaygrid ? 'show' : 'hide'">
             <h5 class="mb-3 mb-md-0" style="text-align: left;">&nbsp;{{'Work Hours(Avg)' | translate}}</h5>
             <br>
             <div class="table-responsive">
@@ -126,13 +126,14 @@
                         <mat-header-cell *matHeaderCellDef mat-sort-header="Name">{{'Name'|translate}}
                         </mat-header-cell>
                         <mat-cell *matCellDef="let dataField">
-                            <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">{{dataField.Name}}
+                            <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">
+                                {{dataField.Name}}
                             </p>
                         </mat-cell>
                     </ng-container>
 
                     <ng-container matColumnDef="Man Days">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header="Man Days">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="ManDays">
                             {{'Man Days'}}
                         </mat-header-cell>
                         <mat-cell *matCellDef="let dataField">
@@ -142,7 +143,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Work Hours">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header="Work Hours">{{'Work Hours'}}
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="WorkingHours">{{'Work Hours'}}
                         </mat-header-cell>
                         <mat-cell *matCellDef="let dataField">
                             <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">
