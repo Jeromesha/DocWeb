@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 import { AlertService } from 'src/app/services/alert.service';
+import { ExcelService } from 'src/app/services/excel.service';
 import { MappingdetailServices } from 'src/app/services/mappingdetails.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
@@ -28,11 +29,13 @@ export class MappingdetailsComponent implements OnInit {
     "Employees"
   ];
   public: string[];
+  excelColumns: string[];
   constructor(
     public navigationService: NavigationService,
     private mappingdetailServices: MappingdetailServices,
     private usersessionService: UserSessionService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -69,5 +72,54 @@ export class MappingdetailsComponent implements OnInit {
   }
   goToAction(id: number, actioninfo: number) {
     this.navigationService.goToMapping(id, actioninfo);
+  }
+  onExportExcel() {
+    debugger;
+    this.loading = true;
+    setTimeout(() => {
+      var exportData = this.data;
+      console.log('Mapxcel', exportData)
+      if (!exportData || exportData.length === 0) {
+        this.alertService.info("No data available to export");
+        return;
+      }
+      let name;
+      name = "Project Employee Mapping Details Report";
+      this.excelColumns = [
+        "Project Name",
+        "Employees",
+      ];
+      const excelList = [];
+      // exportData.forEach((a) => {
+      //   excelList.push({
+      //     Project_Name: a.projectName,
+      //     Employees: a.projectEmployees.forEach((b)=>{
+      //       excelList.push({
+      //         Employees:b.employeeName
+      //       })
+      //     })
+      //   });
+      // });
+      exportData.forEach((a) => {
+        let isFirstEmployee = true;
+        if (excelList.length >= 0) {
+          excelList.push({
+            Project_Name: '',
+            Employee: '',
+          });
+        }
+
+        a.projectEmployees.forEach((b) => {
+          const excelRow = {
+            Project_Name: isFirstEmployee ? a.projectName : '',
+            Employee: b.employeeName,
+          };
+          isFirstEmployee = false;
+          excelList.push(excelRow);
+        });
+      });
+      this.excelService.exportAsExcelFile(excelList, "Employee Mapping Deatils Report", this.excelColumns);
+      this.loading = false;
+    }, 500);
   }
 }

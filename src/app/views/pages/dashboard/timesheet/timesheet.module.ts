@@ -27,6 +27,7 @@ import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { ExcelService } from 'src/app/services/excel.service';
 
 const routes: Routes = [
   {
@@ -58,6 +59,7 @@ export const MY_CUSTOM_FORMATS = {
     DashboardService,
     TimeSheetService,
     NotifyService,
+    ExcelService,
     DatePipe,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },

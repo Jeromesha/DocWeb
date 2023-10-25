@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ExcelService } from 'src/app/services/excel.service';
 
 @Component({
   selector: 'app-employeedetails',
@@ -31,10 +32,13 @@ export class EmployeedetailsComponent implements OnInit {
     "joiningDate",
     "designation"
   ];
+  excelColumns: string[];
   constructor(private navigationService: NavigationService,
     public translate: TranslateService,
     private employeeService: EmployeedetailsService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private excelService: ExcelService,
+
   ) { }
 
   ngOnInit(): void {
@@ -97,5 +101,43 @@ export class EmployeedetailsComponent implements OnInit {
         });
       }
     })
+  }
+  onExportExcel(){
+    debugger
+    this.loading = true;
+    setTimeout(() => {
+      var exportData = this.data;
+      console.log('exaslk',exportData)
+      if (!exportData || exportData.length === 0) {
+        this.alertService.info("No data available to export");
+        return;
+      }
+      let name;
+      name = "Employee Details Report";
+      this.excelColumns = [
+        "Employee Code",
+        "Name",
+        "Email",
+        "Mobile Number",
+        "Joining Date",
+        "Designation",
+      ];
+
+      const excelList = [];
+      excelList.push({});
+      exportData.forEach((a) => {
+        excelList.push({
+          Employee_Code: a.empCode,
+          Name: a.firstName,
+          Email: a.email,
+          Mobile_Number: a.mobile,
+          Joining_Date: a.joiningDate,
+          Designation: a.designation,
+        });
+      });
+      this.excelService.exportAsExcelFile(excelList, "Employee Deatils Report", this.excelColumns);
+      this.loading = false;
+    }, 500);
+
   }
 }

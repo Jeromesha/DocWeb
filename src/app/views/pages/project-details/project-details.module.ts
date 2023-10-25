@@ -28,6 +28,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ProjectDetailsViewComponent } from './project-details-view.component';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ExcelService } from 'src/app/services/excel.service';
 
 const routes: Routes = [
   {
@@ -47,7 +48,8 @@ const routes: Routes = [
     TimeSheetService,
     NotifyService,
     DatePipe,
-    ProjectdetailsService
+    ProjectdetailsService,
+    ExcelService
   ],
   imports: [
     CommonModule,

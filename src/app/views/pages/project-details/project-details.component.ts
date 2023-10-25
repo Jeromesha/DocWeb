@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NavigationService } from "src/app/services/navigation.service";
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { UserSessionService } from "src/app/services/usersession.service";
+import { ExcelService } from 'src/app/services/excel.service';
 
 @Component({
   selector: 'app-project-details',
@@ -54,6 +55,7 @@ export class ProjectDetailsComponent implements OnInit {
   // "projectstatus",
   // "action"
   public: string[];
+  excelColumns: string[];
 
   constructor(
     public navigationService: NavigationService,
@@ -62,6 +64,8 @@ export class ProjectDetailsComponent implements OnInit {
     private alertService: AlertService,
     public translate: TranslateService,
     private projectdetailsservice: ProjectdetailsService,
+    private excelService: ExcelService,
+
     // private router: Router
   ) { }
 
@@ -77,6 +81,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.loading = false;
       this.data = result;
       this.dataSource = new MatTableDataSource(this.data);
+      console.log(this.dataSource,'getprojectdetails')
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })
@@ -127,5 +132,49 @@ export class ProjectDetailsComponent implements OnInit {
         });
       }
     })
+  }
+  onExportExcel(){
+    debugger;
+    this.loading = true;
+    setTimeout(() => {
+      var exportData = this.data;
+      console.log('proexcel',exportData)
+      if (!exportData || exportData.length === 0) {
+        this.alertService.info("No data available to export");
+        return;
+      }
+      let name;
+      name = "Project Details Report";
+      this.excelColumns = [
+        "Client Name",
+        "Project Name",
+        "Business Unit",
+        "Tech Stack",
+        "Repository",
+        "Repository URL",
+        "Start Date",
+        "End Date",
+        "Nature of Project",
+        "Project Status",
+      ];
+      const excelList = [];
+      excelList.push({});
+      exportData.forEach((a) => {
+        excelList.push({
+          Client_Name: a.clientName,
+          Project_Name: a.projectName,
+          Business_Unit: a.projectTypeName,
+          Tech_Stack: a.technologyTypeName.join(', '),
+          Repository: a.repositoryName,
+          Repository_URL: a.repositoryUrl,
+          Start_Date:a.startDate,
+          End_Date:a.endDate,
+          Nature_of_Project:a.natureoftheProject,
+          Project_Status:a.projectStatusName,
+        });
+      });
+      this.excelService.exportAsExcelFile(excelList, "Project Deatils Report", this.excelColumns);
+      this.loading = false;
+    }, 500);
   }
 }

@@ -9,21 +9,21 @@ import { DashboardService } from "src/app/services/dashboard.service";
 import { NavigationService } from "src/app/services/navigation.service";
 import { UserSessionService } from "src/app/services/usersession.service";
 
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+// import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+// import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 // import {default as _rollupMoment} from 'moment';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+// import { MatCardModule } from '@angular/material/card';
 import { ApexChart, ApexLegend, ApexNonAxisChartSeries, ApexResponsive, ChartComponent } from "ng-apexcharts";
 import { DateTimeAdapter, OwlDateTimeComponent } from "ng-pick-datetime";
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { DatePipe } from "@angular/common";
-import { result } from "lodash";
+//import { result } from "lodash";
 // const moment = _rollupMoment || _moment;
 //import { MatDialog } from '@angular/material/dialog';
 //import { CalendarComponent } from "src/app/calendar/calendar.component";
@@ -67,9 +67,9 @@ export class DashboardComponent implements OnInit {
 
   //dataSource = new MatTableDataSource(this.jData);
   dataSource = new MatTableDataSource(this.dashboardgrid);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  //@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
+  //@ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   @ViewChild("chart") chart: ChartComponent;
 
   public chartOptions: Partial<ChartOptions>;
@@ -90,9 +90,9 @@ export class DashboardComponent implements OnInit {
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
     private usersessionService: UserSessionService,
-    private alertService: AlertService,
-    private dateTimeAdapter: DateTimeAdapter<any>,
-    private datePipe: DatePipe,
+    // private alertService: AlertService,
+    // private dateTimeAdapter: DateTimeAdapter<any>,
+    // private datePipe: DatePipe,
     private formBuilder: FormBuilder
   ) {
     this.currentDate = new Date();
@@ -116,10 +116,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  refresh() {
-    this.searchInput.nativeElement.value = "";
-    // this.gettimesheet(this.UserId);
-  }
+  // refresh() {
+  //   this.searchInput.nativeElement.value = "";
+  //   // this.gettimesheet(this.UserId);
+  // }
 
   // gettimesheet(userId: any) {
   //   // this.loading = true;
