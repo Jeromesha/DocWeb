@@ -115,10 +115,10 @@
     </div>
     <div class="col-md-12 col-sm-12 col-lg-6 card" style="border-radius: 25px">
         <div class="">
-            <h4>Start Time</h4>
+            <h4>Working Hours(Avg)</h4>
         </div>
         <div [ngClass]="displaygrid ? 'show' : 'hide'">
-            <h5 class="mb-3 mb-md-0" style="text-align: left;">&nbsp;{{'Work Hours(Avg)' | translate}}</h5>
+            <!-- <h5 class="mb-3 mb-md-0" style="text-align: left;">&nbsp;{{'Work Hours(Avg)' | translate}}</h5> -->
             <br>
             <div class="table-responsive">
                 <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
