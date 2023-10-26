@@ -51,7 +51,7 @@
         </ng-container>
 
         <ng-container matColumnDef="Hours">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="totalHours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer"
@@ -69,16 +69,11 @@
                         <th>Hours</th>
                         <th>Remarks</th>
                         <th>Actions &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button 
-                                style="width: 30px;"
-                                mat-icon-button color="" 
-                                (click)="goToAction(0,2)"
-                                data-toggle="tooltip" 
-                                data-placement="right" 
-                                matTooltip="{{'Add'|translate}}"
+                            <button style="width: 30px;" mat-icon-button color="" (click)="goToAction(0,2)"
+                                data-toggle="tooltip" data-placement="right" matTooltip="{{'Add'|translate}}"
                                 matTooltipPosition="right">
                                 <mat-icon>add</mat-icon>
-                            </button>    
+                            </button>
                         </th>
                     </tr>
 

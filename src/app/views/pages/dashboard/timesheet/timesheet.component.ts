@@ -190,15 +190,15 @@ export class TimesheetComponent implements OnInit {
 
       const projectData = this.filterSortList.find(x => x.key === formData.projectId);
       formData.project = projectData ? projectData.value : null;
-
-      let totalHours = 0;
-      this.temproraryList.forEach(item => {
-        const hours = parseInt(moment(item.formData.hours).format("HH")) * 60 + parseInt(moment(item.formData.hours).format("mm"));
-        totalHours += hours;
-      });
-      totalHours /= 60;
-
-      if (totalHours > 24) {
+      this.temproraryList.push(formData);
+      let sum = 0;
+      this.temproraryList.forEach(i => {
+        let hours = i.hours;
+        hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
+        sum += hours;
+      })
+      sum = sum / 60;
+      if (sum > 24) {
         this.alertService.warning("Work time is exceeded more than 24 hours");
         this.temproraryList.pop();
         return;

@@ -35,7 +35,7 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="Employees">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="Employees">{{'Employees' | translate}}
+            <mat-header-cell *matHeaderCellDef align="center">{{'Employees' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField" align="center">
                 <ul *ngFor="let emp of dataField.projectEmployees">
