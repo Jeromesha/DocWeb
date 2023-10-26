@@ -90,6 +90,7 @@ export class MappingdetailsComponent implements OnInit {
         "Employees",
       ];
       const excelList = [];
+      excelList.push({});
       // exportData.forEach((a) => {
       //   excelList.push({
       //     Project_Name: a.projectName,
@@ -100,22 +101,30 @@ export class MappingdetailsComponent implements OnInit {
       //     })
       //   });
       // });
-      exportData.forEach((a) => {
-        let isFirstEmployee = true;
-        if (excelList.length >= 0) {
-          excelList.push({
-            Project_Name: '',
-            Employee: '',
-          });
-        }
+      // exportData.forEach((a) => {
+      //   let isFirstEmployee = true;
+      //   if (excelList.length >= 0) {
+      //     excelList.push({
+      //       Project_Name: '',
+      //       Employee: '',
+      //     });
+      //   }
 
+      //   a.projectEmployees.forEach((b) => {
+      //     const excelRow = {
+      //       Project_Name: isFirstEmployee ? a.projectName : '',
+      //       Employee: b.employeeName,
+      //     };
+      //     isFirstEmployee = false;
+      //     excelList.push(excelRow);
+      //   });
+      // });
+      exportData.forEach((a) => {
         a.projectEmployees.forEach((b) => {
-          const excelRow = {
-            Project_Name: isFirstEmployee ? a.projectName : '',
+          excelList.push({
+            Project_Name: a.projectName,
             Employee: b.employeeName,
-          };
-          isFirstEmployee = false;
-          excelList.push(excelRow);
+          });
         });
       });
       this.excelService.exportAsExcelFile(excelList, "Employee Mapping Deatils Report", this.excelColumns);

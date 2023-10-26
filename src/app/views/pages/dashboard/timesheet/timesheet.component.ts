@@ -225,7 +225,7 @@ export class TimesheetComponent implements OnInit {
         taskTypeId: item.IsLeave === 1 ? 16 : item.taskTypeId,
         approvedStatusType: 1,
       }));
-
+      this.date = this.datalist[0].entryDate;
       this.form.reset({
         entryDate: this.formData.entryDate,
         IsLeave: this.isLeaveValue
@@ -368,7 +368,9 @@ export class TimesheetComponent implements OnInit {
           console.log('convert ', convertedData)
           //this.dataSource = new MatTableDataSource(convertedData);
           //this.list.push(convertedData);
-          this.dataSource.data = convertedData;
+          if (this.actionInfo == 11) {
+            this.dataSource.data = convertedData;
+          }
           //this.list=convertedData;
           //this.dataSource.data = this.list;
           this.Getproject();
@@ -403,9 +405,15 @@ export class TimesheetComponent implements OnInit {
 
   editData(dataField: any, editTrue: boolean) {
     debugger
-    this.editTrue = editTrue;
+    console.log('edit data', dataField)
+    //this.editTrue = editTrue;
     this.form.patchValue(dataField);
-    this.form.controls['hours'].setValue(moment().startOf('day').add(dataField.hours, 'hours').toDate());
+    if (this.actionInfo == 2) {
+      this.form.controls['hours'].setValue(dataField.hours);
+    }
+    else {
+      this.form.controls['hours'].setValue(moment().startOf('day').add(dataField.hours, 'hours').toDate());
+    }
     this.Getproject();
     this.GetTaskType();
     if (dataField.isLeave == true) {
@@ -570,7 +578,8 @@ export class TimesheetComponent implements OnInit {
   }
 
   onDelete(dataField: any) {
-    const index = this.list.indexOf(dataField);
+    const index = this.datalist.indexOf(dataField);
+    const index1 = this.list.indexOf(dataField);
     Swal.fire({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this Data!',
@@ -580,7 +589,8 @@ export class TimesheetComponent implements OnInit {
       cancelButtonText: 'No, cancel!',
     }).then((willDelete) => {
       if (willDelete.value) {
-        this.list.splice(index, 1);
+        this.datalist.splice(index, 1);
+        this.list.splice(index1, 1);
         this.dataSource.data = this.list;
         Swal.fire('Deleted!', 'Your Data has been deleted.', 'success');
       }
@@ -588,8 +598,12 @@ export class TimesheetComponent implements OnInit {
         Swal.fire('Cancelled', 'Your Data is safe :)', 'error');
       }
     });
-    this.disabled = false;
+    // this.disabled = false;
     //this.clearData();
+    // this.form.reset({
+    //   entryDate: this.formData.entryDate,
+    //   IsLeave: this.isLeaveValue
+    // });
   }
 
   clearData() {

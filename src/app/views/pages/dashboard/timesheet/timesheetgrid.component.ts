@@ -295,32 +295,42 @@ export class TimesheetgridComponent implements OnInit {
 
       this.excelColumns = [
         "Entry Date",
-        "Total Hours",
-        "DropdownData - Project",
-        "DropdownData - Hours",
-        "DropdownData - Remarks",
+        "Project",
+        "Hours",
+        "Remarks",
       ];
 
       const excelList = [];
-      const uniqueDates = new Set(); 
+      excelList.push({});
+      // const uniqueDates = new Set(); 
+      // exportData.forEach((a) => {
+      //   if (!uniqueDates.has(a.date)) {
+      //     uniqueDates.add(a.date);
+      //     excelList.push({
+      //       "Entry Date": a.date,
+      //       "Total Hours": a.totalHours,
+      //       "DropdownData - Project": "",
+      //       "DropdownData - Hours": "",
+      //       "DropdownData - Remarks": "",
+      //     });
+      //   }
+      //   a.dropdownData.forEach((d) => {
+      //     excelList.push({
+      //       "Entry Date": "",
+      //       "Total Hours": "",
+      //       "DropdownData - Project": d.project,
+      //       "DropdownData - Hours": d.hours,
+      //       "DropdownData - Remarks": d.description,
+      //     });
+      //   });
+      // });
       exportData.forEach((a) => {
-        if (!uniqueDates.has(a.date)) {
-          uniqueDates.add(a.date);
-          excelList.push({
-            "Entry Date": a.date,
-            "Total Hours": a.totalHours,
-            "DropdownData - Project": "",
-            "DropdownData - Hours": "",
-            "DropdownData - Remarks": "",
-          });
-        }
         a.dropdownData.forEach((d) => {
           excelList.push({
-            "Entry Date": "",
-            "Total Hours": "",
-            "DropdownData - Project": d.project,
-            "DropdownData - Hours": d.hours,
-            "DropdownData - Remarks": d.description,
+            Date: a.date,
+            "Project": d.project,
+            "Hours": d.hours,
+            "Remarks": d.description,
           });
         });
       });
