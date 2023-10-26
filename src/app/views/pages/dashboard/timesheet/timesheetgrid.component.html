@@ -51,7 +51,7 @@
         </ng-container>
 
         <ng-container matColumnDef="Hours">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="hours">{{'Hours' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="totalHours">{{'Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer"
@@ -78,7 +78,7 @@
                                 matTooltip="{{'Add'|translate}}"
                                 matTooltipPosition="right">
                                 <mat-icon>add</mat-icon>
-                            </button>    
+                            </button>
                         </th>
                     </tr>
 

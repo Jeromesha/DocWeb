@@ -192,6 +192,7 @@ export class DashboardComponent implements OnInit {
       console.log('edate', this.getdate)
       // this.currentDate= object.toDate();
       this.timechamp(this.UserId, this.getdate);
+      this.timegrid(this.UserId, this.getdate);
     }
   }
   timechamp(id: number, date: any) {
