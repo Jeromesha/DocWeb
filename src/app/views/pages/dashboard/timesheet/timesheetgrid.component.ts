@@ -13,6 +13,7 @@ import { TimeSheetService } from "src/app/services/timesheet.service";
 import { UserSessionService } from "src/app/services/usersession.service";
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import * as _ from "lodash";
+import { ExcelService } from "src/app/services/excel.service";
 
 
 @Component({
@@ -60,13 +61,15 @@ export class TimesheetgridComponent implements OnInit {
 
 
   public: string[];
+  excelColumns: string[];
   constructor(
     public navigationService: NavigationService,
     private dashboardService: DashboardService,
     public translate: TranslateService,
     private usersessionService: UserSessionService,
     private timesheetService: TimeSheetService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private excelService: ExcelService,
   ) { }
 
   ngOnInit(): void {
@@ -256,9 +259,77 @@ export class TimesheetgridComponent implements OnInit {
     this.expandedElement = dataField;
   }
 
+  onExportExcel() {
+    debugger;
+    this.loading = true;
+    setTimeout(() => {
+      var exportData = this.resultArray;
+      console.log('timesheetexcel', exportData)
+      if (!exportData || exportData.length === 0) {
+        this.alertService.info("No data available to export");
+        return;
+      }
+      let name;
+      name = "TimeSheet Details Report";
+      // this.excelColumns = [
+      //   "Entry Date",
+      //   "Dropdown Data",
+      //   "Hours",
+      // ];
+      // const excelList = [];
+      // exportData.forEach((a) => {
+      //   // Combine the data from the 'dropdownData' array into a table-like format
+      //   let dropdownDataFormatted = "";
 
+      //   if (a.dropdownData && a.dropdownData.length > 0) {
+      //     dropdownDataFormatted = a.dropdownData
+      //       .map(item => `${item.label}: ${item.value}`)
+      //       .join('\n');
+      //   }
+      //   excelList.push({
+      //     Entry_Date: a.date,
+      //     Dropdown_Data: dropdownDataFormatted,
+      //     Hours: a.totalHours
+      //   });
+      // });
+
+      this.excelColumns = [
+        "Entry Date",
+        "Total Hours",
+        "DropdownData - Project",
+        "DropdownData - Hours",
+        "DropdownData - Remarks",
+      ];
+
+      const excelList = [];
+      const uniqueDates = new Set(); 
+      exportData.forEach((a) => {
+        if (!uniqueDates.has(a.date)) {
+          uniqueDates.add(a.date);
+          excelList.push({
+            "Entry Date": a.date,
+            "Total Hours": a.totalHours,
+            "DropdownData - Project": "",
+            "DropdownData - Hours": "",
+            "DropdownData - Remarks": "",
+          });
+        }
+        a.dropdownData.forEach((d) => {
+          excelList.push({
+            "Entry Date": "",
+            "Total Hours": "",
+            "DropdownData - Project": d.project,
+            "DropdownData - Hours": d.hours,
+            "DropdownData - Remarks": d.description,
+          });
+        });
+      });
+
+      this.excelService.exportAsExcelFile(excelList, "TimeSheet Deatils Report", this.excelColumns);
+      this.loading = false;
+    }, 500);
+  }
 
 
 }
-
 

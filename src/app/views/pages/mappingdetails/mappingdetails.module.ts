@@ -30,6 +30,7 @@ import { MatListModule } from '@angular/material/list';
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
+import { ExcelService } from "src/app/services/excel.service";
 
 const routes: Routes = [
   {
@@ -45,7 +46,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [MappingdetailsComponent, MappingComponent],
   providers: [
-    MappingdetailServices, MappingServices
+    MappingdetailServices, MappingServices,ExcelService
   ],
   imports: [
     CommonModule,

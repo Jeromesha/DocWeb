@@ -23,6 +23,7 @@ import { DirectivesModule } from '../../layout/directives/directives.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ExcelService } from 'src/app/services/excel.service';
 const routes: Routes = [
   {
       path: '',
@@ -37,7 +38,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ EmployeedetailsComponent, EmployeedetailComponent],
-  providers:[ DatePipe],
+  providers:[ DatePipe,ExcelService],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -65,6 +66,7 @@ const routes: Routes = [
     MatRadioModule,
     NgMultiSelectDropDownModule.forRoot(),
     // NgMultiSelectDropDownModule
-  ]
+  ],
+  
 })
 export class EmployeedetailsModule { }
