@@ -23,10 +23,11 @@
                                                 <mat-select placeholder=" Select Project"
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="projectId" class="form-control pt-2"
-                                                    [disabled]="this.id!=0" [disableOptionCentering]="true">
+                                                    [disabled]="this.id!=0" [disableOptionCentering]="true" #clicked>
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="projectSortList"
-                                                        (filteredReturn)="filterprojectSortList = $event">
+                                                        (filteredReturn)="filterprojectSortList = $event"
+                                                        *ngIf="clicked.focused">
                                                     </mat-select-filter>
                                                     <mat-option *ngFor="let item of filterprojectSortList"
                                                         [value]="item.key">
