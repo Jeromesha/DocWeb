@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ReportsService } from 'src/app/services/reports.service';
 import { ShowreportModule } from './showreport.module';
+import { TranslateService } from '@ngx-translate/core';
+import { ReportType } from 'src/enum/reporttype';
 
 @Component({
   selector: 'app-showreport',
@@ -21,10 +23,11 @@ export class ShowreportComponent implements OnInit {
   src: string;
   pdfSource: any;
   src1: any;
-  loading = true;
+  loading: boolean = true;
 
   constructor(
     private reportService: ReportsService,
+    public translate: TranslateService,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ShowreportModule>,
@@ -33,6 +36,9 @@ export class ShowreportComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger
+    this.loading = true
+    this.SetTitle(this.data?.reportType);
     this.data.downloadType = 4;
     this.reportService.tripreport(this.data).subscribe(result => {
       if (result) {
@@ -41,6 +47,23 @@ export class ShowreportComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  SetTitle(reportType: any) {
+    this.title = "";
+    switch (reportType) {
+      case ReportType.EmployeeReport:
+        this.title = "Employee Leave Report";
+        break;
+      case ReportType.TimesheetReport:
+        this.title = "Time Sheet Report";
+        break;
+      case ReportType.AttendanceReport:
+        this.title = "Attendance Report";
+        break;
+      default:
+        break;
+    }
   }
 
   downloadpdf() {
@@ -52,7 +75,10 @@ export class ShowreportComponent implements OnInit {
         this.pdfSource = result;
         const linkSource = 'data:application/pdf;base64, ' + result;
         const downloadLink = document.createElement('a');
-        const fileName = 'Leavereport.pdf';
+        const fileName = this.data.reportType == 1 ? 'Employee Leave Report.pdf' :
+          this.data.reportType == 2 ? 'TimeSheet Report.pdf' :
+            this.data.reportType == 3 ? 'Attendance Report.pdf' : '';
+        //const fileName = 'Leavereport.pdf';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -69,7 +95,10 @@ export class ShowreportComponent implements OnInit {
         const linkSource = 'data:application/vnd.ms-excel;base64, ' + result;
         const downloadLink = document.createElement('a');
         //const fileName = this.data.ReportType == 1 ? 'Employee Leave Report.xls' : '';
-        const fileName='Employee Leave Report.xls';
+        const fileName = this.data.reportType == 1 ? 'Employee Leave Report.xls' :
+          this.data.reportType == 2 ? 'TimeSheet Report.xls' :
+            this.data.reportType == 3 ? 'Attendance Report.xls' : '';
+        //const fileName = 'Employee Leave Report.';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -78,13 +107,17 @@ export class ShowreportComponent implements OnInit {
   }
 
   downloadhtml() {
+    debugger
     const printdata = this.data;
     printdata.downloadType = 4;
     this.reportService.tripreport(printdata).subscribe(result => {
       if (result) {
         const linkSource = 'data:text/html;base64, ' + result;
         const downloadLink = document.createElement('a');
-        const fileName = 'Leave Report.html';
+        const fileName = this.data.reportType == 1 ? 'Employee Leave Report.html' :
+          this.data.reportType == 2 ? 'TimeSheet Report.html' :
+            this.data.reportType == 3 ? 'Attendance Report.html' : '';
+        //const fileName = 'Leave Report.html';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -99,7 +132,10 @@ export class ShowreportComponent implements OnInit {
       if (result) {
         const linkSource = 'data:application/msword;base64, ' + result;
         const downloadLink = document.createElement('a');
-        const fileName = 'Leave Report.doc';
+        const fileName = this.data.reportType == 1 ? 'Employee Leave Report.doc' :
+          this.data.reportType == 2 ? 'TimeSheet Report.doc' :
+            this.data.reportType == 3 ? 'Attendance Report.doc' : '';
+        //const fileName = 'Leave Report.doc';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -107,7 +143,7 @@ export class ShowreportComponent implements OnInit {
     });
   }
 
-  
+
   onCancel() {
     this.dialogRef.close();
   }

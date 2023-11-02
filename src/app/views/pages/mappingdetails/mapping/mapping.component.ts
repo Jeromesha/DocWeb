@@ -122,9 +122,9 @@ export class MappingComponent implements OnInit {
   }
 
   sortingChange(event) {
-    if (event.value != null) {
-      this.showdescription = true;
-    }
+    //if (event.value != null) {
+    //this.showdescription = true;
+    //}
     this.getMappedEmployees(event.value);
     this.getUnmappedEmployees(event.value);
   }

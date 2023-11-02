@@ -10,6 +10,7 @@ import { EmployeedetailsService } from 'src/app/services/employeedetails.service
 import { MappingServices } from 'src/app/services/mapping.service';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { ShowreportComponent } from '../employeeleaverecords/showreport/showreport.component';
 
 @Component({
   selector: 'app-timesheetreport',
@@ -31,9 +32,9 @@ export class TimesheetreportComponent implements OnInit {
   startDate: Date;
   endDate: Date;
   maxEndDate: Date;
-  minEndDate:Date;
-  proID:any=0;
-  LocationId:any=0;
+  minEndDate: Date;
+  proID: any = 0;
+  LocationId: any = 0;
 
 
   constructor(
@@ -54,11 +55,9 @@ export class TimesheetreportComponent implements OnInit {
     this.form = this.formBuilder.group({
       startts: ['', Validators.required],
       endDate: ['', Validators.required],
-      employeeName: ['', Validators.required],
-      project: ['', Validators.required],
-      module: ['', Validators.required],
-      locationId: ['', Validators.required],
-      assignee: ['', Validators.required]
+      employeeName: ['',],
+      project: ['',],
+      locationId: ['',],
     });
     this.getprojectLead();
     this.getProject();
@@ -69,15 +68,15 @@ export class TimesheetreportComponent implements OnInit {
   updateEndDate(event: any) {
     if (event) {
       this.startDate = new Date(event);
-      this.endDate = new Date( this.startDate);
-      this.endDate.setDate( this.endDate.getDate() + 30);
-      if ( this.endDate > this.today) {
+      this.endDate = new Date(this.startDate);
+      this.endDate.setDate(this.endDate.getDate() + 30);
+      if (this.endDate > this.today) {
         this.maxEndDate = this.today;
-        this.minEndDate= this.startDate;
+        this.minEndDate = this.startDate;
       }
       else {
-        this.minEndDate= this.startDate;
-        this.maxEndDate =  this.endDate;
+        this.minEndDate = this.startDate;
+        this.maxEndDate = this.endDate;
       }
       this.form.controls['endDate'].setValue('');
       //this.form.controls['endDate'].clearValidators();
@@ -100,45 +99,42 @@ export class TimesheetreportComponent implements OnInit {
 
 
   onSubmit() {
-    // const startDate=moment(this.form.value.startts).format("YYYY-MM-DD");
-    // const endDate=moment(this.form.value.endDate).format("YYYY-MM-DD");
-    // const startDate=this.form.value.startts;
-    // const endDate=this.form.value.endDate;
-    // debugger
-    // if (startDate.isBefore(endDate)) {
-    //   console.log("start",startDate);
-    //   console.log('endts',endDate)
-    //   this.alertService.error("Make sure the End Date comes after the Start Date.");
-    // }
-    // else {
-      if (this.form.valid) {
-        debugger;
-        // let startDate = this.form.value.startts;
-        // let endDate = this.form.value.endDate;
-        // startDate = moment(startDate).format('YYYY-MM-DD');
-        // endDate = moment(endDate).format('YYYY-MM-DD');
-        // const data = {
-        //   startTs: startDate,
-        //   endTs: endDate,
-        //   reportType: 1,
-        //   downloadType: 4,
-        //   employeeId: this.form.value.employeeName
-        // }
-        // const dialogRef = this.tripDialog.open(ShowreportComponent, {
-        //   autoFocus: false,
-        //   disableClose: true,
-        //   width: '100%',
-        //   height: '90%',
-        //   panelClass: 'mat-dialog-bookingreport',
-        //   data
-        // })
-        // dialogRef.afterClosed().subscribe(() => {
-        // });
+    debugger;
+    if (this.form.valid) {
+      debugger;
+      let startDate = this.form.value.startts;
+      let endDate = this.form.value.endDate;
+      let Project = this.form.value.project;
+      let worklocation = this.form.value.locationId;
+      let employee = this.form.value.employeeName;
+      startDate = moment(startDate).format('YYYY-MM-DD');
+      endDate = moment(endDate).format('YYYY-MM-DD');
+      const data = {
+        startTs: startDate,
+        endTs: endDate,
+        reportType: 2,
+        downloadType: 4,
+        employeeId: (employee == "" || employee == null) ? 0 : employee,
+        month: 0,
+        year: 0,
+        projectId: (Project == "" || Project == null) ? 0 : Project,
+        locationId: (worklocation == "" || worklocation == null) ? 0 : worklocation
       }
-      else {
-        this.validateFormControl();
-      }
-    // }
+      debugger
+      const dialogRef = this.tripDialog.open(ShowreportComponent, {
+        autoFocus: false,
+        disableClose: true,
+        width: '100%',
+        height: '90%',
+        panelClass: 'mat-dialog-bookingreport',
+        data: data,
+      })
+      dialogRef.afterClosed().subscribe(() => {
+      });
+    }
+    else {
+      this.validateFormControl();
+    }
   }
   getProject() {
     this.mappingservice.GetLookup(1).subscribe(result => {
@@ -154,18 +150,18 @@ export class TimesheetreportComponent implements OnInit {
   }
   sortingChange(event) {
     debugger;
-    this.proID=this.form.value.project;
-    this.LocationId=this.form.value.locationId;
-    if(this.LocationId==null||this.LocationId==""){
+    this.proID = this.form.value.project;
+    this.LocationId = this.form.value.locationId;
+    if (this.LocationId == null || this.LocationId == "") {
       this.getEmployeesbyproject(this.proID);
-      
+
     }
-    else if(this.proID==null || this.proID==""){
+    else if (this.proID == null || this.proID == "") {
       this.getemployeeByLocation(this.LocationId);
-      this.proID=0;
+      this.proID = 0;
     }
-    else{
-      this.getEmployeeByProandLocation(this.proID,this.LocationId);
+    else {
+      this.getEmployeeByProandLocation(this.proID, this.LocationId);
     }
 
   }
@@ -175,19 +171,18 @@ export class TimesheetreportComponent implements OnInit {
       this.filtermappedEmployeeList = this.mappedEmployeeList.slice();
     });
   }
-  getemployeeByLocation(id:number){
+  getemployeeByLocation(id: number) {
     debugger;
-    this.empDetailsService.getEmployeeByLocation(id,true).subscribe(result=>{
-      this.mappedEmployeeList=result;
-      this.filtermappedEmployeeList=this.mappedEmployeeList.slice();
+    this.empDetailsService.getEmployeeByLocation(id, true).subscribe(result => {
+      this.mappedEmployeeList = result;
+      this.filtermappedEmployeeList = this.mappedEmployeeList.slice();
     })
   }
-  getEmployeeByProandLocation(proId:number,locationId:number)
-  {
+  getEmployeeByProandLocation(proId: number, locationId: number) {
     debugger;
-    this.empDetailsService.getEmployeeByProandLocation(proId,locationId,true).subscribe(result=>{
-      this.mappedEmployeeList=result;
-      this.filtermappedEmployeeList=this.mappedEmployeeList.slice();
+    this.empDetailsService.getEmployeeByProandLocation(proId, locationId, true).subscribe(result => {
+      this.mappedEmployeeList = result;
+      this.filtermappedEmployeeList = this.mappedEmployeeList.slice();
     })
   }
 

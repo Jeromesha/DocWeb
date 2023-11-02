@@ -77,10 +77,11 @@
                                         <div class="form-group">
                                             <label>{{"Project"|translate}}</label>
                                             <mat-select placeholder=" Select Project" formControlName="project"
-                                                class="form-control pt-2"
-                                                (selectionChange)="sortingChange($event)">
+                                                class="form-control pt-2" (selectionChange)="sortingChange($event)"
+                                                [disableOptionCentering]="true" #select>
                                                 <mat-select-filter [displayMember]="'value'" [array]="projectSortList"
-                                                    (filteredReturn)="filterprojectSortList = $event">
+                                                    (filteredReturn)="filterprojectSortList = $event"
+                                                    *ngIf="select.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterprojectSortList"
                                                     [value]="item.key">
@@ -100,10 +101,11 @@
                                         <div class="form-group">
                                             <label>{{'Work Location' | translate}}</label>
                                             <mat-select placeholder="Select Work Location" formControlName="locationId"
-                                                class="form-control pt-2"
-                                                (selectionChange)="sortingChange($event)">
+                                                class="form-control pt-2" (selectionChange)="sortingChange($event)"
+                                                [disableOptionCentering]="true" #select2>
                                                 <mat-select-filter [displayMember]="'value'" [array]="locationList"
-                                                    (filteredReturn)="filterlocationList =$event">
+                                                    (filteredReturn)="filterlocationList =$event"
+                                                    *ngIf="select2.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterlocationList" [value]="item.key">
                                                     {{item.value}}
@@ -121,10 +123,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{"Employee Name"|translate}}</label>
-                                            <mat-select placeholder=" Select Employee Name" formControlName="employeeName"
-                                                class="form-control pt-2">
-                                                <mat-select-filter [displayMember]="'value'" [array]="mappedEmployeeList"
-                                                    (filteredReturn)="filtermappedEmployeeList =$event">
+                                            <mat-select placeholder=" Select Employee Name"
+                                                formControlName="employeeName" class="form-control pt-2"
+                                                [disableOptionCentering]="true" #select3>
+                                                <mat-select-filter [displayMember]="'value'"
+                                                    [array]="mappedEmployeeList"
+                                                    (filteredReturn)="filtermappedEmployeeList =$event"
+                                                    *ngIf="select3.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filtermappedEmployeeList"
                                                     [value]="item.key">
@@ -146,8 +151,9 @@
                                 <div class="form-actions mb-2 mt-3" style="float: right;">
                                     <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
                                         (click)="onCancel()">
-                                        <i class="fa fa-close"></i>
-                                        {{'Cancel' | translate}}
+                                        <!-- <i class="fa fa-close"></i> -->
+                                        <i class="btn-icon-prepend fa fa-refresh"></i>
+                                        {{'Clear' | translate}}
                                     </button>
                                     <button class="btn btnsave" type="submit" (click)="onSubmit()">
                                         <i class="fa fa-save"></i>

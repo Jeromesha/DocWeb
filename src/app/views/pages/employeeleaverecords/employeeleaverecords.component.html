@@ -54,9 +54,7 @@
                                             <div class="input-group mb-0 ">
                                                 <input class="form-control" placeholder="Select End Date"
                                                     formControlName="endDate" [owlDateTimeTrigger]="dt2"
-                                                    [owlDateTime]="dt2" 
-                                                    [min]="minEndDate"
-                                                    [max]="maxEndDate">
+                                                    [owlDateTime]="dt2" [min]="minEndDate" [max]="maxEndDate">
                                                 <owl-date-time [pickerType]="'calendar'" #dt2>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
@@ -85,9 +83,10 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{"Employee Name"|translate}}</label>
                                             <mat-select placeholder="Employee Name" formControlName="employeeName"
-                                                class="form-control pt-2">
+                                                class="form-control pt-2" [disableOptionCentering]="true" #select>
                                                 <mat-select-filter [displayMember]="'value'" [array]="projectleadlist"
-                                                    (filteredReturn)="filterprojectleadlist =$event">
+                                                    (filteredReturn)="filterprojectleadlist =$event"
+                                                    *ngIf="select.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterprojectleadlist"
                                                     [value]="item.key">

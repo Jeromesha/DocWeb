@@ -203,7 +203,7 @@ export class DashboardComponent implements OnInit {
       console.log(result, 'res');
       if (result != null) {
         this.dashboardlist = {
-          StartTime: moment(result.inTs).format('HH:mm'),
+          StartTime: moment(result?.inTs).format('HH:mm'),
           WorkingTime: this.convertSecondsToHHMM(result.activeSecond),
           ProductiveTime: this.convertSecondsToHHMM(result.activeSecond),
           NeutralTime: this.convertSecondsToHHMM(result.lockSecond),

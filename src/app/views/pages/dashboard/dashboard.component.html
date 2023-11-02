@@ -102,9 +102,9 @@
             <!-- <img src="../../assets/testimg/DoughnutChart.png"> -->
         </div>
         <div id="chart" *ngIf="display">
-            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
-                [responsive]="chartOptions.responsive" [colors]="chartOptions.colors"
-                [legend]="chartOptions.legend"></apx-chart>
+            <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [labels]="chartOptions?.labels"
+                [responsive]="chartOptions?.responsive" [colors]="chartOptions?.colors"
+                [legend]="chartOptions?.legend"></apx-chart>
         </div>
         <div *ngIf="!display" style="height: 100%;
         width: 100%;
@@ -123,7 +123,7 @@
             <div class="table-responsive">
                 <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
                     <ng-container matColumnDef="Name">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header="Name">{{'Name'|translate}}
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Name">{{'Employee Name'|translate}}
                         </mat-header-cell>
                         <mat-cell *matCellDef="let dataField">
                             <p class="text-truncate txtalign lbl-pointer" style="text-align: center;">

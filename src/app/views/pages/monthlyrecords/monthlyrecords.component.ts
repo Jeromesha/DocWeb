@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ShowreportComponent } from '../employeeleaverecords/showreport/showreport.component';
 import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
 
 
 @Component({
@@ -15,23 +16,23 @@ export class MonthlyrecordsComponent implements OnInit {
   form: any;
   selectedyear: number;
   years: number[] = [];
-  filteryears:any[]=[];
-  selectedMonth: number;
+  filteryears: any[] = [];
+  //selectedMonth: number;
   months: any[] = [];
-  filterMonth:any[]=[];
+  //filterMonth: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     public tripDialog: MatDialog
-  )
-  {
+  ) {
     this.selectedyear = new Date().getFullYear();
     for (let year = this.selectedyear; year >= 2022; year--) {
       this.years.push(year);
     }
-    this.selectedMonth = new Date().getMonth();
+    debugger
+    //this.selectedMonth = new Date().getMonth();
     this.months = this.generateMonthNames();
-  
+
   }
 
   ngOnInit(): void {
@@ -44,39 +45,55 @@ export class MonthlyrecordsComponent implements OnInit {
     })
   }
 
-  generateMonthNames(): string[] {
+  generateMonthNames(): any[] {
     return [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      { key: 1, value: "January" },
+      { key: 2, value: "February" },
+      { key: 3, value: "March" },
+      { key: 4, value: "April" },
+      { key: 5, value: "May" },
+      { key: 6, value: "June" },
+      { key: 7, value: "July" },
+      { key: 8, value: "August" },
+      { key: 9, value: "September" },
+      { key: 10, value: "October" },
+      { key: 11, value: "November" },
+      { key: 12, value: "December" }
     ];
   }
   onSubmit() {
     debugger;
     if (this.form.valid) {
-    // let month = this.form.value.month;
-    // let year = this.form.value.year;
-    // const data={
-    //   month:month,
-    //   year:year,
-    //   reportType: 2,
-    //   downloadType: 4
-    // }
-    //   const dialogRef = this.tripDialog.open(ShowreportComponent, {
-    //     autoFocus: false,
-    //     disableClose: true,
-    //     width: '100%',
-    //     height: '90%',
-    //     panelClass: 'mat-dialog-bookingreport',
-    //     data
-    //   })
-    //   dialogRef.afterClosed().subscribe(() => {
-    //   });
+      let sdate = moment(new Date()).format('YYYY-MM-DD');
+      let month = this.form.value.month;
+      let year = this.form.value.year;
+      const data = {
+        startTs: sdate,
+        endTs: sdate,
+        reportType: 3,
+        downloadType: 4,
+        employeeId: 0,
+        projectId: 0,
+        locationId: 0,
+        month: month,
+        year: year,
+      }
+      const dialogRef = this.tripDialog.open(ShowreportComponent, {
+        autoFocus: false,
+        disableClose: true,
+        width: '100%',
+        height: '90%',
+        panelClass: 'mat-dialog-bookingreport',
+        data
+      })
+      dialogRef.afterClosed().subscribe(() => {
+      });
     }
-    else{
+    else {
       this.validateFormControl();
     }
 
-    } 
+  }
 
 
   onCancel() {

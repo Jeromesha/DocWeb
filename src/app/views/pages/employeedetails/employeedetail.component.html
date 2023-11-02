@@ -39,9 +39,9 @@
                                             <label class="mandatory ">{{'Role' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="roleId"
                                                 [disabled]="actionInfo == 1" class="form-control pd"
-                                                placeholder="Select Role">
+                                                placeholder="Select Role" [disableOptionCentering]="true" #select1>
                                                 <mat-select-filter [displayMember]="'value'" [array]="roleList"
-                                                    (filteredReturn)="filterroleType =$event">
+                                                    (filteredReturn)="filterroleType =$event" *ngIf="select1.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterroleType" [value]="item.key"
                                                     class="disp">
@@ -97,9 +97,9 @@
                                             <label class="mandatory ">{{'Gender' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="gender"
                                                 [disabled]="actionInfo == 1" class="form-control pd"
-                                                placeholder="Select Gender">
+                                                placeholder="Select Gender" [disableOptionCentering]="true" #select2>
                                                 <mat-select-filter [displayMember]="'value'" [array]="genderList"
-                                                    (filteredReturn)="filtergenderList =$event">
+                                                    (filteredReturn)="filtergenderList =$event" *ngIf="select2.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filtergenderList" [value]="item.key"
                                                     class="disp">
@@ -181,7 +181,8 @@
                                                     {{'Mobile Number' | translate}} {{'IsRequired' | translate}}</span>
                                                 <span *ngIf="form.controls.mobile.errors?.pattern"
                                                     class="form-text danger mandatory">
-                                                    {{ 'Mobile Number' | translate }} {{ 'must start with 6 to 9 & Maxinum 10 dight' |translate }}
+                                                    {{ 'Mobile Number' | translate }} {{ 'must start with 6 to 9 &
+                                                    Maxinum 10 dight' |translate }}
                                                 </span>
                                             </div>
                                         </div>
@@ -309,10 +310,12 @@
                                             <label class="mandatory ">{{'Default Project' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="defaultProjectId"
                                                 [disabled]="actionInfo == 1" class="form-control pd"
-                                                placeholder="Select Default Project">
+                                                placeholder="Select Default Project" [disableOptionCentering]="true"
+                                                #select3>
                                                 <mat-select-filter [displayMember]="'value'"
                                                     [array]="defaultProjectList"
-                                                    (filteredReturn)="filterdefaultProjectList =$event">
+                                                    (filteredReturn)="filterdefaultProjectList =$event"
+                                                    *ngIf="select3.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterdefaultProjectList"
                                                     [value]="item.key">
@@ -335,9 +338,11 @@
                                             <label class="mandatory ">{{'Work Location' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="locationId"
                                                 [disabled]="actionInfo == 1" class="form-control pd"
-                                                placeholder="Select Work Location">
+                                                placeholder="Select Work Location" [disableOptionCentering]="true"
+                                                #select4>
                                                 <mat-select-filter [displayMember]="'value'" [array]="locationList"
-                                                    (filteredReturn)="filterlocationList =$event">
+                                                    (filteredReturn)="filterlocationList =$event"
+                                                    *ngIf="select4.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterlocationList" [value]="item.key"
                                                     class="disp">
@@ -363,9 +368,11 @@
                                             <label class="mandatory ">{{'Designation' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="designationTypeId"
                                                 [disabled]="actionInfo == 1" class="form-control pd"
-                                                placeholder="Select Designation">
+                                                placeholder="Select Designation" [disableOptionCentering]="true"
+                                                #select5>
                                                 <mat-select-filter [displayMember]="'value'" [array]="designationList"
-                                                    (filteredReturn)="filterdesignationList =$event">
+                                                    (filteredReturn)="filterdesignationList =$event"
+                                                    *ngIf="select5.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterdesignationList"
                                                     [value]="item.key" class="disp">
@@ -392,9 +399,11 @@
                                             <label class="mandatory ">{{'Reporting Person' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="reportingPersonId"
                                                 [ngClass]="{'disable':actionInfo == 1}" class="form-control pd"
-                                                placeholder="Select Reporting Person">
+                                                placeholder="Select Reporting Person" [disableOptionCentering]="true"
+                                                #select6>
                                                 <mat-select-filter [displayMember]="'value'" [array]="reportingList"
-                                                    (filteredReturn)="filterreportingList =$event">
+                                                    (filteredReturn)="filterreportingList =$event"
+                                                    *ngIf="select6.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filterreportingList" [value]="item.key"
                                                     class="disp">
@@ -417,10 +426,12 @@
                                             <label class=" ">{{'Secondary Reporting Person' | translate}}</label>
                                             <mat-select aria-label="true" formControlName="secondlvlReportingPersonId"
                                                 [ngClass]="{'disable':actionInfo == 1}" class="form-control pd"
-                                                placeholder="Select Secondary Reporting Person">
+                                                placeholder="Select Secondary Reporting Person"
+                                                [disableOptionCentering]="true" #select7>
                                                 <mat-select-filter [displayMember]="'value'"
                                                     [array]="secondaryreportingList"
-                                                    (filteredReturn)="filtersecondaryreportingList =$event">
+                                                    (filteredReturn)="filtersecondaryreportingList =$event"
+                                                    *ngIf="select7.focused">
                                                 </mat-select-filter>
                                                 <mat-option *ngFor="let item of filtersecondaryreportingList"
                                                     [value]="item.key" class="disp">
