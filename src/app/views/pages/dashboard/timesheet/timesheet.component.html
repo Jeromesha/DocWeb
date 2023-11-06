@@ -65,13 +65,14 @@
                                         <div class="col-md-6" *ngIf="isLeave">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Project' | translate}}</label>
-                                                <mat-select #select [disabled]="actionInfo == 1 || View"
+                                                <mat-select  [disabled]="actionInfo == 1 || View"
                                                     placeholder="Project" (selectionChange)="sortingChange($event)"
-                                                    formControlName="taskTypeId" class="form-control pt-2"
-                                                    [disableOptionCentering]="true">
-                                                    <mat-select-filter *ngIf="select.focused" [displayMember]="'value'"
+                                                    formControlName="projectId" class="form-control pt-2"
+                                                    [disableOptionCentering]="true" #select>
+                                                    <mat-select-filter [displayMember]="'value'"
                                                         [array]="SortList"
-                                                        (filteredReturn)="filterSortList =$event"></mat-select-filter>
+                                                        (filteredReturn)="filterSortList =$event"
+                                                        *ngIf="select.focused"></mat-select-filter>
                                                     <mat-option *ngFor="let item of filterSortList" [value]="item.key">
                                                         {{item.value}}
                                                     </mat-option>
@@ -86,13 +87,14 @@
                                         <div class="col-md-6" *ngIf="this.form.value.IsLeave==2">
                                             <div class="form-group">
                                                 <label class="mandatory">{{'Task Type' | translate}}</label>
-                                                <mat-select #select [disabled]="actionInfo == 1 || View"
+                                                <mat-select  [disabled]="actionInfo == 1 || View"
                                                     placeholder="Task Type" (selectionChange)="sortingChange($event)"
                                                     formControlName="taskTypeId" class="form-control pt-2"
-                                                    [disableOptionCentering]="true">
-                                                    <mat-select-filter *ngIf="select.focused" [displayMember]="'value'"
+                                                    [disableOptionCentering]="true" #select2>
+                                                    <mat-select-filter  [displayMember]="'value'"
                                                         [array]="projecttypelist"
-                                                        (filteredReturn)="filterprojecttypelist =$event"></mat-select-filter>
+                                                        (filteredReturn)="filterprojecttypelist =$event"
+                                                        *ngIf="select2.focused"></mat-select-filter>
                                                     <mat-option *ngFor="let item of filterprojecttypelist"
                                                         [value]="item.key">
                                                         {{item.value}}

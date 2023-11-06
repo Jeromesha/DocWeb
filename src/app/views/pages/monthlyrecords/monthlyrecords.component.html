@@ -17,7 +17,8 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Month' | translate}}</label>
                                             <mat-select placeholder="Select Month" formControlName="month"
-                                                class="form-control pt-2">
+                                                class="form-control pt-2"
+                                                [disableOptionCentering]="true">
                                                 <!-- <mat-select-filter [array]="months"
                                                     (filteredReturn)="months =$event">
                                                 </mat-select-filter> -->
@@ -40,7 +41,8 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Year' | translate}}</label>
                                             <mat-select placeholder="Select Year" formControlName="year"
-                                                class="form-control pt-2">
+                                                class="form-control pt-2"
+                                                [disableOptionCentering]="true">
                                                 <!-- <mat-select-filter [array]="years"
                                                     (filteredReturn)="years =$event">
                                                 </mat-select-filter> -->
