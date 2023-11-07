@@ -77,6 +77,8 @@ export class MonthlyrecordsComponent implements OnInit {
         locationId: 0,
         month: month,
         year: year,
+        showPdf: false,
+        showWord:false,
       }
       const dialogRef = this.tripDialog.open(ShowreportComponent, {
         autoFocus: false,

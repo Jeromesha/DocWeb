@@ -26,7 +26,6 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 import { MappingServices } from 'src/app/services/mapping.service';
 import { NotifyService } from 'src/app/services/notifyService';
 import { MY_CUSTOM_FORMATS } from '../dashboard/timesheet/timesheet.module';
-import { ShowreportComponent } from '../employeeleaverecords/showreport/showreport.component';
 
 const routes: Routes = [
   {

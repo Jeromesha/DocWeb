@@ -37,7 +37,7 @@ export class ShowreportComponent implements OnInit {
 
   ngOnInit() {
     debugger
-    this.loading = true
+    this.loading = true;
     this.SetTitle(this.data?.reportType);
     this.data.downloadType = 4;
     this.reportService.tripreport(this.data).subscribe(result => {

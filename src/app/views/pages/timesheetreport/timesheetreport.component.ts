@@ -118,7 +118,9 @@ export class TimesheetreportComponent implements OnInit {
         month: 0,
         year: 0,
         projectId: (Project == "" || Project == null) ? 0 : Project,
-        locationId: (worklocation == "" || worklocation == null) ? 0 : worklocation
+        locationId: (worklocation == "" || worklocation == null) ? 0 : worklocation,
+        showPdf: true,
+        showWord:true,
       }
       debugger
       const dialogRef = this.tripDialog.open(ShowreportComponent, {

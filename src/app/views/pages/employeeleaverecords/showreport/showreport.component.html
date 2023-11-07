@@ -1,5 +1,5 @@
-<div ngClass="{{loading?'loadesr':'loadesr'}}">
-</div>
+<!-- <div ngClass="{{loading?'loadesr':'loadesr'}}">
+</div> -->
 <!-- <div *ngIf="loading" class="loadesr"></div> -->
 <br>
 <div class="header-layout divborder">
@@ -9,22 +9,23 @@
     <!-- <h4 class="col-7 gridheading"><i class="fa fa-file"></i><b>Employee Leave Report</b></h4> -->
 
     <div class="col-5 icon_sec" style="display: flex; float: right;">
-        <span class="fa-stack">
-            <i class="fa fa-file-pdf-o fa-stack-2x" (click)="downloadpdf()" style="color:red" matTooltip="{{'Pdf'}}"
+        <div *ngIf="data.showPdf" class="fa-stack" >
+            <i  class="fa fa-file-pdf-o fa-stack-2x" (click)="downloadpdf()"  style="color:red" matTooltip="{{'Pdf'}}"
                 matTooltipClass="tooltip-edit" matTooltipPosition="above"></i>
-        </span>
+        </div>
+    
         <!-- <span class="fa-stack">
             <i class="fa fa-chrome fa-stack-2x" (click)="downloadhtml()" style="color:#f4e005"
-                matTooltip="{{'downloadhtml'|translate}}" matTooltipClass="tooltip-edit" matTooltipPosition="above"></i>
+                matTooltip="{{'downloadhtml'|translate}}" matTooltipClass="tooltip-edit" matTothis.data.reportType==ReportType.AttendanceReport?'hide':'show'oltipPosition="above"></i>
         </span> -->
         <span class="fa-stack">
             <i class="fa fa-file-excel-o fa-stack-2x" (click)="downloadexcel()" style="color:green"
                 matTooltip="{{'Excel'}}" matTooltipClass="tooltip-edit" matTooltipPosition="above"></i>
         </span>
-        <span class="fa-stack">
+        <div *ngIf="data.showWord" class="fa-stack">
             <i class="fa fa-file-word-o fa-stack-2x" (click)="downloadword()" style="color:#2B579A"
                 matTooltip="{{'downloadword'}}" matTooltipClass="tooltip-edit" matTooltipPosition="above"></i>
-        </span>
+        </div>
         <span class="fa-stack">
             <i class="fa fa-circle fa-stack-2x" style="color:black"></i>
             <i class="fa fa-close fa-stack-1x fa-inverse" (click)="onCancel()" matTooltip="{{'Close'}}"

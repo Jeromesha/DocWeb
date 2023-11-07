@@ -30,7 +30,7 @@ import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTi
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import { MY_CUSTOM_FORMATS } from "../dashboard/timesheet/timesheet.module";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
-import { ShowreportComponent } from './showreport/showreport.component';
+// import { ShowreportComponent } from './showreport/showreport.component';
 import { MappingServices } from "src/app/services/mapping.service";
 
 const routes: Routes = [
@@ -41,7 +41,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [EmployeeleaverecordsComponent, ShowreportComponent,],
+  declarations: [EmployeeleaverecordsComponent],
   providers: [
     DashboardService,
     MappingServices,

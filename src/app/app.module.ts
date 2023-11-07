@@ -43,6 +43,7 @@ import { NgApexchartsModule } from 'ng-apexcharts'
 
 
 import { EmployeedetailsComponent } from './views/pages/employeedetails/employeedetails.component';
+import { ShowreportComponent } from './views/pages/employeeleaverecords/showreport/showreport.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -54,7 +55,7 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     ErrorPageComponent,
-
+    ShowreportComponent
 
 
   ],
