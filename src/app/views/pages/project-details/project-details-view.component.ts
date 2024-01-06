@@ -314,7 +314,7 @@ export class ProjectDetailsViewComponent implements OnInit {
 
   onSubmit() {
 
-   
+    
     let technologyTypeId = [];
     const selectedPrijectList = this.form.get('technologyType').value;
     if (selectedPrijectList && selectedPrijectList.length > 0) {
@@ -327,7 +327,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     let client=this.form.value.clientId;
     let tech=this.form.value.technologyType;
     var projectdata = 
-     { 
+    { 
       id:this.id,
       clientId :client,
       projectName: this.form.value.projectName,

@@ -23,7 +23,7 @@
 </div>
 <div *ngIf="loading" class="loadesr"></div>
 <mat-form-field class="mb-0 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-    <input id="search" matInput (keyup)="applyFilter($event)" placeholder="{{'Search'}}" #searchInput>
+    <input id="search1" matInput (keyup)="applyFilter($event)" placeholder="{{'Search'}}" #searchInput>
 </mat-form-field>
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">

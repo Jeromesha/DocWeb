@@ -112,7 +112,7 @@ export class TimesheetComponent implements OnInit {
     public navigationService: NavigationService) {
     this.routeParams = route.snapshot.params;
     debugger
-    this.id = parseInt(this.routeParams.id);
+    //this.id = parseInt(this.routeParams.id);
     //mycode
     this.actionInfo = this.routeParams.actionInfo;
     debugger;
@@ -248,7 +248,7 @@ export class TimesheetComponent implements OnInit {
       entryDate: ['', [Validators.required]],
       EmployeeId: [this.id],
       taskTypeId: ['', [Validators.required]],
-      projectId: [null, [Validators.required]],
+      projectId: ['', [Validators.required]],
       timeIn: [null],
       timeOut: [null],
       TaskStatusId: [null],
@@ -297,7 +297,7 @@ export class TimesheetComponent implements OnInit {
   GetdefaultProject() {
     this.timesheetService.getDefaultProject().subscribe(result => {
       this.defaultProject = result;
-      if (this.id == 0) {
+      if (this.id == 0 && this.actionInfo!=11) {
         this.form.controls["projectId"].setValue(this.defaultProject);
       }
       if (this.defaultProject != 0) {
@@ -386,6 +386,7 @@ export class TimesheetComponent implements OnInit {
     }
     if (this.actionInfo == 11) {
       this.View = true;
+      this.form.controls['hours'].setValue(null);
     }
   }
 

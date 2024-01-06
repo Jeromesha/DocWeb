@@ -61,6 +61,7 @@ export class MappingComponent implements OnInit {
   ];
   selectedmappedlist: any;
   selectedunmappedlist: any;
+  selectallandremove: any;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -232,6 +233,7 @@ export class MappingComponent implements OnInit {
   }
 
   getMappedEmployees(id: number) {
+    debugger
     this.mappingservice.GetLookupById(11, id).subscribe(result => {
       this.mappedEmployeeList = result;
       this.selectedmappedlist = this.mappedEmployeeList.slice();
@@ -239,6 +241,7 @@ export class MappingComponent implements OnInit {
     });
   }
   getUnmappedEmployees(id: number) {
+    debugger
     this.mappingservice.GetLookupById(12, id).subscribe(result => {
       this.unmappedEmployeeList = result;
       this.selectedunmappedlist = this.unmappedEmployeeList.slice();
@@ -246,14 +249,18 @@ export class MappingComponent implements OnInit {
     });
   }
   applyFilterSearch1(event: Event) {
+    debugger
+    let list = this.preserveSelectedElements(this.filterunmappedEmployeeList,this.unmappedEmployeeList);
     const filterValue = (event.target as HTMLInputElement).value;
-    this.filterunmappedEmployeeList = this.unmappedEmployeeList.filter((item) =>
+    this.filterunmappedEmployeeList = list.filter((item) =>
       item.value.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
   applyFilterSearch2(event: Event) {
+    debugger
+    let list = this.preserveSelectedElements(this.filtermappedEmployeeList,this.mappedEmployeeList);
     const filterValue = (event.target as HTMLInputElement).value;
-    this.filtermappedEmployeeList = this.mappedEmployeeList.filter((item) =>
+    this.filtermappedEmployeeList = list.filter((item) =>
       item.value.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
@@ -268,6 +275,7 @@ export class MappingComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
+    debugger
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -277,6 +285,7 @@ export class MappingComponent implements OnInit {
 
 
   moveToTransfer() {
+    debugger
     if (this.filterunmappedEmployeeList.length > 0) {
       let data = this.filterunmappedEmployeeList.filter((item) => item.isSelect == true);
       if (data.length > 0) {
@@ -304,6 +313,7 @@ export class MappingComponent implements OnInit {
   }
 
   removedToTransfer() {
+    debugger
     if (this.filtermappedEmployeeList.length > 0) {
       let data = this.filtermappedEmployeeList.filter((item) => item.isSelect == true);
       if (data.length > 0) {
@@ -329,12 +339,14 @@ export class MappingComponent implements OnInit {
     }
   }
   selectAllTransfer(event) {
+    debugger
     if (event.checked) {
       this.isSelectAllTransfer = true;
       this.select = this.filterunmappedEmployeeList;
       this.filterunmappedEmployeeList.forEach((element) => {
         element.isSelect = true;
       });
+      this.selectallandremove = 1;
     } else {
       this.filterunmappedEmployeeList.forEach((element) => {
         element.isSelect = false;
@@ -344,12 +356,14 @@ export class MappingComponent implements OnInit {
     }
   }
   selectAllRemoveTransfer(event) {
+    debugger
     if (event.checked) {
       this.isSelectAllRemoveTransfer = true;
       this.selected = this.filtermappedEmployeeList;
       this.filtermappedEmployeeList.forEach((element) => {
         element.isSelect = true;
       });
+      this.selectallandremove = 2;
     } else {
       this.filtermappedEmployeeList.forEach((element) => {
         element.isSelect = false;
@@ -359,14 +373,39 @@ export class MappingComponent implements OnInit {
     }
   }
   onNgModelChange(event) {
-
+    debugger
     let array = event.option.value;
     if (array.isSelect) {
       array.isSelect = false;
-      this.isSelectAllTransfer = false;
+      if (this.selectallandremove == 1) {
+        this.isSelectAllTransfer = false;
+      }
+      else if (this.selectallandremove==2){
+        this.isSelectAllRemoveTransfer = false;
+      }
     } else {
       array.isSelect = true;
-      this.isSelectAllRemoveTransfer = false;
+      // this.isSelectAllRemoveTransfer = false;
     }
+  }
+
+  preserveSelectedElements(oldList: any[], newList: any[]): any[] {
+    const selectedIds = oldList.filter((item) => item.isSelect).map((item) => item.key);
+
+    if(selectedIds.length>0)
+    {
+      debugger;
+    }
+
+    for (const item of newList) {
+      item['isSelect'] = false;
+    }
+
+    newList.forEach((item) => {
+      if (selectedIds.includes(item.key)) {
+        item.isSelect = true;
+      }
+    });
+    return newList;
   }
 }
