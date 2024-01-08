@@ -68,6 +68,7 @@
                                                 <mat-select  [disabled]="actionInfo == 1 || View"
                                                     placeholder="Project" (selectionChange)="sortingChange($event)"
                                                     formControlName="projectId" class="form-control pt-2"
+                                                    [disabled]="form.value.IsLeave == 1 && list.length > 0 || View"
                                                     [disableOptionCentering]="true" #select>
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="SortList"

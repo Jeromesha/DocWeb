@@ -62,6 +62,8 @@ export class MappingComponent implements OnInit {
   selectedmappedlist: any;
   selectedunmappedlist: any;
   selectallandremove: any;
+  FinalMappedList: any;
+  FianlUnmappedList: any;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -100,6 +102,8 @@ export class MappingComponent implements OnInit {
     console.log('Ajith');
     //this.unmapped = new MatTableDataSource(this.filtermappedEmployeeList);
     //this.mapped = new MatTableDataSource(this.filtermappedEmployeeList);
+    // this.FinalMappedList=this.filterunmappedEmployeeList;
+    // this.FianlUnmappedList= this.filtermappedEmployeeList
 
   }
 
@@ -250,19 +254,23 @@ export class MappingComponent implements OnInit {
   }
   applyFilterSearch1(event: Event) {
     debugger
-    let list = this.preserveSelectedElements(this.filterunmappedEmployeeList,this.unmappedEmployeeList);
+    let list = this.preserveSelectedElements(this.filterunmappedEmployeeList, this.unmappedEmployeeList);
+    this.FinalMappedList = list;
     const filterValue = (event.target as HTMLInputElement).value;
     this.filterunmappedEmployeeList = list.filter((item) =>
       item.value.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
+
+
   applyFilterSearch2(event: Event) {
     debugger
-    let list = this.preserveSelectedElements(this.filtermappedEmployeeList,this.mappedEmployeeList);
+    let list = this.preserveSelectedElements(this.filtermappedEmployeeList, this.mappedEmployeeList);
     const filterValue = (event.target as HTMLInputElement).value;
     this.filtermappedEmployeeList = list.filter((item) =>
       item.value.toLowerCase().includes(filterValue.toLowerCase())
     );
+    this.FianlUnmappedList = list;
   }
   getProject() {
     this.mappingservice.GetLookup(1).subscribe(result => {
@@ -380,7 +388,7 @@ export class MappingComponent implements OnInit {
       if (this.selectallandremove == 1) {
         this.isSelectAllTransfer = false;
       }
-      else if (this.selectallandremove==2){
+      else if (this.selectallandremove == 2) {
         this.isSelectAllRemoveTransfer = false;
       }
     } else {
@@ -390,22 +398,44 @@ export class MappingComponent implements OnInit {
   }
 
   preserveSelectedElements(oldList: any[], newList: any[]): any[] {
-    const selectedIds = oldList.filter((item) => item.isSelect).map((item) => item.key);
+    // const selectedIds = oldList.filter((item) => item.isSelect).map((item) => item.key);
 
-    if(selectedIds.length>0)
-    {
-      debugger;
-    }
+    // if(selectedIds.length>0)
+    // {
+    //   debugger;
+    // }
 
-    for (const item of newList) {
-      item['isSelect'] = false;
-    }
+    // for (const item of newList) {
+    //   item['isSelect'] = false;
+    // }
 
-    newList.forEach((item) => {
-      if (selectedIds.includes(item.key)) {
-        item.isSelect = true;
+    // newList.forEach((item) => {
+    //   if (selectedIds.includes(item.key)) {
+    //     item.isSelect = true;
+    //   }
+    // });
+    // return newList;
+      debugger
+      const selectedIds = oldList.filter((item) => item.isSelect).map((item) => item.key);
+
+      if (selectedIds.length > 0) {
+        debugger;
       }
-    });
-    return newList;
+
+      // Deep clone the objects in newList to avoid modifying the original objects
+      //const clonedList = newList.map(item => ({ ...item }));
+
+      // for (const item of clonedList) {
+      //   item['isSelect'] = false;
+      // }
+
+      newList.forEach((item) => {
+        if (selectedIds.includes(item.key)) {
+          item.isSelect = true;
+        }
+      });
+      
+      console.log("ids, ",this.FinalMappedList )
+      return newList;
   }
 }

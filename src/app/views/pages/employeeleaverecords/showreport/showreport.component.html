@@ -1,6 +1,6 @@
 <!-- <div ngClass="{{loading?'loadesr':'loadesr'}}">
 </div> -->
-<!-- <div *ngIf="loading" class="loadesr"></div> -->
+
 <br>
 <div class="header-layout divborder">
     <h4 class="col-7 gridheading"><i class="fa fa-file"></i><b>{{this.title}}</b></h4>
@@ -34,7 +34,7 @@
     </div>
 
 </div>
-
+<div *ngIf="loading" class="loadesr" style="background-color: rgb(255, 255, 255,0.3);"></div>
 <div class="scroll-container">
     <div class="content-element">
         <div class="pdf-container">
