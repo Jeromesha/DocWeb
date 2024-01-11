@@ -100,6 +100,7 @@ export class TimesheetgridComponent implements OnInit {
   // }
 
   gettimesheet(userId: any) {
+    debugger
     this.timesheetService.getTimesheet(userId, true).subscribe((res) => {
       if (res) {
         this.loading = false;

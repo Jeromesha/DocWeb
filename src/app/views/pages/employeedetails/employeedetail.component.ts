@@ -325,6 +325,7 @@ export class EmployeedetailComponent implements OnInit {
         data.fillTimesheet = this.timeSheetTrue;
         data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
         data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
+        data.secondlvlReportingPersonId = this.form.value.secondlvlReportingPersonId ? this.form.value.secondlvlReportingPersonId : 0;
         console.log(data.Designation);
         this.empDetailsService.saveEmployee(data).subscribe((res) => {
           console.log(res, 'savvvv');

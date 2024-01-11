@@ -332,7 +332,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       clientId :client,
       projectName: this.form.value.projectName,
       projectTypeId: this.form.value.projectTypeId,
-      secondaryLeadId:this.form.value.secondaryLeadId,
+      secondaryLeadId:this.form.value.secondaryLeadId ? this.form.value.secondaryLeadId : 0,
       technologyType: technologyTypeId,
       repositoryType: this.form.value.repositoryType,
       repositoryUrl: this.form.value.repositoryUrl,

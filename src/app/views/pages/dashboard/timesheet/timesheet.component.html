@@ -54,11 +54,11 @@
                                                     <mat-button-toggle
                                                         [ngClass]="this.form.value.IsLeave == 1 ? 'btnred' :''"
                                                         (click)="onbtnClick(1)" [value]="1"
-                                                        [disabled]="list.length > 0 || actionInfo==0">Leave</mat-button-toggle>
+                                                        >Leave</mat-button-toggle>
                                                     <mat-button-toggle
                                                         [ngClass]="form.value.IsLeave === 2 ? 'butgreen' : ''"
                                                         (click)="onbtnClick(2)" [value]="2"
-                                                        [disabled]="form.value.IsLeave === 1 || rowCount > 0 || actionInfo == 1">Present</mat-button-toggle>
+                                                        >Present</mat-button-toggle>
                                                 </mat-button-toggle-group>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@
                                                 <mat-select  [disabled]="actionInfo == 1 || View"
                                                     placeholder="Project" (selectionChange)="sortingChange($event)"
                                                     formControlName="projectId" class="form-control pt-2"
-                                                    [disabled]="form.value.IsLeave == 1 && list.length > 0 || View"
+                                                   
                                                     [disableOptionCentering]="true" #select>
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="SortList"
@@ -85,7 +85,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6" *ngIf="this.form.value.IsLeave==2">
+                                        <div class="col-md-6" >
                                             <div class="form-group">
                                                 <label class="mandatory">{{'Task Type' | translate}}</label>
                                                 <mat-select  [disabled]="actionInfo == 1 || View"
@@ -112,7 +112,7 @@
                                                 <label class="mandatory">{{'Hours' | translate}}
                                                 </label>
                                                 <input type="text" class="form-control" formControlName="hours"
-                                                    [disabled]="form.value.IsLeave == 1 && list.length > 0 || View"
+                                                    [disabled]=" View"
                                                     [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
                                                     (dateTimeInput)="timeChange()">
 
@@ -134,7 +134,7 @@
                                                 <textarea type="text" class="form-control" maxlength="250"
                                                     formControlName="description" placeholder="Remarks"
                                                     autocomplete="off"
-                                                    [readOnly]="form.value.IsLeave == 1 && list.length > 0||View">
+                                                    [readOnly]="View">
                                                 </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
@@ -164,7 +164,7 @@
                                         {{'Clear' | translate}}
                                     </button>
                                     <button (click)="showTable = true"
-                                        *ngIf="(form.value.IsLeave == 2 || (form.value.IsLeave == 1 && list.length === 0) ) && (actionInfo == 2 || actionInfo == 10) && !editTrue"
+                                        *ngIf="(actionInfo == 2 || actionInfo == 10) && !editTrue"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onAdd()">
                                         <i class="fa-solid fa-plus addspan"></i> {{'Add' | translate}}
