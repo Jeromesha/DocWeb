@@ -1,0 +1,108 @@
+<div class="pl-1 pr-1 mb-1">
+    <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
+        <!-- <div class="col-md-10 col-sm-12"> -->
+        <h4 class="text-bold-500 text-left hearder-text">
+            Task Details
+        </h4>
+        <!-- </div> -->
+        <div style="float:right;">
+            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
+                <i class="btn-icon-prepend fa fa-plus"></i>
+                {{'Add' | translate}}
+            </button>
+            <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" (click)="refresh()">
+                <i class="btn-icon-prepend fa fa-refresh"></i>
+                {{'Refresh' | translate}}
+            </button>
+            <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
+              <i class="btn-icon-prepend fa fa-file-excel-o"></i>
+              {{'ExportExcel' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="loadesr"></div>
+<mat-form-field class="mb-0 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+    <input id="search1" matInput (keyup)="applyFilter($event)" placeholder="{{'Search'}}" #searchInput>
+</mat-form-field>
+<div class="table-responsive">
+    <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
+
+        <ng-container matColumnDef="project">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{'Project' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="firstName">{{'Employee Name' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}}({{dataField.empCode}})</p>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="shortdescription">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="shortdescription">{{'Task' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.joiningDate}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="status">{{'Status' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.mobile}}</p>
+            </mat-cell>
+        </ng-container>
+        <!-- <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="email">{{'Email' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.email}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="designation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="designation">{{'Designation' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.designation}}</p>
+            </mat-cell>
+        </ng-container> -->
+
+        <ng-container fxFlex="10" matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
+            <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
+
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
+                    (click)="goToAction(dataField.id,0)">
+                    <i class="fa fa-edit fa-2x editclr"></i>
+                </button>
+
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
+                    (click)="goToAction(dataField.id,1)">
+                    <i class="fa fa-eye fa-2x eyeclr"></i>
+                </button>
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
+                    matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
+                    (click)="onDelete($event,dataField.id,dataField.firstName)">
+                    <i class="fa fa-trash fa-2x trashclr"></i>
+                    <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
+                </button>
+
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple>
+        </mat-row>
+    </mat-table>
+</div>
+<mat-paginator #paginator [length]="dataSource!=null && dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+    [pageSizeOptions]="[10, 25, 50, 100]">
+</mat-paginator><br>

@@ -77,6 +77,21 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/timesheetreport/timesheetreport.module").then((m) => m.TimesheetreportModule)
       },
+      {
+        path: "module",
+        loadChildren: () =>
+          import("./../../views/pages/projectmodule/projectmodule.module").then((m) => m.ProjectmoduleModule)
+      },
+      {
+        path: "milestone",
+        loadChildren: () =>
+          import("./../../views/pages/projectmilestone/projectmilestone.module").then((m) => m.ProjectmilestoneModule)
+      },
+      {
+        path: "task",
+        loadChildren: () =>
+          import("./../../views/pages/task/task.module").then((m) => m.TaskModule)
+      },
     ],
   },
 ];
