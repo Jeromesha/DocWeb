@@ -44,7 +44,6 @@ export class TimeSheetService {
     }
 
     savetimsheet(result: any) {
-        debugger
         return this.dataService.post('/api/timesheet/save', result).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;

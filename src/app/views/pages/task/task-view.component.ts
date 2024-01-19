@@ -7,6 +7,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-task-view',
@@ -33,28 +34,44 @@ export class TaskViewComponent implements OnInit {
     // "designation"
   ];
   excelColumns: string[];
+  projectid =0
+  statuslist :any[]=[1,3];
+  resultArray: any;
   constructor(private navigationService: NavigationService,
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
+    private taskservice : TaskService
 
   ) { }
   ngOnInit(): void {
+    this.gettaskGriddata(this.projectid,this.statuslist);
   }
 
-  goToAction(arg0: number,arg1: number) {
+  gettaskGriddata(id:any,statuslist:any){
+    debugger;
+    this.taskservice.GetTaskGridData(id,statuslist).subscribe(result => {
+      this.resultArray = result;
+      console.log(this.resultArray,"this data")
+    this.dataSource = new MatTableDataSource(this.resultArray);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    })
+  }
+
+  goToAction(id: any, actioninfo: any) {
+    this.navigationService.gotoTask(id, actioninfo);
+  }
+  refresh() {
     throw new Error('Method not implemented.');
-    }
-    refresh() {
+  }
+  onExportExcel() {
     throw new Error('Method not implemented.');
-    }
-    onExportExcel() {
+  }
+  applyFilter($event: KeyboardEvent) {
     throw new Error('Method not implemented.');
-    }
-    applyFilter($event: KeyboardEvent) {
+  }
+  onDelete($event: MouseEvent, arg1: any, arg2: any) {
     throw new Error('Method not implemented.');
-    }
-    onDelete($event: MouseEvent,arg1: any,arg2: any) {
-    throw new Error('Method not implemented.');
-    }
+  }
 }

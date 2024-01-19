@@ -27,4 +27,15 @@ export class TaskService {
         debugger
         return this.dataService.post('/api/task', result)
     }
+
+    GetTaskGridData(id:any, statusList:any) {
+        debugger
+        const url = `/api/task/${id}?${statusList.map(value => `Statuslist=${value}`).join('&')}`;
+        return this.dataService.getData(url, true);
+    }
+
+    GetTaskById(id:any){
+        debugger
+        return this.dataService.getData('/api/task/GetTaskByID/'+id , true );
+    }
 }

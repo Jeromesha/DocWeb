@@ -32,14 +32,14 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{'Project' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="firstName">
             <mat-header-cell *matHeaderCellDef mat-sort-header="firstName">{{'Employee Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.firstName}}({{dataField.empCode}})</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.empname}}({{dataField.empCode}})</p>
             </mat-cell>
         </ng-container>
 
@@ -47,14 +47,14 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="shortdescription">{{'Task' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.joiningDate}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.shortDescription}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef mat-sort-header="status">{{'Status' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.mobile}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.taskStatus}}</p>
             </mat-cell>
         </ng-container>
         <!-- <ng-container matColumnDef="email">
