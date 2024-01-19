@@ -24,6 +24,11 @@ export class NavigationService {
     this.router.navigate(['/timesheet/' + formattedDate, actionInfo]);
   }
 
+  gotoTask(id:any,actionInfo:any){
+    debugger;
+    this.router.navigate(['/task/'+id,actionInfo])
+  }
+
 
   goToproject(id: number, actionInfo: number) {
     debugger;
@@ -68,6 +73,10 @@ export class NavigationService {
   }
   gotoEmployee() {
     this.router.navigate(['/employeedetails/'])
+  }
+  gotoTaskgrid(){
+    debugger
+    this.router.navigate(['/task/'])
   }
 
 }

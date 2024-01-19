@@ -41,6 +41,9 @@ export class TaskViewComponent implements OnInit {
   SortList: any;
   filterSortList: any[];
   excelColumns: string[];
+  projectid =0
+  statuslist :any[]=[1,3];
+  resultArray: any;
   dropdownSettings: any = {};
   // filtertechnologytypelist: any;
   filtertaskstatuslist: any;
@@ -53,6 +56,7 @@ export class TaskViewComponent implements OnInit {
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
+    private taskservice : TaskService
 
   ) { }
   ngOnInit(): void {
@@ -99,21 +103,33 @@ export class TaskViewComponent implements OnInit {
       this.SortList = result
       this.filterSortList = this.SortList.slice();
     });
+    this.gettaskGriddata(this.projectid,this.statuslist);
   }
 
-  goToAction(arg0: number,arg1: number) {
+  gettaskGriddata(id:any,statuslist:any){
+    debugger;
+    this.taskservice.GetTaskGridData(id,statuslist).subscribe(result => {
+      this.resultArray = result;
+      console.log(this.resultArray,"this data")
+    this.dataSource = new MatTableDataSource(this.resultArray);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    })
+  }
+
+  goToAction(id: any, actioninfo: any) {
+    this.navigationService.gotoTask(id, actioninfo);
+  }
+  refresh() {
     throw new Error('Method not implemented.');
-    }
-    refresh() {
+  }
+  onExportExcel() {
     throw new Error('Method not implemented.');
-    }
-    onExportExcel() {
+  }
+  applyFilter($event: KeyboardEvent) {
     throw new Error('Method not implemented.');
-    }
-    applyFilter($event: KeyboardEvent) {
+  }
+  onDelete($event: MouseEvent, arg1: any, arg2: any) {
     throw new Error('Method not implemented.');
-    }
-    onDelete($event: MouseEvent,arg1: any,arg2: any) {
-    throw new Error('Method not implemented.');
-    }
+  }
 }

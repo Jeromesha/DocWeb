@@ -26,6 +26,8 @@ import { MappingServices } from 'src/app/services/mapping.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { TaskService } from 'src/app/services/task.service';
 import { TaskViewComponent } from './task-view.component';
+import { NotifyService } from 'src/app/services/notifyService';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 const routes: Routes = [
   {
@@ -48,7 +50,9 @@ const routes: Routes = [
     ExcelService,
     MappingServices,
     TimeSheetService,
-    TaskService
+    TaskService,
+    NotifyService,
+    NavigationService
   ],
   imports: [
     CommonModule,

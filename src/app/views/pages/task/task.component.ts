@@ -1,9 +1,12 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { result } from 'lodash';
+import { AlertService } from 'src/app/services/alert.service';
 import { MappingServices } from 'src/app/services/mapping.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { TaskService } from 'src/app/services/task.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
 
@@ -40,7 +43,7 @@ export class TaskComponent implements OnInit {
   filtermilestonelist: any;
   taskstatuslist: any;
   filtertaskstatuslist: any;
-  alertService: any;
+submitbtn: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,42 +51,62 @@ export class TaskComponent implements OnInit {
     public dialog: MatDialog,
     private mappingservice: MappingServices,
     private timesheetService: TimeSheetService,
-    private taskservice: TaskService
-  ) { }
+    public navigationService: NavigationService,
+    private taskservice: TaskService,
+    private alertService:AlertService,
+    private _location : Location,
+  ) { 
+    this.routeParams = route.snapshot.params;
+    debugger
+    this.id = JSON.parse(this.routeParams.id);
+    //this.id = parseInt(this.routeParams.id);
+    this.actionInfo = this.routeParams.actionInfo
+    //this.actionInfo = 0;
+    if (this.id === 0) {
+      this.submitbtn = 'Save';
+    } else {
+      this.submitbtn = 'Update';
+    }
+    // if (this.actionInfo == 1) {
+    //   this.formEditMode = false
+    // }
+  }
 
   ngOnInit(): void {
     this.initializeValidators();
     this.getProject();
     this.GetTaskType();
     this.getTaskstatus();
+    this.GetTaskByID(true);
   }
 
   initializeValidators() {
     this.form = this.formBuilder.group({
       projectId: ['', Validators.required],
-      AssignedTo: ['', Validators.required],
+      assignedTo: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       priority: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       taskTypeId: ['', Validators.required],
-      EstimatedHours: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      CompletedHours: ['', Validators.pattern(/^\d+$/)],
+      estimatedHours: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      completedHours: ['', Validators.pattern(/^\d+$/)],
       milestoneId: [''],
       moduleId: [''],
-      taskstatusId: ['', Validators.required],
-      shortdescription: ['', Validators.required],
-      longdescription: ['', Validators.required],
-      LeadComment: ['', Validators.required],
-      DeveloperComments: [''],
+      taskStatusId: ['', Validators.required],
+      shortDescription: ['', Validators.required],
+      longDescription: ['', Validators.required],
+      leadComment: ['', Validators.required],
+      developerComments: [''],
     });
   }
   getProject() {
     debugger;
-    this.mappingservice.GetLookup(1).subscribe(result => {
+    this.timesheetService.getproject().subscribe(result =>{
       this.projectSortList = result;
       this.filterprojectSortList = this.projectSortList.slice();
     });
   }
+
 
   getTaskstatus() {
     this.taskservice.GetTaskstatus().subscribe(result => {
@@ -128,21 +151,24 @@ export class TaskComponent implements OnInit {
       var data = this.form.value;
 
       data.Id = this.id;
-      data.CompletedHours = this.form.value.CompletedHours?this.form.value.CompletedHours:null;
+      data.completedHours = this.form.value.completedHours?this.form.value.completedHours:null;
       data.milestoneId = this.form.value.milestoneId? this.form.value.milestoneId : null;
       data.moduleId = this.form.value.moduleId ? this.form.value.moduleId : null;
-      data.DeveloperComments = this.form.value.DeveloperComments ? this.form.value.DeveloperComments : null;
+      data.developerComments = this.form.value.developerComments ? this.form.value.developerComments : null;
 
       this.taskservice.save(data).subscribe((res) => {
         console.log(res, 'savvvv');
+        debugger
         if (res.isSuccess) {
+          debugger
           if (this.id == 0) {
-            this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "saved successfully.");
+            this.alertService.success( "Task details " + "saved successfully.");
           } else {
-            this.alertService.success(data.firstName + ' ' + data.lastName + "'s details " + "Updated successfully.");
+            this.alertService.success("Task details " + "Updated successfully.");
 
           }
-          //this.navigationService.gotoEmployee();
+          debugger
+          this.navigationService.gotoTaskgrid();
         }
         else {
           this.alertService.error(res.failures[0])
@@ -167,8 +193,12 @@ export class TaskComponent implements OnInit {
     })
   }
 
-    onCancel() {
+    onClear() {
       this.form.reset();
+    }
+
+    onCancel() {
+      this._location.back();
     }
 
     updateEndDate(event: any) {
@@ -215,4 +245,25 @@ export class TaskComponent implements OnInit {
       });
     }
 
+    GetTaskByID(refresh: boolean) {
+      if (this.id > 0) {
+        this.taskservice.GetTaskById(this.id).subscribe(result => {
+      debugger;
+          this.data = result;
+          console.log("get result ",this.data);
+          // this.filtertechtype = this.data.technologyType;
+          // this.getProject();
+          // this.GetTaskType();
+          // this.getTaskstatus();
+          this.proID = this.data.projectId;          ;
+          this.getEmployeesbyproject(this.proID);
+          this.getMilestone(this.proID);
+          this.getModule(this.proID);
+          if (this.data) {
+            this.form.patchValue(this.data);
+          }
+        });
+        //this.isReadOnly = true;
+      }
+    }
   }
