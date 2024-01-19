@@ -22,10 +22,16 @@ import { EmployeedetailsService } from 'src/app/services/employeedetails.service
   styleUrls: ['./project-details-view.component.scss']
 })
 export class ProjectDetailsViewComponent implements OnInit {
-
   id = 0;
   actionInfo = 0;
   form: FormGroup;
+
+  engagementmodellist = [
+    { key: 1, value: 'A' },
+    { key: 2, value: 'B' },
+    { key: 3, value: 'C' },
+  ];
+
   routeParams: any;
   pageTitle: string;
   data: any;
@@ -146,6 +152,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       id: [0],
       clientId: [null, Validators.required],
       projectName: [null, Validators.required],
+      Refno: [null, Validators.required],
       projectTypeId: ["",Validators.required],
       technologyType: [null, Validators.required],
       repositoryType: [null, Validators.required],
@@ -154,6 +161,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       startDate: [null, Validators.required],
       endDate: [null],
       projectStatusId: [null, Validators.required],
+      EngagementModl: [null, Validators.required],
       projectLeadId: [null, Validators.required],
       // reportingPersonId:[null],
       secondaryLeadId:[null],
@@ -331,6 +339,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       id:this.id,
       clientId :client,
       projectName: this.form.value.projectName,
+      Refno: this.form.value.Refno,
       projectTypeId: this.form.value.projectTypeId,
       secondaryLeadId:this.form.value.secondaryLeadId ? this.form.value.secondaryLeadId : 0,
       technologyType: technologyTypeId,
@@ -339,6 +348,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       startDate: this.form.value.startDate,
       endDate: this.form.value.endDate,
       projectStatusId: this.form.value.projectStatusId,
+      EngagementModl: this.form.value.EngagementModl,
       projectLeadId: this.form.value.projectLeadId,
       natureOfProjectType: this.form.value.natureOfProjectType
 

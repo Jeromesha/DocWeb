@@ -18,6 +18,12 @@ export class EmployeedetailComponent implements OnInit {
   actionInfo: any;
   id: any;
   form: FormGroup;
+
+  statuslist = [
+    { key: 1, value: 'Resigned' },
+    { key: 2, value: 'Working' },
+  ];
+  
   formEditMode = true;
   submitbtn: string;
   roleList: any[];
@@ -131,17 +137,20 @@ export class EmployeedetailComponent implements OnInit {
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required],
       'roleId': ['', Validators.required],
+      'statusid': ['',Validators.required],
       'mobile': ['',  [Validators.required, Validators.pattern(/^[6-9]{1}[0-9]{9}$/)]],
       'email': ['', Validators.required],
       'secondlvlReportingPersonId': ['',],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
+      'lastWorkingday': ['', Validators.required],
       'marriageDate': [null],
       'defaultProjectId': ['', Validators.required],
       'locationId': ['', Validators.required],
       'designationTypeId': ['', Validators.required],
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
+      'Prodfactors': ['',Validators.required],
       'temp_address': ['',],
       'projectId': ['', Validators.required],
       'fillTimesheet': [],
@@ -325,6 +334,7 @@ export class EmployeedetailComponent implements OnInit {
         data.fillTimesheet = this.timeSheetTrue;
         data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
         data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
+        data.lastWorkingday = moment(this.form.value.lastWorkingday).format('YYYY-MM-DD');
         data.secondlvlReportingPersonId = this.form.value.secondlvlReportingPersonId ? this.form.value.secondlvlReportingPersonId : 0;
         console.log(data.Designation);
         this.empDetailsService.saveEmployee(data).subscribe((res) => {

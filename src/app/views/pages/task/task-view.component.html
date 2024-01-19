@@ -1,23 +1,66 @@
 <div class="pl-1 pr-1 mb-1">
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
-        <!-- <div class="col-md-10 col-sm-12"> -->
-        <h4 class="text-bold-500 text-left hearder-text">
-            Task Details
-        </h4>
-        <!-- </div> -->
-        <div style="float:right;">
-            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
-                <i class="btn-icon-prepend fa fa-plus"></i>
-                {{'Add' | translate}}
+        <div class="col-md-2 col-sm-2">
+            <h4 class="text-bold-500 text-left hearder-text">
+                Task Details
+            </h4>
+        </div>
+        <!-- [disabled]="actionInfo == 1 || View" -->
+        <!-- [disableOptionCentering]="true" #select -->
+        <!-- *ngIf="select.focused" -->
+
+        <div class="col-md-2 col-sm-2">
+            <div style="float:centre;">
+                <div class="form-group">
+                    <label class="mandatory ">{{'Project' | translate}}</label>
+                    <mat-select placeholder="Project" (selectionChange)="sortingChange($event)"
+                        formControlName="projectId" class="form-control pt-2">
+                        <mat-select-filter [displayMember]="'value'" [array]="SortList"
+                            (filteredReturn)="filterSortList =$event"></mat-select-filter>
+                        <mat-option *ngFor="let item of filterSortList" [value]="item.key">
+                            {{item.value}}
+                        </mat-option>
+                    </mat-select>
+                    <span class="form-text text-muted danger mandatory"
+                        *ngIf="!form.get('projectId').valid && (form.get('projectId').dirty || form.get('projectId').touched)">
+                        {{'Project' | translate}} {{'IsRequired' | translate}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-sm-2">
+            <div style="float:centre;">
+                <div class="form-group">
+                    <label class="mandatory">{{"Status"|translate}}</label>
+                    <ng-multiselect-dropdown class="custom-dropdown custom-multiselect" formControlName="Taskstatus"
+                        placeholder="Select Status" [settings]="dropdownSettings" [data]='filtertaskstatuslist'>
+                    </ng-multiselect-dropdown>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1 col-sm-1 mt-3">
+            <button type="button" matRipple class="btn btnadd mr-2 mb-2">
+                {{'Show Grid' | translate}}
             </button>
-            <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" (click)="refresh()">
-                <i class="btn-icon-prepend fa fa-refresh"></i>
-                {{'Refresh' | translate}}
-            </button>
-            <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
-              <i class="btn-icon-prepend fa fa-file-excel-o"></i>
-              {{'ExportExcel' | translate}}
-            </button>
+        </div>
+        <div class="col-md-3 col-sm-3 mt-3">
+
+            <div style="float:right;">
+                <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
+                    <i class="btn-icon-prepend fa fa-plus"></i>
+                    {{'Add' | translate}}
+                </button>
+                <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" (click)="refresh()">
+                    <i class="btn-icon-prepend fa fa-refresh"></i>
+                    {{'Refresh' | translate}}
+                </button>
+                <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
+                    <i class="btn-icon-prepend fa fa-file-excel-o"></i>
+                    {{'ExportExcel' | translate}}
+                </button>
+            </div>
         </div>
     </div>
 </div>

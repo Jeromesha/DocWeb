@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormGroup,Validators, FormBuilder,FormControl} from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +8,8 @@ import { AlertService } from 'src/app/services/alert.service';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { TaskService } from 'src/app/services/task.service';
+import { TimeSheetService } from 'src/app/services/timesheet.service';
 
 @Component({
   selector: 'app-task-view',
@@ -32,14 +35,70 @@ export class TaskViewComponent implements OnInit {
     // "joiningDate",
     // "designation"
   ];
+  
+  form: FormGroup;
+  showdescription: boolean = false;
+  SortList: any;
+  filterSortList: any[];
   excelColumns: string[];
-  constructor(private navigationService: NavigationService,
+  dropdownSettings: any = {};
+  // filtertechnologytypelist: any;
+  filtertaskstatuslist: any;
+  taskstatuslist: any;
+
+  constructor(private formBuilder: FormBuilder,
+    private timesheetService: TimeSheetService,
+    private taskservice: TaskService,
+    private navigationService: NavigationService,
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
 
   ) { }
   ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      projectId: [null, Validators.required],
+    });
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'key',
+      textField: 'value',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true
+    };
+
+    this.Getproject();
+    this.getTaskstatus();
+  }
+
+  initializeValidators() {
+    this.form = this.formBuilder.group({
+      projectId: ['', [Validators.required]],
+    });
+  }
+  sortingChange(event) {
+    debugger
+    if (event.value != null) {
+      this.showdescription = true;
+    }
+  }
+
+  getTaskstatus() {
+    this.taskservice.GetTaskstatus().subscribe(result => {
+      this.taskstatuslist = result;
+      this.filtertaskstatuslist = this.taskstatuslist.slice();
+    })
+  }
+
+  Getproject() {
+    debugger;
+    this.timesheetService.getproject().subscribe(result => {
+      console.log(">>>?", result);
+      this.SortList = result
+      this.filterSortList = this.SortList.slice();
+    });
   }
 
   goToAction(arg0: number,arg1: number) {
