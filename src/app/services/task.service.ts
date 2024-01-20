@@ -38,4 +38,11 @@ export class TaskService {
         debugger
         return this.dataService.getData('/api/task/GetTaskByID/'+id , true );
     }
+
+    Deletebyid(id:any){
+        return this.dataService.post('/api/task/deleteTaskbyid/' + id, true).map(response => {
+            this.dataService.clearRouteCache('/api/project');
+            return response;
+          });
+    }
 }

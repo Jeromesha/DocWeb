@@ -1,69 +1,75 @@
 <div class="pl-1 pr-1 mb-1">
-    <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
-        <div class="col-md-2 col-sm-2">
-            <h4 class="text-bold-500 text-left hearder-text">
-                Task Details
-            </h4>
-        </div>
-        <!-- [disabled]="actionInfo == 1 || View" -->
-        <!-- [disableOptionCentering]="true" #select -->
-        <!-- *ngIf="select.focused" -->
+    <form [formGroup]="form">
+        <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
+            <div class="col-md-2 col-sm-2">
+                <h4 class="text-bold-500 text-left hearder-text">
+                    Task Details
+                </h4>
+            </div>
+            <!-- [disabled]="actionInfo == 1 || View" -->
+            <!-- [disableOptionCentering]="true" #select -->
+            <!-- *ngIf="select.focused" -->
 
-        <div class="col-md-2 col-sm-2">
-            <div style="float:centre;">
-                <div class="form-group">
-                    <label class="mandatory ">{{'Project' | translate}}</label>
-                    <mat-select placeholder="Project" (selectionChange)="sortingChange($event)"
-                        formControlName="projectId" class="form-control pt-2">
-                        <mat-select-filter [displayMember]="'value'" [array]="SortList"
-                            (filteredReturn)="filterSortList =$event"></mat-select-filter>
-                        <mat-option *ngFor="let item of filterSortList" [value]="item.key">
-                            {{item.value}}
-                        </mat-option>
-                    </mat-select>
-                    <span class="form-text text-muted danger mandatory"
-                        *ngIf="!form.get('projectId').valid && (form.get('projectId').dirty || form.get('projectId').touched)">
-                        {{'Project' | translate}} {{'IsRequired' | translate}}
-                    </span>
+            <div class="col-md-2 col-sm-2">
+                <div style="float:centre;">
+                    <div class="form-group">
+                        <label>{{'Project' | translate}}</label>
+                        <mat-select placeholder="Project" formControlName="projectId" class="form-control pt-2">
+                            <mat-select-filter [displayMember]="'value'" [array]="SortList"
+                                (filteredReturn)="filterSortList =$event"></mat-select-filter>
+                            <mat-option *ngFor="let item of filterSortList" [value]="item.key">
+                                {{item.value}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-sm-2">
+                <div style="float:centre;">
+                    <div class="form-group">
+                        <label class="mandatory ">{{"Status"|translate}}</label>
+                        <ng-multiselect-dropdown class="custom-dropdown custom-multiselect" formControlName="Taskstatus"
+                            placeholder="Select Status" [settings]="dropdownSettings" [data]='filtertaskstatuslist'>
+                        </ng-multiselect-dropdown>
+                        <div class="valid-error"
+                            *ngIf="form.controls.Taskstatus.errors && (form.controls.Taskstatus.dirty || form.controls.Taskstatus.touched)"
+                            text-wrap>
+                            <span *ngIf="form.controls.Taskstatus.errors?.required" class="form-text danger mandatory">
+                                {{'Status ' | translate}} {{'IsRequired' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-1 col-sm-1 mt-3">
+                <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="GetGridbyfilter()">
+                    {{'Show Grid' | translate}}
+                </button>
+            </div>
+            <div class="col-md-3 col-sm-3 mt-3">
+
+                <div style="float:right;">
+                    <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
+                        <i class="btn-icon-prepend fa fa-plus"></i>
+                        {{'Add' | translate}}
+                    </button>
+                    <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" (click)="refresh()">
+                        <i class="btn-icon-prepend fa fa-refresh"></i>
+                        {{'Refresh' | translate}}
+                    </button>
+                    <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
+                        <i class="btn-icon-prepend fa fa-file-excel-o"></i>
+                        {{'ExportExcel' | translate}}
+                    </button>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-2 col-sm-2">
-            <div style="float:centre;">
-                <div class="form-group">
-                    <label class="mandatory">{{"Status"|translate}}</label>
-                    <ng-multiselect-dropdown class="custom-dropdown custom-multiselect" formControlName="Taskstatus"
-                        placeholder="Select Status" [settings]="dropdownSettings" [data]='filtertaskstatuslist'>
-                    </ng-multiselect-dropdown>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-1 col-sm-1 mt-3">
-            <button type="button" matRipple class="btn btnadd mr-2 mb-2">
-                {{'Show Grid' | translate}}
-            </button>
-        </div>
-        <div class="col-md-3 col-sm-3 mt-3">
-
-            <div style="float:right;">
-                <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
-                    <i class="btn-icon-prepend fa fa-plus"></i>
-                    {{'Add' | translate}}
-                </button>
-                <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" (click)="refresh()">
-                    <i class="btn-icon-prepend fa fa-refresh"></i>
-                    {{'Refresh' | translate}}
-                </button>
-                <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
-                    <i class="btn-icon-prepend fa fa-file-excel-o"></i>
-                    {{'ExportExcel' | translate}}
-                </button>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
+
+
+
 <div *ngIf="loading" class="loadesr"></div>
 <mat-form-field class="mb-0 col-sm-12 col-md-12 col-lg-12 col-xl-12">
     <input id="search1" matInput (keyup)="applyFilter($event)" placeholder="{{'Search'}}" #searchInput>
@@ -79,7 +85,7 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="firstName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="firstName">{{'Employee Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="empname">{{'Employee Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.empname}}({{dataField.empCode}})</p>
@@ -87,14 +93,14 @@
         </ng-container>
 
         <ng-container matColumnDef="shortdescription">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="shortdescription">{{'Task' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="shortDescription">{{'Task' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.shortDescription}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="status">{{'Status' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="taskStatus">{{'Status' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.taskStatus}}</p>
@@ -132,7 +138,7 @@
                 </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
-                    (click)="onDelete($event,dataField.id,dataField.firstName)">
+                    (click)="onDelete($event,dataField.id,dataField.shortDescription)">
                     <i class="fa fa-trash fa-2x trashclr"></i>
                     <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
                 </button>
