@@ -14,17 +14,18 @@
                     <div class="px-3">
                         <form [formGroup]="form" class="form form-horizontal" novalidate>
                             <div class="form-body pt-2">
-                                <fieldset>
+                                <fieldset [disabled]="actionInfo==1">
                                     <div class="row">
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label  class="mandatory ">{{"Project"|translate}}</label>
+                                                <label class="mandatory ">{{"Project"|translate}}</label>
                                                 <mat-select placeholder=" Select Project" formControlName="projectId"
                                                     class="form-control pt-2" (selectionChange)="sortingChange($event)"
                                                     [disableOptionCentering]="true" #select
                                                     [disabled]="actionInfo == 1">
-                                                    <mat-select-filter [displayMember]="'value'" [array]="projectSortList"
+                                                    <mat-select-filter [displayMember]="'value'"
+                                                        [array]="projectSortList"
                                                         (filteredReturn)="filterprojectSortList = $event"
                                                         *ngIf="select.focused">
                                                     </mat-select-filter>
@@ -45,7 +46,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label  class="mandatory ">{{"Employee Name"|translate}}</label>
+                                                <label class="mandatory ">{{"Employee Name"|translate}}</label>
                                                 <mat-select placeholder=" Select Employee Name"
                                                     formControlName="assignedTo" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2
@@ -65,7 +66,8 @@
                                                     text-wrap>
                                                     <span *ngIf="form.controls.assignedTo.errors?.required"
                                                         class="form-text danger mandatory">
-                                                        {{'Employee Name' | translate}} {{'IsRequired' | translate}}</span>
+                                                        {{'Employee Name' | translate}} {{'IsRequired' |
+                                                        translate}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,13 +78,13 @@
                                                 <div class="input-group mb-0 ">
                                                     <input class="form-control" placeholder="Select Start Date"
                                                         formControlName="startDate" [owlDateTimeTrigger]="dt1"
-                                                        [owlDateTime]="dt1" 
-                                                        (ngModelChange)="updateEndDate($event)"
+                                                        [owlDateTime]="dt1" (ngModelChange)="updateEndDate($event)"
                                                         [disabled]="actionInfo == 1">
                                                     <owl-date-time [pickerType]="'calendar'" #dt1>
                                                     </owl-date-time>
                                                     <div class="input-group-append">
-                                                        <span class="trigger input-group-text" [owlDateTimeTrigger]="dt1">
+                                                        <span class="trigger input-group-text"
+                                                            [owlDateTimeTrigger]="dt1">
                                                             <i class="fa fa-calendar-check-o"></i>
                                                         </span>
                                                         <owl-date-time [pickerType]="'calendar'" #dt1>
@@ -109,7 +111,8 @@
                                                     <owl-date-time [pickerType]="'calendar'" #dt2>
                                                     </owl-date-time>
                                                     <div class="input-group-append">
-                                                        <span class="trigger input-group-text" [owlDateTimeTrigger]="dt2">
+                                                        <span class="trigger input-group-text"
+                                                            [owlDateTimeTrigger]="dt2">
                                                             <i class="fa fa-calendar-check-o"></i>
                                                         </span>
                                                         <owl-date-time [pickerType]="'calendar'" #dt2>
@@ -128,29 +131,35 @@
 
 
                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="mandatory ">{{'Estimate Hours'| translate}}</label>
-                                                <input type="number" class="form-control" formControlName="estimatedHours"
-                                                    placeholder="{{'Estimate Hours' | translate}}" autocomplete="off"
-                                                    pattern="[0-9]*" title="Please enter only numeric values"
-                                                    [readonly]="actionInfo === 1"
-                                                    [attr.readonly]="actionInfo === 1 ? true : null" 
-                                                    [ngClass]="{ 'disable': actionInfo === 1 }"
-                                                    [disabled]="actionInfo===1">
-                                                <div class="valid-error"
-                                                    *ngIf="form.controls.estimatedHours.errors && (form.controls.estimatedHours.dirty || form.controls.estimatedHours.touched)"
-                                                    text-wrap>
-                                                    <span *ngIf="form.controls.estimatedHours.errors?.required"
-                                                        class="form-text  danger mandatory">
-                                                        {{'Estimate Hours' | translate}} {{'IsRequired' | translate}}</span>
-
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <!-- [attr.readonly]="actionInfo === 1 ? true : null" -->
+                                                    <!-- [disabled]="actionInfo===1" -->
+                                                    <label class="mandatory ">{{'Estimate Hours'| translate}}</label>
+                                                    <input type="number" class="form-control"
+                                                        formControlName="estimatedHours"
+                                                        placeholder="{{'Estimate Hours' | translate}}" autocomplete="off"
+                                                        pattern="[0-9]*" title="Please enter only numeric values"
+                                                        [readonly]="actionInfo === 1"
+                                                        [ngClass]="{ 'disable': actionInfo === 1 }">
+                                                    <div class="valid-error"
+                                                        *ngIf="form.controls.estimatedHours.errors && (form.controls.estimatedHours.dirty || form.controls.estimatedHours.touched)"
+                                                        text-wrap>
+                                                        <span *ngIf="form.controls.estimatedHours.errors?.required"
+                                                            class="form-text  danger mandatory">
+                                                            {{'Estimate Hours' | translate}} {{'IsRequired' |
+                                                            translate}}</span>
+    
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </fieldset>
+                                            
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label >{{'Completed Hours'| translate}}</label>
-                                                <input type="number" class="form-control" formControlName="completedHours"
+                                                <label>{{'Completed Hours'| translate}}</label>
+                                                <input type="number" class="form-control"
+                                                    formControlName="completedHours"
                                                     placeholder="{{'Completed Hours' | translate}}" autocomplete="off"
                                                     pattern="[0-9]*" title="Please enter only numeric values"
                                                     [disabled]="actionInfo == 1">
@@ -183,15 +192,15 @@
                                         </div>
 
 
-                                        <div class="col-md-6" >
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory">{{'Task Type' | translate}}</label>
-                                                <mat-select 
-                                                    placeholder="Task Type" (selectionChange)="sortingChange($event)"
+                                                <mat-select placeholder="Task Type"
+                                                    (selectionChange)="sortingChange($event)"
                                                     formControlName="taskTypeId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select4
                                                     [disabled]="actionInfo == 1">
-                                                    <mat-select-filter  [displayMember]="'value'"
+                                                    <mat-select-filter [displayMember]="'value'"
                                                         [array]="projecttypelist"
                                                         (filteredReturn)="filterprojecttypelist =$event"
                                                         *ngIf="select4.focused"></mat-select-filter>
@@ -217,8 +226,7 @@
                                                     formControlName="milestoneId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select5
                                                     [disabled]="actionInfo == 1">
-                                                    <mat-select-filter [displayMember]="'value'"
-                                                        [array]="milestonelist"
+                                                    <mat-select-filter [displayMember]="'value'" [array]="milestonelist"
                                                         (filteredReturn)="filtermilestonelist = $event"
                                                         *ngIf="select5.focused">
                                                     </mat-select-filter>
@@ -237,17 +245,15 @@
                                                 <!-- <p *ngFor="let item of projectSortList">{{item.value}}</p> -->
                                             </div>
                                         </div>
-                                        
+
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>{{'Module' | translate}}</label>
-                                                <mat-select placeholder=" Select Module "
-                                                    formControlName="moduleId" class="form-control pt-2"
-                                                    [disableOptionCentering]="true" #select6
+                                                <mat-select placeholder=" Select Module " formControlName="moduleId"
+                                                    class="form-control pt-2" [disableOptionCentering]="true" #select6
                                                     [disabled]="actionInfo == 1">
-                                                    <mat-select-filter [displayMember]="'value'"
-                                                        [array]="modulelist"
+                                                    <mat-select-filter [displayMember]="'value'" [array]="modulelist"
                                                         (filteredReturn)="filtermodulelist = $event"
                                                         *ngIf="select6.focused">
                                                     </mat-select-filter>
@@ -267,15 +273,14 @@
                                             </div>
                                         </div>
 
-                                       
+
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{' Short Description' | translate}}</label>
-                                                <textarea type="text"
-                                                    class="form-control" maxlength="250" [readOnly]="actionInfo == 1"
-                                                    placeholder=" Short Description" formControlName="shortDescription"
-                                                    autocomplete="off">
+                                                <textarea type="text" class="form-control" maxlength="250"
+                                                    [readOnly]="actionInfo == 1" placeholder=" Short Description"
+                                                    formControlName="shortDescription" autocomplete="off">
                                                 </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.shortDescription.errors && (form.controls.shortDescription.dirty || form.controls.shortDescription.touched)"
@@ -284,7 +289,7 @@
                                                         class="form-text  danger mandatory">
                                                         {{'Short Description' | translate}} {{'IsRequired' |
                                                         translate}}</span>
-    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -292,10 +297,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Long Description' | translate}}</label>
-                                                <textarea type="text" 
-                                                    class="form-control" maxlength="250" [readOnly]="actionInfo == 1"
-                                                    placeholder="Long Description" formControlName="longDescription"
-                                                    autocomplete="off">
+                                                <textarea type="text" class="form-control" maxlength="250"
+                                                    [readOnly]="actionInfo == 1" placeholder="Long Description"
+                                                    formControlName="longDescription" autocomplete="off">
                                                 </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.longDescription.errors && (form.controls.longDescription.dirty || form.controls.longDescription.touched)"
@@ -304,7 +308,7 @@
                                                         class="form-text  danger mandatory">
                                                         {{'Long Description' | translate}} {{'IsRequired' |
                                                         translate}}</span>
-    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -312,10 +316,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Lead Comment' | translate}}</label>
-                                                <textarea type="text" 
-                                                    class="form-control" maxlength="250" [readOnly]="actionInfo == 1"
-                                                    placeholder="Lead Comment" formControlName="leadComment"
-                                                    autocomplete="off">
+                                                <textarea type="text" class="form-control" maxlength="250"
+                                                    [readOnly]="actionInfo == 1" placeholder="Lead Comment"
+                                                    formControlName="leadComment" autocomplete="off">
                                                 </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.leadComment.errors && (form.controls.leadComment.dirty || form.controls.leadComment.touched)"
@@ -324,7 +327,7 @@
                                                         class="form-text  danger mandatory">
                                                         {{'Lead Comment' | translate}} {{'IsRequired' |
                                                         translate}}</span>
-    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -332,10 +335,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>{{'Developer Comment' | translate}}</label>
-                                                <textarea type="text"
-                                                    class="form-control" maxlength="250" [readOnly]="actionInfo == 1"
-                                                    placeholder="Developer Comment" formControlName="developerComments"
-                                                    autocomplete="off">
+                                                <textarea type="text" class="form-control" maxlength="250"
+                                                    [readOnly]="actionInfo == 1" placeholder="Developer Comment"
+                                                    formControlName="developerComments" autocomplete="off">
                                                 </textarea>
                                                 <!-- <div class="valid-error"
                                                     *ngIf="form.controls.developerComments.errors && (form.controls.developerComments.dirty || form.controls.developerComments.touched)"
@@ -383,25 +385,23 @@
                                 <div class="form-actions mb-2 mt-3" style="float: right;">
 
                                     <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
-                                        (click)="onClear()" 
-                                        *ngIf="this.id ==0 && actionInfo==0">
+                                        (click)="onClear()" *ngIf="this.id ==0 && actionInfo==0">
                                         <i class="btn-icon-prepend fa fa-refresh"></i>
                                         {{'Clear' | translate}}
                                     </button>
                                     &nbsp;
-                                    <button 
+                                    <button
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
-                                        type="submit" (click)="onSubmit()"  
-                                        *ngIf="actionInfo !=1">
+                                        type="submit" (click)="onSubmit()" *ngIf="actionInfo !=1">
                                         <i class="fa fa-save"></i>
                                         {{submitbtn | translate}}
                                     </button>
                                     &nbsp;
                                     <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
-                                    (click)="onCancel()">
-                                    <i class="fa fa-close"></i>
-                                    {{'Cancel' | translate}}
-                                </button>
+                                        (click)="onCancel()">
+                                        <i class="fa fa-close"></i>
+                                        {{'Cancel' | translate}}
+                                    </button>
                                 </div>
 
 
@@ -413,4 +413,3 @@
         </div>
     </div>
 </div>
-

@@ -18,7 +18,7 @@ import { TimeSheetService } from 'src/app/services/timesheet.service';
 export class TaskComponent implements OnInit {
 
   id = 0;
-  actionInfo = 0;
+  actionInfo = 1;
   form: FormGroup;
   routeParams: any;
   pageTitle: string;

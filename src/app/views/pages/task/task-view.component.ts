@@ -56,7 +56,6 @@ export class TaskViewComponent implements OnInit {
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
-    private taskservice : TaskService
 
   ) { }
   ngOnInit(): void {
