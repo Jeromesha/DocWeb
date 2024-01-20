@@ -101,6 +101,7 @@ export class TimesheetgridComponent implements OnInit {
 
   gettimesheet(userId: any) {
     debugger
+    this.loading = true;
     this.timesheetService.getTimesheet(userId, true).subscribe((res) => {
       if (res) {
         this.loading = false;
@@ -243,6 +244,7 @@ export class TimesheetgridComponent implements OnInit {
                 }
               });
             }
+            this.loading=false;
           }
         })
       }

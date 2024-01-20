@@ -52,7 +52,7 @@ export class TimeSheetService {
 
     delete(id: number) {
         debugger
-        return this.dataService.delete('/api/timesheet/deletetimesheetbyid/' + id).map(response => {
+        return this.dataService.post('/api/timesheet/deletetimesheetbyid/' + id,true).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });

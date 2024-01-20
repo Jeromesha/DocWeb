@@ -102,6 +102,7 @@ export class TimesheetComponent implements OnInit {
   formatdate: any;
   editTrue: Boolean = false;
   View: boolean = false;
+  loading:boolean=false;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -492,6 +493,7 @@ export class TimesheetComponent implements OnInit {
 
 
   onSubmitInEdit() {
+    this.loading=true;
     debugger
     debugger
     const timesheetData =
@@ -516,6 +518,7 @@ export class TimesheetComponent implements OnInit {
     }
     this.timesheetService.savetimsheet(data).subscribe(result => {
       debugger
+      this.loading=false;
       console.log('ta', result);
       if (result && result.isSuccess) {
         if (this.actionInfo == 0) {
@@ -550,12 +553,14 @@ export class TimesheetComponent implements OnInit {
   onSubmit() {
     debugger
     if (this.list.length > 0) {
+      this.loading= true;
       let data = {
         timesheets: this.datalist
       }
       debugger
 
       this.timesheetService.savetimsheet(data).subscribe(result => {
+        this.loading=false;
         if (result && result.isSuccess) {
           this._location.back();
           this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");

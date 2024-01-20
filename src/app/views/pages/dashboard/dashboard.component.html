@@ -1,4 +1,4 @@
-<!-- <div class="back-ground"></div> -->
+<!-- 
 <form [formGroup]="form">
     <div class="row" style="display: flex; justify-content: center; align-items: center;">
         <div class="form-group">
@@ -38,8 +38,6 @@
                 <h2 style="text-align: center;
                                 color:#fd2323;
                 margin-top: 24px;">{{dashboardlist?.StartTime||'00:00'}}</h2>
-                <!-- <p style="text-align: center;
-                color: #add8e6;  margin-top: 24px;">06:00</p> -->
             </span>
         </div>
     </div>
@@ -99,7 +97,6 @@
     <div class="col-md-12 col-sm-12 col-lg-6 card" style="border-radius: 25px">
         <div class="">
             <h4>Time Chart</h4>
-            <!-- <img src="../../assets/testimg/DoughnutChart.png"> -->
         </div>
         <div id="chart" *ngIf="display">
             <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [labels]="chartOptions?.labels"
@@ -118,7 +115,6 @@
             <h4>Working Hours(Avg)</h4>
         </div>
         <div [ngClass]="displaygrid ? 'show' : 'hide'">
-            <!-- <h5 class="mb-3 mb-md-0" style="text-align: left;">&nbsp;{{'Work Hours(Avg)' | translate}}</h5> -->
             <br>
             <div class="table-responsive">
                 <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
@@ -165,4 +161,12 @@
         </div>
 
     </div>
+</div> -->
+
+<!-- done for hide the dashboard  -->
+
+
+
+<div class="back-ground">
+    <img src="/../../assets/images/underground constration.svg">
 </div>

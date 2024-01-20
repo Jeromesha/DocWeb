@@ -101,16 +101,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     debugger;
-    this.UserId = this.usersessionService.userId();
-    this.timegrid(this.UserId, this.Databasedate);
-    this.timechamp(this.UserId, this.Databasedate);
-
-    // this.jData = [
-    //   { Name: 'John', ManDays: 5, WorkHoursAvg: 8 },
-    //   { Name: 'Alice', ManDays: 4, WorkHoursAvg: 7 },
-    //   { Name: 'Bob', ManDays: 6, WorkHoursAvg: 7.5 }
-    // ];
-    // this.dataSource = new MatTableDataSource(this.jData);
+    //done for hide the data
+    //this.UserId = this.usersessionService.userId();
+    //this.timegrid(this.UserId, this.Databasedate);
+    //this.timechamp(this.UserId, this.Databasedate);
+    //remove the command for dashboard works
     this.form = this.formBuilder.group({
       entryDate: this.currentDate
     });
