@@ -1,9 +1,20 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import * as CryptoJS from 'crypto-js';
+import * as forge from "node-forge";
 
 @Injectable()
 export class UserService {
+
+    publicKey: string = `-----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAruzidSHRz8Pk6wy/aw3z
+    U1lp+pB6BGU1LxsWGJMsJ2dRCks5+G3MBGttwOHwIMd42+PTy4tIwxBg3yI7yf2C
+    mOKz+7UaG/pVQII4HfRmMxN7K5W9lf6+GSnmCdxDBtWc/4/AtRNrwHkDHwwK6bPn
+    mysKZ9ymfxAT3MxKE9HpOUPaZzqqGEw7LbGW9nIWpAiBcbRTgvGRDsOuq4XVVDka
+    v8H06TRgFrUtJ1HffIdW4XDJ/hUbAtzD3sLwomH4o0cLv/gnntf6HZNs51axB5Ep
+    qIWXPSyHHd6Wi6Suij9/PDmrhTfOQSrrLrGxtOvchGO5H6IxGJJEhPYbozlGvJ90
+    iQIDAQAB
+    -----END PUBLIC KEY-----`;
 
     getEventRoute = '/api/user/';
     getVillageUserEventRoute = '/api/user';
@@ -104,13 +115,19 @@ export class UserService {
         //     oldPassword: btoa(oldEncryptKeyIv),
         //     userId: user.userId
         // };
+
+       
+        var rsa = forge.pki.publicKeyFromPem(this.publicKey);
+        var encryptedNewPassword = window.btoa(rsa.encrypt(user.newPassword));
+        var encryptedoldPassword = window.btoa(rsa.encrypt(user.oldPassword));
         const request = {
-            newPassword: user.newPassword,
-            oldPassword: user.oldPassword,
+            newPassword:encryptedNewPassword,
+            oldPassword:encryptedoldPassword,
             userId: user.userId
         };
-
-        return this.dataService.post('/api/user/changepassword', request).map(response => {
+        debugger
+        return this.dataService.post('/api/employee/changepassword', request).map(response => {
+            debugger
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });

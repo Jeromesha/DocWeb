@@ -88,7 +88,7 @@ export class ChangepasswordComponent implements OnInit {
               this.dialogRef.close(result);
             } else {
               if (result && result.failures) {
-                this.alertService.error(result.failures.toString());
+                this.alertService.error(result.failures.toString("Not Success"));
               }
             }
           });

@@ -1,6 +1,6 @@
 export const environment = {
-  apiBaseUrl: 'https://eazypmapi.xenovex.com',
-  //apiBaseUrl: 'https://localhost:7262',
+  //apiBaseUrl: 'https://eazypmapi.xenovex.com',
+  apiBaseUrl: 'http://localhost:5000',
 
 
   tokenEndPoint: "/api/token",

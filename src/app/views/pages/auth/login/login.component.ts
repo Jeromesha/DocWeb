@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
             this.alertService.error(res.failures[0]);
         }
         else if (res) {
-          if (res.issystem_generated == true) {
+          if (res.IsSystem_Password == true) {
             this.openChangePasswordDialog();
             this.loading = false;
 

@@ -43,6 +43,7 @@ export class DataService {
   }
 
   post(route, data) {
+    debugger
     return this.http.post<any>(this.baseUrl + route, data);
   }
 
