@@ -134,6 +134,7 @@ export class LoginComponent implements OnInit {
 
     })
     dialogRef.afterClosed().subscribe(data => {
+      debugger
       if (data.isSuccess) {
         this.userIdle.onTimerStart().subscribe(count => {
         });

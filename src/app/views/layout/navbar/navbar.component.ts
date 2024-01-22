@@ -182,8 +182,10 @@ export class NavbarComponent implements OnInit {
 
     })
     dialogRef.afterClosed().subscribe(data => {
+      if (data){
       this.authService.logOut();
       this.navigationService.goToLogin();
+    }
     });
   }
 
