@@ -671,6 +671,7 @@ export class TimesheetComponent implements OnInit {
       this.projecttypelist = [];
       this.projecttypelist = this.Leavetasklist;
       this.filterprojecttypelist = this.projecttypelist;
+      this.form.controls["hours"].setValue("08:00");
     }
     else if (option === 2) {
       debugger
