@@ -38,7 +38,8 @@ export class TimesheetComponent implements OnInit {
 
   formData =
     {
-      entryDate: moment().toDate(),
+      entryDate: moment().startOf('day').toDate(),
+
     }
 
   dataSource = new MatTableDataSource(this.list);
@@ -255,6 +256,9 @@ export class TimesheetComponent implements OnInit {
 
       this.disabled = true;
       this.form.controls["hours"].setValue("00:00");
+      console.log(tempedate.projectId,"pro ID ")
+      this.form.controls["projectId"].setValue(tempedate.projectId);
+      debugger
     }
     else {
       this.validateFormControl();
@@ -733,6 +737,7 @@ export class TimesheetComponent implements OnInit {
     this.projecttypelist = [];
     this.projecttypelist = this.Normaltasklist;
     this.filterprojecttypelist = this.projecttypelist;
+    this.GetdefaultProject();
   }
 
 
