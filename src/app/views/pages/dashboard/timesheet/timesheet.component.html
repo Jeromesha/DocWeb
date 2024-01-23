@@ -115,9 +115,11 @@
                                             <div class="form-group">
                                                 <label class="mandatory">{{'Hours' | translate}}
                                                 </label>
+                                                <fieldset [disabled]=" actionInfo == 11 || View || form.value.IsLeave === 1">
                                                 <input type="time" class="form-control" formControlName="hours"
-                                                    [disabled]="View || form.value.IsLeave === 1"
+                                                    
                                                     (dateTimeInput)="timeChange()">
+                                                </fieldset>
                                                 <!-- <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time> -->
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
@@ -129,6 +131,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                  
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description' | translate}}</label>
