@@ -5,10 +5,10 @@
 
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 2 && id == 0">&nbsp;{{'Add TimeSheet' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 11 ">&nbsp;{{' View TimeSheet' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 2 && id != 0">&nbsp;{{'Edit TimeSheet' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 10">&nbsp;{{'Edit TimeSheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 2 && id == 0">&nbsp;{{'Add Timesheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 11 ">&nbsp;{{' View Timesheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 2 && id != 0">&nbsp;{{'Edit Timesheet' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 10">&nbsp;{{'Edit Timesheet' | translate}}</h4>
     </div>
 </div>
 <div class="row text-left">
@@ -135,7 +135,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory ">{{'Remarks' | translate}}</label>
+                                                <label class="mandatory ">{{'Task Description' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
                                                     formControlName="description" placeholder="Remarks"
                                                     autocomplete="off"
@@ -215,7 +215,7 @@
         </ng-container>
 
         <ng-container matColumnDef="Remarks">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="remarks">{{'Remarks' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="remarks">{{'Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
