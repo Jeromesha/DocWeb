@@ -38,7 +38,7 @@ export class TimesheetComponent implements OnInit {
 
   formData =
     {
-      entryDate: null,
+      entryDate: moment().toDate(),
     }
 
   dataSource = new MatTableDataSource(this.list);
@@ -103,6 +103,7 @@ export class TimesheetComponent implements OnInit {
   editTrue: Boolean = false;
   View: boolean = false;
   loading:boolean=false;
+  editMode: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -163,7 +164,7 @@ export class TimesheetComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.formentry = this.formBuilder.group(
       {
-        entryDate: ['', Validators.required],
+        entryDate: [this.formData.entryDate, Validators.required],
         hours: ['', Validators.required],
         description: ['', Validators.required],
         projectId: ['', Validators.required],
@@ -377,7 +378,8 @@ export class TimesheetComponent implements OnInit {
           this.GetTaskType();
           this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate())
           if (this.data.isLeave == true) {
-            this.form.controls['IsLeave'].setValue(true);
+            debugger
+            this.form.controls['IsLeave'].setValue(1);
             // this.isLeave = false
           }
           else{
@@ -459,6 +461,7 @@ export class TimesheetComponent implements OnInit {
     debugger
     console.log('edit data', dataField)
     //this.editTrue = editTrue;
+    // this.editMode = editTrue;
     this.form.patchValue(dataField);
     if (this.actionInfo == 2) {
       this.form.controls['hours'].setValue(dataField.hours);
@@ -632,13 +635,22 @@ export class TimesheetComponent implements OnInit {
     if (option === 1) {
       debugger
       this.form.patchValue({ IsLeave: 1 });
-      //this.rowCount = 1;
+      this.form.controls['projectId'].setValue(142);
+      this.form.controls['taskTypeId'].setValue(null);
+      this.form.get('taskTypeId').clearValidators();
+      this.form.get('taskTypeId').updateValueAndValidity();
       this.projecttypelist=[];
       this.projecttypelist = this.Leavetasklist;
       this.filterprojecttypelist = this.projecttypelist;
     } 
     else if (option === 2) {
       debugger
+      this.form.controls['projectId'].setValue(null);
+      this.form.controls['description'].setValue('')
+      this.form.get('projectId').clearValidators();
+      this.form.get('description').clearValidators();
+      this.form.get('projectId').updateValueAndValidity();
+      this.form.get('description').updateValueAndValidity();
       this.form.patchValue({ IsLeave: 2 });
       this.projecttypelist = this.Normaltasklist;
       this.filterprojecttypelist = this.projecttypelist;
