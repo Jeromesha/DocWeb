@@ -19,7 +19,7 @@
                     <div class="px-3">
                         <form [formGroup]="form" class="form form-horizontal" novalidate>
                             <div class="form-body pt-2">
-                                <fieldset [disabled]="actionInfo == 1">
+                                <fieldset [disabled]="actionInfo == 11">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -115,13 +115,10 @@
                                             <div class="form-group">
                                                 <label class="mandatory">{{'Hours' | translate}}
                                                 </label>
-                                                <input type="text" class="form-control" formControlName="hours"
+                                                <input type="time" class="form-control" formControlName="hours"
                                                     [disabled]="View || form.value.IsLeave === 1"
-                                                    [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
                                                     (dateTimeInput)="timeChange()">
-
-
-                                                <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+                                                <!-- <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time> -->
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
                                                     text-wrap>
@@ -134,19 +131,18 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory ">{{form.value.IsLeave === 1 ? 'Leave
-                                                    Description' : 'Task Description' | translate}}</label>
+                                                <label class="mandatory ">{{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
-                                                    formControlName="description" placeholder="Remarks"
-                                                    autocomplete="off" [readOnly]="View">
+                                                    formControlName="description" placeholder="Task Description"
+                                                    autocomplete="off"
+                                                    [readOnly]="View">
                                                 </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
                                                     text-wrap>
                                                     <span *ngIf="form.controls.description.errors?.required"
                                                         class="form-text text-muted danger mandatory">
-                                                        {{form.value.IsLeave === 1 ? 'Leave Description' : 'Task
-                                                        Description' | translate}} {{'IsRequired' |
+                                                        {{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description' | translate}} {{'IsRequired' |
                                                         translate}}</span>
 
                                                 </div>
@@ -209,7 +205,7 @@
                     <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-container>
                 <ng-template #formattedHoursTemplate>
-                    <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours | date:'HH:mm' }}</p>
+                    <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-template>
             </mat-cell>
         </ng-container>
