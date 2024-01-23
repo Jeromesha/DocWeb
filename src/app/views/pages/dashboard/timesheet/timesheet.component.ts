@@ -92,8 +92,8 @@ export class TimesheetComponent implements OnInit {
   disabled: boolean = false;
   rowCount: number = 0;
   private isLeaveValue: number;
-  Normaltasklist: any[]=[];
-  Leavetasklist: any[]=[];
+  Normaltasklist: any[] = [];
+  Leavetasklist: any[] = [];
 
   formentry: any;
   date: any;
@@ -102,7 +102,8 @@ export class TimesheetComponent implements OnInit {
   formatdate: any;
   editTrue: Boolean = false;
   View: boolean = false;
-  loading:boolean=false;
+  loading: boolean = false;
+  public dateTime3: any;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -158,6 +159,7 @@ export class TimesheetComponent implements OnInit {
 
     //this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
     this.form.controls["entryDate"].setValue(this.date);
+    this.form.controls["hours"].setValue("00:00");
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -190,14 +192,16 @@ export class TimesheetComponent implements OnInit {
     if (this.form.valid) {
 
       const formData = this.form.value;
-
+      const timeInput = this.form.value.hours;
+      const calculatedHours = moment.duration(timeInput).asMinutes();
       const projectData = this.filterSortList.find(x => x.key === formData.projectId);
+      formData.hours = calculatedHours
       formData.project = projectData ? projectData.value : null;
       this.temproraryList.push(formData);
       let sum = 0;
       this.temproraryList.forEach(i => {
         let hours = i.hours;
-        hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
+        //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
         sum += hours;
       })
       sum = sum / 60;
@@ -208,14 +212,27 @@ export class TimesheetComponent implements OnInit {
       }
       this.isLeaveValue = formData.IsLeave;
 
-      const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0 };
+      const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0, };
       console.log('tempdate', tempedate);
       this.list.push(tempedate);
 
-      this.dataSource.data = this.list;
+
+      for (let item of this.list) {
+        debugger
+        const convertedData = this.list.map(entry => ({
+          ...entry,
+          hours: this.convertMinutesToHHMM(entry.hours)
+        }));
+        this.dataSource.data = convertedData;
+      }
+
+
+      
       this.datalist = this.list.map(item => ({
         entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-        hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
+        //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
+        //hours:moment.duration(item.hours).asMinutes(),
+        hours: item.hours,
         description: item.description,
         projectId: item.projectId,
         taskId: 0,
@@ -225,7 +242,7 @@ export class TimesheetComponent implements OnInit {
         timeIn: null,
         timeOut: null,
         taskStatusId: 0,
-        taskTypeId:item.taskTypeId,
+        taskTypeId: item.taskTypeId,
         approvedStatusType: 1,
       }));
       this.date = this.datalist[0].entryDate;
@@ -235,6 +252,7 @@ export class TimesheetComponent implements OnInit {
       });
 
       this.disabled = true;
+      this.form.controls["hours"].setValue("00:00");
     }
     else {
       this.validateFormControl();
@@ -336,8 +354,8 @@ export class TimesheetComponent implements OnInit {
     this.timesheetService.getLookup(13, true).subscribe(result => {
       const keysToGroupOne: number[] = [16, 21, 22];
       debugger;
-      this.Leavetasklist=[];
-      this.Normaltasklist=[];
+      this.Leavetasklist = [];
+      this.Normaltasklist = [];
       result.forEach(item => {
         if (keysToGroupOne.includes(item.key)) {
           this.Leavetasklist.push(item);
@@ -345,19 +363,19 @@ export class TimesheetComponent implements OnInit {
           this.Normaltasklist.push(item);
         }
       });
-      this.projecttypelist=[];
+      this.projecttypelist = [];
       this.projecttypelist = this.Normaltasklist;
       console.log("task type", result);
       this.filterprojecttypelist = this.projecttypelist;
-      if(this.actionInfo==11 || this.id>0){
-        this.projecttypelist=[];
+      if (this.actionInfo == 11 || this.id > 0) {
+        this.projecttypelist = [];
         this.projecttypelist = result;
         this.filterprojecttypelist = this.projecttypelist;
       }
     });
   }
-  
-  
+
+
 
   get(refresh: boolean) {
     debugger
@@ -375,15 +393,16 @@ export class TimesheetComponent implements OnInit {
           this.form.patchValue(this.data);
           this.Getproject();
           this.GetTaskType();
-          this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate())
+          //this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate())
+          this.form.controls['hours'].setValue(formattedHours);
           if (this.data.isLeave == true) {
             this.form.controls['IsLeave'].setValue(true);
             // this.isLeave = false
           }
-          else{
+          else {
             this.form.controls['IsLeave'].setValue(2);
           }
-         
+
 
         }
       });
@@ -464,14 +483,15 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['hours'].setValue(dataField.hours);
     }
     else {
-      this.form.controls['hours'].setValue(moment().startOf('day').add(dataField.hours, 'hours').toDate());
+      // this.form.controls['hours'].setValue(moment().startOf('day').add(dataField.hours, 'hours').toDate());
+      this.form.controls['hours'].setValue(dataField.hours);
     }
     this.Getproject();
     this.GetTaskType();
     if (dataField.isLeave == true) {
       this.form.controls['IsLeave'].setValue(true);
     }
-    else{
+    else {
       this.form.controls['IsLeave'].setValue(2);
     }
   }
@@ -493,14 +513,16 @@ export class TimesheetComponent implements OnInit {
 
 
   onSubmitInEdit() {
-    this.loading=true;
+    this.loading = true;
     debugger
-    debugger
+    const timeInput = this.form.value.hours;
+    const calculatedHours = moment.duration(timeInput).asMinutes();
     const timesheetData =
     {
       id: this.form.value.id,
       entryDate: moment(this.form.value.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-      hours: parseInt(moment(this.form.value.hours).format("HH")) * 60 + parseInt(moment(this.form.value.hours).format("mm")),
+      //hours: parseInt(moment(this.form.value.hours).format("HH")) * 60 + parseInt(moment(this.form.value.hours).format("mm")),
+      hours: calculatedHours,
       description: this.form.value.description,
       projectId: this.form.value.projectId,
       taskTypeId: this.form.value.taskTypeId,
@@ -518,7 +540,7 @@ export class TimesheetComponent implements OnInit {
     }
     this.timesheetService.savetimsheet(data).subscribe(result => {
       debugger
-      this.loading=false;
+      this.loading = false;
       console.log('ta', result);
       if (result && result.isSuccess) {
         if (this.actionInfo == 0) {
@@ -553,14 +575,14 @@ export class TimesheetComponent implements OnInit {
   onSubmit() {
     debugger
     if (this.list.length > 0) {
-      this.loading= true;
+      this.loading = true;
       let data = {
         timesheets: this.datalist
       }
       debugger
 
       this.timesheetService.savetimsheet(data).subscribe(result => {
-        this.loading=false;
+        this.loading = false;
         if (result && result.isSuccess) {
           this._location.back();
           this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
@@ -633,10 +655,10 @@ export class TimesheetComponent implements OnInit {
       debugger
       this.form.patchValue({ IsLeave: 1 });
       //this.rowCount = 1;
-      this.projecttypelist=[];
+      this.projecttypelist = [];
       this.projecttypelist = this.Leavetasklist;
       this.filterprojecttypelist = this.projecttypelist;
-    } 
+    }
     else if (option === 2) {
       debugger
       this.form.patchValue({ IsLeave: 2 });
@@ -685,6 +707,7 @@ export class TimesheetComponent implements OnInit {
     this.form.controls['taskTypeId'].setValue('');
     this.form.controls['hours'].clearValidators();
     this.form.controls['hours'].setValue('');
+    this.form.controls["hours"].setValue("00:00");
     //   this.form.controls['hours'].updateValueAndValidity();
     this.form.controls['description'].clearValidators();
     this.form.controls['description'].setValue('');
@@ -692,7 +715,7 @@ export class TimesheetComponent implements OnInit {
     this.editTrue = false;
     this.id = 0;
     this.isLeave = true;
-    this.projecttypelist=[];
+    this.projecttypelist = [];
     this.projecttypelist = this.Normaltasklist;
     this.filterprojecttypelist = this.projecttypelist;
   }
