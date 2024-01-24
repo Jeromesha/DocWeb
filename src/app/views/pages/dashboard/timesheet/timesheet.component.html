@@ -173,7 +173,7 @@
                                         type="submit" (click)="onAdd()">
                                         <i class="btn-icon-prepend fa fa-plus"></i> {{'Add' | translate}}
                                     </button>
-                                    <button *ngIf="actionInfo==0 || editTrue"
+                                    <button *ngIf="actionInfo==0 || editTrue "
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onSubmitInEdit()" disable="true">
                                         <i class="fa fa-save"></i>
@@ -189,7 +189,7 @@
     </div>
 </div>
 <br>
-<div class="table-responsive" *ngIf="actionInfo!=0">
+<div class="table-responsive" *ngIf="actionInfo!=0 && leavedisable">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
         <ng-container matColumnDef="entryDate">
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Date'|translate}}

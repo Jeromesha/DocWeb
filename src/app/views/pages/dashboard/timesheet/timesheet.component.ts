@@ -107,6 +107,7 @@ export class TimesheetComponent implements OnInit {
   editMode: boolean = false;
   // loading: boolean = false;
   public dateTime3: any;
+  leavedisable:boolean=true;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -253,12 +254,11 @@ export class TimesheetComponent implements OnInit {
         entryDate: this.formData.entryDate,
         IsLeave: this.isLeaveValue
       });
-
+      this.onbtnClick(2);
       this.disabled = true;
       this.form.controls["hours"].setValue("00:00");
       console.log(tempedate.projectId,"pro ID ")
       this.form.controls["projectId"].setValue(tempedate.projectId);
-      debugger
     }
     else {
       this.validateFormControl();
@@ -283,9 +283,17 @@ export class TimesheetComponent implements OnInit {
   }
   sortingChange(event) {
     debugger
-    if (event.value != null) {
-      this.showdescription = true;
+    if(event.value==16){
+      this.form.controls["hours"].setValue("08:00");
+      this.leavedisable=false;
+      this.editTrue=true;
     }
+    else if (event.value == 21 ||event.value==22) {
+      this.form.controls["hours"].setValue("04:00");
+      this.leavedisable=true;
+      this.editTrue=false;
+    }
+   
 
 
   }
@@ -556,6 +564,7 @@ export class TimesheetComponent implements OnInit {
           this.alertService.success("Time Sheet Updated Successfully");
         }
         else {
+          this._location.back();
           this.form.reset();
           this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
           this.getgrid(this.UserId, true);
@@ -672,6 +681,14 @@ export class TimesheetComponent implements OnInit {
       this.projecttypelist = this.Leavetasklist;
       this.filterprojecttypelist = this.projecttypelist;
       this.form.controls["hours"].setValue("08:00");
+
+      this.editTrue=true;
+      if(this.temproraryList.length>0){
+        this.leavedisable=true;
+      }
+      else{
+        this.leavedisable=false;
+      }
     }
     else if (option === 2) {
       debugger
@@ -684,6 +701,9 @@ export class TimesheetComponent implements OnInit {
       this.form.patchValue({ IsLeave: 2 });
       this.projecttypelist = this.Normaltasklist;
       this.filterprojecttypelist = this.projecttypelist;
+      this.GetdefaultProject();
+      this.leavedisable=true;
+      this.editTrue=false;
     }
   }
 
