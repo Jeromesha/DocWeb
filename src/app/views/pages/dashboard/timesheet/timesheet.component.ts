@@ -196,6 +196,7 @@ export class TimesheetComponent implements OnInit {
 
         const formData = this.form.value;
         const timeInput = this.form.value.hours;
+        this.form.controls["hours"].setErrors(null);
         const calculatedHours = moment.duration(timeInput).asMinutes();
         const projectData = this.filterSortList.find(x => x.key === formData.projectId);
         formData.hours = calculatedHours
@@ -264,7 +265,8 @@ export class TimesheetComponent implements OnInit {
         this.validateFormControl();
       }
     }else{
-      this.alertService.error('Select Your Time ')
+      this.validateFormControl();
+      this.form.controls["hours"].setErrors({ required: true });
     }
    
   }
@@ -451,6 +453,7 @@ export class TimesheetComponent implements OnInit {
           //this.list.push(convertedData);
           if (this.actionInfo == 11) {
             this.dataSource.data = convertedData;
+            this.editData(this.dataSource.data[0],false)
           }
           //this.list=convertedData;
           //this.dataSource.data = this.list;
@@ -680,6 +683,7 @@ export class TimesheetComponent implements OnInit {
     else if (option === 2) {
       debugger
       this.form.controls['projectId'].setValue(null);
+      this.form.controls['hours'].setValue("00:00");
       this.form.controls['description'].setValue('')
       this.form.get('projectId').clearValidators();
       this.form.get('description').clearValidators();
