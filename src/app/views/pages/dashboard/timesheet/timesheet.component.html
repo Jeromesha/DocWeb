@@ -195,7 +195,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Date'|translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.entryDate |date:'dd-MM-yyyy'}}</p>
+                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{dataField.entryDate |date:'dd-MM-yyyy'}}</p>
             </mat-cell>
         </ng-container>
 
@@ -205,10 +205,10 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <ng-container *ngIf="dataField.id!=0; else formattedHoursTemplate">
-                    <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
+                    <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-container>
                 <ng-template #formattedHoursTemplate>
-                    <p class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
+                    <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-template>
             </mat-cell>
         </ng-container>
@@ -217,7 +217,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="remarks">{{'Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
+                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
             </mat-cell>
         </ng-container>
 
@@ -225,7 +225,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{'Project Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
+                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
             </mat-cell>
         </ng-container>
 

@@ -103,11 +103,11 @@ export class TimesheetComponent implements OnInit {
   formatdate: any;
   editTrue: Boolean = false;
   View: boolean = false;
-  loading:boolean=false;
+  loading: boolean = false;
   editMode: boolean = false;
   // loading: boolean = false;
   public dateTime3: any;
-  leavedisable:boolean=true;
+  leavedisable: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -193,45 +193,79 @@ export class TimesheetComponent implements OnInit {
     //   this.form.controls["taskTypeId"].clearValidators();
     //   this.form.controls["taskTypeId"].updateValueAndValidity();
     // }
-    if (this.form.valid) {
+    if (this.form.value.hours != "00:00") {
+      if (this.form.valid) {
 
-      const formData = this.form.value;
-      const timeInput = this.form.value.hours;
-      const calculatedHours = moment.duration(timeInput).asMinutes();
-      const projectData = this.filterSortList.find(x => x.key === formData.projectId);
-      formData.hours = calculatedHours
-      formData.project = projectData ? projectData.value : null;
-      this.temproraryList.push(formData);
-      let sum = 0;
-      this.temproraryList.forEach(i => {
-        let hours = i.hours;
-        //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
-        sum += hours;
-      })
-      sum = sum / 60;
-      if (sum > 24) {
-        this.alertService.warning("Work time is exceeded more than 24 hours");
-        this.temproraryList.pop();
-        return;
-      }
-      this.isLeaveValue = formData.IsLeave;
+        const formData = this.form.value;
+        const timeInput = this.form.value.hours;
+        this.form.controls["hours"].setErrors(null);
+        const calculatedHours = moment.duration(timeInput).asMinutes();
+        const projectData = this.filterSortList.find(x => x.key === formData.projectId);
+        formData.hours = calculatedHours
+        formData.project = projectData ? projectData.value : null;
+        this.temproraryList.push(formData);
+        let sum = 0;
+        this.temproraryList.forEach(i => {
+          let hours = i.hours;
+          //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
+          sum += hours;
+        })
+        sum = sum / 60;
+        if (sum > 24) {
+          this.alertService.warning("Work time is exceeded more than 24 hours");
+          this.temproraryList.pop();
+          return;
+        }
+        this.isLeaveValue = formData.IsLeave;
 
-      const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0, };
-      console.log('tempdate', tempedate);
-      this.list.push(tempedate);
+        const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0, };
+        console.log('tempdate', tempedate);
+        this.list.push(tempedate);
 
 
-      for (let item of this.list) {
-        debugger
-        const convertedData = this.list.map(entry => ({
-          ...entry,
-          hours: this.convertMinutesToHHMM(entry.hours)
+        for (let item of this.list) {
+          debugger
+          const convertedData = this.list.map(entry => ({
+            ...entry,
+            hours: this.convertMinutesToHHMM(entry.hours)
+          }));
+          this.dataSource.data = convertedData;
+        }
+
+
+
+        this.datalist = this.list.map(item => ({
+          entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+          //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
+          //hours:moment.duration(item.hours).asMinutes(),
+          hours: item.hours,
+          description: item.description,
+          projectId: item.projectId,
+          taskId: 0,
+          //employeeId: item.EmployeeId,
+          employeeId: this.userSessionService.userId(),
+          isLeave: item.IsLeave == 1 ? true : false,
+          timeIn: null,
+          timeOut: null,
+          taskStatusId: 0,
+          taskTypeId: item.taskTypeId,
+          approvedStatusType: 1,
         }));
-        this.dataSource.data = convertedData;
+        this.date = this.datalist[0].entryDate;
+        this.form.reset({
+          entryDate: this.formData.entryDate,
+          IsLeave: this.isLeaveValue
+        });
+
+        this.disabled = true;
+        this.form.controls["hours"].setValue("00:00");
+        console.log(tempedate.projectId, "pro ID ")
+        this.form.controls["projectId"].setValue(tempedate.projectId);
+        debugger
       }
 
 
-      
+
       this.datalist = this.list.map(item => ({
         entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
         //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
@@ -257,12 +291,12 @@ export class TimesheetComponent implements OnInit {
       this.onbtnClick(2);
       this.disabled = true;
       this.form.controls["hours"].setValue("00:00");
-      console.log(tempedate.projectId,"pro ID ")
-      this.form.controls["projectId"].setValue(tempedate.projectId);
     }
     else {
       this.validateFormControl();
+      this.form.controls["hours"].setErrors({ required: true });
     }
+
   }
 
 
@@ -283,17 +317,17 @@ export class TimesheetComponent implements OnInit {
   }
   sortingChange(event) {
     debugger
-    if(event.value==16){
+    if (event.value == 16) {
       this.form.controls["hours"].setValue("08:00");
-      this.leavedisable=false;
-      this.editTrue=true;
+      this.leavedisable = false;
+      this.editTrue = true;
     }
-    else if (event.value == 21 ||event.value==22) {
+    else if (event.value == 21 || event.value == 22) {
       this.form.controls["hours"].setValue("04:00");
-      this.leavedisable=true;
-      this.editTrue=false;
+      this.leavedisable = true;
+      this.editTrue = false;
     }
-   
+
 
 
   }
@@ -455,6 +489,7 @@ export class TimesheetComponent implements OnInit {
           //this.list.push(convertedData);
           if (this.actionInfo == 11) {
             this.dataSource.data = convertedData;
+            this.editData(this.dataSource.data[0], false)
           }
           //this.list=convertedData;
           //this.dataSource.data = this.list;
@@ -675,24 +710,25 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['taskTypeId'].setValue(null);
       this.form.get('taskTypeId').clearValidators();
       this.form.get('taskTypeId').updateValueAndValidity();
-      this.projecttypelist=[];
+      this.projecttypelist = [];
       //this.rowCount = 1;
       this.projecttypelist = [];
       this.projecttypelist = this.Leavetasklist;
       this.filterprojecttypelist = this.projecttypelist;
       this.form.controls["hours"].setValue("08:00");
 
-      this.editTrue=true;
-      if(this.temproraryList.length>0){
-        this.leavedisable=true;
+      this.editTrue = true;
+      if (this.temproraryList.length > 0) {
+        this.leavedisable = true;
       }
-      else{
-        this.leavedisable=false;
+      else {
+        this.leavedisable = false;
       }
     }
     else if (option === 2) {
       debugger
       this.form.controls['projectId'].setValue(null);
+      this.form.controls['hours'].setValue("00:00");
       this.form.controls['description'].setValue('')
       this.form.get('projectId').clearValidators();
       this.form.get('description').clearValidators();
@@ -702,8 +738,8 @@ export class TimesheetComponent implements OnInit {
       this.projecttypelist = this.Normaltasklist;
       this.filterprojecttypelist = this.projecttypelist;
       this.GetdefaultProject();
-      this.leavedisable=true;
-      this.editTrue=false;
+      this.leavedisable = true;
+      this.editTrue = false;
     }
   }
 
