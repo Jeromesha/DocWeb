@@ -107,7 +107,6 @@ export class TimesheetComponent implements OnInit {
   editMode: boolean = false;
   // loading: boolean = false;
   public dateTime3: any;
-
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
     route: ActivatedRoute,
@@ -192,77 +191,82 @@ export class TimesheetComponent implements OnInit {
     //   this.form.controls["taskTypeId"].clearValidators();
     //   this.form.controls["taskTypeId"].updateValueAndValidity();
     // }
-    if (this.form.valid) {
+    if(this.form.value.hours != "00:00"){
+      if (this.form.valid) {
 
-      const formData = this.form.value;
-      const timeInput = this.form.value.hours;
-      const calculatedHours = moment.duration(timeInput).asMinutes();
-      const projectData = this.filterSortList.find(x => x.key === formData.projectId);
-      formData.hours = calculatedHours
-      formData.project = projectData ? projectData.value : null;
-      this.temproraryList.push(formData);
-      let sum = 0;
-      this.temproraryList.forEach(i => {
-        let hours = i.hours;
-        //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
-        sum += hours;
-      })
-      sum = sum / 60;
-      if (sum > 24) {
-        this.alertService.warning("Work time is exceeded more than 24 hours");
-        this.temproraryList.pop();
-        return;
-      }
-      this.isLeaveValue = formData.IsLeave;
-
-      const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0, };
-      console.log('tempdate', tempedate);
-      this.list.push(tempedate);
-
-
-      for (let item of this.list) {
-        debugger
-        const convertedData = this.list.map(entry => ({
-          ...entry,
-          hours: this.convertMinutesToHHMM(entry.hours)
+        const formData = this.form.value;
+        const timeInput = this.form.value.hours;
+        const calculatedHours = moment.duration(timeInput).asMinutes();
+        const projectData = this.filterSortList.find(x => x.key === formData.projectId);
+        formData.hours = calculatedHours
+        formData.project = projectData ? projectData.value : null;
+        this.temproraryList.push(formData);
+        let sum = 0;
+        this.temproraryList.forEach(i => {
+          let hours = i.hours;
+          //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
+          sum += hours;
+        })
+        sum = sum / 60;
+        if (sum > 24) {
+          this.alertService.warning("Work time is exceeded more than 24 hours");
+          this.temproraryList.pop();
+          return;
+        }
+        this.isLeaveValue = formData.IsLeave;
+  
+        const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0, };
+        console.log('tempdate', tempedate);
+        this.list.push(tempedate);
+  
+  
+        for (let item of this.list) {
+          debugger
+          const convertedData = this.list.map(entry => ({
+            ...entry,
+            hours: this.convertMinutesToHHMM(entry.hours)
+          }));
+          this.dataSource.data = convertedData;
+        }
+  
+  
+        
+        this.datalist = this.list.map(item => ({
+          entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+          //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
+          //hours:moment.duration(item.hours).asMinutes(),
+          hours: item.hours,
+          description: item.description,
+          projectId: item.projectId,
+          taskId: 0,
+          //employeeId: item.EmployeeId,
+          employeeId: this.userSessionService.userId(),
+          isLeave: item.IsLeave == 1 ? true : false,
+          timeIn: null,
+          timeOut: null,
+          taskStatusId: 0,
+          taskTypeId: item.taskTypeId,
+          approvedStatusType: 1,
         }));
-        this.dataSource.data = convertedData;
+        this.date = this.datalist[0].entryDate;
+        this.form.reset({
+          entryDate: this.formData.entryDate,
+          IsLeave: this.isLeaveValue
+        });
+  
+        this.disabled = true;
+        this.form.controls["hours"].setValue("00:00");
+        console.log(tempedate.projectId,"pro ID ")
+        this.form.controls["projectId"].setValue(tempedate.projectId);
+        debugger
       }
-
-
-      
-      this.datalist = this.list.map(item => ({
-        entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-        //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
-        //hours:moment.duration(item.hours).asMinutes(),
-        hours: item.hours,
-        description: item.description,
-        projectId: item.projectId,
-        taskId: 0,
-        //employeeId: item.EmployeeId,
-        employeeId: this.userSessionService.userId(),
-        isLeave: item.IsLeave == 1 ? true : false,
-        timeIn: null,
-        timeOut: null,
-        taskStatusId: 0,
-        taskTypeId: item.taskTypeId,
-        approvedStatusType: 1,
-      }));
-      this.date = this.datalist[0].entryDate;
-      this.form.reset({
-        entryDate: this.formData.entryDate,
-        IsLeave: this.isLeaveValue
-      });
-
-      this.disabled = true;
-      this.form.controls["hours"].setValue("00:00");
-      console.log(tempedate.projectId,"pro ID ")
-      this.form.controls["projectId"].setValue(tempedate.projectId);
-      debugger
+      else {
+        this.validateFormControl();
+      }
+    }else{
+      this.alertService.error('Select Your Time ')
     }
-    else {
-      this.validateFormControl();
-    }
+   
   }
 
 
@@ -582,40 +586,40 @@ export class TimesheetComponent implements OnInit {
 
   onSubmit() {
     debugger
-    if (this.list.length > 0) {
-      this.loading = true;
-      let data = {
-        timesheets: this.datalist
-      }
-      debugger
-
-      this.timesheetService.savetimsheet(data).subscribe(result => {
-        this.loading = false;
-        if (result && result.isSuccess) {
-          this._location.back();
-          this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
-
+      if (this.list.length > 0) {
+        this.loading = true;
+        let data = {
+          timesheets: this.datalist
         }
-        else {
-          if (result.failures == "test1") {
-            this.alertService.warning("Your time limit is exeed for this particular date, so you are not able to add value");
-            this.temproraryList.pop();
-          }
-          else if (result.failures == "test2") {
-            this.alertService.warning("You already entered as Present for this particular date, so you are not able to add value as leave");
-            this.temproraryList.pop();
+        debugger
+  
+        this.timesheetService.savetimsheet(data).subscribe(result => {
+          this.loading = false;
+          if (result && result.isSuccess) {
+            this._location.back();
+            this.alertService.success(this.id == 0 ? "Time Sheet Saved Successfully" : "Time Sheet Updated Successfully");
+  
           }
           else {
-            this.alertService.warning("You already entered as leave for this particular date, so you are not able to add value");
-            this.temproraryList.pop();
+            if (result.failures == "test1") {
+              this.alertService.warning("Your time limit is exeed for this particular date, so you are not able to add value");
+              this.temproraryList.pop();
+            }
+            else if (result.failures == "test2") {
+              this.alertService.warning("You already entered as Present for this particular date, so you are not able to add value as leave");
+              this.temproraryList.pop();
+            }
+            else {
+              this.alertService.warning("You already entered as leave for this particular date, so you are not able to add value");
+              this.temproraryList.pop();
+            }
           }
-        }
-
-      });
-    }
-    else {
-      this.validateFormControl();
-    }
+  
+        });
+      }
+      else {
+        this.validateFormControl();
+      } 
   }
 
   onCancel() {
