@@ -91,7 +91,7 @@
                                             <div class="form-group">
                                                 <label class="mandatory">{{form.value.IsLeave === 1 ? 'Leave Type' :
                                                     'Task Type' | translate}}</label>
-                                                <mat-select [disabled]="actionInfo == 1 || View" placeholder="Task Type"
+                                                <mat-select [disabled]="actionInfo == 1 || View" placeholder="{{form.value.IsLeave === 1 ? 'Leave Type' : 'Task Type'}}"
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="taskTypeId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2>
@@ -135,8 +135,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory ">{{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description' | translate}}</label>
-                                                <textarea type="text" class="form-control" maxlength="250"
-                                                    formControlName="description" placeholder="Task Description"
+                                                <textarea type="text" class="form-control" 
+                                                    formControlName="description" placeholder="{{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description'}}"
                                                     autocomplete="off"
                                                     [readOnly]="View">
                                                 </textarea>

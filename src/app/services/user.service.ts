@@ -78,7 +78,7 @@ export class UserService {
     }
 
     forgotpasswordUser(user: any) {
-        return this.dataService.post('/api/user/forgotpassword', user).map(response => {
+        return this.dataService.post('/api/employee/forgotpassword', user).map(response => {
             this.dataService.clearRouteCache(this.getEventRoute);
             return response;
         });

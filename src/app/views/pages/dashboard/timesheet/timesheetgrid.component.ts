@@ -300,7 +300,7 @@ export class TimesheetgridComponent implements OnInit {
         "Entry Date",
         "Project",
         "Hours",
-        "Remarks",
+        "Task Description",
       ];
 
       const excelList = [];
