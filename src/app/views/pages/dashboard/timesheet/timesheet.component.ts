@@ -413,7 +413,7 @@ export class TimesheetComponent implements OnInit {
       });
       this.projecttypelist = [];
       this.projecttypelist = this.Normaltasklist;
-      console.log("task type", result);
+
       this.filterprojecttypelist = this.projecttypelist;
       if (this.actionInfo == 11 || this.id > 0) {
         this.projecttypelist = [];
@@ -710,6 +710,24 @@ export class TimesheetComponent implements OnInit {
       this.form.controls['taskTypeId'].setValue(null);
       this.form.get('taskTypeId').clearValidators();
       this.form.get('taskTypeId').updateValueAndValidity();
+      if (this.temproraryList.length > 0) {
+        this.leavedisable = true;
+
+        const keysToGroupOne: number[] = [21, 22];
+        const tlist=[];
+        debugger;
+        
+        this.Leavetasklist.forEach(item => {
+          if (keysToGroupOne.includes(item.key)) {
+            tlist.push(item);
+          }
+        });
+        this.Leavetasklist = [];
+        this.Leavetasklist=tlist;
+      }
+      else {
+        this.leavedisable = false;
+      }
       this.projecttypelist = [];
       //this.rowCount = 1;
       this.projecttypelist = [];
@@ -718,12 +736,7 @@ export class TimesheetComponent implements OnInit {
       this.form.controls["hours"].setValue("08:00");
 
       this.editTrue = true;
-      if (this.temproraryList.length > 0) {
-        this.leavedisable = true;
-      }
-      else {
-        this.leavedisable = false;
-      }
+      
     }
     else if (option === 2) {
       debugger
@@ -795,6 +808,7 @@ export class TimesheetComponent implements OnInit {
     this.projecttypelist = this.Normaltasklist;
     this.filterprojecttypelist = this.projecttypelist;
     this.GetdefaultProject();
+    this.onbtnClick(2);
   }
 
 
