@@ -567,6 +567,7 @@ export class TimesheetComponent implements OnInit {
     this.loading = true;
     debugger
     const timeInput = this.form.value.hours;
+    if (timeInput !== "00:00"){
     const calculatedHours = moment.duration(timeInput).asMinutes();
     const timesheetData =
     {
@@ -620,7 +621,12 @@ export class TimesheetComponent implements OnInit {
 
 
     });
-    debugger;
+  }else {
+    this.validateFormControl();
+    this.form.controls["hours"].setErrors({ required: true });
+     this.loading = false;
+  }
+   
   }
 
 
