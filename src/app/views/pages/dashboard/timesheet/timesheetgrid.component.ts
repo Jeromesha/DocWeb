@@ -120,6 +120,9 @@ export class TimesheetgridComponent implements OnInit {
         });
         console.log(this.resultArray);
         this.resultArray = _.orderBy(this.resultArray, ['date'], ['desc']);
+        console.log(this.resultArray[0].date)
+        let nonEnterDate = moment(this.resultArray[0].date).format('YYYYMMDD') >= moment(new Date()).format('YYYYMMDD') ? moment(new Date()).format('YYYY-MM-DD') + "T00:00:00" : moment(this.resultArray[0].date, 'YYYY-MM-DD').add(1,'day').format('YYYY-MM-DD');
+        localStorage.setItem('nonEntryDate', nonEnterDate);
 
 
         this.dataSource = new MatTableDataSource(this.resultArray);

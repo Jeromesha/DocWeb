@@ -18,10 +18,10 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Employee Code' | translate}}</label>
                                             <input type="text" class="form-control" formControlName="empCode"
-                                                maxlength="4" [disabled]="disab"
+                                                maxlength="10" [disabled]="disab"
                                                 [ngClass]="{'disable':actionInfo == 1 || id > 0}"
                                                 placeholder="Employee Code" autocomplete="off"
-                                                onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122)"
                                                 inputText>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.empCode.errors && (form.controls.empCode.dirty || form.controls.empCode.touched)"
@@ -170,20 +170,20 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Mobile Number' | translate}}</label>
-                                            <input type="text" class="form-control " formControlName="mobile" onlyNumber
+                                            <input type="text" class="form-control " formControlName="mobile"
                                                 [ngClass]="{'disable':actionInfo == 1}" maxlength="10"
-                                                placeholder="Mobile Number" autocomplete="off" inputText>
+                                                placeholder="Mobile Number" autocomplete="off" pattern="[6-9][0-9]{0,9}" inputText >
                                             <div class="valid-error"
                                                 *ngIf="form.controls.mobile.errors && (form.controls.mobile.dirty || form.controls.mobile.touched)"
                                                 text-wrap>
                                                 <span *ngIf="form.controls.mobile.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'Mobile Number' | translate}} {{'IsRequired' | translate}}</span>
-                                                <span *ngIf="form.controls.mobile.errors?.pattern"
+                                                <!-- <span *ngIf="form.controls.mobile.errors?.pattern"
                                                     class="form-text danger mandatory">
                                                     {{ 'Mobile Number' | translate }} 
                                                     {{ 'must start with 6 to 9 & Maxinum 10 dight' |translate }}
-                                                </span>
+                                                </span> -->
                                             </div>
                                         </div>
                                     </div>

@@ -57,7 +57,7 @@ export class TimesheetComponent implements OnInit {
   id = 0;
   actionInfo = 0;
   form: FormGroup;
-  routeParams: any;
+    routeParams: any;
   pageTitle: string;
   submitbtn: string;
   filesResult: any;
@@ -134,6 +134,11 @@ export class TimesheetComponent implements OnInit {
     let formattedDate = (moment()).format('DD-MMM-YYYY HH:mm:ss')
     debugger
     if (this.id === 0) {
+      let nonEntryDate : any = localStorage.getItem('nonEntryDate') ? localStorage.getItem('nonEntryDate') : moment(new Date).format("YYYY-MM-DD");
+      while (moment(nonEntryDate).day() === 0 || moment(nonEntryDate).day() === 6) {
+        nonEntryDate = moment(nonEntryDate).add(1, 'day').format("YYYY-MM-DD");
+      }
+      this.formData.entryDate = nonEntryDate;
       this.submitbtn = 'Save';
     } else {
       this.submitbtn = 'Update';
