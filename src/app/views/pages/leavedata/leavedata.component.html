@@ -1,0 +1,106 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h4 class="mb-3 mb-md-0">&nbsp;{{'Add Leave Data' }}</h4>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body login-img">
+                    <div class="px-3">
+                        <form [formGroup]="form" class="form form-horizontal" novalidate>
+                            <div class="form-body pt-2">
+                                <fieldset>
+                                    <div class="row">
+
+                                        <!-- <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">{{'Choose the file'| translate}}</label>
+                                                <input type="file" class="form-control"
+                                                    formControlName="file"
+                                                    placeholder="{{'Choose  the File' | translate}}" autocomplete="off">
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.file.errors && (form.controls.file.dirty || form.controls.file.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.file.errors?.required"
+                                                        class="form-text  danger mandatory">
+                                                        {{'File' | translate}} {{'IsRequired' |
+                                                        translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- 
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">{{ 'Choose the file' | translate }}</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile"
+                                                        (change)="updateFileName($event)" formControlName="file">
+                                                    <label class="custom-file-label" for="customFile">
+                                                        <i class="fas fa-upload"></i> {{ 'Choose file' | translate }}
+                                                    </label>
+                                                </div>
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.file.errors && (form.controls.file.dirty || form.controls.file.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.file.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        {{ 'File' | translate }} {{ 'IsRequired' | translate }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">{{ 'Choose the files' | translate }}</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="customFile"
+                                                        multiple (change)="updateFileName($event)"
+                                                        formControlName="files">
+                                                    <label class="custom-file-label" for="customFile">
+                                                        <i class="fas fa-upload"></i> {{ 'Choose files' | translate }}
+                                                    </label>
+                                                </div>
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.files.errors && (form.controls.files.dirty || form.controls.files.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.files.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        {{ 'Files are required' | translate }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </fieldset>
+
+                                <div class="form-actions mb-2 mt-3" style="float: right;">
+
+                                    <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
+                                        (click)="onClear()">
+                                        <i class="btn-icon-prepend fa fa-refresh"></i>
+                                        {{'Clear' | translate}}
+                                    </button>
+                                    &nbsp;
+                                    <button
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" (click)="onSubmit()">
+                                        <i class="fa fa-save"></i>
+                                        {{'Upload' | translate}}
+                                    </button>
+                                    &nbsp;
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

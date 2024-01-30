@@ -92,6 +92,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/task/task.module").then((m) => m.TaskModule)
       },
+      {
+        path: "leavedata",
+        loadChildren: () =>
+          import("./../../views/pages/leavedata/leavedata.module").then((m) => m.LeavedataModule)
+      },
     ],
   },
 ];

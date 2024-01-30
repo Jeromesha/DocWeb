@@ -29,7 +29,9 @@
                                                         placeholder="Select Date" formControlName="entryDate"
                                                         [owlDateTimeTrigger]="dt1" [min]="this.mindate"
                                                         [max]="this.maxdate" [owlDateTime]="dt1"
-                                                        [(ngModel)]="formData.entryDate">
+                                                        [(ngModel)]="formData.entryDate"
+                                                        (ngModelChange)="getgriddatabydate(this.formData.entryDate)"
+                                                    >
 
                                                     <owl-date-time [disabled]="actionInfo ==1 || disabled"
                                                         [pickerType]="'calendar'" #dt1>
@@ -116,7 +118,7 @@
                                                 <label class="mandatory">{{'Hours' | translate}}
                                                 </label>
                                                 <fieldset [disabled]=" actionInfo == 11 || View || form.value.IsLeave === 1">
-                                                <input type="time" class="form-control" formControlName="hours"
+                                                <input type="time" class="form-control" formControlName="hours"  step="3600" value="00:00"
                                                     
                                                     (dateTimeInput)="timeChange()">
                                                 </fieldset>

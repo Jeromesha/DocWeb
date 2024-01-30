@@ -325,7 +325,7 @@ export class EmployeedetailComponent implements OnInit {
         data.projectId = projectId;
         data.employeeProfileStream = '';
         data.isFirstLogin = true;
-        data.isSystemGeneratedPassword = false
+        data.isSystemGeneratedPassword = false;
         data.designation = obj[0].value;
         data.uniqueCode = this.form.value.empCode;
         data.stringPswrd = this.encryptedPassword;
