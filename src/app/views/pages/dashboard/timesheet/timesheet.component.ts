@@ -441,6 +441,7 @@ export class TimesheetComponent implements OnInit {
 
   getgriddatabydate(event: any) {
     debugger
+    this.dataSource.data=[];
     var d = event.toDate();
     let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
     console.log('edate', entryDate)
@@ -456,6 +457,7 @@ export class TimesheetComponent implements OnInit {
     });
   }
   getgriddatabycurrentdate(){
+    this.dataSource.data=[];
     var d =moment().startOf('day').toDate();
     let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
     this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {

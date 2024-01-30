@@ -51,6 +51,7 @@ export class EmployeedetailComponent implements OnInit {
   qIWXPSyHHd6Wi6Suij9/PDmrhTfOQSrrLrGxtOvchGO5H6IxGJJEhPYbozlGvJ90
   iQIDAQAB
   -----END PUBLIC KEY-----`;
+  
   date: Date;
   disab: boolean;
   hybridLocationList: any[];
