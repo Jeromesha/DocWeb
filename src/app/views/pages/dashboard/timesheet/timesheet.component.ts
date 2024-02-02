@@ -165,13 +165,16 @@ export class TimesheetComponent implements OnInit {
     this.UserId = this.userSessionService.userId();
     debugger;
     this.getgrid(this.UserId, true);
+    if(this.actionInfo==2){
+      this.getgriddatabycurrentdate();
+    }
 
     //this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
     this.form.controls["entryDate"].setValue(this.date);
     
     this.form.controls["hours"].setValue("00:00");
 
-    this.getgriddatabycurrentdate()
+   
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -258,10 +261,12 @@ export class TimesheetComponent implements OnInit {
           approvedStatusType: 1,
         }));
         this.date = this.datalist[0].entryDate;
-        // this.form.reset({
-        //   entryDate: this.formData.entryDate,
-        //   IsLeave: this.isLeaveValue
-        // });
+        this.form.reset({
+          entryDate: this.formData.entryDate,
+          IsLeave: 2
+        });
+        this.projecttypelist = this.Normaltasklist;
+      this.filterprojecttypelist = this.projecttypelist;
 
         this.disabled = true;
         //this.onbtnClick(2);
@@ -317,6 +322,18 @@ export class TimesheetComponent implements OnInit {
     console.log(parseInt(moment(this.form.value.hours).format('HH:mm')));
 
   }
+
+  onTimeChange(event: any) {
+    const inputValue: string = event.target.value;
+
+    // Convert to 24-hour format
+    const [hours, minutes] = inputValue.split(':');
+    const formattedHours = (hours.length === 1 ? '0' : '') + hours;
+
+    // Update the form value
+    this.form.get('hours').setValue(`${formattedHours}:${minutes}`);
+}
+
   getHours(e) {
     debugger;
     return moment(e, 'HH:mm')
@@ -441,11 +458,16 @@ export class TimesheetComponent implements OnInit {
 
   getgriddatabydate(event: any) {
     debugger
-    this.dataSource.data=[];
+    //this.dataSource.data=[];
     var d = event.toDate();
     let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
     console.log('edate', entryDate)
     this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {
+      debugger
+      if(result.length === 0){
+        debugger
+        this.dataSource.data=[];
+      }
       this.data = result;
       for (let item of this.data) {
         const convertedData = this.data.map(entry => ({
@@ -457,10 +479,14 @@ export class TimesheetComponent implements OnInit {
     });
   }
   getgriddatabycurrentdate(){
-    this.dataSource.data=[];
+   // this.dataSource.data=[];
     var d =moment().startOf('day').toDate();
     let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
     this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {
+      if(result.length === 0){
+        debugger
+        this.dataSource.data=[];
+      }
       this.data = result;
       for (let item of this.data) {
         const convertedData = this.data.map(entry => ({

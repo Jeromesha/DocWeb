@@ -57,24 +57,25 @@
                                                 <label class="mandatory">{{ 'Choose the files' | translate }}</label>
                                                 <div class="custom-file">
                                                     <input type="file" class="custom-file-input" id="customFile"
-                                                        multiple (change)="updateFileName($event)"
-                                                        formControlName="files">
+                                                        multiple formControlName="files" (change)="updateFileName($event)">
                                                     <label class="custom-file-label" for="customFile">
                                                         <i class="fas fa-upload"></i> {{ 'Choose files' | translate }}
                                                     </label>
                                                 </div>
                                                 <div class="valid-error"
-                                                    *ngIf="form.controls.files.errors && (form.controls.files.dirty || form.controls.files.touched)"
+                                                    *ngIf="form.controls.files.errors && form.controls.files.touched"
                                                     text-wrap>
-                                                    <span *ngIf="form.controls.files.errors?.required"
-                                                        class="form-text danger mandatory">
-                                                        {{ 'Files are required' | translate }}
+                                                    <span *ngIf="form.controls.files.errors?.required" class="form-text danger mandatory">
+                                                        {{ 'At least one file is required' | translate }}
                                                     </span>
+                                                    <!-- <span *ngIf="errorMessage" class="form-text danger mandatory">
+                                                        {{ errorMessage }}
+                                                    </span> -->
+                                                    <!-- Add additional error messages as needed -->
                                                 </div>
                                             </div>
                                         </div>
-
-
+                                        
 
                                     </div>
                                 </fieldset>

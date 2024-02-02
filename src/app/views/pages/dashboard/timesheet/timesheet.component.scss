@@ -97,3 +97,7 @@ input:checked+.slider:before {
   color: #ff586b !important;
   text-transform: capitalize;
 }
+
+.owl-dt-container .owl-dt-container-footer {
+  display: none;
+}
