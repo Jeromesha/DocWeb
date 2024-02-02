@@ -61,16 +61,14 @@
                                     </div> -->
                                     </div>
                                 </fieldset>
-
                                 <div class="row">
                                     <div class="col-md-5">
                                         <h4 class="heading">Employees Available To Add</h4>
-
                                         <section class="example-section selectall mt-4">
-                                            <mat-checkbox class="btn-block" formControlName="firstListDatas"
-                                                [(ngModel)]="isSelectAllTransfer" labelPosition="before"
-                                                (change)="selectAllTransfer($event)">&nbsp; Select All
-                                            </mat-checkbox>
+                                                <mat-checkbox class="btn-block" formControlName="firstListDatas"
+                                                    [(ngModel)]="isSelectAllTransfer" labelPosition="before"
+                                                    (change)="selectAllTransfer($event)">&nbsp; Select All
+                                                </mat-checkbox>
                                         </section>
                                         <mat-form-field class="col-12">
                                             <input type="text" [(ngModel)]="searchText1"
