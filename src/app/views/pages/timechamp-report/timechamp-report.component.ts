@@ -80,7 +80,7 @@ export class TimechampReportComponent implements OnInit {
   getEmployee() {
     debugger;
     this.TcTimesheetService.GetTCEmployeelist().subscribe(result => {
-      this.mappedEmployeeList = result;
+      this.mappedEmployeeList = result.value;
       this.filtermappedEmployeeList = this.mappedEmployeeList.slice();
     })
   }
@@ -134,7 +134,7 @@ export class TimechampReportComponent implements OnInit {
       endDate = moment(endDate).format('DD-MMM-YY');
       this.TcTimesheetService.GetTCDetailsById(employeeId, startDate, endDate).subscribe(result => {
         this.show=true;
-        this.data = result;
+        this.data = result.value;
         this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

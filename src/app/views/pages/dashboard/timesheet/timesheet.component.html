@@ -30,7 +30,7 @@
                                                         [owlDateTimeTrigger]="dt1" [min]="this.mindate"
                                                         [max]="this.maxdate" [owlDateTime]="dt1"
                                                         [(ngModel)]="formData.entryDate"
-                                                        (ngModelChange)="getgriddatabydate(this.formData.entryDate)"
+                                                        (ngModelChange)="getgriddatabydate($event)"
                                                     >
 
                                                     <owl-date-time [disabled]="actionInfo ==1 || disabled"

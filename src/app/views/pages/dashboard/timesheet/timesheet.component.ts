@@ -57,7 +57,7 @@ export class TimesheetComponent implements OnInit {
   id = 0;
   actionInfo = 0;
   form: FormGroup;
-    routeParams: any;
+  routeParams: any;
   pageTitle: string;
   submitbtn: string;
   filesResult: any;
@@ -134,7 +134,7 @@ export class TimesheetComponent implements OnInit {
     let formattedDate = (moment()).format('DD-MMM-YYYY HH:mm:ss')
     debugger
     if (this.id === 0) {
-      let nonEntryDate : any = localStorage.getItem('nonEntryDate') ? localStorage.getItem('nonEntryDate') : moment(new Date).format("YYYY-MM-DD");
+      let nonEntryDate: any = localStorage.getItem('nonEntryDate') ? localStorage.getItem('nonEntryDate') : moment(new Date).format("YYYY-MM-DD");
       while (moment(nonEntryDate).day() === 0 || moment(nonEntryDate).day() === 6) {
         nonEntryDate = moment(nonEntryDate).add(1, 'day').format("YYYY-MM-DD");
       }
@@ -165,16 +165,16 @@ export class TimesheetComponent implements OnInit {
     this.UserId = this.userSessionService.userId();
     debugger;
     this.getgrid(this.UserId, true);
-    if(this.actionInfo==2){
+    if (this.actionInfo == 2) {
       this.getgriddatabycurrentdate();
     }
 
     //this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
     this.form.controls["entryDate"].setValue(this.date);
-    
+
     this.form.controls["hours"].setValue("00:00");
 
-   
+
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -266,7 +266,7 @@ export class TimesheetComponent implements OnInit {
           IsLeave: 2
         });
         this.projecttypelist = this.Normaltasklist;
-      this.filterprojecttypelist = this.projecttypelist;
+        this.filterprojecttypelist = this.projecttypelist;
 
         this.disabled = true;
         //this.onbtnClick(2);
@@ -332,7 +332,7 @@ export class TimesheetComponent implements OnInit {
 
     // Update the form value
     this.form.get('hours').setValue(`${formattedHours}:${minutes}`);
-}
+  }
 
   getHours(e) {
     debugger;
@@ -456,36 +456,38 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  getgriddatabydate(event: any) {
+  getgriddatabydate(object: any) {
     debugger
-    //this.dataSource.data=[];
-    var d = event.toDate();
-    let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
-    console.log('edate', entryDate)
-    this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {
-      debugger
-      if(result.length === 0){
+    if (moment.isMoment(object)) {
+      //this.dataSource.data=[];
+      var d = object.toDate();
+      let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
+      console.log('edate', entryDate)
+      this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {
         debugger
-        this.dataSource.data=[];
-      }
-      this.data = result;
-      for (let item of this.data) {
-        const convertedData = this.data.map(entry => ({
-          ...entry,
-          hours: this.convertMinutesToHHMM(entry.hours)
-        }));
-        this.dataSource.data = convertedData;
-      }
-    });
+        if (result.length === 0) {
+          debugger
+          this.dataSource.data = [];
+        }
+        this.data = result;
+        for (let item of this.data) {
+          const convertedData = this.data.map(entry => ({
+            ...entry,
+            hours: this.convertMinutesToHHMM(entry.hours)
+          }));
+          this.dataSource.data = convertedData;
+        }
+      });
+    }
   }
-  getgriddatabycurrentdate(){
-   // this.dataSource.data=[];
-    var d =moment().startOf('day').toDate();
+  getgriddatabycurrentdate() {
+    // this.dataSource.data=[];
+    var d = moment().startOf('day').toDate();
     let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
     this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {
-      if(result.length === 0){
+      if (result.length === 0) {
         debugger
-        this.dataSource.data=[];
+        this.dataSource.data = [];
       }
       this.data = result;
       for (let item of this.data) {

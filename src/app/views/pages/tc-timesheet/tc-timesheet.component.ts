@@ -64,7 +64,7 @@ export class TcTimesheetComponent implements OnInit {
 
   getTimechampDetails(date) {
     this.tcTimesheetservice.GetTimechampDetails(date).subscribe((res) => {
-      this.data = res;
+      this.data = res.value;
       this.dataSource = new MatTableDataSource(this.data);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -135,6 +135,7 @@ export class TcTimesheetComponent implements OnInit {
       this.excelColumns = [
         "Employee Code",
         "Employee Name ",
+        "Date",
         "In Time",
         "Last Seen",
         "Working Hours",
@@ -149,6 +150,7 @@ export class TcTimesheetComponent implements OnInit {
         excelList.push({
           Employee_Code: a.empID,
           Name: a.name,
+          Date: a.timesheetDate,
           In_Time: a.startDateTime,
           Last_Seen: a.finishDateTime,
           Working_Hours: a.workingTime,
