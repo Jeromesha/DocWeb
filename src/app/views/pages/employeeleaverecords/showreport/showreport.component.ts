@@ -56,11 +56,14 @@ export class ShowreportComponent implements OnInit {
         this.title = "Employee Leave Report";
         break;
       case ReportType.TimesheetReport:
-        this.title = "Time Sheet Report";
+        this.title = "Timesheet Report";
         break;
       case ReportType.AttendanceReport:
         this.title = "Attendance Report";
         break;
+        case ReportType.TimeChampReport:
+          this.title = "Attendance Report";
+          break;
       default:
         break;
     }
@@ -76,8 +79,9 @@ export class ShowreportComponent implements OnInit {
         const linkSource = 'data:application/pdf;base64, ' + result;
         const downloadLink = document.createElement('a');
         const fileName = this.data.reportType == 1 ? 'Employee Leave Report.pdf' :
-          this.data.reportType == 2 ? 'TimeSheet Report.pdf' :
-            this.data.reportType == 3 ? 'Attendance Report.pdf' : '';
+          this.data.reportType == 2 ? 'Timedheet Report.pdf' :
+            this.data.reportType == 3 ? 'Attendance Report.pdf' :
+            this.data.reportType == 4 ? 'Time Champ Report.pdf' : '';
         //const fileName = 'Leavereport.pdf';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -97,7 +101,8 @@ export class ShowreportComponent implements OnInit {
         //const fileName = this.data.ReportType == 1 ? 'Employee Leave Report.xls' : '';
         const fileName = this.data.reportType == 1 ? 'Employee Leave Report.xls' :
           this.data.reportType == 2 ? 'TimeSheet Report.xls' :
-            this.data.reportType == 3 ? 'Attendance Report.xls' : '';
+            this.data.reportType == 3 ? 'Attendance Report.xls' : 
+            this.data.reportType == 4 ? 'Time Champ Report.xls' : '';
         //const fileName = 'Employee Leave Report.';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -115,8 +120,9 @@ export class ShowreportComponent implements OnInit {
         const linkSource = 'data:text/html;base64, ' + result;
         const downloadLink = document.createElement('a');
         const fileName = this.data.reportType == 1 ? 'Employee Leave Report.html' :
-          this.data.reportType == 2 ? 'TimeSheet Report.html' :
-            this.data.reportType == 3 ? 'Attendance Report.html' : '';
+          this.data.reportType == 2 ? 'Timesheet Report.html' :
+            this.data.reportType == 3 ? 'Attendance Report.html' : 
+            this.data.reportType == 4 ? 'Time Champ Report.html' : '';
         //const fileName = 'Leave Report.html';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
@@ -134,7 +140,8 @@ export class ShowreportComponent implements OnInit {
         const downloadLink = document.createElement('a');
         const fileName = this.data.reportType == 1 ? 'Employee Leave Report.doc' :
           this.data.reportType == 2 ? 'TimeSheet Report.doc' :
-            this.data.reportType == 3 ? 'Attendance Report.doc' : '';
+            this.data.reportType == 3 ? 'Attendance Report.doc' :
+            this.data.reportType == 4 ? 'Time Champ Report.doc' : '';
         //const fileName = 'Leave Report.doc';
         downloadLink.href = linkSource;
         downloadLink.download = fileName;

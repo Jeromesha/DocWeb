@@ -97,6 +97,16 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/leavedata/leavedata.module").then((m) => m.LeavedataModule)
       },
+      {
+        path: "tctimesheet",
+        loadChildren: () =>
+          import("./../../views/pages/tc-timesheet/tc-timesheet.module").then((m) => m.TcTimesheetModule)
+      },
+      {
+        path: "timechampport",
+        loadChildren: () =>
+          import("./../../views/pages/timechamp-report/timechamp-report.module").then((m) => m.TimechampReportModule)
+      },
     ],
   },
 ];

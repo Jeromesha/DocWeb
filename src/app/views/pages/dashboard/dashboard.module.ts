@@ -55,6 +55,7 @@ const routes: Routes = [
   providers: [
     DashboardService,
     NotifyService,
+    TimeSheetService,
     DatePipe,
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
     { provide: OWL_DATE_TIME_FORMATS, useValue: MY_FORMATS },

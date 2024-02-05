@@ -23,6 +23,7 @@ import { DateTimeAdapter, OwlDateTimeComponent } from "ng-pick-datetime";
 import * as moment from 'moment';
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { DatePipe } from "@angular/common";
+import { TimeSheetService } from "src/app/services/timesheet.service";
 //import { result } from "lodash";
 // const moment = _rollupMoment || _moment;
 //import { MatDialog } from '@angular/material/dialog';
@@ -93,7 +94,8 @@ export class DashboardComponent implements OnInit {
     // private alertService: AlertService,
     // private dateTimeAdapter: DateTimeAdapter<any>,
     // private datePipe: DatePipe,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private timesheetservice :TimeSheetService
   ) {
     this.currentDate = new Date();
     this.Databasedate = moment(this.currentDate).format('YYYY-MM-DD');
@@ -103,6 +105,7 @@ export class DashboardComponent implements OnInit {
     debugger;
     //done for hide the data
     //this.UserId = this.usersessionService.userId();
+    this.Getproject();
     //this.timegrid(this.UserId, this.Databasedate);
     //this.timechamp(this.UserId, this.Databasedate);
     //remove the command for dashboard works
@@ -287,4 +290,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  Getproject() {
+    debugger;
+    this.timesheetservice.getproject().subscribe(result => {
+    });
+  }
 }
