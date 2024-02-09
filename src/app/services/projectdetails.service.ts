@@ -33,6 +33,9 @@ export class ProjectdetailsService {
   getProjectType(refresh: boolean) {
     return this.dataService.getData('/api/lookup/projecttype', refresh)
   }
+  getEngagementModel(refresh: boolean) {
+    return this.dataService.getData('/api/lookup/getEngagementModel', refresh)
+  }
 
   getTechnologyType(refresh: boolean) {
     return this.dataService.getData('/api/Technologytype', refresh)

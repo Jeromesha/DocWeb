@@ -146,17 +146,17 @@
 </div>
 
 
-<div class="table-responsive" *ngIf="show">
+<div class="table-responsive"  [hidden]="!show" >
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
         <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="date">{{'Date' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="timesheetDate">{{'Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.timesheetDate}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="id">{{'Code' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="empID">{{'Code' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.empID}}</p>
@@ -164,28 +164,28 @@
         </ng-container>
 
         <ng-container matColumnDef="users">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="users">{{'Employee' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="name">{{'Employee' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.name}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="inTime">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="inTime">{{'In Time' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="startDateTime">{{'In Time' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.startDateTime}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="lastSeen">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="lastSeen">{{'Last Seen' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="finishDateTime">{{'Last Seen' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.finishDateTime}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="workingHours">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="workingHours">{{'Working Hours' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="workingTime">{{'Working Hours' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.workingTime}}</p>
@@ -206,7 +206,7 @@
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="neturalTime">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="neturalTime">{{'Netural Time' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="neutralTime">{{'Netural Time' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.neutralTime}}</p>
@@ -221,6 +221,8 @@
         </mat-row>
     </mat-table>
 </div>
+
+
 <mat-paginator #paginator [length]="dataSource!=null && dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-    [pageSizeOptions]="[10, 25, 50, 100]"  *ngIf="show">
+    [pageSizeOptions]="[10, 25, 50, 100]"  [hidden]="!show" >
 </mat-paginator><br>

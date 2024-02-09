@@ -172,7 +172,8 @@
                                             <label class="mandatory ">{{'Mobile Number' | translate}}</label>
                                             <input type="text" class="form-control " formControlName="mobile"
                                                 [ngClass]="{'disable':actionInfo == 1}" maxlength="10"
-                                                placeholder="Mobile Number" autocomplete="off" pattern="[6-9][0-9]{0,9}" inputText >
+                                                placeholder="Mobile Number" autocomplete="off" pattern="[6-9][0-9]{0,9}"
+                                                inputText>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.mobile.errors && (form.controls.mobile.dirty || form.controls.mobile.touched)"
                                                 text-wrap>
@@ -500,6 +501,79 @@
                                             </div>
                                         </div>
                                     </div> -->
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{"Status"|translate}}</label>
+                                            <mat-select placeholder='{{"Status"|translate}}'
+                                                formControlName="employeeStatus" class="form-control pt-2"
+                                                [disableOptionCentering]="true" #select7>
+                                                <mat-select-filter [displayMember]="'value'" [array]="statuslist"
+                                                    (filteredReturn)="statuslist =$event" *ngIf="select7.focused">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of statuslist" [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.employeeStatus.errors && (form.controls.employeeStatus.dirty || form.controls.employeeStatus.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.employeeStatus.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Status' | translate}} {{'IsRequired' |
+                                                    translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{'Last Working Day' | translate}}</label>
+                                            <div class="input-group mb-0 ">
+                                                <input class="form-control" placeholder="Select LWD" [max]="date"
+                                                    formControlName="lastWorkingDate" [owlDateTimeTrigger]="dt8"
+                                                    [disabled]="actionInfo == 1" [owlDateTime]="dt8">
+                                                <owl-date-time [pickerType]="'calendar'" #dt8>
+                                                </owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt8">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt8>
+                                                    </owl-date-time>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="valid-error"
+                                                *ngIf="form.controls.lastWorkingDate.errors && (form.controls.lastWorkingDate.dirty || form.controls.lastWorkingDate.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.lastWorkingDate.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Last Working Day' | translate}} {{'IsRequired' |
+                                                    translate}}</span>
+
+                                            </div> -->
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label>{{'Productive Factors' | translate}}</label>
+                                            <input type="text" class="form-control " formControlName="productionFactor"
+                                                maxlength="250" placeholder="Productive factors" autocomplete="off"
+                                                inputText>
+                                            <!-- <div class="valid-error"
+                                                *ngIf="form.controls.productionFactor.errors && (form.controls.productionFactor.dirty || form.controls.productionFactor.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.productionFactor.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Productive factors' | translate}} {{'IsRequired' |
+                                                    translate}}</span>
+
+                                            </div> -->
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Permanent Address' | translate}}</label>
@@ -519,72 +593,6 @@
                                             </div>
                                         </div>
                                     </div>
-<!-- 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{"Status"|translate}}</label>
-                                            <mat-select placeholder='{{"Status"|translate}}'
-                                                formControlName="statuslist" class="form-control pt-2"
-                                                [disableOptionCentering]="true" #select7>
-                                                <mat-select-filter [displayMember]="'value'" [array]="statuslist"
-                                                    (filteredReturn)="statuslist =$event" *ngIf="select7.focused">
-                                                </mat-select-filter>
-                                                <mat-option *ngFor="let item of statuslist" [value]="item.key">
-                                                    {{item.value}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                       
-                                            <label>{{'Last Working Day' | translate}}</label>
-                                            <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select LWD" [max]="date"
-                                                    formControlName="lastWorkingday" [owlDateTimeTrigger]="dt4"
-                                                    [disabled]="actionInfo == 1" [owlDateTime]="dt4">
-                                                <owl-date-time [pickerType]="'calendar'" #dt4>
-                                                </owl-date-time>
-                                                <div class="input-group-append">
-                                                    <span class="trigger input-group-text" [owlDateTimeTrigger]="dt4">
-                                                        <i class="fa fa-calendar-check-o"></i>
-                                                    </span>
-                                                    <owl-date-time [pickerType]="'calendar'" #dt4>
-                                                    </owl-date-time>
-                                                </div>
-                                            </div> -->
-                                            <!-- <div class="valid-error"
-                                                *ngIf="form.controls.lastWorkingday.errors && (form.controls.lastWorkingday.dirty || form.controls.lastWorkingday.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.lastWorkingday.errors?.required"
-                                                    class="form-text  danger mandatory">
-                                                    {{'Last Working Day' | translate}} {{'IsRequired' |
-                                                    translate}}</span>
-
-                                            </div> -->
-                                        <!-- </div>
-                                    </div>
-
-                                    <div class="col-md-6" *ngIf="!disab">
-                                        <div class="form-group">
-                                           
-                                            <label>{{'Productive Factors' | translate}}</label>
-                                            <input type="text" class="form-control " formControlName="Prodfactors"
-                                                maxlength="250" placeholder="Productive factors" autocomplete="off"
-                                                inputText> -->
-                                            <!-- <div class="valid-error"
-                                                *ngIf="form.controls.Prodfactors.errors && (form.controls.Prodfactors.dirty || form.controls.Prodfactors.touched)"
-                                                text-wrap>
-                                                <span *ngIf="form.controls.Prodfactors.errors?.required"
-                                                    class="form-text  danger mandatory">
-                                                    {{'Productive factors' | translate}} {{'IsRequired' |
-                                                    translate}}</span>
-
-                                            </div> -->
-                                        <!-- </div>
-                                    </div> -->
-
 
                                     <div class="col-md-6">
                                         <div class="form-group">

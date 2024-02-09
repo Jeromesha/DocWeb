@@ -117,7 +117,7 @@ export class AuthenticationService {
           this.sessionData.mobileNumber = decodedToken["user.mobilenumber"];
           this.sessionData.authToken = user.access_token;
           this.sessionData.userId = decodedToken["user.id"];
-          this.sessionData.roleId = decodedToken["user.roleId"];
+          this.sessionData.roleId = decodedToken["user.roleid"];
           // this.sessionData.roleName = decodedToken["user.rolename"];
           this.sessionData.username = decodedToken["user.fullname"];
           // this.sessionData.isDynamicPassword =

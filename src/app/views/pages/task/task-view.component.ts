@@ -4,12 +4,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
+import { UserSession } from 'src/app/models/usersession';
 import { AlertService } from 'src/app/services/alert.service';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { TaskService } from 'src/app/services/task.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
+import { UserSessionService } from 'src/app/services/usersession.service';
 import swal from "sweetalert2";
 
 @Component({
@@ -29,6 +32,7 @@ export class TaskViewComponent implements OnInit {
 
   displayedColumns: string[] = [
     "action",
+    "date",
     "project",
     "firstName",
     "shortdescription",
@@ -53,6 +57,9 @@ export class TaskViewComponent implements OnInit {
     {key:1,value:'New'},
     {key:3,value:'Inprogress'}
   ]
+  roleId:any;
+  sessionData = new UserSession();
+  showAdd: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private timesheetService: TimeSheetService,
@@ -61,7 +68,10 @@ export class TaskViewComponent implements OnInit {
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
-  ) { }
+    private userSessionService : UserSessionService
+  ) { 
+    debugger;
+  }
   ngOnInit(): void {
     this.dropdownSettings = {
       singleSelection: false,
@@ -71,12 +81,19 @@ export class TaskViewComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       allowSearchFilter: true
     };
+
+    this.roleId = this.userSessionService.roleId();
+    if(this.roleId !=3 && this.roleId !=4)
+    {
+      this.showAdd = true;
+    }
     this.initializeValidators();
     this.Getproject();
     this.getTaskstatus();
     // this.getDefaultTaskStatus();
     this.form.controls["Taskstatus"].setValue(this.temp);
     this.gettaskGriddata(this.projectid, this.statuslist);
+    
   }
 
   initializeValidators() {
@@ -119,9 +136,14 @@ export class TaskViewComponent implements OnInit {
     this.taskservice.GetTaskGridData(id, statuslist).subscribe(result => {
       this.resultArray = result;
       console.log(this.resultArray, "this data")
-      this.dataSource = new MatTableDataSource(this.resultArray);
+      const convertedData = this.resultArray.map(entry => ({
+        ...entry,
+        startDate: moment(entry.startDate).format("DD-MM-YYYY")
+      }));
+      this.dataSource = new MatTableDataSource(convertedData);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.data = convertedData;
       this.form.controls['Taskstatus'].setValidators;
     })
     // this.form.controls['Taskstatus'].setValidators;
@@ -168,7 +190,44 @@ export class TaskViewComponent implements OnInit {
     
   }
   onExportExcel() {
-    throw new Error('Method not implemented.');
+    this.loading = true;
+    setTimeout(() => {
+      var exportData = this.data;
+      console.log('exaslk', exportData)
+      if (!exportData || exportData.length === 0) {
+        this.alertService.info("No data available to export");
+        return;
+      }
+      let name;
+      name = "Task Ststus Report";
+      this.excelColumns = [
+        "Date",
+        "Project",
+        "Employee Code",
+        "Employee Name",
+        "Task Description",
+        "Developer Commends",
+        "Completed Hours",
+        "status"
+      ];
+
+      const excelList = [];
+      excelList.push({});
+      exportData.forEach((a) => {
+        excelList.push({
+          Date: a.startDate,
+          Project: a.project,
+          Employee_Code: a.empCode,
+          Employee_Name: a.empname,
+          Task_Description: a.shortDescription,
+          Developer_Commends:a.developerComments,
+          Completed_Hours:a.completedHours,
+          status: a.taskStatus,
+        });
+      });
+      this.excelService.exportAsExcelFile(excelList, "Task Status Report", this.excelColumns);
+      this.loading = false;
+    }, 500);
   }
   applyFilter($event: KeyboardEvent) {
     throw new Error('Method not implemented.');
