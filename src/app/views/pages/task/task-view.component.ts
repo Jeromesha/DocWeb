@@ -117,7 +117,11 @@ export class TaskViewComponent implements OnInit {
   gettaskGriddata(id: any, statuslist: any) {
     debugger;
     this.taskservice.GetTaskGridData(id, statuslist).subscribe(result => {
-      this.resultArray = result;
+      if(result) {
+        this.resultArray = result;
+      } else {
+        this.resultArray = [];
+      }
       console.log(this.resultArray, "this data")
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;

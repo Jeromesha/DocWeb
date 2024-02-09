@@ -91,6 +91,7 @@ export class TcTimesheetComponent implements OnInit {
       this.getdate = moment(this.currentDate).format('DD-MMM-YY');
       this.getTimechampDetails(this.getdate)
     }
+    this.clearsearch();
   }
 
   nextDate() {
@@ -103,6 +104,7 @@ export class TcTimesheetComponent implements OnInit {
       this.getdate = moment(this.currentDate).format('DD-MMM-YY');
       this.getTimechampDetails(this.getdate)
     }
+    this.clearsearch();
   }
 
   refresh() {
@@ -113,6 +115,12 @@ export class TcTimesheetComponent implements OnInit {
     this.getTimechampDetails(moment(this.currentDate).format('DD-MMM-YY'));
     this.form
   }
+
+  clearsearch(){
+  this.searchInput.nativeElement.value = ''; 
+  }
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
