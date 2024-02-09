@@ -694,16 +694,31 @@ export class TimesheetComponent implements OnInit {
         }
         else {
           if (result.failures == "test1") {
-            this.alertService.warning("Your time limit is exeed for this particular date, so you are not able to add value");
-            this.temproraryList.pop();
+            Swal.fire({
+              icon: 'warning',
+              title: 'Time Limit Exceeded',
+              text: 'Your time limit is exceeded for this particular date, so you are not able to add value'
+            }).then(() => {
+              this.temproraryList.pop();
+            });
           }
           else if (result.failures == "test2") {
-            this.alertService.warning("You already entered as Present for this particular date, so you are not able to add value as leave");
-            this.temproraryList.pop();
+            Swal.fire({
+              icon: 'warning',
+              title: 'Already Entered as Present',
+              text: 'You already entered as Present for this particular date, so you are not able to add value as leave'
+            }).then(() => {
+              this.temproraryList.pop();
+            });
           }
           else {
-            this.alertService.warning("You already entered as leave for this particular date, so you are not able to add value");
-            this.temproraryList.pop();
+            Swal.fire({
+              icon: 'warning',
+              title: 'Already Entered as Leave',
+              text: 'You already entered as leave for this particular date, so you are not able to add value'
+            }).then(() => {
+              this.temproraryList.pop();
+            });
           }
         }
 
