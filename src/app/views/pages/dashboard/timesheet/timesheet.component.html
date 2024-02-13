@@ -137,7 +137,7 @@
                                             <div class="form-group">
                                                 <label class="mandatory">{{ 'Hours' | translate }}</label>
                                                 <fieldset [disabled]="actionInfo == 11 || View || form.value.IsLeave === 1">
-                                                    <input type="time" class="form-control" formControlName="hours" step="3600"
+                                                    <input type="time" class="form-control" formControlName="hours" step="3600" value="13:30"
                                                         (change)="onTimeChange($event)">
                                                 </fieldset>
                                                 <div class="valid-error" *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)" text-wrap>
@@ -147,7 +147,20 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <!-- <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">{{ 'Hours' | translate }}</label>
+                                                <fieldset [disabled]="actionInfo == 11 || View || form.value.IsLeave === 1">
+                                                    <input type="text" class="form-control" formControlName="hours" appTimeFormat>
+                                                </fieldset>
+                                                <div class="valid-error" *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)" text-wrap>
+                                                    <span *ngIf="form.controls.hours.errors?.pattern" class="form-text text-muted danger mandatory">
+                                                        {{ 'Invalid time format. Please enter time in the format HH:mm' | translate }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        
                                         
                                         
                                         <div class="col-md-6">

@@ -20,8 +20,8 @@ export class EmployeedetailComponent implements OnInit {
   form: FormGroup;
 
   statuslist = [
-    { key: 1, value: 'Resigned' },
-    { key: 2, value: 'Working' },
+    { key: 2, value: 'Resigned' },
+    { key: 1, value: 'Working' },
   ];
   
   formEditMode = true;
@@ -144,20 +144,20 @@ export class EmployeedetailComponent implements OnInit {
       'secondlvlReportingPersonId': ['',],
       'dateOfBirth': ['', Validators.required],
       'joiningDate': ['', Validators.required],
-      'lastWorkingday': [''],
+      'lastWorkingDate': [null],
       'marriageDate': [null],
       'defaultProjectId': ['', Validators.required],
       'locationId': ['', Validators.required],
       'designationTypeId': ['', Validators.required],
       'gender': ['', Validators.required],
       'address': ['', Validators.required],
-      'Prodfactors': [''],
+      'productionFactor': [''],
       'projectId': ['', Validators.required],
       'fillTimesheet': [],
       'reportingPersonId': ['', Validators.required],
       'stringPswrd': ['',],
       'stringPswrd2': ['',],
-
+      'employeeStatus':['',Validators.required],
     })
   }
 
@@ -334,8 +334,10 @@ export class EmployeedetailComponent implements OnInit {
         data.fillTimesheet = this.timeSheetTrue;
         data.dateOfBirth = moment(this.form.value.dateOfBirth).format('YYYY-MM-DD');
         data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
-        data.lastWorkingday = moment(this.form.value.lastWorkingday).format('YYYY-MM-DD');
         data.secondlvlReportingPersonId = this.form.value.secondlvlReportingPersonId ? this.form.value.secondlvlReportingPersonId : 0;
+        data.employeeStatus = this.form.value.employeeStatus;
+        data.lastWorkingDate=this.form.value.lastWorkingDate == null ? null : moment(this.form.value.lastWorkingDate).format('YYYY-MM-DD');
+        data.productionFactor = this.form.value.productionFactor== "" ? null :this.form.value.productionFactor;
         console.log(data.Designation);
         this.empDetailsService.saveEmployee(data).subscribe((res) => {
           console.log(res, 'savvvv');

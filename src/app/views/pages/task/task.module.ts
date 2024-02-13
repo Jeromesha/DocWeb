@@ -19,7 +19,7 @@ import { NgbDropdownModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-b
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSelectFilterModule } from 'mat-select-filter';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { FeahterIconModule } from 'src/app/core/feather-icon/feather-icon.module';
 import { ExcelService } from 'src/app/services/excel.service';
 import { MappingServices } from 'src/app/services/mapping.service';
@@ -28,6 +28,11 @@ import { TaskService } from 'src/app/services/task.service';
 import { TaskViewComponent } from './task-view.component';
 import { NotifyService } from 'src/app/services/notifyService';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { UserSessionService } from 'src/app/services/usersession.service';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
+import { MY_CUSTOM_FORMATS } from '../dashboard/timesheet/timesheet.module';
 
 const routes: Routes = [
   {
@@ -52,7 +57,17 @@ const routes: Routes = [
     TimeSheetService,
     TaskService,
     NotifyService,
-    NavigationService
+    NavigationService,
+    UserSessionService,
+    DatePipe,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+    // { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: false } } ,
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'ist' },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } }
   ],
   imports: [
     CommonModule,

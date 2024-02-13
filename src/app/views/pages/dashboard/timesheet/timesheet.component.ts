@@ -108,6 +108,7 @@ export class TimesheetComponent implements OnInit {
   // loading: boolean = false;
   public dateTime3: any;
   leavedisable: boolean = true;
+  showgridlist: any;
 
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
@@ -241,6 +242,7 @@ export class TimesheetComponent implements OnInit {
             hours: this.convertMinutesToHHMM(entry.hours)
           }));
           this.dataSource.data = convertedData;
+          // this.showgridlist.push(convertedData);
         }
 
         this.datalist = this.list.map(item => ({
@@ -260,11 +262,15 @@ export class TimesheetComponent implements OnInit {
           taskTypeId: item.taskTypeId,
           approvedStatusType: 1,
         }));
+
+        // this.dataSource.data = this.showgridlist;
         this.date = this.datalist[0].entryDate;
         this.form.reset({
           entryDate: this.formData.entryDate,
           IsLeave: 2
         });
+        
+
         this.projecttypelist = this.Normaltasklist;
         this.filterprojecttypelist = this.projecttypelist;
 
@@ -435,8 +441,8 @@ export class TimesheetComponent implements OnInit {
           debugger
           const formattedHours = this.convertMinutesToHHMM(this.data.hours);
           this.form.patchValue(this.data);
-          this.Getproject();
-          this.GetTaskType();
+          // this.Getproject();
+          // this.GetTaskType();
           //this.form.controls['hours'].setValue(moment().startOf('day').add(formattedHours, 'hours').toDate())
           this.form.controls['hours'].setValue(formattedHours);
           if (this.data.isLeave == true) {
@@ -533,8 +539,8 @@ export class TimesheetComponent implements OnInit {
           }
           //this.list=convertedData;
           //this.dataSource.data = this.list;
-          this.Getproject();
-          this.GetTaskType();
+          // this.Getproject();
+          // this.GetTaskType();
           this.form.controls['entryDate'].setValue(entryDate);
           this.disabled = true;
           if (this.data.isLeave == true) {
@@ -577,8 +583,8 @@ export class TimesheetComponent implements OnInit {
       // this.form.controls['hours'].setValue(moment().startOf('day').add(dataField.hours, 'hours').toDate());
       this.form.controls['hours'].setValue(dataField.hours);
     }
-    this.Getproject();
-    this.GetTaskType();
+    // this.Getproject();
+    // this.GetTaskType();
     if (dataField.isLeave == true) {
       this.form.controls['IsLeave'].setValue(true);
     }

@@ -23,7 +23,7 @@
                                                 <mat-select placeholder=" Select Project" formControlName="projectId"
                                                     class="form-control pt-2" (selectionChange)="sortingChange($event)"
                                                     [disableOptionCentering]="true" #select
-                                                    [disabled]="actionInfo == 1">
+                                                    [disabled]="actionInfo == 1 || edittrue">
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="projectSortList"
                                                         (filteredReturn)="filterprojectSortList = $event"
@@ -50,7 +50,7 @@
                                                 <mat-select placeholder=" Select Employee Name"
                                                     formControlName="assignedTo" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2
-                                                    [disabled]="actionInfo == 1">
+                                                    [disabled]="actionInfo == 1 || edittrue">
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="mappedEmployeeList"
                                                         (filteredReturn)="filtermappedEmployeeList =$event"
@@ -79,7 +79,7 @@
                                                     <input class="form-control" placeholder="Select Start Date"
                                                         formControlName="startDate" [owlDateTimeTrigger]="dt1"
                                                         [owlDateTime]="dt1" (ngModelChange)="updateEndDate($event)"
-                                                        [disabled]="actionInfo == 1">
+                                                        [disabled]="actionInfo == 1|| edittrue">
                                                     <owl-date-time [pickerType]="'calendar'" #dt1>
                                                     </owl-date-time>
                                                     <div class="input-group-append">
@@ -107,7 +107,7 @@
                                                     <input class="form-control" placeholder="Select End Date"
                                                         formControlName="endDate" [owlDateTimeTrigger]="dt2"
                                                         [owlDateTime]="dt2" [min]="minEndDate"
-                                                        [disabled]="actionInfo == 1">
+                                                        [disabled]="actionInfo == 1|| edittrue">
                                                     <owl-date-time [pickerType]="'calendar'" #dt2>
                                                     </owl-date-time>
                                                     <div class="input-group-append">
@@ -140,8 +140,8 @@
                                                         formControlName="estimatedHours"
                                                         placeholder="{{'Estimate Hours' | translate}}" autocomplete="off"
                                                         pattern="[0-9]*" title="Please enter only numeric values"
-                                                        [readonly]="actionInfo === 1"
-                                                        [ngClass]="{ 'disable': actionInfo === 1 }">
+                                                        [readonly]="actionInfo === 1|| edittrue"
+                                                        [ngClass]="{ 'disable': actionInfo === 1 || edittrue}">
                                                     <div class="valid-error"
                                                         *ngIf="form.controls.estimatedHours.errors && (form.controls.estimatedHours.dirty || form.controls.estimatedHours.touched)"
                                                         text-wrap>
@@ -180,7 +180,8 @@
                                                 <input type="number" class="form-control" formControlName="priority"
                                                     placeholder="{{'Priority' | translate}}" autocomplete="off"
                                                     pattern="[0-9]*" title="Please enter only numeric values"
-                                                    [disabled]="actionInfo == 1">
+                                                    [readonly]="actionInfo === 1|| edittrue"
+                                                    [ngClass]="{ 'disable': actionInfo === 1 || edittrue}">
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.priority.errors && (form.controls.priority.dirty || form.controls.priority.touched)"
                                                     text-wrap>
@@ -199,7 +200,7 @@
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="taskTypeId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select4
-                                                    [disabled]="actionInfo == 1">
+                                                    [disabled]="actionInfo == 1|| edittrue">
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="projecttypelist"
                                                         (filteredReturn)="filterprojecttypelist =$event"
@@ -225,7 +226,7 @@
                                                 <mat-select placeholder=" Select Milestone "
                                                     formControlName="milestoneId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select5
-                                                    [disabled]="actionInfo == 1">
+                                                    [disabled]="actionInfo == 1|| edittrue">
                                                     <mat-select-filter [displayMember]="'value'" [array]="milestonelist"
                                                         (filteredReturn)="filtermilestonelist = $event"
                                                         *ngIf="select5.focused">
@@ -252,7 +253,7 @@
                                                 <label>{{'Module' | translate}}</label>
                                                 <mat-select placeholder=" Select Module " formControlName="moduleId"
                                                     class="form-control pt-2" [disableOptionCentering]="true" #select6
-                                                    [disabled]="actionInfo == 1">
+                                                    [disabled]="actionInfo == 1|| edittrue">
                                                     <mat-select-filter [displayMember]="'value'" [array]="modulelist"
                                                         (filteredReturn)="filtermodulelist = $event"
                                                         *ngIf="select6.focused">
@@ -279,7 +280,7 @@
                                             <div class="form-group">
                                                 <label class="mandatory ">{{' Short Description' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
-                                                    [readOnly]="actionInfo == 1" placeholder=" Short Description"
+                                                    [readOnly]="actionInfo == 1|| edittrue" placeholder=" Short Description"
                                                     formControlName="shortDescription" autocomplete="off">
                                                 </textarea>
                                                 <div class="valid-error"
@@ -298,7 +299,7 @@
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Long Description' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
-                                                    [readOnly]="actionInfo == 1" placeholder="Long Description"
+                                                    [readOnly]="actionInfo == 1|| edittrue" placeholder="Long Description"
                                                     formControlName="longDescription" autocomplete="off">
                                                 </textarea>
                                                 <div class="valid-error"
@@ -317,7 +318,7 @@
                                             <div class="form-group">
                                                 <label class="mandatory ">{{'Lead Comment' | translate}}</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
-                                                    [readOnly]="actionInfo == 1" placeholder="Lead Comment"
+                                                    [readOnly]="actionInfo == 1|| edittrue" placeholder="Lead Comment"
                                                     formControlName="leadComment" autocomplete="off">
                                                 </textarea>
                                                 <div class="valid-error"

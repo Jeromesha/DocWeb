@@ -102,8 +102,20 @@
 
                 <li class="nav-item">
                   <a (click)="onLogout($event)" class="nav-link">
-                    <i class="feather icon-log-out"></i>
+                    <i  class="fa fa-sign-out"></i>
                     <span>{{'Logout' | translate}}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="dropdown-body">
+              <ul class="profile-nav p-0">
+
+                <li class="nav-item">
+                  <a (click)="openChangePasswordDialog()" class="nav-link">
+                    <i class="fa fa-sign-out"></i>
+                    <span>{{'Change Password' | translate}}</span>
                   </a>
                 </li>
               </ul>

@@ -26,11 +26,7 @@ export class ProjectDetailsViewComponent implements OnInit {
   actionInfo = 0;
   form: FormGroup;
 
-  engagementmodellist = [
-    { key: 1, value: 'A' },
-    { key: 2, value: 'B' },
-    { key: 3, value: 'C' },
-  ];
+  engagementmodellist = [];
 
   routeParams: any;
   pageTitle: string;
@@ -79,6 +75,7 @@ export class ProjectDetailsViewComponent implements OnInit {
   filtertechtype: any;
   GitRepositorylist: any;
   filterGitRepositorylist: any;
+  filterengagnementmodellist: any[];
 
 
 
@@ -126,6 +123,7 @@ export class ProjectDetailsViewComponent implements OnInit {
     this.getProjectStatus();
     this.getGitRepository();
     this.getNatureoftheproject();
+    this.getengangmentmodel();
     this.get(true);
     this.maxDate = new Date();
     this.scheduledEndmax = new Date();
@@ -152,7 +150,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       id: [0],
       clientId: [null, Validators.required],
       projectName: [null, Validators.required],
-      // Refno: [null],
+      referenceNumber: [null,Validators.required],
       projectTypeId: ["",Validators.required],
       technologyType: [null, Validators.required],
       repositoryType: [null, Validators.required],
@@ -161,7 +159,7 @@ export class ProjectDetailsViewComponent implements OnInit {
       startDate: [null, Validators.required],
       endDate: [null],
       projectStatusId: [null, Validators.required],
-      // EngagementModl: [null],
+      engagementModelId: [null],
       projectLeadId: [null, Validators.required],
       // reportingPersonId:[null],
       secondaryLeadId:[null],
@@ -250,6 +248,13 @@ export class ProjectDetailsViewComponent implements OnInit {
       this.projecttypelist = result;
       this.filterprojecttypelist = this.projecttypelist;
       console.log(">/>?",result);
+    })
+  }
+  getengangmentmodel(){
+    this.projectdetailsservice.getEngagementModel(true).subscribe(result=>{
+      this.engagementmodellist=result;
+      this.filterengagnementmodellist = this.engagementmodellist.slice();
+
     })
   }
 
@@ -350,8 +355,9 @@ export class ProjectDetailsViewComponent implements OnInit {
       projectStatusId: this.form.value.projectStatusId,
       EngagementModl: this.form.value.EngagementModl,
       projectLeadId: this.form.value.projectLeadId,
-      natureOfProjectType: this.form.value.natureOfProjectType
-
+      natureOfProjectType: this.form.value.natureOfProjectType,
+      referenceNumber:this.form.value.referenceNumber == "" ? null:this.form.value.referenceNumber,
+      engagementModelId:this.form.value.engagementModelId
     }
     
 

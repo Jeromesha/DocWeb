@@ -358,52 +358,52 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-md-6">
-                                            <div class="form-group"> -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
                                                 <!-- [ngClass]="{'disable':isdisable}" // if want to disable use this -->
                                                 <!-- class="mandatory " -->
-                                                <!-- <label>{{'Reference Number' | translate}}</label>
-                                                <input type="text" class="form-control" formControlName="Refno"
+                                                <label class="mandatory ">{{'Reference Number (PO/WO Ref)' | translate}}</label>
+                                                <input type="text" class="form-control" formControlName="referenceNumber"
                                                     placeholder="{{'Ref No' | translate}}" autocomplete="off">
                                                 <div class="valid-error"
-                                                    *ngIf="form.controls.projectName.errors && (form.controls.projectName.dirty || form.controls.projectName.touched)"
-                                                    text-wrap> -->
-                                                    <!-- <span *ngIf="form.controls.projectName.errors?.required"
+                                                    *ngIf="form.controls.referenceNumber.errors && (form.controls.referenceNumber.dirty || form.controls.referenceNumber.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.referenceNumber.errors?.required"
                                                         class="form-text  danger mandatory">
-                                                        {{'projectname' | translate}} {{'IsRequired' |
-                                                        translate}}</span> -->
-<!-- 
+                                                        {{'Reference Number (PO/WO Ref)' | translate}} {{'IsRequired' |
+                                                        translate}}</span>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
 
-                                        <!-- <div class="col-md-6">
-                                            <div class="form-group"> -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
                                                 <!-- class="mandatory " -->
-                                                <!-- <label>{{"Engagement Model"|translate}}</label>
+                                                <label>{{"Engagement Model"|translate}}</label>
                                                 <mat-select placeholder='{{"Projectstatus"|translate}}'
-                                                    formControlName="EngagementModl" class="form-control pt-2"
-                                                    [disableOptionCentering]="true" #select7>
+                                                    formControlName="engagementModelId" class="form-control pt-2"
+                                                    [disableOptionCentering]="true" #select8>
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="engagementmodellist"
-                                                        (filteredReturn)="engagementmodellist =$event"
-                                                        *ngIf="select7.focused">
+                                                        (filteredReturn)="filterengagnementmodellist =$event"
+                                                        *ngIf="select8.focused">
                                                     </mat-select-filter>
-                                                    <mat-option *ngFor="let item of engagementmodellist"
+                                                    <mat-option *ngFor="let item of filterengagnementmodellist"
                                                         [value]="item.key">
                                                         {{item.value}}
                                                     </mat-option>
-                                                </mat-select> -->
+                                                    
+                                                </mat-select>
                                                 <!-- <div class="valid-error"
-                                                    *ngIf="form.controls.EngagementModl.errors && (form.controls.EngagementModl.dirty || form.controls.EngagementModl.touched)"
+                                                    *ngIf="form.controls.engagementModelId.errors && (form.controls.engagementModelId.dirty || form.controls.engagementModelId.touched)"
                                                     text-wrap>
-                                                    <span *ngIf="form.controls.EngagementModl.errors?.required"
+                                                    <span *ngIf="form.controls.engagementModelId.errors?.required"
                                                         class="form-text danger mandatory">
                                                         {{'Engagement Model' | translate}} {{'IsRequired' |
                                                         translate}}</span>
                                                 </div> -->
-                                            <!-- </div>
-                                        </div> -->
+                                            </div>
+                                        </div>
 
 
                                     </div>

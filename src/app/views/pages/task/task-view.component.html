@@ -50,7 +50,7 @@
             <div class="col-md-3 col-sm-3 mt-3">
 
                 <div style="float:right;">
-                    <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)">
+                    <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,0)" *ngIf="showAdd">
                         <i class="btn-icon-prepend fa fa-plus"></i>
                         {{'Add' | translate}}
                     </button>
@@ -58,7 +58,7 @@
                         <i class="btn-icon-prepend fa fa-refresh"></i>
                         {{'Refresh' | translate}}
                     </button>
-                    <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
+                    <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()" *ngIf="showAdd">
                         <i class="btn-icon-prepend fa fa-file-excel-o"></i>
                         {{'ExportExcel' | translate}}
                     </button>
@@ -82,6 +82,13 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="date">{{'Date' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.startDate}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="firstName">
@@ -138,7 +145,7 @@
                 </button>
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Delete'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
-                    (click)="onDelete($event,dataField.id,dataField.shortDescription)">
+                    (click)="onDelete($event,dataField.id,dataField.shortDescription)" *ngIf="showAdd">
                     <i class="fa fa-trash fa-2x trashclr"></i>
                     <!-- <img src="../../../../../assets/images/viewicon3.png" style="width: 25px;"> -->
                 </button>

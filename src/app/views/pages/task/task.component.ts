@@ -9,6 +9,7 @@ import { MappingServices } from 'src/app/services/mapping.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { TaskService } from 'src/app/services/task.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
+import { UserSessionService } from 'src/app/services/usersession.service';
 
 @Component({
   selector: 'app-task',
@@ -43,7 +44,9 @@ export class TaskComponent implements OnInit {
   filtermilestonelist: any;
   taskstatuslist: any;
   filtertaskstatuslist: any;
-submitbtn: string;
+  submitbtn: string;
+  edittrue : boolean;
+  roleId: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,6 +58,7 @@ submitbtn: string;
     private taskservice: TaskService,
     private alertService:AlertService,
     private _location : Location,
+    private userSessionService :UserSessionService
   ) { 
     this.routeParams = route.snapshot.params;
     debugger
@@ -70,6 +74,12 @@ submitbtn: string;
     // if (this.actionInfo == 1) {
     //   this.formEditMode = false
     // }
+
+    this.roleId = this.userSessionService.roleId();
+    if(this.roleId ==3 || this.roleId ==4)
+    {
+      this.edittrue = true;
+    }
   }
 
   ngOnInit(): void {
