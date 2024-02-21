@@ -213,14 +213,14 @@ export class TimesheetComponent implements OnInit {
     //   this.form.controls["taskTypeId"].clearValidators();
     //   this.form.controls["taskTypeId"].updateValueAndValidity();
     // }
-    console.log(this.form.value.hours,'this.form.value.hours');
-    
-    if (this.form.value.A != "00" && this.form.value.B != "" && this.form.value.A != ""){
+    console.log(this.form.value.hours, 'this.form.value.hours');
+
+    if (this.form.value.A != "00" && this.form.value.B != "" && this.form.value.A != "") {
       if (this.form.valid) {
         const formData = this.form.value;
         const timeInput = this.form.value.hours;
         const concatenatedValue = `${this.form.get('A').value}:${this.form.get('B').value}`;
-          console.log(concatenatedValue,'+++++++++');
+        console.log(concatenatedValue, '+++++++++');
         // this.form.controls["hours"].setErrors(null);
         this.form.controls["hours"].setErrors(null);
         const hoursA = parseInt(this.form.get('A').value);
@@ -238,15 +238,15 @@ export class TimesheetComponent implements OnInit {
           //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
           sum += hours;
         })
-        console.log(this.temproraryList,'this.temproraryList');
-        
+        console.log(this.temproraryList, 'this.temproraryList');
+
         // sum = sum * 60;
-        if (sum >(24*60)) {
-          console.log(sum,'++++++');
+        if (sum > (24 * 60)) {
+          console.log(sum, '++++++');
           this.alertService.warning("Work time is exceeded more than 24 hours");
           this.temproraryList.pop();
-          console.log(this.temproraryList,'=======' );
-          
+          console.log(this.temproraryList, '=======');
+
           return;
         }
         this.isLeaveValue = formData.IsLeave;
@@ -257,13 +257,13 @@ export class TimesheetComponent implements OnInit {
 
 
         for (let item of this.list) {
-          
+
           const convertedData = this.list.map(entry => ({
             ...entry,
             hours: this.convertMinutesToHHMM(entry.hours)
           }));
-          console.log(convertedData,">>>>>>>>>>>>>>>>>>>>>");
-          
+          console.log(convertedData, ">>>>>>>>>>>>>>>>>>>>>");
+
           // this.showgridlist.push(convertedData);
         }
         this.dataSource.data = this.list;
@@ -287,12 +287,12 @@ export class TimesheetComponent implements OnInit {
 
         // this.dataSource.data = this.showgridlist;
         this.date = moment(this.datalist[0].entryDate).format("YYYY-MM-DD"),
-        this.form.reset({
-          // entryDate: this.formData.entryDate,
-           entryDate: this.date,
-          IsLeave: 2
-        });
-        
+          this.form.reset({
+            // entryDate: this.formData.entryDate,
+            entryDate: this.date,
+            IsLeave: 2
+          });
+
 
         this.projecttypelist = this.Normaltasklist;
         this.filterprojecttypelist = this.projecttypelist;
@@ -334,6 +334,7 @@ export class TimesheetComponent implements OnInit {
   }
   sortingChange(event) {
     debugger
+    console.log(event.value, '{{}}}}}{{}}}}====');
     if (event.value == 16) {
       this.form.controls["A"].setValue("08");
       this.form.controls["B"].setValue("00");
@@ -383,7 +384,7 @@ export class TimesheetComponent implements OnInit {
     //  event.target.addEventListener('click', (e: Event) => {
     //     (e.target as HTMLInputElement).select();
     // });
-    
+
     if (event.key === 'Backspace' && value === '' && event.target === this.input2.nativeElement) {
       this.input1.nativeElement.focus();
     }
@@ -392,7 +393,7 @@ export class TimesheetComponent implements OnInit {
     }
     // Update the value only if it's not a backspace key press or if the value is not empty
     if (event.key !== 'Backspace' || value !== '') {
-       event.target.value = value.padStart(2, '0');
+      event.target.value = value.padStart(2, '0');
     }
     // event.target.value = value.padStart(2, '0');
     // if (value.length === 2 && event.target === this.input1.nativeElement) {
@@ -403,7 +404,7 @@ export class TimesheetComponent implements OnInit {
     if (event.key === 'Backspace') {
       if (!this.input1.nativeElement.value) {
         this.input1.nativeElement.focus()
-      }  else if (!this.input2.nativeElement.value) {
+      } else if (!this.input2.nativeElement.value) {
         this.input1.nativeElement.focus();
       }
       else {
@@ -412,7 +413,7 @@ export class TimesheetComponent implements OnInit {
         }
         else if (!this.input2.nativeElement.value) {
           this.input2.nativeElement.focus();
-        }else {
+        } else {
           this.pinValue = '' + this.form.value.a + '' + this.form.value.b;
           if (this.pinValue.length == 2) {
           }
@@ -421,16 +422,16 @@ export class TimesheetComponent implements OnInit {
     }
     let form1 = this.form.get('A').value;
     let form2 = this.form.get('B').value;
-    if(form1 && form1.length == 1) {
+    if (form1 && form1.length == 1) {
       form1 = "0" + form1;      // form1 = "08"
-     this.form.controls["A"].setValue(form1);
+      this.form.controls["A"].setValue(form1);
     }
   }
 
   // onTimeKeyDown(event: KeyboardEvent) {
   //   // Get the current input value
   //   let inputValue: string = (event.target as HTMLInputElement).value;
-  
+
   //   // Allow only backspace and numbers
   //   if (
   //     event.key !== 'Backspace' &&
@@ -439,7 +440,7 @@ export class TimesheetComponent implements OnInit {
   //     event.preventDefault();
   //     return;
   //   }
-  
+
   //   // Handle backspace
   //   if (event.key === 'Backspace') {
   //     // Remove the last character if it is a number
@@ -447,15 +448,15 @@ export class TimesheetComponent implements OnInit {
   //       inputValue = inputValue.slice(0, -1);
   //     }
   //   }
-  
+
   //   // Convert to 24-hour format
   //   const [hours, minutes] = inputValue.split(':');
   //   const formattedHours = (hours.length === 1 ? '0' : '') + hours;
-  
+
   //   // Update the input value
   //   (event.target as HTMLInputElement).value = `${formattedHours}:${minutes}`;
   // }
-  
+
 
   onTimeKeyDown(event: KeyboardEvent) {
     // Allow only backspace and numbers
@@ -464,17 +465,17 @@ export class TimesheetComponent implements OnInit {
       (event.key < '0' || event.key > '9')
 
     ) {
-      console.log(event.key,">>>>>>>>>>>>>>>>>>>>");
-      
+      console.log(event.key, ">>>>>>>>>>>>>>>>>>>>");
+
       event.preventDefault();
       return;
     }
-  
+
     const inputElement = event.target as HTMLInputElement;
     const selectionStart = inputElement.selectionStart ?? 0;
     const selectionEnd = inputElement.selectionEnd ?? 0;
     const inputValue = inputElement.value;
-  
+
     // Handle backspace
     if (event.key === 'Backspace') {
       if (selectionStart === selectionEnd && selectionStart > 0) {
@@ -488,13 +489,13 @@ export class TimesheetComponent implements OnInit {
         return;
       }
     }
-  
+
     // Prevent adding characters if the input is already at the max length
     if (inputValue.length >= 8) {
       event.preventDefault();
       return;
     }
-  
+
     // Handle numbers
     const char = event.key;
     if (!isNaN(Number(char))) {
@@ -507,13 +508,13 @@ export class TimesheetComponent implements OnInit {
       event.preventDefault();
     }
   }
-  
+
   onTimeInput(event: InputEvent) {
     const inputElement = event.target as HTMLInputElement;
     const newValue = this.formatTime(inputElement.value);
     inputElement.value = newValue;
   }
-  
+
   formatTime(value: string): string {
     const regex = /^(\d{0,2}):?(\d{0,2})$/;
     const match = regex.exec(value);
@@ -522,11 +523,11 @@ export class TimesheetComponent implements OnInit {
     }
     const hours = match[1] ? match[1].padStart(2, '0') : '00';
     const minutes = match[2] ? match[2].padStart(2, '0') : '00';
-    console.log(hours,minutes);
-    
+    console.log(hours, minutes);
+
     return `${hours}:${minutes}`;
   }
-  
+
 
   getHours(e) {
     debugger;
@@ -628,21 +629,21 @@ export class TimesheetComponent implements OnInit {
           }
           debugger
           const formattedHours = this.convertMinutesToHHMM(this.data.hours);
-          
-          console.log(formattedHours,"formattedHours");
+
+          console.log(formattedHours, "formattedHours");
           let apivalue = formattedHours;
 
           let form1 = "00";
           let form2 = "00";
           let sampletimearray = []
-          if(apivalue) {
+          if (apivalue) {
             sampletimearray = apivalue.split(':');        // sampletimearray = ["07","30"]
           }
           form1 = sampletimearray[0];       // form1 = "07"
           form2 = sampletimearray[1];       // form2 = "30"
           this.form.controls["A"].setValue(form1);
           this.form.controls["B"].setValue(form2);
-          
+
           this.form.patchValue(this.data);
           // this.Getproject();
           // this.GetTaskType();
@@ -760,8 +761,8 @@ export class TimesheetComponent implements OnInit {
   }
 
   convertMinutesToHHMM(minutes: number): string {
-    console.log(minutes,">>>>>>>>>>>>>>>>>>>>>>");
-    
+    console.log(minutes, ">>>>>>>>>>>>>>>>>>>>>>");
+
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     // const hoursStr = hours < 10 ? '0' + hours : '' + hours;
@@ -819,14 +820,14 @@ export class TimesheetComponent implements OnInit {
     this.loading = true;
     debugger
     const hoursPart = this.form.value.A;
-  const minutesPart = this.form.value.B;
+    const minutesPart = this.form.value.B;
     const timeInput = `${hoursPart}:${minutesPart}`;
-    console.log(timeInput,'>>>>>+++++');
-    
+    console.log(timeInput, '>>>>>+++++');
+
     if (timeInput !== "00:00") {
       const calculatedHours = moment.duration(timeInput).asMinutes();
       console.log(calculatedHours,);
-      
+
       const timesheetData =
       {
         id: this.form.value.id,
@@ -844,8 +845,8 @@ export class TimesheetComponent implements OnInit {
         taskStatusId: 0,
         approvedStatusType: 1
       };
-      console.log( this.datalist, '++++=====');
-      
+      console.log(this.datalist, '++++=====');
+
       this.datalist.push(timesheetData);
       let data = {
         timesheets: this.datalist
@@ -1014,7 +1015,8 @@ export class TimesheetComponent implements OnInit {
       this.projecttypelist = [];
       this.projecttypelist = this.Leavetasklist;
       this.filterprojecttypelist = this.projecttypelist;
-      this.form.controls["hours"].setValue("08:00");
+      this.form.controls["A"].setValue("08");
+      this.form.controls["B"].setValue("00");
       this.form.controls["taskTypeId"].setValue(16);
 
       this.editTrue = true;
@@ -1023,7 +1025,8 @@ export class TimesheetComponent implements OnInit {
     else if (option === 2) {
       debugger
       this.form.controls['projectId'].setValue(null);
-      this.form.controls['hours'].setValue("00:00");
+      this.form.controls['A'].setValue("00");
+      this.form.controls['B'].setValue("00");
       this.form.controls['description'].setValue('')
       this.form.get('projectId').clearValidators();
       this.form.get('description').clearValidators();
