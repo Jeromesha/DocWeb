@@ -45,6 +45,7 @@ import { NgApexchartsModule } from 'ng-apexcharts'
 import { EmployeedetailsComponent } from './views/pages/employeedetails/employeedetails.component';
 import { ShowreportComponent } from './views/pages/employeeleaverecords/showreport/showreport.component';
 import { TimechampReportComponent } from './views/pages/timechamp-report/timechamp-report.component';
+import { MonthlyWorkingHoursReportComponent } from './views/pages/monthly-working-hours-report/monthly-working-hours-report.component';
 
 
 
@@ -59,6 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
     ErrorPageComponent,
     ShowreportComponent,
     TimechampReportComponent,
+    MonthlyWorkingHoursReportComponent,
 
 
   ],

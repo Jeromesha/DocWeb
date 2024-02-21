@@ -264,9 +264,10 @@ export class TimesheetComponent implements OnInit {
         }));
 
         // this.dataSource.data = this.showgridlist;
-        this.date = this.datalist[0].entryDate;
+        this.date = moment(this.datalist[0].entryDate).format("YYYY-MM-DD"),
         this.form.reset({
-          entryDate: this.formData.entryDate,
+          // entryDate: this.formData.entryDate,
+           entryDate: this.date,
           IsLeave: 2
         });
         

@@ -1,58 +1,52 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { EmployeedetailsComponent } from './employeedetails.component';
-import { EmployeedetailComponent } from './employeedetail.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FeahterIconModule } from 'src/app/core/feather-icon/feather-icon.module';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { MonthlyWorkingHoursReportComponent } from './monthly-working-hours-report.component';
+import { AlertService } from 'src/app/services/alert.service';
+import { ExcelService } from 'src/app/services/excel.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgbDropdownModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatSelectFilterModule } from 'mat-select-filter';
-import { DirectivesModule } from '../../layout/directives/directives.module';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { ExcelService } from 'src/app/services/excel.service';
+import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { FeahterIconModule } from 'src/app/core/feather-icon/feather-icon.module';
+import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
 import { MY_CUSTOM_FORMATS } from '../dashboard/timesheet/timesheet.module';
+
 const routes: Routes = [
   {
-      path: '',
-      component: EmployeedetailsComponent
-  },
-  {
-    path: ':id/:actionInfo',
-    component: EmployeedetailComponent
-},
-]
-
+    path:'',
+    component: MonthlyWorkingHoursReportComponent
+  }
+];
 
 @NgModule({
-  declarations: [ EmployeedetailsComponent, EmployeedetailComponent],
-  providers:[ 
-    DatePipe,
+  declarations: [],
+  providers: [
     ExcelService,
+    AlertService,
+    TimeSheetService,
     DatePipe,
-    { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} },
-
     { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
     { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
     // { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: false } } ,
     { provide: OWL_DATE_TIME_LOCALE, useValue: 'ist' },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } }],
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } }
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -61,9 +55,8 @@ const routes: Routes = [
     NgbDropdownModule,
     FormsModule,
     TranslateModule,
+    MatButtonToggleModule,
     ReactiveFormsModule,
-    OwlDateTimeModule,
-    OwlNativeDateTimeModule,
     MatIconModule,
     MatTooltipModule,
     MatButtonModule,
@@ -72,15 +65,14 @@ const routes: Routes = [
     MatPaginatorModule,
     MatInputModule,
     MatFormFieldModule,
-    MatDialogModule,
-    DirectivesModule,
     MatSelectModule,
     MatSelectFilterModule,
-    MatCheckboxModule,
+    NgbProgressbarModule,
+    NgbTooltipModule,
     MatRadioModule,
-    NgMultiSelectDropDownModule.forRoot(),
-    // NgMultiSelectDropDownModule
-  ],
-  
+    MatCheckboxModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
+  ]
 })
-export class EmployeedetailsModule { }
+export class MonthlyWorkingHoursReportModule { }
