@@ -30,8 +30,7 @@
                                                         [owlDateTimeTrigger]="dt1" [min]="this.mindate"
                                                         [max]="this.maxdate" [owlDateTime]="dt1"
                                                         [(ngModel)]="formData.entryDate"
-                                                        (ngModelChange)="getgriddatabydate($event)"
-                                                    >
+                                                        (ngModelChange)="getgriddatabydate($event)">
 
                                                     <owl-date-time [disabled]="actionInfo ==1 || disabled"
                                                         [pickerType]="'calendar'" #dt1>
@@ -93,7 +92,8 @@
                                             <div class="form-group">
                                                 <label class="mandatory">{{form.value.IsLeave === 1 ? 'Leave Type' :
                                                     'Task Type' | translate}}</label>
-                                                <mat-select [disabled]="actionInfo == 1 || View" placeholder="{{form.value.IsLeave === 1 ? 'Leave Type' : 'Task Type'}}"
+                                                <mat-select [disabled]="actionInfo == 1 || View"
+                                                    placeholder="{{form.value.IsLeave === 1 ? 'Leave Type' : 'Task Type'}}"
                                                     (selectionChange)="sortingChange($event)"
                                                     formControlName="taskTypeId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2>
@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                         <!-- <div class="col-md-6"> -->
-                                            <!-- <div class="form-group">
+                                        <!-- <div class="form-group">
                                                 <label class="mandatory">{{'Hours' | translate}}
                                                 </label>
                                                 <fieldset [disabled]=" actionInfo == 11 || View || form.value.IsLeave === 1">
@@ -122,8 +122,8 @@
                                                     
                                                     (dateTimeInput)="timeChange()">
                                                 </fieldset> -->
-                                                <!-- <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time> -->
-                                                <!-- <div class="valid-error"
+                                        <!-- <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time> -->
+                                        <!-- <div class="valid-error"
                                                     *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)"
                                                     text-wrap>
                                                     <span *ngIf="form.controls.hours.errors?.required"
@@ -133,11 +133,11 @@
                                                 </div>
                                             </div>
                                         </div> -->
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory">{{ 'Hours' | translate }}</label>
                                                 <fieldset [disabled]="actionInfo == 11 || View || form.value.IsLeave === 1">
-                                                    <input type="time" class="form-control" formControlName="hours" step="3600" value="13:30"
+                                                    <input type="time" class="form-control" formControlName="hours" step="1800" value="13:30"
                                                         (change)="onTimeChange($event)">
                                                 </fieldset>
                                                 <div class="valid-error" *ngIf="form.controls.hours.errors && (form.controls.hours.dirty || form.controls.hours.touched)" text-wrap>
@@ -146,7 +146,30 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                        </div> -->
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">{{ 'Hours' | translate }}</label>
+                                                <fieldset
+                                                    [disabled]="actionInfo == 11 || View || form.value.IsLeave === 1">
+                                                    <div class="d-flex" style="border: 1px solid #8181944d;">
+                                                        <input type="text" class="form-control mr-2" maxlength="2"
+                                                            style="width: 54px;border: 1px solid white !important;" formControlName="A" #input1
+                                                            (blur)="moveFocus($event,'A')"
+                                                            (click)="selectAllText($event)" 
+                                                            onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)'>
+                                                        <span style="margin-top: .4rem;">:</span>
+                                                        <input type="text" class="form-control ml-1" maxlength="2"
+                                                            style="width: 54px;border: 1px solid white !important;" formControlName="B" #input2
+                                                            (blur)="moveFocus($event,'hours')"
+                                                            (click)="selectAllText($event)"
+                                                            onkeypress="return event.keyCode == 46 || (event.keyCode >= 48 && event.keyCode <= 57)">
+                                                    </div>
+                                                </fieldset>
+                                            </div>
                                         </div>
+
                                         <!-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory">{{ 'Hours' | translate }}</label>
@@ -160,16 +183,16 @@
                                                 </div>
                                             </div>
                                         </div> -->
-                                        
-                                        
-                                        
+
+
+
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory ">{{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description' | translate}}</label>
-                                                <textarea type="text" class="form-control" 
-                                                    formControlName="description" placeholder="{{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description'}}"
-                                                    autocomplete="off"
-                                                    [readOnly]="View">
+                                                <label class="mandatory ">
+                                                    {{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description' | translate}}</label>
+                                                <textarea type="text" class="form-control" formControlName="description"
+                                                    placeholder="{{form.value.IsLeave === 1 ? 'Leave Description' : 'Task Description'}}"
+                                                    autocomplete="off" [readOnly]="View">
                                                 </textarea>
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
@@ -226,7 +249,8 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{'Date'|translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{dataField.entryDate |date:'dd-MM-yyyy'}}</p>
+                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+                    {{dataField.entryDate |date:'dd-MM-yyyy'}}</p>
             </mat-cell>
         </ng-container>
 
@@ -236,10 +260,12 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <ng-container *ngIf="dataField.id!=0; else formattedHoursTemplate">
-                    <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
+                    <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''"
+                        class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-container>
                 <ng-template #formattedHoursTemplate>
-                    <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
+                    <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''"
+                        class="text-truncate txtalign lbl-pointer">{{ dataField.hours }}</p>
                 </ng-template>
             </mat-cell>
         </ng-container>
@@ -248,7 +274,8 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="remarks">{{'Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
+                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+                    {{dataField.description}}</p>
             </mat-cell>
         </ng-container>
 
@@ -256,7 +283,8 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{'Project Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
+                <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+                    {{dataField.project}}</p>
             </mat-cell>
         </ng-container>
 

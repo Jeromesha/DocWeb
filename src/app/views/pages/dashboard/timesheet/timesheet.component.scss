@@ -101,3 +101,8 @@ input:checked+.slider:before {
 .owl-dt-container .owl-dt-container-footer {
   display: none;
 }
+
+// ::ng-deep input[type="time"]::-webkit-calendar-picker-indicator {
+//   background: none !important;
+//   display: none;
+// }
