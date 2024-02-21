@@ -278,7 +278,7 @@
 
                                                     <input class="form-control" formControlName="endDate"
                                                         [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"
-                                                        placeholder="{{'EndDate' | translate}}" [max]='scheduledEndmax'
+                                                        placeholder="{{'EndDate' | translate}}" 
                                                         [min]="form.get('startDate').value">
                                                     <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
                                                     <div class="input-group-append">

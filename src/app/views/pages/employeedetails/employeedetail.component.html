@@ -180,11 +180,11 @@
                                                 <span *ngIf="form.controls.mobile.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     {{'Mobile Number' | translate}} {{'IsRequired' | translate}}</span>
-                                                <!-- <span *ngIf="form.controls.mobile.errors?.pattern"
+                                                <span *ngIf="form.controls.mobile.errors?.pattern"
                                                     class="form-text danger mandatory">
                                                     {{ 'Mobile Number' | translate }} 
                                                     {{ 'must start with 6 to 9 & Maxinum 10 dight' |translate }}
-                                                </span> -->
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -508,7 +508,8 @@
                                             <label class="mandatory ">{{"Status"|translate}}</label>
                                             <mat-select placeholder='{{"Status"|translate}}'
                                                 formControlName="employeeStatus" class="form-control pt-2"
-                                                [disableOptionCentering]="true" #select7>
+                                                [disableOptionCentering]="true" #select7
+                                                [ngClass]="{'disable':actionInfo == 1}">
                                                 <mat-select-filter [displayMember]="'value'" [array]="statuslist"
                                                     (filteredReturn)="statuslist =$event" *ngIf="select7.focused">
                                                 </mat-select-filter>
@@ -562,7 +563,8 @@
                                             <label>{{'Productive Factors' | translate}}</label>
                                             <input type="text" class="form-control " formControlName="productionFactor"
                                                 maxlength="250" placeholder="Productive factors" autocomplete="off"
-                                                inputText>
+                                                inputText
+                                                [ngClass]="{'disable':actionInfo == 1}">
                                             <!-- <div class="valid-error"
                                                 *ngIf="form.controls.productionFactor.errors && (form.controls.productionFactor.dirty || form.controls.productionFactor.touched)"
                                                 text-wrap>

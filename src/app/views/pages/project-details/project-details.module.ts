@@ -24,11 +24,15 @@ import { MatSelectFilterModule } from "mat-select-filter";
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { TimeSheetService } from "src/app/services/timesheet.service";
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ProjectDetailsViewComponent } from './project-details-view.component';
 import { ProjectdetailsService } from 'src/app/services/projectdetails.service';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ExcelService } from 'src/app/services/excel.service';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MomentDateTimeAdapter } from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';
+import { MY_CUSTOM_FORMATS } from '../dashboard/timesheet/timesheet.module';
 
 const routes: Routes = [
   {
@@ -49,7 +53,16 @@ const routes: Routes = [
     NotifyService,
     DatePipe,
     ProjectdetailsService,
-    ExcelService
+    ExcelService,
+    DatePipe,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+
+    { provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE] },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS },
+    // { provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: false } } ,
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'ist' },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } }
   ],
   imports: [
     CommonModule,

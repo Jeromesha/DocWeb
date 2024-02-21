@@ -107,6 +107,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/timechamp-report/timechamp-report.module").then((m) => m.TimechampReportModule)
       },
+      {
+        path: "monthlyworkinghoursreport",
+        loadChildren: () =>
+          import("./../../views/pages/monthly-working-hours-report/monthly-working-hours-report.module").then((m) => m.MonthlyWorkingHoursReportModule)
+      },
     ],
   },
 ];

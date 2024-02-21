@@ -62,4 +62,8 @@ export class TimeSheetService {
         return this.dataService.getData('/api/timesheet/getdefaultprojectid', true);
     }
 
+    getMonthlyHowkingHours(id:number, month:number, year:number){
+        return this.dataService.getData('/api/timesheet/getMonthlyWorkingHours/'+ month +'/' + year+'/'+id  ,true);
+    }
+
 }
