@@ -328,7 +328,7 @@ export class TimesheetComponent implements OnInit {
       timeIn: [null],
       timeOut: [null],
       TaskStatusId: [null],
-      A: ['08', [Validators.required, Validators.pattern('^(0[0-9]|1[0-9]|2[0-3])$')]],
+      A: ['00', [Validators.required, Validators.pattern('^(0[0-9]|1[0-9]|2[0-3])$')]],
       B: ['00', [Validators.required, Validators.pattern('^[0-5][0-9]$')]],
     });
   }
