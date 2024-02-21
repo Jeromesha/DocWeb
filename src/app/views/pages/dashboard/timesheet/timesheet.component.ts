@@ -334,12 +334,14 @@ export class TimesheetComponent implements OnInit {
   sortingChange(event) {
     debugger
     if (event.value == 16) {
-      this.form.controls["hours"].setValue("08:00");
+      this.form.controls["A"].setValue("08");
+      this.form.controls["B"].setValue("00");
       this.leavedisable = false;
       this.editTrue = true;
     }
     else if (event.value == 21 || event.value == 22) {
-      this.form.controls["hours"].setValue("04:00");
+      this.form.controls["A"].setValue("04");
+      this.form.controls["B"].setValue("00");
       this.leavedisable = true;
       this.editTrue = false;
     }
@@ -778,13 +780,14 @@ export class TimesheetComponent implements OnInit {
     //this.editTrue = editTrue;
     // this.editMode = editTrue;
     this.form.patchValue(dataField);
-    if (this.actionInfo == 2) {
-      this.form.controls['hours'].setValue(dataField.hours);
-    }
-    else {
-      // this.form.controls['hours'].setValue(moment().startOf('day').add(dataField.hours, 'hours').toDate());
-      this.form.controls['hours'].setValue(dataField.hours);
-    }
+
+    // Splitting the hours and minutes from the 'hours' field
+    const [hours, minutes] = dataField.hours.split(':');
+
+    // Setting values of inputs 'A' and 'B'
+    this.form.controls['A'].setValue(hours);
+    this.form.controls['B'].setValue(minutes);
+
     // this.Getproject();
     // this.GetTaskType();
     if (dataField.isLeave == true) {
@@ -814,7 +817,9 @@ export class TimesheetComponent implements OnInit {
   onSubmitInEdit() {
     this.loading = true;
     debugger
-    const timeInput = this.form.value.hours;
+    const hoursPart = this.form.value.A;
+  const minutesPart = this.form.value.B;
+    const timeInput = `${hoursPart}:${minutesPart}`;
     console.log(timeInput,'>>>>>+++++');
     
     if (timeInput !== "00:00") {
