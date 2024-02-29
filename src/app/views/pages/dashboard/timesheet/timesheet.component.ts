@@ -144,6 +144,10 @@ export class TimesheetComponent implements OnInit {
         nonEntryDate = moment(nonEntryDate).add(1, 'day').format("YYYY-MM-DD");
       }
       this.formData.entryDate = nonEntryDate;
+      if(this.date == 0)
+      {
+        this.date = nonEntryDate;
+      }
       this.submitbtn = 'Save';
     } else {
       this.submitbtn = 'Update';
@@ -173,7 +177,7 @@ export class TimesheetComponent implements OnInit {
     debugger;
     this.getgrid(this.UserId, true);
     if (this.actionInfo == 2) {
-      this.getgriddatabycurrentdate();
+      // this.getgriddatabycurrentdate();
     }
 
     //this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
@@ -198,6 +202,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   onAdd() {
+    // this.form.controls['projectId'].setValue('');
     this.form.controls['hours'].setValidators(Validators.required);
     this.form.controls['hours'].updateValueAndValidity();
     this.form.controls['entryDate'].setValidators(Validators.required);
@@ -213,9 +218,10 @@ export class TimesheetComponent implements OnInit {
     //   this.form.controls["taskTypeId"].clearValidators();
     //   this.form.controls["taskTypeId"].updateValueAndValidity();
     // }
-    console.log(this.form.value.hours, 'this.form.value.hours');
 
-    if (this.form.value.A != "00" && this.form.value.B != "" && this.form.value.A != "") {
+    console.log(this.form.value, 'this.form.value.hours');
+
+    if (this.form.valid && this.form.value.B != "" && this.form.value.A != "" && !(this.form.value.A == "00" && this.form.value.B == "00")) {
       if (this.form.valid) {
         const formData = this.form.value;
         const timeInput = this.form.value.hours;
@@ -228,17 +234,32 @@ export class TimesheetComponent implements OnInit {
         const calculatedHours = (hoursA * 60) + hoursB;
         // const calculatedHours = moment.duration(timeInput).asMinutes();
         formData.hours = concatenatedValue;
+        formData.hoursNumber = calculatedHours;
         const projectData = this.filterSortList.find(x => x.key === formData.projectId);
         // formData.hours = calculatedHours
         formData.project = projectData ? projectData.value : null;
-        this.temproraryList.push(formData);
+
+        let convertedData = this.data.map(entry => ({
+          ...entry,
+          hours: this.convertMinutesToHHMM(entry.hours)
+        }));
+        console.log(convertedData, ">>>>>>>>>>>>>>>>>>>>>1");
+        let ogdata = Object.assign({},formData);
+        if(this.date == 0){
+          this.temproraryList.push(formData);
+        }
+        else{
+          convertedData.push(formData);
+          ogdata.hours = calculatedHours;
+          this.data.push(ogdata);
+       }
         let sum = 0;
         this.temproraryList.forEach(i => {
           let hours = moment.duration(i.hours).asMinutes();
           //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
           sum += hours;
         })
-        console.log(this.temproraryList, 'this.temproraryList');
+        console.log(this.data, 'this.temproraryList');
 
         // sum = sum * 60;
         if (sum > (24 * 60)) {
@@ -266,12 +287,17 @@ export class TimesheetComponent implements OnInit {
 
           // this.showgridlist.push(convertedData);
         }
-        this.dataSource.data = this.list;
+        if(this.date == 0){
+          this.dataSource.data = this.list;
+        }else{
+          this.dataSource.data = convertedData;
+        }
+        console.log(this.dataSource.data,'this.dataSource.data>>>>')
         this.datalist = this.list.map(item => ({
           entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
           //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
           //hours:moment.duration(item.hours).asMinutes(),
-          hours: calculatedHours,
+          hours: item.hoursNumber,
           description: item.description,
           projectId: item.projectId,
           taskId: 0,
@@ -305,11 +331,18 @@ export class TimesheetComponent implements OnInit {
         console.log(tempedate.projectId, "pro ID ")
         this.form.controls["projectId"].setValue(tempedate.projectId);
         debugger
+        console.log(this.datalist);
+
+        console.log(this.data,"og");
+        console.log(convertedData,"show")
       }
     }
     else {
+      if (this.form.value.A === "00" && this.form.value.B === "00") {
+        // this.form.controls['A'].setErrors({ 'incorrect': true }, { emitEvent: true });
+      }
       this.validateFormControl();
-      this.form.controls["hours"].setErrors({ required: true });
+      // this.form.controls["hours"].setErrors({ required: true });
     }
 
   }
@@ -737,7 +770,7 @@ export class TimesheetComponent implements OnInit {
           console.log('convert ', convertedData)
           //this.dataSource = new MatTableDataSource(convertedData);
           //this.list.push(convertedData);
-          if (this.actionInfo == 11) {
+          if (this.actionInfo == 11 || this.actionInfo == 2) {
             this.dataSource.data = convertedData;
             this.editData(this.dataSource.data[0], false)
           }
@@ -779,25 +812,29 @@ export class TimesheetComponent implements OnInit {
   editData(dataField: any, editTrue: boolean) {
     debugger
     console.log('edit data', dataField)
+    if(editTrue == true ){
+      this.form.patchValue(dataField);
+
+      // Splitting the hours and minutes from the 'hours' field
+      const [hours, minutes] = dataField.hours.split(':');
+  
+      // Setting values of inputs 'A' and 'B'
+      this.form.controls['A'].setValue(hours);
+      this.form.controls['B'].setValue(minutes);
+      if (dataField.isLeave == true) {
+        this.form.controls['IsLeave'].setValue(true);
+      }
+      else {
+        this.form.controls['IsLeave'].setValue(2);
+      }
+    }
+
     //this.editTrue = editTrue;
     // this.editMode = editTrue;
-    this.form.patchValue(dataField);
-
-    // Splitting the hours and minutes from the 'hours' field
-    const [hours, minutes] = dataField.hours.split(':');
-
-    // Setting values of inputs 'A' and 'B'
-    this.form.controls['A'].setValue(hours);
-    this.form.controls['B'].setValue(minutes);
-
+    
     // this.Getproject();
     // this.GetTaskType();
-    if (dataField.isLeave == true) {
-      this.form.controls['IsLeave'].setValue(true);
-    }
-    else {
-      this.form.controls['IsLeave'].setValue(2);
-    }
+   
   }
 
   private formatWithLeadingZero(value: number): string {

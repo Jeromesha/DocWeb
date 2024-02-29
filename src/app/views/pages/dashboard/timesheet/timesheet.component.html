@@ -167,6 +167,9 @@
                                                             onkeypress="return event.keyCode == 46 || (event.keyCode >= 48 && event.keyCode <= 57)">
                                                     </div>
                                                 </fieldset>
+                                                 <div *ngIf="((form.get('A').dirty || form.get('A').touched) || (form.get('B').dirty || form.get('B').touched)) && form.value.A == '00' && form.value.B == '00'">
+                                                        <span class="text-danger">Hours is required*</span>
+                                                    </div>
                                             </div>
                                         </div>
 
