@@ -1135,9 +1135,9 @@ export class TimesheetComponent implements OnInit {
               this.dataSource.data = this.dataSource.data.filter(e=>e.id != dataField.id);
     
               //location.reload()
-              // this.getgrid(this.UserId, true);
-              // this.get(true);
-              // this.getgriddatabydate(this.form.value.entryDate);
+              this.getgrid(this.UserId, true);
+              this.get(true);
+              this.getgriddatabydate(this.form.value.entryDate);
             }
 
           })
