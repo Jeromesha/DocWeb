@@ -144,8 +144,7 @@ export class TimesheetComponent implements OnInit {
         nonEntryDate = moment(nonEntryDate).add(1, 'day').format("YYYY-MM-DD");
       }
       this.formData.entryDate = nonEntryDate;
-      if(this.date == 0)
-      {
+      if (this.date == 0) {
         this.date = nonEntryDate;
       }
       this.submitbtn = 'Save';
@@ -179,13 +178,9 @@ export class TimesheetComponent implements OnInit {
     if (this.actionInfo == 2) {
       // this.getgriddatabycurrentdate();
     }
-
     //this.form.controls["entryDate"].setValue(moment(new Date).format("YYYY-MM-DD"));
     this.form.controls["entryDate"].setValue(this.date);
-
     // this.form.controls["hours"].setValue("00:00");
-
-
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -202,6 +197,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   onAdd() {
+    debugger;
     // this.form.controls['projectId'].setValue('');
     this.form.controls['hours'].setValidators(Validators.required);
     this.form.controls['hours'].updateValueAndValidity();
@@ -244,15 +240,15 @@ export class TimesheetComponent implements OnInit {
           hours: this.convertMinutesToHHMM(entry.hours)
         }));
         console.log(convertedData, ">>>>>>>>>>>>>>>>>>>>>1");
-        let ogdata = Object.assign({},formData);
-        if(this.date == 0){
+        let ogdata = Object.assign({}, formData);
+        if (this.date == 0) {
           this.temproraryList.push(formData);
         }
-        else{
+        else {
           convertedData.push(formData);
           ogdata.hours = calculatedHours;
           this.data.push(ogdata);
-       }
+        }
         let sum = 0;
         this.temproraryList.forEach(i => {
           let hours = moment.duration(i.hours).asMinutes();
@@ -287,12 +283,18 @@ export class TimesheetComponent implements OnInit {
 
           // this.showgridlist.push(convertedData);
         }
-        if(this.date == 0){
-          this.dataSource.data = this.list;
-        }else{
-          this.dataSource.data = convertedData;
+        if (this.date == 0) {
+          // this.dataSource.data = this.list;
+          this.dataSource = new MatTableDataSource(this.list);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+        } else {
+          // this.dataSource.data = convertedData;
+          this.dataSource = new MatTableDataSource(convertedData);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
         }
-        console.log(this.dataSource.data,'this.dataSource.data>>>>')
+        console.log(this.dataSource.data, 'this.dataSource.data>>>>')
         this.datalist = this.list.map(item => ({
           entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
           //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
@@ -333,8 +335,8 @@ export class TimesheetComponent implements OnInit {
         debugger
         console.log(this.datalist);
 
-        console.log(this.data,"og");
-        console.log(convertedData,"show")
+        console.log(this.data, "og");
+        console.log(convertedData, "show")
       }
     }
     else {
@@ -718,7 +720,10 @@ export class TimesheetComponent implements OnInit {
             ...entry,
             hours: this.convertMinutesToHHMM(entry.hours)
           }));
-          this.dataSource.data = convertedData;
+          // this.dataSource.data = convertedData;
+          this.dataSource = new MatTableDataSource(convertedData);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
         }
       });
     }
@@ -738,7 +743,10 @@ export class TimesheetComponent implements OnInit {
           ...entry,
           hours: this.convertMinutesToHHMM(entry.hours)
         }));
-        this.dataSource.data = convertedData;
+        // this.dataSource.data = convertedData;
+        this.dataSource = new MatTableDataSource(convertedData);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       }
     });
   }
@@ -753,6 +761,7 @@ export class TimesheetComponent implements OnInit {
     //   this.disabled = true;
     //   console.log("date success")
     // }
+
     if (this.date)
     //else
     {
@@ -771,7 +780,10 @@ export class TimesheetComponent implements OnInit {
           //this.dataSource = new MatTableDataSource(convertedData);
           //this.list.push(convertedData);
           if (this.actionInfo == 11 || this.actionInfo == 2) {
-            this.dataSource.data = convertedData;
+            // this.dataSource.data = convertedData;
+            this.dataSource = new MatTableDataSource(convertedData);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
             this.editData(this.dataSource.data[0], false)
           }
           //this.list=convertedData;
@@ -812,12 +824,12 @@ export class TimesheetComponent implements OnInit {
   editData(dataField: any, editTrue: boolean) {
     debugger
     console.log('edit data', dataField)
-    if(editTrue == true ){
+    if (editTrue == true) {
       this.form.patchValue(dataField);
 
       // Splitting the hours and minutes from the 'hours' field
       const [hours, minutes] = dataField.hours.split(':');
-  
+
       // Setting values of inputs 'A' and 'B'
       this.form.controls['A'].setValue(hours);
       this.form.controls['B'].setValue(minutes);
@@ -831,10 +843,10 @@ export class TimesheetComponent implements OnInit {
 
     //this.editTrue = editTrue;
     // this.editMode = editTrue;
-    
+
     // this.Getproject();
     // this.GetTaskType();
-   
+
   }
 
   private formatWithLeadingZero(value: number): string {
@@ -1078,10 +1090,17 @@ export class TimesheetComponent implements OnInit {
     }
   }
 
-  onDelete(dataField: any) {
+  onDelete(dataField: any, i) {
     debugger
+    let localData = this.list;
+    let localData1 = this.datalist;
+
     const index = this.datalist.indexOf(dataField);
     const index1 = this.list.indexOf(dataField);
+    console.log(localData, "878");
+    console.log(localData1, "978");
+
+
     Swal.fire({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this Data!',
@@ -1091,11 +1110,42 @@ export class TimesheetComponent implements OnInit {
       cancelButtonText: 'No, cancel!',
     }).then((willDelete) => {
       if (willDelete.value) {
-        this.datalist.splice(index, 1);
-        this.list.splice(index1, 1);
-        this.dataSource.data = this.list;
-        this.temproraryList.pop();
-        Swal.fire('Deleted!', 'Your Data has been deleted.', 'success');
+        if (dataField.id == 0 || dataField.id == null) {
+          let localdelete = this.dataSource.data
+          this.datalist.splice(index, 1);
+          this.list.splice(index1, 1);
+          this.temproraryList.splice(i, 1);
+          // this.dataSource.data=this.dataSource.data.splice(i, 1);
+          const data = this.dataSource.data;
+          this.data.splice(i, 1);
+          data.splice((this.paginator.pageIndex * this.paginator.pageSize) + i, 1);
+          this.dataSource.data = data;
+
+          // this.dataSource = new MatTableDataSource(datasource);
+
+
+        }
+        else {
+          this.timesheetService.delete(dataField.id).subscribe(res => {
+            if (res.isSuccess) {
+              Swal.fire('Deleted!', 'Your Data has been deleted.', 'success');
+              // const data = this.dataSource.data;
+              // this.data.splice(i, 1);
+              // data.splice((this.paginator.pageIndex * this.paginator.pageSize) + i, 1);
+              this.dataSource.data = this.dataSource.data.filter(e=>e.id != dataField.id);
+    
+              //location.reload()
+              // this.getgrid(this.UserId, true);
+              // this.get(true);
+              // this.getgriddatabydate(this.form.value.entryDate);
+            }
+
+          })
+        }
+        // this.datalist.splice(i, 1);
+        // this.list.splice(i, 1);
+        // this.dataSource.data = this.list;
+        // this.temproraryList.pop();
       }
       else {
         Swal.fire('Cancelled', 'Your Data is safe :)', 'error');
