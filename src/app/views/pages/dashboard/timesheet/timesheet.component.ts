@@ -98,6 +98,8 @@ export class TimesheetComponent implements OnInit {
   private isLeaveValue: number;
   Normaltasklist: any[] = [];
   Leavetasklist: any[] = [];
+  deletedItemIds: number[] = [];
+  localID: number= 0;
 
   formentry: any;
   date: any;
@@ -198,7 +200,11 @@ export class TimesheetComponent implements OnInit {
 
   onAdd() {
     debugger;
-    // this.form.controls['projectId'].setValue('');
+    if (this.id === null) {
+      this.id = 0;
+    }
+    this.localID = Math.floor(Math.random() * 100000) + 1;
+
     this.form.controls['hours'].setValidators(Validators.required);
     this.form.controls['hours'].updateValueAndValidity();
     this.form.controls['entryDate'].setValidators(Validators.required);
@@ -208,32 +214,25 @@ export class TimesheetComponent implements OnInit {
     this.form.controls['description'].setValidators(Validators.required);
     this.form.controls['description'].updateValueAndValidity();
     this.form.controls['projectId'].setValidators(Validators.required);
-    this.form.controls['projectId'].updateValueAndValidity()
-    debugger;
-    // if (this.form.value.IsLeave === 1) {
-    //   this.form.controls["taskTypeId"].clearValidators();
-    //   this.form.controls["taskTypeId"].updateValueAndValidity();
-    // }
+    this.form.controls['projectId'].updateValueAndValidity();
 
     console.log(this.form.value, 'this.form.value.hours');
 
     if (this.form.valid && this.form.value.B != "" && this.form.value.A != "" && !(this.form.value.A == "00" && this.form.value.B == "00")) {
       if (this.form.valid) {
-        const formData = this.form.value;
+        const formData = { ...this.form.value, id: this.id }; // Assign this.id to formData.id
         const timeInput = this.form.value.hours;
         const concatenatedValue = `${this.form.get('A').value}:${this.form.get('B').value}`;
         console.log(concatenatedValue, '+++++++++');
-        // this.form.controls["hours"].setErrors(null);
         this.form.controls["hours"].setErrors(null);
         const hoursA = parseInt(this.form.get('A').value);
         const hoursB = parseInt(this.form.get('B').value);
         const calculatedHours = (hoursA * 60) + hoursB;
-        // const calculatedHours = moment.duration(timeInput).asMinutes();
         formData.hours = concatenatedValue;
         formData.hoursNumber = calculatedHours;
         const projectData = this.filterSortList.find(x => x.key === formData.projectId);
-        // formData.hours = calculatedHours
         formData.project = projectData ? projectData.value : null;
+        formData.localid = this.localID
 
         let convertedData = this.data.map(entry => ({
           ...entry,
@@ -243,8 +242,7 @@ export class TimesheetComponent implements OnInit {
         let ogdata = Object.assign({}, formData);
         if (this.date == 0) {
           this.temproraryList.push(formData);
-        }
-        else {
+        } else {
           convertedData.push(formData);
           ogdata.hours = calculatedHours;
           this.data.push(ogdata);
@@ -252,44 +250,35 @@ export class TimesheetComponent implements OnInit {
         let sum = 0;
         this.temproraryList.forEach(i => {
           let hours = moment.duration(i.hours).asMinutes();
-          //hours = parseInt(moment(hours).format("HH")) * 60 + (parseInt(moment(hours).format("mm")));
           sum += hours;
-        })
+        });
         console.log(this.data, 'this.temproraryList');
 
-        // sum = sum * 60;
         if (sum > (24 * 60)) {
           console.log(sum, '++++++');
           this.alertService.warning("Work time is exceeded more than 24 hours");
           this.temproraryList.pop();
           console.log(this.temproraryList, '=======');
-
           return;
         }
         this.isLeaveValue = formData.IsLeave;
 
-        const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0, id: 0, };
+        const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0 };
         console.log('tempdate', tempedate);
         this.list.push(tempedate);
 
-
         for (let item of this.list) {
-
           const convertedData = this.list.map(entry => ({
             ...entry,
             hours: this.convertMinutesToHHMM(entry.hours)
           }));
           console.log(convertedData, ">>>>>>>>>>>>>>>>>>>>>");
-
-          // this.showgridlist.push(convertedData);
         }
         if (this.date == 0) {
-          // this.dataSource.data = this.list;
           this.dataSource = new MatTableDataSource(this.list);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         } else {
-          // this.dataSource.data = convertedData;
           this.dataSource = new MatTableDataSource(convertedData);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
@@ -297,13 +286,10 @@ export class TimesheetComponent implements OnInit {
         console.log(this.dataSource.data, 'this.dataSource.data>>>>')
         this.datalist = this.list.map(item => ({
           entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-          //hours: (typeof (item.hours) == "string") ? item.hours : parseInt(moment(item.hours).format("HH")) * 60 + parseInt(moment(item.hours).format("mm")),
-          //hours:moment.duration(item.hours).asMinutes(),
           hours: item.hoursNumber,
           description: item.description,
           projectId: item.projectId,
           taskId: 0,
-          //employeeId: item.EmployeeId,
           employeeId: this.userSessionService.userId(),
           isLeave: item.IsLeave == 1 ? true : false,
           timeIn: null,
@@ -311,43 +297,35 @@ export class TimesheetComponent implements OnInit {
           taskStatusId: 0,
           taskTypeId: item.taskTypeId,
           approvedStatusType: 1,
+          localid: this.localID
         }));
 
-        // this.dataSource.data = this.showgridlist;
         this.date = moment(this.datalist[0].entryDate).format("YYYY-MM-DD"),
           this.form.reset({
-            // entryDate: this.formData.entryDate,
             entryDate: this.date,
             IsLeave: 2
           });
 
-
         this.projecttypelist = this.Normaltasklist;
         this.filterprojecttypelist = this.projecttypelist;
-
         this.disabled = true;
-        //this.onbtnClick(2);
         this.form.controls["hours"].setValue("00:00");
         this.form.controls["A"].setValue("00");
         this.form.controls["B"].setValue("00");
         console.log(tempedate.projectId, "pro ID ")
         this.form.controls["projectId"].setValue(tempedate.projectId);
-        debugger
-        console.log(this.datalist);
-
         console.log(this.data, "og");
-        console.log(convertedData, "show")
+        console.log(convertedData, "show");
       }
-    }
-    else {
+    } else {
       if (this.form.value.A === "00" && this.form.value.B === "00") {
         // this.form.controls['A'].setErrors({ 'incorrect': true }, { emitEvent: true });
       }
       this.validateFormControl();
       // this.form.controls["hours"].setErrors({ required: true });
     }
-
   }
+
 
 
   initializeValidators() {
@@ -894,7 +872,7 @@ export class TimesheetComponent implements OnInit {
         taskStatusId: 0,
         approvedStatusType: 1
       };
-      console.log(this.datalist, '++++=====');
+      
 
       this.datalist.push(timesheetData);
       let data = {
@@ -942,8 +920,9 @@ export class TimesheetComponent implements OnInit {
 
   onSubmit() {
     debugger
-    if (this.list.length > 0) {
+    if (this.list.length > 0 || this.actionInfo == 2) {
       this.loading = true;
+      let filterData = []
       let data = {
         timesheets: this.datalist
       }
@@ -1089,17 +1068,27 @@ export class TimesheetComponent implements OnInit {
       this.editTrue = false;
     }
   }
+  excel() {
 
+  }
   onDelete(dataField: any, i) {
     debugger
     let localData = this.list;
     let localData1 = this.datalist;
 
-    const index = this.datalist.indexOf(dataField);
+    // const index = this.datalist.indexOf(dataField);
     const index1 = this.list.indexOf(dataField);
+    const index = this.datalist.findIndex(loc => loc.localid === dataField.localid);
     console.log(localData, "878");
     console.log(localData1, "978");
-
+    console.log(this.dataSource.data, "978");
+    console.log(this.temproraryList, "978");
+    console.log(this.data, "978");
+    console.log(index, "978");
+    console.log(index1, "978");
+    console.log(this.datalist[index], "978");
+    console.log(this.list[index1], "978");
+    console.log(dataField, "978");
 
     Swal.fire({
       title: 'Are you sure?',
@@ -1112,17 +1101,15 @@ export class TimesheetComponent implements OnInit {
       if (willDelete.value) {
         if (dataField.id == 0 || dataField.id == null) {
           let localdelete = this.dataSource.data
-          this.datalist.splice(index, 1);
-          this.list.splice(index1, 1);
+          this.datalist.splice(i, 1);
+          this.list.splice(i, 1);
           this.temproraryList.splice(i, 1);
           // this.dataSource.data=this.dataSource.data.splice(i, 1);
           const data = this.dataSource.data;
           this.data.splice(i, 1);
           data.splice((this.paginator.pageIndex * this.paginator.pageSize) + i, 1);
           this.dataSource.data = data;
-
-          // this.dataSource = new MatTableDataSource(datasource);
-
+          
 
         }
         else {
@@ -1132,12 +1119,13 @@ export class TimesheetComponent implements OnInit {
               // const data = this.dataSource.data;
               // this.data.splice(i, 1);
               // data.splice((this.paginator.pageIndex * this.paginator.pageSize) + i, 1);
-              this.dataSource.data = this.dataSource.data.filter(e=>e.id != dataField.id);
-    
+              this.dataSource.data = this.dataSource.data.filter(e => e.id != dataField.id);
+              this.data.splice(i, 1);
+
               //location.reload()
-              this.getgrid(this.UserId, true);
-              this.get(true);
-              this.getgriddatabydate(this.form.value.entryDate);
+              // this.getgrid(this.UserId, true);
+              // this.get(true);
+              // this.getgriddatabydate(this.form.value.entryDate);
             }
 
           })
