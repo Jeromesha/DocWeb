@@ -123,7 +123,7 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Actual DOB' | translate}}</label>
                                             <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select Actual DOB" [max]="date"
+                                                <input class="form-control" placeholder="Select Actual DOB" max="{{Date18plus}}"
                                                     formControlName="dateOfBirth" [owlDateTimeTrigger]="dt1"
                                                     [disabled]="actionInfo == 1" [owlDateTime]="dt1">
                                                 <owl-date-time [pickerType]="'calendar'" #dt1>
@@ -182,8 +182,8 @@
                                                     {{'Mobile Number' | translate}} {{'IsRequired' | translate}}</span>
                                                 <span *ngIf="form.controls.mobile.errors?.pattern"
                                                     class="form-text danger mandatory">
-                                                    {{ 'Mobile Number' | translate }} 
-                                                    {{ 'must start with 6 to 9 & Maxinum 10 dight' |translate }}
+                                                    {{ 'Mobile Number' | translate }}
+                                                    {{ 'must start with 6 to 9 & Maxinum 10 digits' |translate }}
                                                 </span>
                                             </div>
                                         </div>
@@ -563,8 +563,7 @@
                                             <label>{{'Productive Factors' | translate}}</label>
                                             <input type="text" class="form-control " formControlName="productionFactor"
                                                 maxlength="250" placeholder="Productive factors" autocomplete="off"
-                                                inputText
-                                                [ngClass]="{'disable':actionInfo == 1}">
+                                                inputText [ngClass]="{'disable':actionInfo == 1}">
                                             <!-- <div class="valid-error"
                                                 *ngIf="form.controls.productionFactor.errors && (form.controls.productionFactor.dirty || form.controls.productionFactor.touched)"
                                                 text-wrap>

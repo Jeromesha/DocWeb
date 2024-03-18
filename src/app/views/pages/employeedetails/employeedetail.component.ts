@@ -51,7 +51,7 @@ export class EmployeedetailComponent implements OnInit {
   qIWXPSyHHd6Wi6Suij9/PDmrhTfOQSrrLrGxtOvchGO5H6IxGJJEhPYbozlGvJ90
   iQIDAQAB
   -----END PUBLIC KEY-----`;
-  
+
   date: Date;
   disab: boolean;
   hybridLocationList: any[];
@@ -65,7 +65,7 @@ export class EmployeedetailComponent implements OnInit {
   secondaryreportingList: any;
   filtersecondaryreportingList: any;
   result: any;
-
+  Date18plus:string;
 
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -73,6 +73,13 @@ export class EmployeedetailComponent implements OnInit {
     private alertService: AlertService,
     private navigationService: NavigationService
   ) {
+    var Date18 = {
+      year: new Date().getFullYear() - 18,
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate(),
+    };
+    this.Date18plus =  moment(Date18).format('YYYY-MM-DD');
+
     this.routeparams = this.route.snapshot.params;
     this.actionInfo = this.routeparams.actionInfo;
     this.id = this.routeparams.id;

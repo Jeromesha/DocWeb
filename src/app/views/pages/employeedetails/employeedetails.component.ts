@@ -51,11 +51,16 @@ export class EmployeedetailsComponent implements OnInit {
 
   getEmpDetails() {
     this.employeeService.getGridDetails(true).subscribe((res) => {
-      this.data = res;
+      if(res.isSuccess){
+      this.data = res.value;
       this.dataSource = new MatTableDataSource(this.data);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       console.log(res);
+      }
+      else{
+        this.alertService.error(res.htmlFormattedFailures)
+      }
 
     })
   }
