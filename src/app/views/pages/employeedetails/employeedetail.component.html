@@ -123,9 +123,10 @@
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Actual DOB' | translate}}</label>
                                             <div class="input-group mb-0 ">
-                                                <input class="form-control" placeholder="Select Actual DOB" max="{{Date18plus}}"
-                                                    formControlName="dateOfBirth" [owlDateTimeTrigger]="dt1"
-                                                    [disabled]="actionInfo == 1" [owlDateTime]="dt1">
+                                                <input class="form-control" placeholder="Select Actual DOB"
+                                                    max="{{Date18plus}}" formControlName="dateOfBirth"
+                                                    [owlDateTimeTrigger]="dt1" [disabled]="actionInfo == 1"
+                                                    [owlDateTime]="dt1">
                                                 <owl-date-time [pickerType]="'calendar'" #dt1>
                                                 </owl-date-time>
                                                 <div class="input-group-append">
@@ -366,7 +367,12 @@
                                     <!-- <div class="row"> -->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory ">{{'Designation' | translate}}</label>
+                                            <label class="mandatory ">{{'Designation' | translate}} </label> <span
+                                                class=""><i class="btn-icon-prepend 2x fa fa-plus ml-3"
+                                                    style="font-size:20px;color:#3E65A6" title="Add"
+                                                    (click)="DesignationAdd(PrintCharges)"></i>
+                                                    
+                                            </span>
                                             <mat-select aria-label="true" formControlName="designationTypeId"
                                                 [disabled]="actionInfo == 1" class="form-control pd"
                                                 placeholder="Select Designation" [disableOptionCentering]="true"
@@ -635,3 +641,66 @@
         </div>
     </div>
 </div>
+<ng-template #PrintCharges let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Add Designation</h4>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-sm-4">
+                    <div class="form-group d-flex align-items-center justify-center">
+                        <label class="mandatory nomar pr15"> Designation Type</label>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" required 
+                     [(ngModel)]="DesignationType" />
+                    <div *ngIf="ErrorTrue" class="text-danger mt-2">
+                        <div *ngIf="
+                DesignationType == '' || DesignationType == 0
+              ">
+                            Designation Type is required
+                        </div>
+                        <!-- <div *ngIf="DesignationType > 20">
+                            Designation charge is Exceed
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group d-flex align-items-center justify-center">
+                        <label class="mandatory nomar pr15">Description</label>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" required  [(ngModel)]="Description" />
+                    <div *ngIf="ErrorTrue" class="text-danger mt-2">
+                        <div *ngIf="
+                Description == '' || Description == 0
+              ">
+                            Description is required
+                        </div>
+                        <!-- <div *ngIf="Description > 20">
+                            Description charge is Exceed
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-raised btn-warning mr-1 btncancel"
+            (click)="modal.dismiss('Cross click');Description='';DesignationType='';ErrorTrue = false;">
+            <i class="fa fa-close"></i>
+            {{'Cancel' | translate}}
+        </button>
+        <div class="pr1"></div>
+        <button class="btn btn-primary mr-1 btnupdate" type="submit" (click)="DesignationSubmit()">
+            <i class="fa fa-save"></i>
+            {{'Save' | translate}}
+        </button>
+    </div>
+</ng-template>

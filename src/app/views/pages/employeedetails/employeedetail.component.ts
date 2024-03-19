@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { AlertService } from 'src/app/services/alert.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import * as moment from 'moment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-employeedetail',
@@ -23,7 +24,7 @@ export class EmployeedetailComponent implements OnInit {
     { key: 2, value: 'Resigned' },
     { key: 1, value: 'Working' },
   ];
-  
+
   formEditMode = true;
   submitbtn: string;
   roleList: any[];
@@ -40,6 +41,7 @@ export class EmployeedetailComponent implements OnInit {
   filterdesignationList: any[];
   checkedTickfill: boolean = false;
   checkedTicktActive: boolean = false;
+  ErrorTrue = false;
 
 
   publicKey: string = `-----BEGIN PUBLIC KEY-----
@@ -65,20 +67,24 @@ export class EmployeedetailComponent implements OnInit {
   secondaryreportingList: any;
   filtersecondaryreportingList: any;
   result: any;
-  Date18plus:string;
+  Date18plus: string;
+  DesignationType: any = '';
+  Description: any = '';
 
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private empDetailsService: EmployeedetailsService,
     private alertService: AlertService,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    private modalService: NgbModal
+
   ) {
     var Date18 = {
       year: new Date().getFullYear() - 18,
       month: new Date().getMonth() + 1,
       day: new Date().getDate(),
     };
-    this.Date18plus =  moment(Date18).format('YYYY-MM-DD');
+    this.Date18plus = moment(Date18).format('YYYY-MM-DD');
 
     this.routeparams = this.route.snapshot.params;
     this.actionInfo = this.routeparams.actionInfo;
@@ -146,7 +152,7 @@ export class EmployeedetailComponent implements OnInit {
       'lastName': ['', Validators.required],
       'roleId': ['', Validators.required],
       'statusid': [''],
-      'mobile': ['',  [Validators.required, Validators.pattern(/^[6-9]{1}[0-9]{9}$/)]],
+      'mobile': ['', [Validators.required, Validators.pattern(/^[6-9]{1}[0-9]{9}$/)]],
       'email': ['', Validators.required],
       'secondlvlReportingPersonId': ['',],
       'dateOfBirth': ['', Validators.required],
@@ -164,7 +170,7 @@ export class EmployeedetailComponent implements OnInit {
       'reportingPersonId': ['', Validators.required],
       'stringPswrd': ['',],
       'stringPswrd2': ['',],
-      'employeeStatus':['',Validators.required],
+      'employeeStatus': ['', Validators.required],
     })
   }
 
@@ -327,7 +333,7 @@ export class EmployeedetailComponent implements OnInit {
 
     if (this.form.valid) {
       // this.form.controls['strpassword'].setValue(encryptedPassword)
-      if (this.form.value.stringPswrd == this.form.value.stringPswrd2 || this.id>0) {
+      if (this.form.value.stringPswrd == this.form.value.stringPswrd2 || this.id > 0) {
         var data = this.form.value;
         data.password = null;
         data.projectId = projectId;
@@ -343,8 +349,8 @@ export class EmployeedetailComponent implements OnInit {
         data.joiningDate = moment(this.form.value.joiningDate).format('YYYY-MM-DD');
         data.secondlvlReportingPersonId = this.form.value.secondlvlReportingPersonId ? this.form.value.secondlvlReportingPersonId : 0;
         data.employeeStatus = this.form.value.employeeStatus;
-        data.lastWorkingDate=this.form.value.lastWorkingDate == null ? null : moment(this.form.value.lastWorkingDate).format('YYYY-MM-DD');
-        data.productionFactor = this.form.value.productionFactor== "" ? null :this.form.value.productionFactor;
+        data.lastWorkingDate = this.form.value.lastWorkingDate == null ? null : moment(this.form.value.lastWorkingDate).format('YYYY-MM-DD');
+        data.productionFactor = this.form.value.productionFactor == "" ? null : this.form.value.productionFactor;
         console.log(data.Designation);
         this.empDetailsService.saveEmployee(data).subscribe((res) => {
           console.log(res, 'savvvv');
@@ -362,8 +368,7 @@ export class EmployeedetailComponent implements OnInit {
           }
         })
       }
-      else
-      {
+      else {
         this.alertService.error("Password doesn't match");
       }
     }
@@ -376,7 +381,34 @@ export class EmployeedetailComponent implements OnInit {
   myFunction(event) {
 
   }
+  DesignationAdd(PrintCharges) {
+    debugger;
+    this.modalService.open(PrintCharges, { scrollable: true, centered: false });
+  }
+  DesignationSubmit() {
+    this.ErrorTrue = true;
+    if (this.Description != '' && this.Description != 0 && this.DesignationType != '' && this.DesignationType != 0) {
+      var payload = {
+        name: this.DesignationType,
+        description: this.Description,
+      };
+      this.empDetailsService.DesignationSave(payload).subscribe((res) => {
+        if(res.isSuccess)
+        {
+          this.modalService.dismissAll();
+          this.alertService.success("Designation Added Successfully");
+          this.designationLookup();
+        }
+        else{
+          this.alertService.error("Try Again");
+        }
+      })
+      
+    }
+    else {
 
+    }
+  }
   validateFormControl() {
     Object.keys(this.form.controls).forEach(field => {
       const control = this.form.get(field);

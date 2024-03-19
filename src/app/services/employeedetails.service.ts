@@ -28,7 +28,10 @@ export class EmployeedetailsService {
   {
     return  this.dataService.getData('/api/lookup/designation',refresh)
   }
-
+  DesignationSave(data:any)
+  {
+    return  this.dataService.post('/api/designation',data)
+  }
   getEmployeeByLocation(id:any,refresh:boolean){
     debugger
     return this.dataService.getData('/api/lookup/worklocationId/'+id,refresh)
