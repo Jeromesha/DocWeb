@@ -217,16 +217,16 @@ export class ExceluploadComponent implements OnInit {
       // Add header
       const header = [
         "Project",
-        "Task Type",
+        "TaskType",
         "Date",
         "Hours",
         "Mins",
         "Description",
-        "Leave or Present",
+        "LeaveorPresent",
       ];
       worksheet.mergeCells("A1:G1");
       const titleCell = worksheet.getCell("A1");
-      titleCell.value = "Task Sheet";
+      titleCell.value = "TaskSheet";
       titleCell.alignment = { vertical: "middle", horizontal: "center" };
       titleCell.font = { bold: true, color: { argb: "FFFFFF" } }; // Font color is white
       titleCell.fill = {
