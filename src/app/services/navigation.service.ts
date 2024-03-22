@@ -78,7 +78,11 @@ export class NavigationService {
     debugger
     this.router.navigate(['/task/'])
   }
+  gotoExcelUpload()
+  {
+    this.router.navigate(['/exceltimesheetupload'])
 
+  }
 }
 
 

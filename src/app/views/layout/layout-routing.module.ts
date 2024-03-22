@@ -42,6 +42,13 @@ const routes: Routes = [
             (m) => m.TimesheetModule
           ),
       },
+      {
+        path: "exceltimesheetupload",
+        loadChildren: () =>
+          import("./../../views/pages/excelupload/excelupload.module").then(
+            (m) => m.ExceluploadModule
+          ),
+      },
       // {
       //   path: "timesheet/:id/:actionInfo",
       //   loadChildren: () =>

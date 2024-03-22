@@ -65,5 +65,8 @@ export class TimeSheetService {
     getMonthlyHowkingHours(id:number, month:number, year:number){
         return this.dataService.getData('/api/timesheet/getMonthlyWorkingHours/'+ month +'/' + year+'/'+id  ,true);
     }
+    BulkExcelSheet(data){
+        return this.dataService.post('/api/timesheet/upload',data);
+    }
 
 }

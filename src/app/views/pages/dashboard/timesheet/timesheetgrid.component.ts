@@ -345,7 +345,10 @@ export class TimesheetgridComponent implements OnInit {
       this.loading = false;
     }, 500);
   }
-
+  goToBulk()
+  {
+    this.navigationService.gotoExcelUpload();
+  }
 
 }
 

@@ -1,0 +1,173 @@
+<div class="">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" class="form form-horizontal">
+            <h5 class="fs mb-5 card-title">
+              {{ "Time Sheet Bulk Upload" | translate }}
+            </h5>
+            <div class="form-group">
+              <div class="row mb-3">
+                <div class="col-sm-6">
+                  <label class="" style="font-size: 1em; font-weight: bold"
+                    >Download Excel Format
+                  </label>
+                </div>
+                <div class="col-sm-6">
+                  <button class="btn btnrefresh mr-1">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <a
+                      (click)="downloadTemplate()"
+                      style="color: #fff; margin-left: 20px"
+                      >Download Template</a
+                    >
+                  </button>
+                </div>
+              </div>
+              <div class="form-group">
+                <fieldset>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label
+                        class="mandatory"
+                        style="font-size: 1em; font-weight: bold"
+                        >Choose File(.CSV) </label
+                      >
+                    </div>
+                    
+                    <div class="col-sm-6">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customLabel" 
+                            formControlName="file" (change)="customFile($event)" #myInput>
+                        <label class="custom-file-label"
+                        for="attachment" >{{fileName}}</label>
+                    </div>
+
+                      <!-- <input
+                      
+                        type="file"
+                        id="customLabel"
+                        formControlName="file"
+                        class="form-control"
+                        (change)="customFile($event)"
+                        
+                        placeholder="{{ fileName}}"
+                        autocomplete="off"
+                      /> -->
+
+                      <div
+                        class="valid-error"
+                        *ngIf="
+                          form.controls.file.errors &&
+                          (form.controls.file.dirty ||
+                            form.controls.file.touched)
+                        "
+                        text-wrap
+                      >
+                        <span
+                          *ngIf="form.controls.file.errors?.required"
+                          class="form-text danger mandatory"
+                        >
+                          {{ "File" | translate }}
+                          {{ "IsRequired" | translate }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="text-center mt-5">
+                <button
+                  type="button"
+                  class="btn btnadd mr-1 btnsave"
+                  (click)="upload()"
+                >
+                  {{ "Upload" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="table-responsive" *ngIf="table">
+  <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
+    <ng-container matColumnDef="sno">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="sno"
+        >{{ " S.No " | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField; let i = index">
+        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ i + 1 }}</p>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="psId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="psId"
+        >{{ "PS Id " | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.psId }}</p>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operatorName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="operatorName"
+        >{{ "Operator Name" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p class="text-truncate txtalign " [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.operatorName }}</p>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Remarks">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="Remarks"
+        >{{ "Remarks" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.remarks }}</p>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="psNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="psNumber"
+        >{{ "PS Number" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.psNumber }}</p>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="operatorNo">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="operatorNo"
+        >{{ "Operator No" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.operatorNo }}</p>
+      </mat-cell>
+    </ng-container>
+    
+    <mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: true"
+    ></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns" matRipple>
+    </mat-row>
+  </mat-table>
+</div>
+<div class="" *ngIf="table">
+  <div *ngIf="arraydata.length == 0" class="no-record">
+    <p>No records found</p>
+  </div>
+  <mat-paginator
+    class="mat-pag"
+    #paginator
+    [length]="dataSource != null && dataSource.filteredData.length"
+    [pageIndex]="0"
+    [pageSize]="25"
+    [pageSizeOptions]="[25, 50, 100]"
+  >
+  </mat-paginator>
+</div> -->
+
+

@@ -40,6 +40,7 @@
     "bootstrap": "^4.5.3",
     "compass-mixins": "^0.12.10",
     "crypto-js": "^4.1.1",
+    "exceljs": "^4.4.0",
     "feather-icons": "^4.28.0",
     "file-saver": "^2.0.2",
     "get-browser-fingerprint": "^2.0.1",

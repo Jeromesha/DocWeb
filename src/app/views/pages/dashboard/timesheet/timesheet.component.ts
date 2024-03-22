@@ -21,12 +21,6 @@ import { MatSort } from '@angular/material/sort';
 import { FileDetector } from 'protractor';
 import * as _ from 'lodash';
 import Swal from 'sweetalert2';
-import * as ExcelJS from 'exceljs';
-
-import { Workbook } from 'exceljs';
-import { forkJoin } from 'rxjs';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-timesheet',
@@ -141,11 +135,11 @@ export class TimesheetComponent implements OnInit {
   showgridlist: any;
   pinValue: string;
   SuccessList: { fileName: any; file: string; userExcelSaveListVM: any; };
-  currentFile: Blob;
+  currentFile: File;
   successArray: any;
   succesList: any;
   showName: string;
-  selectedFiles: any;
+  selectedFiles: FileList;
   leaveList=[
 {key: 0, value: "Present"},
 {key: 1, value: "Leave"}
@@ -322,6 +316,7 @@ export class TimesheetComponent implements OnInit {
         console.log(this.dataSource.data, 'this.dataSource.data>>>>')
         this.datalist = this.list.map(item => ({
           entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+          id:this.form.value.id,
           hours: item.hoursNumber,
           description: item.description,
           projectId: item.projectId,
@@ -1069,282 +1064,5 @@ export class TimesheetComponent implements OnInit {
   // excel 
 
 
-  exportexcel() {
-    debugger;
-    const columnDefs = [
-      { key: 'operatorId', header: 'Operator Id', width: 20 },
-      { key: 'fullName', header: 'First Name', width: 20 },
-      // { key: 'username', header: 'Username', width: 15 },
-      { key: 'roleName', header: 'Role', width: 15 },
-      { key: 'email', header: 'Email', width: 30 },
-      { key: 'mobileNo', header: 'Mobile', width: 15 },
-      // { key: 'workplaceName', header: 'Workplace', width: 30 },
-      // { key: 'userCategoryType', header: 'User Category', width: 25 },
-      // { key: 'status', header: 'Status', width: 15 }
-    ];
-
-    const excelList = [];
-    this.data.forEach(e => {
-      const row = {};
-      columnDefs.forEach(column => {
-        row[column.key] = e[column.key];
-      });
-      excelList.push(row);
-    });
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Task Details');
-    worksheet.columns = columnDefs.map(column => ({ header: column.header, key: column.key, width: column.width }));
-    worksheet.addRows(excelList);
-    const headerRow = worksheet.getRow(1);
-    headerRow.eachCell(cell => {
-      cell.font = { bold: true, color: { argb: 'FFFFFF' } }; // Font color is white
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '040e5a' } }; // Background color is navy blue
-    });
-    workbook.xlsx.writeBuffer().then(buffer => {
-      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      const fileName = 'User_Details.xlsx';
-      this.saveBlob(blob, fileName);
-    });
-
-  }
-
-
-  saveBlob(blob: Blob, fileName: string): void {
-    const a = document.createElement('a');
-    document.body.appendChild(a);
-    a.style.display = 'none';
-    const url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
-
-  async downloadTemplate(): Promise<void> {
-    debugger;
-    const wb: ExcelJS.Workbook = new ExcelJS.Workbook();
-    // const rolesNames = await this.ecattService.getRoleType(true);
-    const Project = await this.timesheetService.getproject();
-    const TaskNames = await this.timesheetService.getLookup(13, true);
-    const PresentTypes = [this.leaveList];
-
-    forkJoin([Project, TaskNames,PresentTypes]).subscribe(data => {
-      const [Project, TaskNames,PresentTypes] = data
-      //Sheets
-      const worksheet: ExcelJS.Worksheet = wb.addWorksheet('User');
-      const projectValues = Project.map(item => item.name).join(', ');
-      const TaskValues = TaskNames.map(item => item.name).join(', ');
-      const Leavevalue = PresentTypes.map(item => item.key).join(', ');
-
-
-      // Add header
-      const header = ['Project', 'Task Type', 'Date', 'Time', 'Description', 'Leave or Present'];
-      worksheet.mergeCells('A1:F1');
-      const titleCell = worksheet.getCell('A1');
-      titleCell.value = 'Task Sheet';
-      titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
-      titleCell.font = { bold: true, color: { argb: 'FFFFFF' } }; // Font color is white
-      titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '040e5a' } }; // Background color is navy blue
-     
-      const headerRow = worksheet.addRow(header);
-
-      // Format the header row
-      headerRow.eachCell((cell) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'FFADD8E6' }, // Background color
-          bgColor: { argb: 'FFFFFFFF' }, // Text color
-        };
-
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-      });
-
-      headerRow.eachCell(cell => {
-        cell.font = { bold: true }
-      })
-      headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
-      worksheet.getColumn(1).width = 35;
-      worksheet.getColumn(2).width = 40;
-      worksheet.getColumn(3).width = 25;
-      worksheet.getColumn(4).width = 25;
-      worksheet.getColumn(5).width = 25;
-      worksheet.getColumn(6).width = 25;
-      //Populate data in the respective columns (dropdown list)
-      const ProjectArray = projectValues.split(', ');
-      ProjectArray.forEach((value, rowIndex) => {
-        worksheet.getCell(rowIndex + 3, 4).value = value;
-      });
-      const TaskArray = TaskValues.split(', ');
-      TaskArray.forEach((value, rowIndex) => {
-        worksheet.getCell(rowIndex + 3, 4).value = value;
-      });
-      const presentArray = Leavevalue.split(', ');
-      presentArray.forEach((value, rowIndex) => {
-        worksheet.getCell(rowIndex + 3, 2).value = value;
-      });
-      const userCategoryKey = Project.map(item => item.value).join(', ');
-      const TaskKey = TaskNames.map(item => item.value).join(', ');
-      const leaveKey = PresentTypes.map(item => item.value).join(', ');
-
-      let joineddropdownlist1 = userCategoryKey;
-      let joineddropdownlist2 = TaskKey;
-      let joineddropdownlist3 = leaveKey;
-
-
-      console.log(joineddropdownlist1, "Formula")
-
-      for (let i = 3; i < 50; i++) {
-        const cellAddress = 'A' + i;
-        worksheet.getCell(cellAddress).dataValidation = {
-          type: 'list',
-          allowBlank: true,
-          formulae: [`"${joineddropdownlist1}"`]
-        };
-        worksheet.getCell(cellAddress).value = '';
-      }
-      for (let i = 3; i < 50; i++) {
-        const cellAddress = 'B' + i;
-        worksheet.getCell(cellAddress).dataValidation = {
-          type: 'list',
-          allowBlank: true,
-          formulae: [`"${joineddropdownlist2}"`]
-        };
-        worksheet.getCell(cellAddress).value = '';
-      }
-      // In the loop where you set up data validation, modify it for the C column
-// In the loop where you set up data validation, modify it for the C column
-// In the loop where you set up data validation, modify it for the C column
-worksheet.getCell('C3').value = new Date(); // Set the value to the current date
-
-      for (let i = 3; i < 50; i++) {
-        const cellAddress = 'F' + i;
-        worksheet.getCell(cellAddress).dataValidation = {
-          type: 'list',
-          allowBlank: true,
-          formulae: [`"${joineddropdownlist3}"`]
-        };
-        worksheet.getCell(cellAddress).value = '';
-      }
-      // Save the workbook as a downloadable file
-      wb.xlsx.writeBuffer().then((buffer) => {
-        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        saveAs(blob, 'User.xlsx');
-      });
-    });
-  }
-
-  reset() {
-
-    this.form.reset();
-    debugger;
-    document.getElementById('customLabel').innerHTML = 'Choose file';
-    this.selectedFiles = undefined;
-  }
-
-  // upload(longContent) {
-  //   debugger;
-  //   this.currentFile = this.selectedFiles.item(0);
-  //   let reader = new FileReader();
-  //   var fileName = this.selectedFiles.item(0).name;
-  //   var fileExtension = '|' + fileName.slice(fileName.lastIndexOf('.') + 1) + '|';
-  //   var type = '|' + this.currentFile.type.slice(this.currentFile.type.lastIndexOf('/') + 1) + '|';
-  //   var result = ('|xls|xlsx|csv|'.indexOf(type.toLowerCase()) !== -1 || '|xls|xlsx|csv|'.indexOf(fileExtension.toLowerCase()) !== -1);
-  //   if (this.form.valid) {
-
-  //     if (result) {
-  //       reader.onloadend = () => {
-  //         var base64result = (<string>reader.result).split(',')[1];
-  //         var data = {
-  //           "fileName": fileName,
-  //           "file": base64result
-  //         };
-  //         // this.timesheetService.validateUserFile(data).subscribe(result => {
-  //         //   result;
-
-  //         //   this.errorCount = result.value.errorCount;
-  //         //   this.successCount = result.value.successCount;
-  //           if (result.isSuccess) {
-
-
-  //             this.showName = "Validated Successfully";
-
-  //             if (result.value.userSuccessList) {
-  //               this.successArray = result.value.userSuccessList;
-  //               // this.modalService.open(longContent, { size: 'xl', scrollable: true });
-  //               // let getSuccessTxt = '';
-  //               // this.getList = result.value.userSuccessList;
-  //               // for (var [i, item] of this.getList.entries()) {
-  //               //   getSuccessTxt += item.code + '-' + item.remarks + '';
-  //               // }
-  //               // this.uploaddataSource = new MatTableDataSource(this.getList);
-  //               // this.uploaddataSource.sort = this.sort;
-  //               // this.uploaddataSource.paginator = this.paginator;
-  //               var data1 = {
-  //                 "fileName": fileName,
-  //                 "file": base64result,
-  //                 "userExcelSaveListVM": this.successArray
-  //               };
-  //               this.SuccessList = data1;
-
-  //               // this.reset();
-  //             }
-  //           }
-  //           else if (result.isSuccess == false) {
-  //             this.successArray = result.value.userSuccessList;
-  //             let getErrorTxt = '';
-  //             let getSuccessTxt = '';
-  //             this.showName = "Error";
-  //             // if (result.value.userErrorList) {
-  //             //   this.modalService.open(longContent, { size: 'xl', scrollable: true });
-  //             //   this.errorList = result.value.userErrorList;
-  //             //   for (var [i, item] of this.errorList.entries()) {
-  //             //     getErrorTxt += item.code + '-' + item.remarks + ' ';
-  //             //   }
-  //             //   this.succesList = result.value.userSuccessList;
-  //             //   for (var [i, item] of this.succesList.entries()) {
-  //             //     getSuccessTxt += item.code + '-' + item.remarks + '';
-  //             //   }
-  //             //   // this.getList = this.errorList.concat(this.succesList)
-  //             //   // this.uploaddataSource = new MatTableDataSource(this.getList);
-  //             //   // this.uploaddataSource.sort = this.sort;
-  //             //   // this.uploaddataSource.paginator = this.paginator;
-  //             //   this.reset();
-
-  //             //   // this.SuccessList = '';
-  //             //   var data1 = {
-  //             //     "fileName": fileName,
-  //             //     "file": base64result,
-  //             //     "userExcelSaveListVM": this.successArray
-  //             //   };
-  //             //   this.SuccessList = data1;
-  //             // }
-  //             // else {
-  //             //   this.alertService.error(result.failures);
-  //             // }
-  //           } else {
-  //             this.reset();
-  //             this.alertService.error(result.htmlFormattedFailures);
-  //           }
-  //         }, () => {
-  //         });
-          
-  //       };
-  //       reader.readAsDataURL(this.currentFile);
-  //       reader.onerror = function () {
-  //       };
-  //     } else {
-  //       this.alertService.error('Please upload the correct file format!(xls,xlsx,csv)');
-  //     }
-  //     this.selectedFiles = undefined;
-  //    else {
-  //     this.validateFormControl();
-  //   }
-  // }
-
 }
+

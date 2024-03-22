@@ -2,14 +2,18 @@
 
 <div class="pl-1 pr-1 mb-1">
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
-        <h4 class="text-bold-500 text-left hearder-text">
-            Timesheet
+        <h4 class="text-bold-500 text-left hearder-text mb-2">
+            Time Sheet
         </h4>
-        <div class="" style="float:right;">
+        <div class="mb-2 " style="float:right;">
             <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToAction(0,2)">
                 <i class="btn-icon-prepend fa fa-plus"></i>
                 {{'Add' | translate}}
             </button>
+            <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="goToBulk()">
+                <i class="btn-icon-prepend fa fa-file-excel-o"></i>
+                {{'Bulk Upload' | translate}}
+                </button>
             <button type="button" matRipple class="btn btnrefresh mr-2 mb-2" (click)="refresh()">
                 <i class="btn-icon-prepend fa fa-refresh"></i>
                 {{'Refresh' | translate}}
@@ -18,6 +22,7 @@
             <i class="btn-icon-prepend fa fa-file-excel-o"></i>
             {{'ExportExcel' | translate}}
             </button>
+           
         </div>
     </div>
 </div>
