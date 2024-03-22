@@ -38,8 +38,7 @@ export class ExceluploadComponent implements OnInit {
     { key: 1, value: "Present" },
     { key: 2, value: "Leave" },
   ];
-  data1: any;
-  projecttypelist: any;
+  projecttypelist: any=[];
   SortList: any;
   data: any;
   jsonData: any = [];
@@ -73,6 +72,21 @@ export class ExceluploadComponent implements OnInit {
     this.actionInfo = this.routeParams.actionInfo;
 
   }
+  name = "Angular 6";
+  data1 = [
+    {
+      name: "data1", //sheet1 with name data1
+      values: [
+        { header: "eid", value: "" },
+        { header: "test", value: [{ name: "test1" }, { name: "test2" }] },
+        { header: "ename", value: "" },
+        { header: "esal", value: [{ name: "val" }, { name: "val1" }] }
+      ]
+    }
+  ];
+
+  data2 = this.transform(this.data1)
+
 
   ngOnInit(): void {
     this.initializeValidators();
@@ -83,7 +97,10 @@ export class ExceluploadComponent implements OnInit {
     debugger;
     this.timesheetService.getproject().subscribe((result) => {
       this.projectList = result;
+      // this.data1[0].values[0].value = this.projectList
+      // this.workbookData = this.transform(this.data1)
     });
+   
   }
   GetTaskType() {
     debugger;
@@ -101,6 +118,8 @@ export class ExceluploadComponent implements OnInit {
       });
       this.projecttypelist = [];
       this.projecttypelist = this.Normaltasklist;
+      // this.data1[0].values[1].value = this.projecttypelist
+      // this.workbookData = this.transform(this.data1)
 
       this.filterprojecttypelist = this.projecttypelist;
       if (this.actionInfo == 0) {
@@ -108,8 +127,23 @@ export class ExceluploadComponent implements OnInit {
         this.projecttypelist = result;
         this.filterprojecttypelist = this.projecttypelist;
       }
+
     });
+   
   }
+  transform (data) {
+    const noOfRowaToGenerate = 10;
+    return data.map(({name, values}) => {
+      const headers = values.reduce((prev, next) => 
+        ({...prev, [next.header]: Array.isArray
+        (next.value) ? next.value.map(({name}) => name): next.value}), {})
+      return {
+        workSheet: name,
+        rows: Array(noOfRowaToGenerate).fill(headers)
+      }
+    })
+  }
+   workbookData = this.transform(this.data1)
   initializeValidators() {
     this.form = this.formBuilder.group({
       id: [0],
@@ -217,16 +251,16 @@ export class ExceluploadComponent implements OnInit {
       // Add header
       const header = [
         "Project",
-        "TaskType",
+        "Task Type",
         "Date",
         "Hours",
         "Mins",
         "Description",
-        "LeaveorPresent",
+        "Leave or Present",
       ];
       worksheet.mergeCells("A1:G1");
       const titleCell = worksheet.getCell("A1");
-      titleCell.value = "TaskSheet";
+      titleCell.value = "Task Sheet";
       titleCell.alignment = { vertical: "middle", horizontal: "center" };
       titleCell.font = { bold: true, color: { argb: "FFFFFF" } }; // Font color is white
       titleCell.fill = {
@@ -297,6 +331,8 @@ export class ExceluploadComponent implements OnInit {
           formulae: [`"${joineddropdownlist1}"`],
         };
         worksheet.getCell(cellAddress).value = "";
+        worksheet.getCell("A3").value = this.projectList[0].value;
+
       }
 
       for (let i = 3; i < 200; i++) {
@@ -307,9 +343,12 @@ export class ExceluploadComponent implements OnInit {
           formulae: [`"${joineddropdownlist2}"`],
         };
         worksheet.getCell(cellAddress).value = "";
+        worksheet.getCell("B3").value = 1;
+
       }
 
       worksheet.getCell("C3").value = new Date(); // Set the value to the current date
+      worksheet.getCell("D3").value = 1 // Set the value to the current date
 
 
       for (let i = 3; i < 200; i++) {
@@ -320,6 +359,8 @@ export class ExceluploadComponent implements OnInit {
           formulae: [`"${joineddropdownlist3}"`],
         };
         worksheet.getCell(cellAddress).value = "";
+        worksheet.getCell("G3").value = 1;
+
       }
 
       // Save the workbook as a downloadable file
@@ -452,7 +493,53 @@ export class ExceluploadComponent implements OnInit {
       }
     });
   }
+  exportAsXLSX(): void {
+    debugger
+    console.log(this.workbookData)
+    console.log(this.data1)
+    console.log(this.SortList)
+    console.log(this.projecttypelist)
+    this.excelService.exportAsExcelFiles(this.workbookData, "sample");
+  }
+  // data1 = [
+  //   {
+  //     name: "data1", //sheet1 with name data1
+  //     values: [
+  //       { header: "Project", value:  },
+  //       { header: "TaskType", value: [{ name: "test1" }, { name: "test2" }] },
+  //       { header: "Date", value: "" },
+  //       { header: "Hours", value: [{ name: "val" }, { name: "val1" }] },
+  //       { header: "Mins", value: [{ name: "val" }, { name: "val1" }] },
+  //       { header: "Description", value: [{ name: "val" }, { name: "val1" }] },
+  //       { header: "Leave_or_Present", value: [{ name: "val" }, { name: "val1" }] }
 
+
+  //     ]
+  //   }
+  // ];
+
+  // transform(data) {
+  //   debugger
+  //   const noOfRowsToGenerate = 10;
+  //   return data.map(({ value, values }) => {
+  //     const headers = values.reduce((prev, next) => ({
+  //       ...prev,
+  //       [next.header]: Array.isArray(next.value) ? next.value.map(({ value }) => value) : next.value
+  //     }), {});
+  
+  //     // Find the dropdown value
+  //     const dropdownValueObject = values.find(({ header }) => header === 'Dropdown'); // Assuming the dropdown header is 'Dropdown'
+  //     const dropdownValue = dropdownValueObject ? dropdownValueObject.value : null; // Get the dropdown value if found, otherwise set it to null
+  
+  //     // Storing key-value pairs and selected dropdown value
+  //     const rows = Array(noOfRowsToGenerate).fill({ ...headers, dropdownValue });
+  
+  //     return {
+  //       workSheet: value,
+  //       rows
+  //     };
+  //   });
+  // }
   // excel
   saveBlob(blob: Blob, fileName: string): void {
     const a = document.createElement("a");
