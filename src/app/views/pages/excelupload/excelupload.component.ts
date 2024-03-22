@@ -343,7 +343,7 @@ export class ExceluploadComponent implements OnInit {
           formulae: [`"${joineddropdownlist2}"`],
         };
         worksheet.getCell(cellAddress).value = "";
-        worksheet.getCell("B3").value = 1;
+        worksheet.getCell("B3").value = this.projecttypelist[0].value;
 
       }
 
