@@ -72,20 +72,24 @@ export class ExceluploadComponent implements OnInit {
     this.actionInfo = this.routeParams.actionInfo;
 
   }
+  data1:any=[]
   name = "Angular 6";
-  data1 = [
-    {
-      name: "data1", //sheet1 with name data1
-      values: [
-        { header: "eid", value: "" },
-        { header: "test", value: [{ name: "test1" }, { name: "test2" }] },
-        { header: "ename", value: "" },
-        { header: "esal", value: [{ name: "val" }, { name: "val1" }] }
-      ]
-    }
-  ];
+  // data1 = [
+  //   {
+  //     name: "data1", //sheet1 with name data1
+  //     values: [
+  //       { header: "Project", value: [{ name: "Project 1" }, { name: "Project 2" }] },
+  //       { header: "Task Type", value: [{ name: "Task 1" }, { name: "Task 2" }] },
+  //       { header: "Date", value: "22/03/24" },
+  //       { header: "Hours", value: "" },
+  //       { header: "Mins", value: ""},
+  //       { header: "Description", value: "" },
+  //       { header: "Leave or Present", value: [{ name: "Leave" }, { name: "Present" }] }
+  //     ]
+  //   }
+  // ];
 
-  data2 = this.transform(this.data1)
+ // data2 = this.transform(this.data1)
 
 
   ngOnInit(): void {
@@ -97,6 +101,7 @@ export class ExceluploadComponent implements OnInit {
     debugger;
     this.timesheetService.getproject().subscribe((result) => {
       this.projectList = result;
+      this.transform(this.projectList)
       // this.data1[0].values[0].value = this.projectList
       // this.workbookData = this.transform(this.data1)
     });
@@ -132,8 +137,28 @@ export class ExceluploadComponent implements OnInit {
    
   }
   transform (data) {
+let projectListName = []
+this.projectList.forEach(element => {
+  projectListName.push({name:element.value})
+});
+console.log(projectListName,"sdf");
+
+this.data1 = [
+  {
+    name: "data1", //sheet1 with name data1
+    values: [
+      { header: "Project", value: projectListName},
+      { header: "Task Type", value: [{ name: "Task 1" }, { name: "Task 2" }] },
+      { header: "Date", value: "22/03/24" },
+      { header: "Hours", value: "" },
+      { header: "Mins", value: ""},
+      { header: "Description", value: "" },
+      { header: "Leave or Present", value: [{ name: "Leave" }, { name: "Present" }] }
+    ]
+  }
+];
     const noOfRowaToGenerate = 10;
-    return data.map(({name, values}) => {
+    return this.data1.map(({name, values}) => {
       const headers = values.reduce((prev, next) => 
         ({...prev, [next.header]: Array.isArray
         (next.value) ? next.value.map(({name}) => name): next.value}), {})
@@ -236,20 +261,22 @@ export class ExceluploadComponent implements OnInit {
 
   async downloadTemplate(): Promise<void> {
     const wb: ExcelJS.Workbook = new ExcelJS.Workbook();
-    const Project = await this.timesheetService.getproject();
-    const TaskNames = await this.timesheetService.getLookup(13, true);
-    const PresentTypes = [this.leaveList];
+    
+    const projectPromise = this.timesheetService.getproject().toPromise();
+        const taskNamesPromise = this.timesheetService.getLookup(13, true).toPromise();
 
-    forkJoin([Project, TaskNames, PresentTypes]).subscribe((data) => {
-      const [Project, TaskNames, PresentTypes] = data;
-      // Sheets
-      const worksheet: ExcelJS.Worksheet = wb.addWorksheet("User");
-      const projectValues = Project.map((item) => item.name).join(", ");
-      const TaskValues = TaskNames.map((item) => item.name).join(", ");
-      const Leavevalue = PresentTypes.map((item) => item.key).join(", ");
+        // Directly use this.leaveList if it's already a resolved array
+        const PresentTypes = [this.leaveList]; // Ensure PresentTypes is an array
 
-      // Add header
-      const header = [
+        // Wait for all promises to resolve
+        const [Project, TaskNames] = await Promise.all([
+            projectPromise,
+            taskNamesPromise
+        ]);
+
+  const worksheet: ExcelJS.Worksheet = wb.addWorksheet("User");
+    // Add header
+    const header = [
         "Project",
         "Task Type",
         "Date",
@@ -257,121 +284,119 @@ export class ExceluploadComponent implements OnInit {
         "Mins",
         "Description",
         "Leave or Present",
-      ];
-      worksheet.mergeCells("A1:G1");
-      const titleCell = worksheet.getCell("A1");
-      titleCell.value = "Task Sheet";
-      titleCell.alignment = { vertical: "middle", horizontal: "center" };
-      titleCell.font = { bold: true, color: { argb: "FFFFFF" } }; // Font color is white
-      titleCell.fill = {
+    ];
+    worksheet.mergeCells("A1:G1");
+    const titleCell = worksheet.getCell("A1");
+    titleCell.value = "Task Sheet";
+    titleCell.alignment = { vertical: "middle", horizontal: "center" };
+    titleCell.font = { bold: true, color: { argb: "FFFFFF" } }; // Font color is white
+    titleCell.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "3E65A6" },
+    }; // Background color
+
+    const headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell) => {
+      cell.fill = {
         type: "pattern",
         pattern: "solid",
-        fgColor: { argb: "3E65A6" },
-      }; // Background color
+        fgColor: { argb: "FFADD8E6" }, // Background color
+        bgColor: { argb: "FFFFFFFF" }, // Text color
+      };
 
-      const headerRow = worksheet.addRow(header);
+      cell.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+    });
 
-      // Format the header row
-      headerRow.eachCell((cell) => {
-        cell.fill = {
-          type: "pattern",
-          pattern: "solid",
-          fgColor: { argb: "FFADD8E6" }, // Background color
-          bgColor: { argb: "FFFFFFFF" }, // Text color
-        };
-
-        cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" },
-        };
-      });
-
-      headerRow.eachCell((cell) => {
-        cell.font = { bold: true };
-      });
-      headerRow.alignment = { vertical: "middle", horizontal: "center" };
-      worksheet.getColumn(1).width = 35;
-      worksheet.getColumn(2).width = 40;
-      worksheet.getColumn(3).width = 25;
-      worksheet.getColumn(4).width = 15;
-      worksheet.getColumn(5).width = 15;
-      worksheet.getColumn(6).width = 30;
-      worksheet.getColumn(7).width = 25;
+    headerRow.eachCell((cell) => {
+      cell.font = { bold: true };
+    });
+    headerRow.alignment = { vertical: "middle", horizontal: "center" };
+    worksheet.getColumn(1).width = 35;
+    worksheet.getColumn(2).width = 40;
+    worksheet.getColumn(3).width = 25;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 30;
+    worksheet.getColumn(7).width = 25;
 
 
-      // Populate data in the respective columns (dropdown list)
-      const ProjectArray = projectValues.split(", ");
-      ProjectArray.forEach((value, rowIndex) => {
-        worksheet.getCell(rowIndex + 3, 4).value = value;
-      });
-      const TaskArray = TaskValues.split(", ");
-      TaskArray.forEach((value, rowIndex) => {
-        worksheet.getCell(rowIndex + 3, 4).value = value;
-      });
-      const presentArray = Leavevalue.split(", ");
-      presentArray.forEach((value, rowIndex) => {
-        worksheet.getCell(rowIndex + 3, 2).value = value;
-      });
+    // Populate data in the respective columns (dropdown list)
+    // const ProjectArray = projectValues.split(", ");
+    // ProjectArray.forEach((value, rowIndex) => {
+    //   worksheet.getCell(rowIndex + 3, 4).value = value;
+    // });
+    // const TaskArray = TaskValues.split(", ");
+    // TaskArray.forEach((value, rowIndex) => {
+    //   worksheet.getCell(rowIndex + 3, 4).value = value;
+    // });
+    // const presentArray = Leavevalue.split(", ");
+    // presentArray.forEach((value, rowIndex) => {
+    //   worksheet.getCell(rowIndex + 3, 2).value = value;
+    // });
 
-      const userCategoryKey = Project.map((item) => item.value).join(", ");
-      const TaskKey = TaskNames.map((item) => item.value).join(", ");
-      const leaveKey = PresentTypes.map((item) => item.value).join(", ");
+    // Populate data in the respective columns (dropdown list)
+    const projectValues = Project.map((item) => item.name).join(", ");
+    const taskValues = TaskNames.map((item) => item.name).join(", ");
+    const leaveValue = PresentTypes[0].map((item) => item.key).join(", ");
 
-      let joineddropdownlist1 = userCategoryKey;
-      let joineddropdownlist2 = TaskKey;
-      let joineddropdownlist3 = leaveKey;
+    const userCategoryKey = Project.map((item) => item.value).join(", ");
+    const taskKey = TaskNames.map((item) => item.value).join(", ");
+    const leaveKey = PresentTypes[0].map((item) => item.value).join(", ");
+ 
+  // Populate data in the respective columns (dropdown list)
 
-      for (let i = 3; i < 200; i++) {
+    for (let i = 3; i < 200; i++) {
         const cellAddress = "A" + i;
         worksheet.getCell(cellAddress).dataValidation = {
-          type: "list",
-          allowBlank: true,
-          formulae: [`"${joineddropdownlist1}"`],
+            type: "list",
+            allowBlank: true,
+            formulae: [`"${userCategoryKey}"`],
         };
         worksheet.getCell(cellAddress).value = "";
         worksheet.getCell("A3").value = this.projectList[0].value;
 
-      }
+    }
 
-      for (let i = 3; i < 200; i++) {
+    for (let i = 3; i < 200; i++) {
         const cellAddress = "B" + i;
         worksheet.getCell(cellAddress).dataValidation = {
-          type: "list",
-          allowBlank: true,
-          formulae: [`"${joineddropdownlist2}"`],
+            type: "list",
+            allowBlank: true,
+            formulae: [`"${taskKey}"`],
         };
         worksheet.getCell(cellAddress).value = "";
         worksheet.getCell("B3").value = this.projecttypelist[0].value;
 
-      }
+    }
 
-      worksheet.getCell("C3").value = new Date(); // Set the value to the current date
-      worksheet.getCell("D3").value = 1 // Set the value to the current date
+    worksheet.getCell("C3").value = new Date(); // Set the value to the current date
+    worksheet.getCell("D3").value = 1; // Set the value to the current date
 
-
-      for (let i = 3; i < 200; i++) {
+    for (let i = 3; i < 200; i++) {
         const cellAddress = "G" + i;
         worksheet.getCell(cellAddress).dataValidation = {
-          type: "list",
-          allowBlank: true,
-          formulae: [`"${joineddropdownlist3}"`],
+            type: "list",
+            allowBlank: true,
+            formulae: [`"${leaveKey}"`],
         };
         worksheet.getCell(cellAddress).value = "";
         worksheet.getCell("G3").value = 1;
 
-      }
+    }
 
-      // Save the workbook as a downloadable file
-      wb.xlsx.writeBuffer().then((buffer) => {
-        const blob = new Blob([buffer], {
-          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        });
-        saveAs(blob, "User.xlsx");
-      });
+    // Save the workbook as a downloadable file
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
-  }
+    saveAs(blob, "User.xlsx");
+}
 
   async convertWorkbookToJson(workbookData: ArrayBuffer): Promise<any> {
     debugger
