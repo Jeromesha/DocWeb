@@ -31,10 +31,30 @@ export class ExcelService {
             const columns: Partial<ExcelJS.Column>[] = uniqueHeaders.map(header => ({ header, key: header }));
 
             sheet.columns = columns;
-
+            columns.forEach((column, index) => {
+                sheet.getColumn(index + 1).width = 40; // you can adjust this value as needed
+            });
             rows.forEach((jsonRow: Row, i: number) => {
                 let cellValues = { ...jsonRow };
+                // sheet.addRow(cellValues);
 
+                // Apply color to the first row
+                if (i === 0) {
+                    const firstRow = sheet.getRow(1);
+                    firstRow.eachCell((cell) => {
+                        cell.fill = {
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: '2077A9' } // Yellow color
+                        };
+                        cell.font = {
+                            color: { argb: 'FFFFFF' } ,// White color
+                            bold: true // Make text bold
+
+                        };
+                    });
+                }
+    
                 uniqueHeaders.forEach((header: string, j) => { // Explicitly define the type of 'header'
                     if (Array.isArray(jsonRow[header])) {
                         cellValues[header] = "";
@@ -42,16 +62,32 @@ export class ExcelService {
                 });
 
                 sheet.addRow(cellValues);
-
+               
+                
                 uniqueHeaders.forEach((header, j) => {
+                    
                     if (Array.isArray(jsonRow[header])) {
                         const jsonDropdown = jsonRow[header];
-                        sheet.getCell(
-                            this.getSpreadSheetCellNumber(i + 1, j)
-                        ).dataValidation = {
+                        const dropdownArray = jsonDropdown.split(",");
+                        const dropdownRange = `${sheet}!$A$1:$A${dropdownArray.length}`;
+                        
+                        (sheet.getCell(this.getSpreadSheetCellNumber(i + 1, j)).dataValidation as any) = {
                             type: "list",
-                            formulae: [`"${jsonDropdown.join(",")}"`]
+                            formulae: [dropdownRange] // Wrap dropdownRange in an array
                         };
+                        // sheet.getCell(
+                        //     this.getSpreadSheetCellNumber(i + 1, j)
+                        // ).dataValidation = {
+                        //     type: "list",
+                        //     formulae: [`"${jsonDropdown.join(",")}"`]
+                        // };
+                        // const dropdownArray = jsonDropdown.split(",");
+                        // const dropdownRange = `${sheet}!$A$1:$A$${dropdownArray.length}`;
+
+                        // sheet.getCell(this.getSpreadSheetCellNumber(i + 1, j)).dataValidation = {
+                        //     type: "list",
+                        //     formulae: dropdownRange
+                        // };
                     }
                 });
             });

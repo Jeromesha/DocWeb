@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from "@angular/core";
 import * as ExcelJS from "exceljs";
-
+import xlsxPopulate from 'xlsx-populate';
+import * as CryptoJS from 'crypto-js';
 import { Row, Workbook } from "exceljs";
 import { forkJoin } from "rxjs";
 import * as XLSX from "xlsx";
@@ -19,6 +20,7 @@ import { ActivatedRoute } from "@angular/router";
 import { ExcelService } from "src/app/services/excel.service";
 import * as moment from "moment";
 import { ViewChild } from '@angular/core';
+import { element } from "protractor";
 
 @Component({
   selector: "app-excelupload",
@@ -38,7 +40,7 @@ export class ExceluploadComponent implements OnInit {
     { key: 1, value: "Present" },
     { key: 2, value: "Leave" },
   ];
-  projecttypelist: any=[];
+  projecttypelist: any = [];
   SortList: any;
   data: any;
   jsonData: any = [];
@@ -57,6 +59,7 @@ export class ExceluploadComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
   fileName: string;
+  projecttypelistNames: any;
   constructor(
     private formBuilder: FormBuilder,
     route: ActivatedRoute,
@@ -72,7 +75,7 @@ export class ExceluploadComponent implements OnInit {
     this.actionInfo = this.routeParams.actionInfo;
 
   }
-  data1:any=[]
+  data1: any = []
   name = "Angular 6";
   // data1 = [
   //   {
@@ -89,7 +92,7 @@ export class ExceluploadComponent implements OnInit {
   //   }
   // ];
 
- // data2 = this.transform(this.data1)
+  // data2 = this.transform(this.data1)
 
 
   ngOnInit(): void {
@@ -105,7 +108,7 @@ export class ExceluploadComponent implements OnInit {
       // this.data1[0].values[0].value = this.projectList
       // this.workbookData = this.transform(this.data1)
     });
-   
+
   }
   GetTaskType() {
     debugger;
@@ -121,8 +124,11 @@ export class ExceluploadComponent implements OnInit {
           this.Normaltasklist.push(item);
         }
       });
-      this.projecttypelist = [];
+      // this.projecttypelist = [];
       this.projecttypelist = this.Normaltasklist;
+      this.transform(this.projecttypelist)
+ console.log(this.projecttypelist ,"jsdhfj");
+
       // this.data1[0].values[1].value = this.projecttypelist
       // this.workbookData = this.transform(this.data1)
 
@@ -134,41 +140,11 @@ export class ExceluploadComponent implements OnInit {
       }
 
     });
-   
-  }
-  transform (data) {
-let projectListName = []
-this.projectList.forEach(element => {
-  projectListName.push({name:element.value})
-});
-console.log(projectListName,"sdf");
 
-this.data1 = [
-  {
-    name: "data1", //sheet1 with name data1
-    values: [
-      { header: "Project", value: projectListName},
-      { header: "Task Type", value: [{ name: "Task 1" }, { name: "Task 2" }] },
-      { header: "Date", value: "22/03/24" },
-      { header: "Hours", value: "" },
-      { header: "Mins", value: ""},
-      { header: "Description", value: "" },
-      { header: "Leave or Present", value: [{ name: "Leave" }, { name: "Present" }] }
-    ]
   }
-];
-    const noOfRowaToGenerate = 10;
-    return this.data1.map(({name, values}) => {
-      const headers = values.reduce((prev, next) => 
-        ({...prev, [next.header]: Array.isArray
-        (next.value) ? next.value.map(({name}) => name): next.value}), {})
-      return {
-        workSheet: name,
-        rows: Array(noOfRowaToGenerate).fill(headers)
-      }
-    })
-  }
-   workbookData = this.transform(this.data1)
+
+
+
   initializeValidators() {
     this.form = this.formBuilder.group({
       id: [0],
@@ -356,7 +332,7 @@ this.data1 = [
           formulae: [`"${joineddropdownlist1}"`],
         };
         worksheet.getCell(cellAddress).value = "";
-        worksheet.getCell("A3").value = this.projectList[0].value;
+        // worksheet.getCell("A3").value = this.projectList[0].value;
 
       }
 
@@ -368,12 +344,12 @@ this.data1 = [
           formulae: [`"${joineddropdownlist2}"`],
         };
         worksheet.getCell(cellAddress).value = "";
-        worksheet.getCell("B3").value = this.projecttypelist[0].value;
+        // worksheet.getCell("B3").value = 1;
 
       }
 
-      worksheet.getCell("C3").value = new Date(); // Set the value to the current date
-      worksheet.getCell("D3").value = 1 // Set the value to the current date
+      // worksheet.getCell("C3").value = new Date(); // Set the value to the current date
+      // worksheet.getCell("D3").value = 1 // Set the value to the current date
 
 
       for (let i = 3; i < 200; i++) {
@@ -384,7 +360,7 @@ this.data1 = [
           formulae: [`"${joineddropdownlist3}"`],
         };
         worksheet.getCell(cellAddress).value = "";
-        worksheet.getCell("G3").value = 1;
+        // worksheet.getCell("G3").value = 1;
 
       }
 
@@ -428,7 +404,7 @@ this.data1 = [
         console.log(formattedDate);
         const totalMinutes = cell4Value * 60 + cell5Value;
 
-        if (!isNaN(cell4Value) && !isNaN(cell5Value) && row.getCell(1).value > '0' && (row.getCell(2)).value > '0' && row.getCell(3).value != null && row.getCell(6).value > '0' && row.getCell(7).value > '0') {
+        if (!isNaN(cell4Value) && !isNaN(cell5Value) && row.getCell(1).value > '0' && row.getCell(2).value > '0' && row.getCell(3).value != null && row.getCell(6).value > '0' && row.getCell(7).value > '0') {
           const rowData = {
             projectId: row.getCell(1).value,
             taskTypeId: row.getCell(2).value,
@@ -506,7 +482,87 @@ this.data1 = [
     // let local = this.projectList;
 
   }
+  // async downloadTemplate(): Promise<void> {
+  //   const wb = XLSX.utils.book_new();
+  //   const Project = await this.timesheetService.getproject();
+  //   const TaskNames = await this.timesheetService.getLookup(13, true);
+  //   const PresentTypes = [this.leaveList];
 
+  //   forkJoin([Project, TaskNames, PresentTypes]).subscribe((data) => {
+  //     const [Project, TaskNames, PresentTypes] = data;
+  //     const ws = XLSX.utils.aoa_to_sheet([
+  //       ["Project", "TaskType", "Date", "Hours", "Mins", "Description", "LeaveorPresent"]
+  //     ]);
+
+  //     XLSX.utils.book_append_sheet(wb, ws, "User");
+
+  //     // Populate data in column A from the first API response
+  //     const projectValues = Project.map((item) => [item.value]);
+  //     projectValues.forEach((value, rowIndex) => {
+  //       XLSX.utils.sheet_add_aoa(ws, [value], { origin: { r: rowIndex + 1, c: 0 } });
+  //     });
+
+  //     // Populate data in column B from the second API response
+  //     const taskValues = TaskNames.map((item) => [item.value]);
+  //     taskValues.forEach((value, rowIndex) => {
+  //       XLSX.utils.sheet_add_aoa(ws, [value], { origin: { r: rowIndex + 1, c: 1 } });
+  //     });
+
+  //     // Populate data in column G from the third array
+  //     const presentValues = PresentTypes.map((item) => [item.value]);
+  //     presentValues.forEach((value, rowIndex) => {
+  //       XLSX.utils.sheet_add_aoa(ws, [value], { origin: { r: rowIndex + 1, c: 6 } });
+  //     });
+
+  //     // Set data validation for column A
+  //     const dataValidationAFormula = `=INDIRECT("User!$A$1"):INDIRECT("User!$A$${projectValues.length})`;
+  //     for (let i = 2; i <= 200; i++) {
+  //       ws[`A${i}`].f = dataValidationAFormula;
+  //     }
+
+  //     // Set data validation for column B
+  //     const dataValidationBFormula = `=INDIRECT("User!$B$1"):INDIRECT("User!$B$${taskValues.length})`;
+  //     for (let i = 2; i <= 200; i++) {
+  //       ws[`B${i}`].f = dataValidationBFormula;
+  //     }
+
+  //     // Set data validation for column G
+  //     const dataValidationGFormula = `=INDIRECT("User!$G$1"):INDIRECT("User!$G$${presentValues.length})`;
+  //     for (let i = 2; i <= 200; i++) {
+  //       ws[`G${i}`].f = dataValidationGFormula;
+  //     }
+
+  //     // Save the workbook as a downloadable file
+  //     const wbBinaryString = XLSX.write(wb, { type: 'binary' });
+  //     const blob = new Blob([this.s2ab(wbBinaryString)], {
+  //       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  //     });
+  //     saveAs(blob, "User.xlsx");
+  //   });
+  // }
+
+  // You need to define the `s2ab` function somewhere in your code.
+  // It's commonly used to convert string to ArrayBuffer.
+  // Here's an example implementation:
+
+  s2ab(s: string): ArrayBuffer {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+  }
+  // async convertWorkbookToJson(workbookData: ArrayBuffer): Promise<any> {
+  //   const data = new Uint8Array(workbookData);
+  //   const wbBinaryString = Array.from(data).map(byte => String.fromCharCode(byte)).join('');
+
+  //   const wb = XLSX.read(wbBinaryString, { type: 'binary' });
+
+  //   const ws = wb.Sheets[wb.SheetNames[0]];
+
+  //   const jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+  //   return jsonData;
+  // }
   validateFormControl() {
     debugger;
     Object.keys(this.form.controls).forEach((field) => {
@@ -518,54 +574,6 @@ this.data1 = [
       }
     });
   }
-  exportAsXLSX(): void {
-    debugger
-    console.log(this.workbookData)
-    console.log(this.data1)
-    console.log(this.SortList)
-    console.log(this.projecttypelist)
-    this.excelService.exportAsExcelFiles(this.workbookData, "sample");
-  }
-  // data1 = [
-  //   {
-  //     name: "data1", //sheet1 with name data1
-  //     values: [
-  //       { header: "Project", value:  },
-  //       { header: "TaskType", value: [{ name: "test1" }, { name: "test2" }] },
-  //       { header: "Date", value: "" },
-  //       { header: "Hours", value: [{ name: "val" }, { name: "val1" }] },
-  //       { header: "Mins", value: [{ name: "val" }, { name: "val1" }] },
-  //       { header: "Description", value: [{ name: "val" }, { name: "val1" }] },
-  //       { header: "Leave_or_Present", value: [{ name: "val" }, { name: "val1" }] }
-
-
-  //     ]
-  //   }
-  // ];
-
-  // transform(data) {
-  //   debugger
-  //   const noOfRowsToGenerate = 10;
-  //   return data.map(({ value, values }) => {
-  //     const headers = values.reduce((prev, next) => ({
-  //       ...prev,
-  //       [next.header]: Array.isArray(next.value) ? next.value.map(({ value }) => value) : next.value
-  //     }), {});
-  
-  //     // Find the dropdown value
-  //     const dropdownValueObject = values.find(({ header }) => header === 'Dropdown'); // Assuming the dropdown header is 'Dropdown'
-  //     const dropdownValue = dropdownValueObject ? dropdownValueObject.value : null; // Get the dropdown value if found, otherwise set it to null
-  
-  //     // Storing key-value pairs and selected dropdown value
-  //     const rows = Array(noOfRowsToGenerate).fill({ ...headers, dropdownValue });
-  
-  //     return {
-  //       workSheet: value,
-  //       rows
-  //     };
-  //   });
-  // }
-  // excel
   saveBlob(blob: Blob, fileName: string): void {
     const a = document.createElement("a");
     document.body.appendChild(a);
@@ -576,4 +584,143 @@ this.data1 = [
     a.click();
     window.URL.revokeObjectURL(url);
   }
+
+/////Working Excel
+
+
+  transform(data) {
+    debugger
+    let projectListName = this.projectList.map(element => ({ name: element.value }));
+    this.projecttypelistNames = [
+      "Accounts",
+      "Admin",
+      "BRD / FRS Document Preparation",
+      "Bug Fixing",
+      "Build Deployment",
+      "CompOff",
+      "Data Entry",
+      "Database Activity",
+      "Development",
+          "Recruitment",
+    "Regression Testing",
+    "Retesting",
+    "Salary Negotiations",
+    "Scheduling Interview with Leads",
+    "Sending Evaluation feedback",
+    "Server",
+    "Sourcing",
+    "SRS Documents Preparation",
+    "Statutory Norms & Compliance",
+    "Supporting",
+    "System / Laptop Issue",
+    "Testcase Preparation",
+    "Testing",
+    "Training & Other HR Activities",
+    "Training Session",
+    "UI/UX Designing",
+    "Unit Testing",
+    "User Manual preparation"
+     
+      
+  ];
+  let projecttypelistName = this.projecttypelistNames.map(element => ({ name: element }));
+
+      this.data1 = [
+
+      {
+        name: "data1", //sheet1 with name data1
+        values: [
+          { header: "Project", value: projectListName },
+          { header: "Task Type", value: projecttypelistName },
+          { header: "Date", value: "" },
+          { header: "Hours", value: "" },
+          { header: "Mins", value: "" },
+          { header: "Description", value: "" },
+          { header: "Leave or Present", value: [{ name: "Leave" }, { name: "Present" }] }
+        ]
+      }
+    ];
+
+    const noOfRowsToGenerate = 100;
+
+    return this.data1.map(({ name, values }) => {
+      const headers = values.reduce((prev, next) =>
+        ({ ...prev, [next.header]: Array.isArray(next.value) ? next.value.map(({ name }) => name) : next.value }), {})
+      return {
+        workSheet: name,
+        rows: Array(noOfRowsToGenerate).fill(headers)
+      }
+    });
+  }
+
+  workbookDatas = this.transform(this.data1);
+
+  exportAsXLSX(): void {
+    debugger
+    let projectListName = this.projectList.map(element => ({ name: element.value }));
+    this.projecttypelistNames = [
+      "Accounts",
+      "Admin",
+      "BRD / FRS Document Preparation",
+      "Bug Fixing",
+      "Build Deployment",
+      "CompOff",
+      "Data Entry",
+      "Database Activity",
+      "Development",
+      "DevOps",
+      "Document Preparation",
+      "Employee Engagement",
+      "Event Coordination",
+      "Exit Formalities",
+      "Flow Chart / Use case Diagram preparation",
+      "HR Tasks",
+      "Induction & Orientation",
+      "Internet Outage",
+      "Interview(one to one)",
+      "IT Support",
+      "Knowledge Transfer",
+      "Meeting",
+      "Meeting in Client Office",
+      "Miscellaneous",
+      "Onboarding",
+      "Organization communication",
+      "Payroll Processing",
+      "Payroll",
+      "Performance Management (PMS)",
+      "Policy formulation",
+      "Power Outage",
+      "Project Discussion",
+      "R&D",
+      "Recruitment",
+      "Regression Testing",
+      "Retesting",
+      "Salary Negotiations",
+      "Scheduling Interview with Leads",
+      "Sending Evaluation feedback",
+      "Server",
+      "Sourcing",
+      "SRS Documents Preparation",
+      "Statutory Norms & Compliance",
+      "Supporting",
+      "System / Laptop Issue",
+      "Testcase Preparation",
+      "Testing",
+      "Training & Other HR Activities",
+      "Training Session",
+      "UI/UX Designing",
+      "Unit Testing",
+      "User Manual preparation"
+  ];
+    let projecttypelistName = this.projecttypelistNames.map(element => ({ name: element }));
+    // Call transform() with the populated projectListName
+    this.workbookDatas = this.transform(projecttypelistName);
+    console.log(this.workbookDatas)
+    console.log(this.data1)
+    console.log(this.SortList)
+    console.log(this.projecttypelist)
+    this.excelService.exportAsExcelFiles(this.workbookDatas, "sample");
+  }
+
+  
 }
