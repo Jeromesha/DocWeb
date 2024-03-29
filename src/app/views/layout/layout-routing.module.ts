@@ -43,7 +43,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: "exceltimesheetupload",
+        path: "upload",
         loadChildren: () =>
           import("./../../views/pages/excelupload/excelupload.module").then(
             (m) => m.ExceluploadModule

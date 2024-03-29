@@ -80,7 +80,7 @@ export class NavigationService {
   }
   gotoExcelUpload()
   {
-    this.router.navigate(['/exceltimesheetupload'])
+    this.router.navigate(['/upload'])
 
   }
 }

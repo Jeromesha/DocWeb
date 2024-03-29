@@ -21,6 +21,10 @@ import { ExcelService } from "src/app/services/excel.service";
 import * as moment from "moment";
 import { ViewChild } from '@angular/core';
 import { element } from "protractor";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: "app-excelupload",
@@ -28,8 +32,11 @@ import { element } from "protractor";
   styleUrls: ["./excelupload.component.scss"],
 })
 export class ExceluploadComponent implements OnInit {
+  show() {
+    throw new Error('Method not implemented.');
+  }
   form: FormGroup;
-  table: boolean = true;
+  table: boolean = false;
   SuccessList: { fileName: any; file: any; userExcelSaveListVM: any };
   currentFile: File;
   successArray: any;
@@ -40,9 +47,13 @@ export class ExceluploadComponent implements OnInit {
     { key: 1, value: "Present" },
     { key: 2, value: "Leave" },
   ];
+  data = [];
+  dataSource = new MatTableDataSource(this.data);
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   projecttypelist: any = [];
   SortList: any;
-  data: any;
   jsonData: any = [];
   projectList: any = [];
   Leavetasklist: any = [];
@@ -50,9 +61,17 @@ export class ExceluploadComponent implements OnInit {
   filterprojecttypelist: any = [];
   actionInfo: 0;
   routeParams: any;
-  dataSource: any = [];
   errorCount: any;
-  displayedColumns: string[] = ["sno", "psId", "psNumber", "operatorName", "operatorNo", "Remarks"];
+  displayedColumns: string[] = ["sno",
+    // "action",
+    "entryDate",
+    "Project",
+    "Task",
+    "Hours",
+    "Remarks",
+    "error"
+  ];
+  temproraryList: any[] = [];
   arraydata: any;
   UserId: number;
   loading: boolean;
@@ -60,6 +79,9 @@ export class ExceluploadComponent implements OnInit {
   myInputVariable: ElementRef;
   fileName: string;
   projecttypelistNames: any;
+  showcard: boolean = true;
+  projectname: string;
+  arraydatas: any;
   constructor(
     private formBuilder: FormBuilder,
     route: ActivatedRoute,
@@ -104,7 +126,7 @@ export class ExceluploadComponent implements OnInit {
     debugger;
     this.timesheetService.getproject().subscribe((result) => {
       this.projectList = result;
-      this.transform(this.projectList)
+      // this.transform(this.projectList)
       // this.data1[0].values[0].value = this.projectList
       // this.workbookData = this.transform(this.data1)
     });
@@ -126,8 +148,8 @@ export class ExceluploadComponent implements OnInit {
       });
       // this.projecttypelist = [];
       this.projecttypelist = this.Normaltasklist;
-      this.transform(this.projecttypelist)
- console.log(this.projecttypelist ,"jsdhfj");
+      // this.transform(this.projecttypelist)
+      // console.log(this.projecttypelist, "jsdhfj");
 
       // this.data1[0].values[1].value = this.projecttypelist
       // this.workbookData = this.transform(this.data1)
@@ -217,7 +239,6 @@ export class ExceluploadComponent implements OnInit {
     if (this.form.valid) {
       var payload = {
         timesheets: this.jsonData
-
       }
       this.timesheetService.BulkExcelSheet(payload).subscribe(result => {
         debugger
@@ -225,16 +246,59 @@ export class ExceluploadComponent implements OnInit {
         console.log('ta', result);
         if (result && result.isSuccess) {
           this.alertService.success("Time Sheet Updated Successfully");
+          // location.reload();
+          this.myInputVariable.nativeElement.value = "";
+          this.fileName ="";
+          this.showcard = true;
+
+        }
+        if (result && result.isFailure) {
+          // this.alertService.error("Please correct and upload this file once more.")
+          Swal.fire({
+            icon: 'warning',
+            title: 'Invalid Records',
+            text: 'Please review the error list to check for any incorrect uploads.'
+          }).then(() => {
+            this.table = true;
+            this.showcard = false;
+            this.arraydata = result.value;
+            this.arraydata.forEach(e => {
+              e.projectName = this.projectList.find(project => project.key === e.projectId)?.value || 'Unknown';
+              e.Tasktype = this.projecttypelist.find(project => project.key === e.taskTypeId)?.value || 'Unknown';
+              e.hours = this.convertToHoursFormat(e.hours);
+              this.temproraryList.pop();
+            });
+
+
+            this.dataSource = new MatTableDataSource(this.arraydata);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+            console.log(this.arraydata, "76");
+
+          });
+          //  this.projectname= this.projectList.forEach((e) => e.key== e.value);
+
+
         }
       })
     }
 
     else {
+      this.showcard = true;
       this.validateFormControl();
     }
 
   }
 
+
+  back() {
+    location.reload();
+  }
+  convertToHoursFormat(hours) {
+    const hoursValue = Math.floor(hours / 60);
+    const minutesValue = hours % 60;
+    return `${hoursValue}h ${minutesValue}m`;
+  }
   async downloadTemplate(): Promise<void> {
     const wb: ExcelJS.Workbook = new ExcelJS.Workbook();
     const Project = await this.timesheetService.getproject();
@@ -398,7 +462,7 @@ export class ExceluploadComponent implements OnInit {
         }
         else if (row.getCell(7).value === 'Leave') {
           isleavetypeId = 2;
-          isLeaveValue=true;
+          isLeaveValue = true;
         }
 
         console.log(formattedDate);
@@ -418,7 +482,7 @@ export class ExceluploadComponent implements OnInit {
             taskId: 0,
             employeeId: this.UserId,
             taskStatusId: 0,
-            isleavetypeId:isleavetypeId,
+            // isleavetypeId:isleavetypeId,
             id: this.form.value.id
 
           };
@@ -438,7 +502,7 @@ export class ExceluploadComponent implements OnInit {
             taskId: 0,
             employeeId: this.UserId,
             taskStatusId: 0,
-            isleavetypeId:isleavetypeId,
+            // isleavetypeId:isleavetypeId,
 
             id: this.form.value.id
           };
@@ -585,142 +649,142 @@ export class ExceluploadComponent implements OnInit {
     window.URL.revokeObjectURL(url);
   }
 
-/////Working Excel
+  /////Working Excel
 
 
-  transform(data) {
-    debugger
-    let projectListName = this.projectList.map(element => ({ name: element.value }));
-    this.projecttypelistNames = [
-      "Accounts",
-      "Admin",
-      "BRD / FRS Document Preparation",
-      "Bug Fixing",
-      "Build Deployment",
-      "CompOff",
-      "Data Entry",
-      "Database Activity",
-      "Development",
-          "Recruitment",
-    "Regression Testing",
-    "Retesting",
-    "Salary Negotiations",
-    "Scheduling Interview with Leads",
-    "Sending Evaluation feedback",
-    "Server",
-    "Sourcing",
-    "SRS Documents Preparation",
-    "Statutory Norms & Compliance",
-    "Supporting",
-    "System / Laptop Issue",
-    "Testcase Preparation",
-    "Testing",
-    "Training & Other HR Activities",
-    "Training Session",
-    "UI/UX Designing",
-    "Unit Testing",
-    "User Manual preparation"
-     
-      
-  ];
-  let projecttypelistName = this.projecttypelistNames.map(element => ({ name: element }));
+  // transform(data) {
+  //   debugger
+  //   let projectListName = this.projectList.map(element => ({ name: element.value }));
+  //   this.projecttypelistNames = [
+  //     "Accounts",
+  //     "Admin",
+  //     "BRD / FRS Document Preparation",
+  //     "Bug Fixing",
+  //     "Build Deployment",
+  //     "CompOff",
+  //     "Data Entry",
+  //     "Database Activity",
+  //     "Development",
+  //     "Recruitment",
+  //     "Regression Testing",
+  //     "Retesting",
+  //     "Salary Negotiations",
+  //     "Scheduling Interview with Leads",
+  //     "Sending Evaluation feedback",
+  //     "Server",
+  //     "Sourcing",
+  //     "SRS Documents Preparation",
+  //     "Statutory Norms & Compliance",
+  //     "Supporting",
+  //     "System / Laptop Issue",
+  //     "Testcase Preparation",
+  //     "Testing",
+  //     "Training & Other HR Activities",
+  //     "Training Session",
+  //     "UI/UX Designing",
+  //     "Unit Testing",
+  //     "User Manual preparation"
 
-      this.data1 = [
 
-      {
-        name: "data1", //sheet1 with name data1
-        values: [
-          { header: "Project", value: projectListName },
-          { header: "Task Type", value: projecttypelistName },
-          { header: "Date", value: "" },
-          { header: "Hours", value: "" },
-          { header: "Mins", value: "" },
-          { header: "Description", value: "" },
-          { header: "Leave or Present", value: [{ name: "Leave" }, { name: "Present" }] }
-        ]
-      }
-    ];
+  //   ];
+  //   let projecttypelistName = this.projecttypelistNames.map(element => ({ name: element }));
 
-    const noOfRowsToGenerate = 100;
+  //   this.data1 = [
 
-    return this.data1.map(({ name, values }) => {
-      const headers = values.reduce((prev, next) =>
-        ({ ...prev, [next.header]: Array.isArray(next.value) ? next.value.map(({ name }) => name) : next.value }), {})
-      return {
-        workSheet: name,
-        rows: Array(noOfRowsToGenerate).fill(headers)
-      }
-    });
-  }
+  //     {
+  //       name: "data1", //sheet1 with name data1
+  //       values: [
+  //         { header: "Project", value: projectListName },
+  //         { header: "Task Type", value: projecttypelistName },
+  //         { header: "Date", value: "" },
+  //         { header: "Hours", value: "" },
+  //         { header: "Mins", value: "" },
+  //         { header: "Description", value: "" },
+  //         { header: "Leave or Present", value: [{ name: "Leave" }, { name: "Present" }] }
+  //       ]
+  //     }
+  //   ];
 
-  workbookDatas = this.transform(this.data1);
+  //   const noOfRowsToGenerate = 100;
 
-  exportAsXLSX(): void {
-    debugger
-    let projectListName = this.projectList.map(element => ({ name: element.value }));
-    this.projecttypelistNames = [
-      "Accounts",
-      "Admin",
-      "BRD / FRS Document Preparation",
-      "Bug Fixing",
-      "Build Deployment",
-      "CompOff",
-      "Data Entry",
-      "Database Activity",
-      "Development",
-      "DevOps",
-      "Document Preparation",
-      "Employee Engagement",
-      "Event Coordination",
-      "Exit Formalities",
-      "Flow Chart / Use case Diagram preparation",
-      "HR Tasks",
-      "Induction & Orientation",
-      "Internet Outage",
-      "Interview(one to one)",
-      "IT Support",
-      "Knowledge Transfer",
-      "Meeting",
-      "Meeting in Client Office",
-      "Miscellaneous",
-      "Onboarding",
-      "Organization communication",
-      "Payroll Processing",
-      "Payroll",
-      "Performance Management (PMS)",
-      "Policy formulation",
-      "Power Outage",
-      "Project Discussion",
-      "R&D",
-      "Recruitment",
-      "Regression Testing",
-      "Retesting",
-      "Salary Negotiations",
-      "Scheduling Interview with Leads",
-      "Sending Evaluation feedback",
-      "Server",
-      "Sourcing",
-      "SRS Documents Preparation",
-      "Statutory Norms & Compliance",
-      "Supporting",
-      "System / Laptop Issue",
-      "Testcase Preparation",
-      "Testing",
-      "Training & Other HR Activities",
-      "Training Session",
-      "UI/UX Designing",
-      "Unit Testing",
-      "User Manual preparation"
-  ];
-    let projecttypelistName = this.projecttypelistNames.map(element => ({ name: element }));
-    // Call transform() with the populated projectListName
-    this.workbookDatas = this.transform(projecttypelistName);
-    console.log(this.workbookDatas)
-    console.log(this.data1)
-    console.log(this.SortList)
-    console.log(this.projecttypelist)
-    this.excelService.exportAsExcelFiles(this.workbookDatas, "sample");
-  }
+  //   return this.data1.map(({ name, values }) => {
+  //     const headers = values.reduce((prev, next) =>
+  //       ({ ...prev, [next.header]: Array.isArray(next.value) ? next.value.map(({ name }) => name) : next.value }), {})
+  //     return {
+  //       workSheet: name,
+  //       rows: Array(noOfRowsToGenerate).fill(headers)
+  //     }
+  //   });
+  // }
 
-  
+  // workbookDatas = this.transform(this.data1);
+
+  // exportAsXLSX(): void {
+  //   debugger
+  //   let projectListName = this.projectList.map(element => ({ name: element.value }));
+  //   this.projecttypelistNames = [
+  //     "Accounts",
+  //     "Admin",
+  //     "BRD / FRS Document Preparation",
+  //     "Bug Fixing",
+  //     "Build Deployment",
+  //     "CompOff", 
+  //     "Data Entry",
+  //     "Database Activity",
+  //     "Development",
+  //     "DevOps",
+  //     "Document Preparation",
+  //     "Employee Engagement",
+  //     "Event Coordination",
+  //     "Exit Formalities",
+  //     "Flow Chart / Use case Diagram preparation",
+  //     "HR Tasks",
+  //     "Induction & Orientation",
+  //     "Internet Outage",
+  //     "Interview(one to one)",
+  //     "IT Support",
+  //     "Knowledge Transfer",
+  //     "Meeting",
+  //     "Meeting in Client Office",
+  //     "Miscellaneous",
+  //     "Onboarding",
+  //     "Organization communication",
+  //     "Payroll Processing",
+  //     "Payroll",
+  //     "Performance Management (PMS)",
+  //     "Policy formulation",
+  //     "Power Outage",
+  //     "Project Discussion",
+  //     "R&D",
+  //     "Recruitment",
+  //     "Regression Testing",
+  //     "Retesting",
+  //     "Salary Negotiations",
+  //     "Scheduling Interview with Leads",
+  //     "Sending Evaluation feedback",
+  //     "Server",
+  //     "Sourcing",
+  //     "SRS Documents Preparation",
+  //     "Statutory Norms & Compliance",
+  //     "Supporting",
+  //     "System / Laptop Issue",
+  //     "Testcase Preparation",
+  //     "Testing",
+  //     "Training & Other HR Activities",
+  //     "Training Session",
+  //     "UI/UX Designing",
+  //     "Unit Testing",
+  //     "User Manual preparation"
+  //   ];
+  //   let projecttypelistName = this.projecttypelistNames.map(element => ({ name: element }));
+  //   // Call transform() with the populated projectListName
+  //   this.workbookDatas = this.transform(projecttypelistName);
+  //   console.log(this.workbookDatas)
+  //   console.log(this.data1)
+  //   console.log(this.SortList)
+  //   console.log(this.projecttypelist)
+  //   this.excelService.exportAsExcelFiles(this.workbookDatas, "sample");
+  // }
+
+
 }

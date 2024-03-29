@@ -1,0 +1,112 @@
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 20px;
+    margin: 20px;
+  }
+  
+  .switch input {
+    display: none;
+    background-color: #ccc;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 0px;
+    right: 0px;
+    bottom: -3px;
+    background-color: #2196F3;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked+.slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+  ::ng-deep.table-responsive .mat-cell {
+    display: table-cell;
+    padding: 0px 10px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+}
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 20px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
+  /* Style for "Leave" option */
+  
+  .butgreen {
+    background-color: #81c784;
+    /* Replace with your desired color for Present */
+    color: rgb(0, 0, 0);
+    /* Replace with the desired text color for Present */
+  
+  }
+  
+  .btnred {
+    background-color: #e57373;
+    /* Replace with your desired color for Leave */
+    color: rgb(0, 0, 0);
+    /* Replace with the desired text color for Leave */
+  
+  }
+  
+  .colorred{
+    color:red !important;
+  }
+  
+  .btnsave {
+    background-color: #3F67A7 !important;
+    color: white !important;
+  }
+  
+  .btnupdate {
+    background-color: #3F67A7 !important;
+    color: white !important;
+  }
+  
+  .addspan {
+    color: white !important;
+  }
+  
+  .btncancel {
+    background-color: #6DB02D !important;
+    color: white !important;
+    border-color: #6DB02D !important;
+  }
+  
+  .danger {
+    color: #ff586b !important;
+    text-transform: capitalize;
+  }
+  
+  .owl-dt-container .owl-dt-container-footer {
+    display: none;
+  }
+  

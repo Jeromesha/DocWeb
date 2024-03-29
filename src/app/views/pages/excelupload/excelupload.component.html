@@ -1,29 +1,24 @@
 <div class="">
-  <div class="row">
+  <div class="row" *ngIf="showcard">
     <div class="col-md-5">
       <div class="card">
         <div class="card-body">
           <form [formGroup]="form" class="form form-horizontal">
-            <h5 class="fs mb-5 card-title">
-              {{ "Time Sheet Bulk Upload" | translate }}
-            </h5>
+            <h4 class="fs mb-5">
+              {{ "Timesheet Upload" | translate }}
+            </h4>
             <div class="form-group">
               <div class="row mb-3">
                 <div class="col-sm-6">
-                  <label class="" style="font-size: 1em; font-weight: bold"
-                    >Download Excel Format
+                  <label class="" style="font-size: 1em;">Download Template
                   </label>
                 </div>
                 <!-- <button (click)="exportAsXLSX()"><i class="fa fa-file-excel-o" style="font-size:48px;color:blue"></i></button> -->
 
                 <div class="col-sm-6">
-                  <button class="btn btnrefresh mr-1">
+                  <button class="btn btnrefresh mr-1" style="width:100%">
                     <i class="fa fa-download" aria-hidden="true"></i>
-                    <a
-                      (click)="downloadTemplate()"
-                      style="color: #fff; margin-left: 20px"
-                      >Download Template</a
-                    >
+                    <a (click)="downloadTemplate()" style="color: #fff; margin-left: 20px">Download</a>
                   </button>
                 </div>
               </div>
@@ -31,20 +26,15 @@
                 <fieldset>
                   <div class="row">
                     <div class="col-sm-6">
-                      <label
-                        class="mandatory"
-                        style="font-size: 1em; font-weight: bold"
-                        >Choose File(.CSV) </label
-                      >
+                      <label class="mandatory" style="font-size: 1em;">Choose File  </label>
                     </div>
-                    
+
                     <div class="col-sm-6">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customLabel" 
-                            formControlName="file" (change)="customFile($event)" #myInput>
-                        <label class="custom-file-label"
-                        for="attachment" >{{fileName}}</label>
-                    </div>
+                        <input type="file" class="custom-file-input" id="customLabel" formControlName="file"
+                          (change)="customFile($event)" #myInput>
+                        <label class="custom-file-label" for="attachment">{{fileName}}</label>
+                      </div>
 
                       <!-- <input
                       
@@ -58,35 +48,27 @@
                         autocomplete="off"
                       /> -->
 
-                      <div
-                        class="valid-error"
-                        *ngIf="
+                      <div class="valid-error" *ngIf="
                           form.controls.file.errors &&
                           (form.controls.file.dirty ||
                             form.controls.file.touched)
-                        "
-                        text-wrap
-                      >
-                        <span
-                          *ngIf="form.controls.file.errors?.required"
-                          class="form-text danger mandatory"
-                        >
+                        " text-wrap>
+                        <span *ngIf="form.controls.file.errors?.required" class="form-text danger mandatory">
                           {{ "File" | translate }}
-                          {{ "IsRequired" | translate }}</span
-                        >
+                          {{ "IsRequired" | translate }}</span>
                       </div>
                     </div>
                   </div>
                 </fieldset>
               </div>
-              <div class="text-center mt-5">
-                <button
-                  type="button"
-                  class="btn btnadd mr-1 btnsave"
-                  (click)="upload()"
-                >
+              <div class="row mt-4">
+                <div class="col-md-6">
+</div>
+                <div class="col-md-6">
+                <button type="button" class="btn btnadd mr-1 btnsave" (click)="upload()">
                   {{ "Upload" | translate }}
                 </button>
+                </div>
               </div>
             </div>
           </form>
@@ -95,81 +77,102 @@
     </div>
   </div>
 </div>
-<!-- <div class="table-responsive" *ngIf="table">
+
+<div class="row p-2" *ngIf="table">
+  <div class="col-md-7">
+    <h4>Error List</h4>
+  </div>
+  <div class="col-md-5" style="text-align: end;">
+    <button type="reset" class="btn btnadd mr-1 btnsave" (click)="back()">
+      <i class="fa fa-arrow-left"></i>
+      {{'Back' | translate}}
+  </button>  </div>
+
+</div>
+
+<div class="table-responsive mt-4" *ngIf="table">
+
   <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
+
     <ng-container matColumnDef="sno">
-      <mat-header-cell *matHeaderCellDef mat-sort-header="sno"
-        >{{ " S.No " | translate }}
+      <mat-header-cell *matHeaderCellDef mat-sort-header="sno">{{ " S.No " | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let dataField; let i = index">
         <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ i + 1 }}</p>
       </mat-cell>
     </ng-container>
-
-    <ng-container matColumnDef="psId">
-      <mat-header-cell *matHeaderCellDef mat-sort-header="psId"
-        >{{ "PS Id " | translate }}
+    <ng-container matColumnDef="entryDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="entryDate">{{ "Date" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let dataField">
-        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.psId }}</p>
+        <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+          {{ dataField.entryDate | date : "dd-MM-yyyy" }}
+        </p>
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="operatorName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header="operatorName"
-        >{{ "Operator Name" | translate }}
+    <ng-container matColumnDef="Hours">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="hours">
+        {{ "Hours" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let dataField">
-        <p class="text-truncate txtalign " [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.operatorName }}</p>
+        <ng-container *ngIf="dataField.id != 0; else formattedHoursTemplate">
+          <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+            {{ dataField.hours }}
+          </p>
+        </ng-container>
+        <ng-template #formattedHoursTemplate>
+          <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+            {{ dataField.hours }}
+          </p>
+        </ng-template>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="Remarks">
-      <mat-header-cell *matHeaderCellDef mat-sort-header="Remarks"
-        >{{ "Remarks" | translate }}
+      <mat-header-cell *matHeaderCellDef mat-sort-header="remarks">{{ "Description" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let dataField">
-        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.remarks }}</p>
+        <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+          {{ dataField.description }}
+        </p>
       </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="psNumber">
-      <mat-header-cell *matHeaderCellDef mat-sort-header="psNumber"
-        >{{ "PS Number" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let dataField">
-        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.psNumber }}</p>
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="operatorNo">
-      <mat-header-cell *matHeaderCellDef mat-sort-header="operatorNo"
-        >{{ "Operator No" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let dataField">
-        <p class="text-truncate txtalign" [ngStyle]="{'color':this.errorCount > 0 ? 'red' : 'black' }">{{ dataField.operatorNo }}</p>
-      </mat-cell>
-    </ng-container>
-    
-    <mat-header-row
-      *matHeaderRowDef="displayedColumns; sticky: true"
-    ></mat-header-row>
 
-    <mat-row *matRowDef="let row; columns: displayedColumns" matRipple>
-    </mat-row>
+    <ng-container matColumnDef="Project">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="project">{{ "Project Name" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+          {{ dataField.projectName }}
+        </p>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Task">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="Task">{{ "Task Type" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p [ngClass]="dataField.isLeave == true ? 'colorred' : ''" class="text-truncate txtalign lbl-pointer">
+          {{ dataField.Tasktype }}
+        </p>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="error">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="error">{{ "Remarks" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let dataField">
+        <p class="text-truncate txtalign lbl-pointer" style="color: red;">
+          {{ dataField.remarks }}
+        </p>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns" matRipple></mat-row>
   </mat-table>
 </div>
-<div class="" *ngIf="table">
-  <div *ngIf="arraydata.length == 0" class="no-record">
-    <p>No records found</p>
-  </div>
-  <mat-paginator
-    class="mat-pag"
-    #paginator
-    [length]="dataSource != null && dataSource.filteredData.length"
-    [pageIndex]="0"
-    [pageSize]="25"
-    [pageSizeOptions]="[25, 50, 100]"
-  >
+<div *ngIf="table">
+  <mat-paginator #paginator [length]="dataSource != null && dataSource.filteredData.length" [pageIndex]="0"
+    [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons>
   </mat-paginator>
-</div> -->
-
-
+</div>
