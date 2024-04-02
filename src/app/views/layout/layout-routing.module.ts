@@ -110,6 +110,12 @@ const routes: Routes = [
           import("./../../views/pages/tc-timesheet/tc-timesheet.module").then((m) => m.TcTimesheetModule)
       },
       {
+        path: "designation",
+        loadChildren: () =>
+          import("./../../views/pages/designation/designation.module").then((m) => m.DesignationModule)
+      },
+      
+      {
         path: "timechampport",
         loadChildren: () =>
           import("./../../views/pages/timechamp-report/timechamp-report.module").then((m) => m.TimechampReportModule)

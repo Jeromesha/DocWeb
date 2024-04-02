@@ -368,10 +368,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">{{'Designation' | translate}} </label> <span *ngIf="id == 0"
-                                                class=""><i class="btn-icon-prepend 2x fa fa-plus ml-3"
+                                                class="">
+                                                <!-- <i class="btn-icon-prepend 2x fa fa-plus ml-3"
                                                     style="font-size:20px;color:#3E65A6" title="Add"
                                                     (click)="DesignationAdd(PrintCharges)"></i>
-                                                    
+                                                     -->
                                             </span>
                                             <mat-select aria-label="true" formControlName="designationTypeId"
                                                 [disabled]="actionInfo == 1" class="form-control pd"
@@ -641,7 +642,7 @@
         </div>
     </div>
 </div>
-<ng-template #PrintCharges let-modal>
+<!-- <ng-template #PrintCharges let-modal>
     <div class="modal-header">
         <h4 class="modal-title">Add Designation</h4>
     </div>
@@ -662,9 +663,7 @@
               ">
                             Designation Type is required
                         </div>
-                        <!-- <div *ngIf="DesignationType > 20">
-                            Designation charge is Exceed
-                        </div> -->
+                        
                     </div>
                 </div>
             </div>
@@ -682,9 +681,7 @@
               ">
                             Description is required
                         </div>
-                        <!-- <div *ngIf="Description > 20">
-                            Description charge is Exceed
-                        </div> -->
+                       
                     </div>
                 </div>
             </div>
@@ -703,4 +700,4 @@
             {{'Save' | translate}}
         </button>
     </div>
-</ng-template>
+</ng-template> -->

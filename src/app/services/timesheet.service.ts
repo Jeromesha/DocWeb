@@ -68,5 +68,8 @@ export class TimeSheetService {
     BulkExcelSheet(data){
         return this.dataService.post('/api/timesheet/upload',data);
     }
-
+    deletedesig(data)
+    {
+        return this.dataService.post('/api/designation/deletebyid?id=' + data,true);
+    }
 }

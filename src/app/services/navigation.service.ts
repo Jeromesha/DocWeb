@@ -83,6 +83,11 @@ export class NavigationService {
     this.router.navigate(['/upload'])
 
   }
+  gotodesignation()
+  {
+      this.router.navigate(['/designation'])
+    
+  }
 }
 
 

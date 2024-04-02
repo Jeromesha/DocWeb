@@ -176,3 +176,58 @@
     [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons>
   </mat-paginator>
 </div>
+
+<ng-template #missingCellsTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title">Missing Cells Data</h4>
+    <button type="button" class="close" aria-label="Close" >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive mt-4">
+      <mat-table #table [dataSource]="dataSource1" matSort matSortDirection="asc">
+        <!-- Define your table columns here -->
+        <ng-container matColumnDef="sno">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+          <td mat-cell *matCellDef="let row">{{ row.sno }}</td>
+        </ng-container>
+        <ng-container matColumnDef="entryDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+          <td mat-cell *matCellDef="let row">{{ row.entryDate | date:'dd/MM/yyyy' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Hours">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Hours</th>
+          <td mat-cell *matCellDef="let row">{{( row.Hours)/60 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Remarks">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+          <td mat-cell *matCellDef="let row">{{ row.Remarks }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Project">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Project Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.Project }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Task">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Task Type</th>
+          <td mat-cell *matCellDef="let row">{{ row.Task }}</td>
+        </ng-container>
+        <ng-container matColumnDef="error">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Error</th>
+          <td mat-cell *matCellDef="let row" style="color: red;">{{ generateErrorMessages(row) }}</td>
+        </ng-container>
+        
+        <!-- Header row and cell definitions -->
+        <mat-header-row *matHeaderRowDef="displayedColumns1; sticky: true"></mat-header-row>
+        <!-- Row definitions -->
+        <mat-row *matRowDef="let row; columns: displayedColumns1" matRipple></mat-row>
+      </mat-table>
+    </div>
+    <mat-paginator #paginator [length]="dataSource1!=null && dataSource1.filteredData.length" [pageIndex]="0" [pageSize]="5"
+    [pageSizeOptions]="[5, 25, 50, 100]">
+</mat-paginator><br>
+  </div>
+  <div class="modal-footer">
+    <!-- Add any footer content if needed -->
+  </div>
+</ng-template>

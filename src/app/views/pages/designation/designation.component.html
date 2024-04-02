@@ -1,0 +1,124 @@
+<div *ngIf="loading" class="loadesr" style="background-color: rgba(255, 255, 255, 0.5)"></div>
+<div class="d-flex justify-cont ent-between align-items-center flex-wrap grid-margin">
+  <div>
+    <h4 class="mb-3 mb-md-0">
+      &nbsp;{{ "Designation" | translate }}
+    </h4>
+  </div>
+</div>
+<div class="row text-left">
+
+  <mat-form-field class="mb-0 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3">
+    <input id="search1" matInput (keyup)="applyFilter($event)" placeholder="{{'Search'}}" #searchInput>
+</mat-form-field>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body login-img">
+          <h5 class="fs mb-2 pl-3">
+            {{ "Add" | translate }}
+          </h5>
+          <div class="px-3">
+            <!-- <form [formGroup]="form" class="form form-horizontal" novalidate> -->
+              <div class="form-body pt-2">
+                <fieldset>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="mandatory">
+                          {{"Designation" | translate }}</label>
+                        <div class="">
+                          <input type="text" class="form-control mr-2" maxlength="100" [(ngModel)]="DesignationType" />
+                          <div *ngIf="ErrorTrue" class="text-danger mt-2">
+                            <div *ngIf="
+                    DesignationType == '' || DesignationType == 0
+                  ">
+                                Designation Type is required
+                            </div>
+                        </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="">{{
+                          "Description" | translate
+                          }}</label>
+                        <div class="d-flex" >
+                          <textarea type="text" class="form-control mr-2" 
+                          [(ngModel)]="Description" ></textarea>
+
+                        </div>
+                        <!-- <div class="text-danger mt-2">
+                          <div *ngIf="
+                  Description == '' || Description == 0
+                ">
+                              Description is required
+                          </div>
+                         
+                      </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <div class="form-actions mb-2 mt-3" style="float: right">
+                  <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel" (click)="clearData()">
+                    <i class="fa fa-close"></i>
+                    {{ "Cancel" | translate }}
+                  </button>
+                  <button type="button" class="btn btn-raised btn-warning mr-1 btncancel"
+                    *ngIf="actionInfo == 10 || actionInfo == 2" (click)="clearData()">
+                    <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;
+                    {{ "Clear" | translate }}
+                  </button>
+                  <button class="btn btn-primary mr-1 btnsave" type="submit" (click)="submit()">
+                    <i class="fa fa-save"></i>
+                    {{ "Save" | translate }}
+                  </button>
+                </div>
+              </div>
+            <!-- </form> -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="table-responsive">
+      <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc" multiTemplateDataRows>
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef  mat-sort-header="action" align="center">{{'Actions' | translate}}</mat-header-cell>
+          <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
+            <button data-toggle="tooltip" data-placement="right" matTooltip="{{ 'Delete' | translate }}"
+            matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="danger"
+            (click)="onDelete(dataField.key)">
+            <i class="fa fa-trash fa-2x trashclr"></i>
+          </button>
+          </mat-cell>
+      </ng-container>
+          <ng-container matColumnDef="Designation">
+              <mat-header-cell *matHeaderCellDef mat-sort-header="Designation">{{'Designation'|translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let dataField">
+                  <p class="text-truncate txtalign lbl-pointer" style="margin-top: 10px;">
+                      {{dataField.value}}
+                      </p>
+              </mat-cell>
+          </ng-container>
+          
+          <mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns" matRipple></mat-row>     
+      </mat-table>
+    </div>
+    <mat-paginator #paginator [length]="dataSource!=null && dataSource.filteredData.length" [pageIndex]="0" [pageSize]="6"
+      [pageSizeOptions]="[5, 25, 50, 100]">
+    </mat-paginator><br>
+  </div>
+</div>
+<div class="row mt-4">
+
+</div>
