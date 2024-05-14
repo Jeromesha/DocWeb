@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, TemplateRef } from "@angular/core";
 import * as ExcelJS from "exceljs";
-import xlsxPopulate from "xlsx-populate";
+// import xlsxPopulate from "xlsx-populate";
 import * as CryptoJS from "crypto-js";
 import { Row, Workbook } from "exceljs";
 import { forkJoin } from "rxjs";

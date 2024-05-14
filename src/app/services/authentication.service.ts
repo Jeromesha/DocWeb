@@ -5,7 +5,7 @@ import { UserSessionService } from "./usersession.service";
 import { DataService } from "./data.service";
 import { UserSession } from "../models/usersession";
 
-import * as jwtDecode from "jwt-decode";
+import jwtDecode, { JwtPayload } from "jwt-decode";
 import * as momenttz from "moment-timezone";
 
 import "rxjs/add/operator/map";
