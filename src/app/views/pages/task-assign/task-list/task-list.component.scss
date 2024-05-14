@@ -1,0 +1,72 @@
+.custom-dropdown {
+    ::ng-deep .dropdown-btn .dropdown-multiselect__caret::before {
+        position: relative !important;
+        right: 0 !important;
+        top: 54% !important;
+        color: #000036 !important;
+        margin-top: 4px !important;
+        border-style: solid !important;
+        border-width: 5px 5px 0 !important;
+        border-color: #000036 transparent !important;
+        content: "" !important;
+        opacity: 0.6;
+    }
+}
+
+
+.custom-dropdown {
+    ::ng-deep .dropdown-btn {
+        border: 1px solid #ced4da !important;
+        color: #d0cdd2 !important;
+        background-color: #ffffff;
+    }
+}
+
+th {
+    text-align-last: center;
+    background-color: #71B03C;
+    color: #fff;
+    font-weight: small !important;
+    border-right: 0.1px solid lightgray;
+    height: 30px;
+}
+
+td {
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-right: 0.1px solid lightgray;
+    border-bottom: 0.1px solid lightgray;
+}
+
+// .matcellstyle {
+//     display: flex;
+//     padding: 2px;
+// }
+
+.red-text {
+    color: red;
+}
+
+
+:host::ng-deep .table-responsive .mat-row {
+    display: flex !important;
+}
+
+:host::ng-deep .table-responsive .mat-header-row {
+    display: flex !important;
+}
+
+:host::ng-deep .table-responsive .mat-row,
+.table-responsive .mat-footer-row {
+    min-height: 0px !important;
+}
+
+:host::ng-deep .table-responsive .mat-header-cell {
+    padding-top: 8px;
+    height: 35px !important;
+}
+
+.aligncenter {
+  display: flex;
+  justify-content: center;
+}

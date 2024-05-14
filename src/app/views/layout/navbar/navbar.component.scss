@@ -191,7 +191,7 @@ li.nav-profile {
 }
 
 .fontColor {
-    color:black;
+    color: black;
     font-weight: bold;
     // font-size: 15px;
     font-size: 24px;
@@ -225,6 +225,7 @@ li.nav-profile {
         // top: 12%;
         font-size: 18px;
     }
+
     // @media only screen and(max-width:520px) {
     //     top: 16%;
     //     font-size: 18px;
@@ -233,9 +234,35 @@ li.nav-profile {
         // top: 16%;
         font-size: 16px;
     }
+
     @media only screen and(max-width:360px) {
         // top: 15%;
         font-size: 12px;
     }
 }
 
+.progressline {
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+    height: 2.6px;
+    width: 100%;
+    background: linear-gradient(#6CB449 0 0), linear-gradient(#2077A9 0 0), #e3effa;
+    background-size: 60% 100%;
+    background-repeat: no-repeat;
+    animation: progress-7x9cg2 1.4s infinite;
+}
+
+@keyframes progress-7x9cg2 {
+    0% {
+        background-position: -150% 0, -150% 0;
+    }
+
+    66% {
+        background-position: 250% 0, -150% 0;
+    }
+
+    100% {
+        background-position: 250% 0, 250% 0;
+    }
+}

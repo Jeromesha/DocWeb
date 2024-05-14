@@ -24,11 +24,14 @@ export class NavigationService {
     this.router.navigate(['/timesheet/' + formattedDate, actionInfo]);
   }
 
-  gotoTask(id:any,actionInfo:any){
+  gotoTask(id: any, actionInfo: any) {
     debugger;
-    this.router.navigate(['/task/'+id,actionInfo])
+    this.router.navigate(['/task/' + id, actionInfo])
   }
 
+  gotoTaskAssign(id: any, actionInfo: any) {
+    this.router.navigate(['/assigntask/' + id, actionInfo])
+  }
 
   goToproject(id: number, actionInfo: number) {
     debugger;
@@ -74,19 +77,21 @@ export class NavigationService {
   gotoEmployee() {
     this.router.navigate(['/employeedetails/'])
   }
-  gotoTaskgrid(){
+  gotoTaskgrid() {
     debugger
     this.router.navigate(['/task/'])
   }
-  gotoExcelUpload()
-  {
+  gotoExcelUpload() {
     this.router.navigate(['/upload'])
 
   }
-  gotodesignation()
-  {
-      this.router.navigate(['/designation'])
-    
+  gotodesignation() {
+    this.router.navigate(['/designation'])
+
+  }
+
+  gotoAssignTaskgrid() {
+    this.router.navigate(['/assigntask/'])
   }
 }
 

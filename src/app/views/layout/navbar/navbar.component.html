@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-
+    <div *ngIf="loaderService.getLoadingState()" class="progressline"></div>
   </div>
   <div class="custom_mobile_sec d-block d-sm-block d-md-block d-lg-none">
 
@@ -124,6 +124,6 @@
         </li>
       </ul>
     </div>
+    <div *ngIf="loaderService.getLoadingState()" class="progressline"></div>
   </div>
-
 </nav>

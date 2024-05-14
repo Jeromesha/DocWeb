@@ -1,12 +1,8 @@
-export  enum RoleType {
+export enum RoleType {
     Root = 1,
-    AnganwadiWorker = 2,
-    Agency = 3,
-    DistrictCollector = 4,
-    DHO = 5,
-    DPO = 6,
-    BHO = 7,
-    BIO = 8,
-    HOHLTH = 9,
-    Supervisor = 10
+    SuperAdmin = 2,
+    ProjectDeveloper = 3,
+    ProjectTester = 4,
+    Management = 5,
+    ReportManagement = 6
 }

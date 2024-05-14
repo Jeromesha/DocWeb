@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import { UserService } from './user.service';
+import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from './loader.service';
 
 @Injectable()
 
@@ -23,10 +25,12 @@ export class HttpInterceptorService implements HttpInterceptor {
         private sessionService: UserSessionService,
         private authService: AuthenticationService,
         private alertService: AlertService,
+        private toaster: ToastrService,
+        private loaderService: LoaderService,
         public translate: TranslateService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+        this.loaderService.show();
         const started = Date.now();
 
         // add authorization header with jwt token if available
@@ -44,10 +48,13 @@ export class HttpInterceptorService implements HttpInterceptor {
             if (event instanceof HttpResponse) {
                 const action = request.urlWithParams.replace(this.baseUrl, '');
                 const elapsed = Date.now() - started;
+                this.loaderService.hide();
             }
         }, (error: any) => {
             if (error instanceof HttpErrorResponse) {
+                debugger
                 if (error.status === 401) {
+                    this.toaster.warning("Your session has timed out. Please log in again to continue.");
                     this.authService.logOut();
                     this.router.navigate(['/auth/login']);
                 } else if (error.status === 403) {
@@ -55,6 +62,7 @@ export class HttpInterceptorService implements HttpInterceptor {
                 } else {
                     this.broadcastFriendlyErrorMessage(error);
                 }
+                this.loaderService.hide();
             }
             return throwError(error);
         })) as any;

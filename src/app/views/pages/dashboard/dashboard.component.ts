@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit {
     debugger;
     //done for hide the data
     //this.UserId = this.usersessionService.userId();
-    this.Getproject();
+    // this.Getproject();
     //this.timegrid(this.UserId, this.Databasedate);
     //this.timechamp(this.UserId, this.Databasedate);
     //remove the command for dashboard works

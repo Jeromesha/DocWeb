@@ -1,0 +1,4 @@
+<div *ngIf="loaderService.getLoadingState()">
+  <div *ngIf="loaderService.loadGif()" class="loadesr"></div>
+  <div *ngIf="!loaderService.loadGif()" class="backBlur"></div>
+</div>

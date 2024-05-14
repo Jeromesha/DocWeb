@@ -100,6 +100,11 @@ const routes: Routes = [
           import("./../../views/pages/task/task.module").then((m) => m.TaskModule)
       },
       {
+        path: "assigntask",
+        loadChildren: () =>
+          import("./../../views/pages/task-assign/task.module").then((m) => m.TaskAssignModule)
+      },
+      {
         path: "leavedata",
         loadChildren: () =>
           import("./../../views/pages/leavedata/leavedata.module").then((m) => m.LeavedataModule)
@@ -114,7 +119,7 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/designation/designation.module").then((m) => m.DesignationModule)
       },
-      
+
       {
         path: "timechampport",
         loadChildren: () =>

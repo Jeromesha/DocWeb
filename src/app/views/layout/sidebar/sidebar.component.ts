@@ -97,7 +97,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
    * Fold sidebar after mouse leave (in folded state)
    */
   closeSidebarFolded() {
-    debugger
     if (this.document.body.classList.contains('sidebar-folded')) {
       this.document.body.classList.remove("open-sidebar-folded");
     }
@@ -107,7 +106,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
    * Sidebar-folded on desktop (min-width:992px and max-width: 1199px)
    */
   iconSidebar(e) {
-    debugger
     if (e.matches) {
       this.document?.body.classList.add('sidebar-folded');
     } else {
@@ -119,7 +117,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
    * Switching sidebar light/dark
    */
   onSidebarThemeChange(event) {
-    debugger
     this.document.body.classList.remove('sidebar-light', 'sidebar-dark');
     this.document.body.classList.add(event.target.value);
     this.document.body.classList.remove('settings-open');
