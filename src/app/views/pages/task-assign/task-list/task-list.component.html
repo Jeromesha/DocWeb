@@ -1,11 +1,61 @@
 <div class="pl-1 pr-1 mb-1">
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
-        <div class="col-md-2 col-sm-2">
+        <div class="col-md-3 col-sm-2">
             <h4 class="text-bold-500 text-left hearder-text">
                 Periodic Task
             </h4>
         </div>
-        <div class="col-md-8 mt-3">
+        <div class="col-md-6" *ngIf="showAdd()">
+            <form [formGroup]="form" class="form form-horizontal" novalidate>
+                <div class="form-body pt-2">
+                    <div class="row mt-2">
+                        <div class="col-5 pr-0">
+                            <div class="form-group">
+                                <label class="">Target Date</label>
+                                <div class="input-group mb-0 ">
+                                    <input class="form-control" placeholder="Target Status Date"
+                                        (ngModelChange)="filterDate($event)" formControlName="targetDate"
+                                        [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
+                                    <owl-date-time [pickerType]="'calendar'" #dt4>
+                                    </owl-date-time>
+                                    <div class="input-group-append">
+                                        <span class="trigger input-group-text" [owlDateTimeTrigger]="dt4">
+                                            <i class="fa fa-calendar-check-o"></i>
+                                        </span>
+                                        <owl-date-time [pickerType]="'calendar'" #dt4>
+                                        </owl-date-time>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1 p-0" style="margin-top: 0.4rem;">
+                            <button type="button" matRipple class="btn mt-4 mb-2" matTooltip="Clear"
+                                style="background-color: #EDEEF5;border: 1px solid #CED4DA;" (click)="clearDate()">
+                                <i class="btn-icon-prepend fa fa-refresh"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="">Employee</label>
+                                <mat-select placeholder="Executor" formControlName="empNameCode"
+                                    (selectionChange)="employeeChange($event)" class="form-control pt-2"
+                                    [disableOptionCentering]="true" #select5>
+                                    <mat-select-filter [displayMember]="'value'" [array]="uniqueData"
+                                        (filteredReturn)="uniqueDataFiltered =$event" *ngIf="select5.focused">
+                                    </mat-select-filter>
+                                    <mat-option *ngFor="let item of uniqueDataFiltered" [value]="item.key">
+                                        {{item.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6" *ngIf="!showAdd()">
+        </div>
+        <div class="col-md-3 mt-3">
             <div style="float:right;">
                 <button *ngIf="showAdd()" type="button" matRipple class="btn btnadd mr-2 mb-2"
                     (click)="goToAction({id:0},0)">
@@ -16,10 +66,10 @@
                     <i class="btn-icon-prepend fa fa-refresh"></i>
                     {{'Refresh' | translate}}
                 </button>
-                <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
+                <!-- <button type="button" matRipple class="btn btnexportexcel mb-2" (click)="onExportExcel()">
                     <i class="btn-icon-prepend fa fa-file-excel-o"></i>
                     {{'ExportExcel' | translate}}
-                </button>
+                </button> -->
             </div>
         </div>
     </div>

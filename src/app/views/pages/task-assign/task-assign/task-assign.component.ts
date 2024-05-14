@@ -229,7 +229,8 @@ export class TaskAssignComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.matData);
           this.dataSource.paginator = this.paginator;
           if (this.matData.length > 0) {
-            this.addButton = "Add Another";
+            this.addButton = "Add";
+            // this.addButton = "Add Another";
           } else {
             this.addButton = "Add";
           }
@@ -446,7 +447,8 @@ export class TaskAssignComponent implements OnInit {
       this.alertService.error('Please fill the required fields');
     }
     if (this.matData.length > 0) {
-      this.addButton = "Add Another";
+      // this.addButton = "Add Another";
+      this.addButton = "Add";
       this.disableDelete = false;
     }
   }
@@ -502,7 +504,8 @@ export class TaskAssignComponent implements OnInit {
     this.formGrid.reset();
     this.gridId = 0;
     if (this.matData.length > 0) {
-      this.addButton = "Add Another";
+      this.addButton = "Add";
+      // this.addButton = "Add Another";
     } else { this.addButton = "Add"; }
     this.disableDelete = false;
     this.editDisable = null;

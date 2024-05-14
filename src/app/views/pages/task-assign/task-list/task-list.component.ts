@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -41,11 +41,11 @@ export class TaskListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
+  form: FormGroup;
 
   displayedColumns: string[] = [
     "action",
     "taskName",
-    "description",
     "employeeFirstName",
     "periodValue",
     "assignedDate",
@@ -53,7 +53,8 @@ export class TaskListComponent implements OnInit {
     "reminderDate",
     "isApprove",
     "isNotificationByMail",
-    "isNotificationByWhatsApp"
+    "isNotificationByWhatsApp",
+    "description"
   ];
   excelColumns: string[];
   resultArray: any;
@@ -61,6 +62,10 @@ export class TaskListComponent implements OnInit {
   CommonData: CommonInfo;
   public RoleEnumType = RoleType;
   expandedElement: any;
+  uniqueData: any[];
+  uniqueDataFiltered: any[];
+  employeeId: any;
+  targetDate: string;
 
   constructor(private formBuilder: FormBuilder,
     private timesheetService: TimeSheetService,
@@ -73,10 +78,18 @@ export class TaskListComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.initializeValidators();
     this.roleId = this.userSessionService.roleId();
     CommonInfo.clearTaskData();
     this.gettaskGriddata();
+  }
+
+  initializeValidators() {
+    this.form = this.formBuilder.group({
+      targetDate: [''],
+      empNameCode: [0]
+    });
   }
 
   expandUp(dataField) {
@@ -122,7 +135,49 @@ export class TaskListComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.data = this.resultArray;
+
+      this.uniqueData = [];
+      this.resultArray.forEach(item => {
+        const existingItem = this.uniqueData.find(obj => obj.key === item.assignedToId);
+        if (!existingItem) {
+          this.uniqueData.push({
+            key: item.assignedToId,
+            value: `${item.employeeFirstName}(${item.employeeCode})`
+          });
+        }
+      });
+      const coursebranch = { key: 0, value: 'All Employee' };
+      this.uniqueData.unshift(coursebranch);
+      this.uniqueDataFiltered = this.uniqueData?.slice();
     })
+  }
+
+  employeeChange(event: any) {
+    this.employeeId = event?.value;
+    this.filterChange();
+  }
+
+  filterDate(event: any) {
+    if (event) {
+      this.targetDate = moment(event).format('YYYY-MM-DD');
+      this.filterChange();
+    }
+  }
+
+  filterChange() {
+    let filteredArray = this.resultArray;
+    if (this.employeeId && this.employeeId === 0) {
+      filteredArray = this.resultArray;
+    }
+    else if (this.employeeId) {
+      filteredArray = filteredArray.filter(x => x.assignedToId === this.employeeId);
+    }
+    if (this.targetDate) {
+      filteredArray = filteredArray.filter(x => moment(x.targetDate).format('YYYY-MM-DD') === this.targetDate);
+    }
+    this.dataSource = new MatTableDataSource(filteredArray);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   goToAction(dataField: any, actioninfo: any) {
@@ -131,7 +186,17 @@ export class TaskListComponent implements OnInit {
     this.navigationService.gotoTaskAssign(dataField.id, actioninfo);
   }
 
+  clearDate() {
+    this.form.controls['targetDate'].setValue('');
+    this.targetDate = "";
+    this.filterChange();
+  }
+
   refresh() {
+    this.form.controls['targetDate'].setValue('');
+    this.form.controls['empNameCode'].setValue(0);
+    this.targetDate = "";
+    this.employeeId = null;
     this.gettaskGriddata();
   }
 
@@ -144,7 +209,6 @@ export class TaskListComponent implements OnInit {
       }
       this.excelColumns = [
         "Task Name",
-        "Description",
         "Employee Name",
         "Period Name",
         "Assigned Date",
@@ -153,6 +217,7 @@ export class TaskListComponent implements OnInit {
         "Approved",
         "Notification By Mail",
         "Notification By WhatsApp",
+        "Description"
       ];
 
       const excelList = [];
@@ -160,7 +225,6 @@ export class TaskListComponent implements OnInit {
       exportData.forEach((a) => {
         excelList.push({
           taskName: a.taskName,
-          description: a.description,
           employeeFirstName: a.employeeFirstName + "(" + a.employeeCode + ")",
           periodValue: a.periodValue,
           assignedDate: moment(a.assignedDate).format("DD-MM-YYYY"),
@@ -168,14 +232,21 @@ export class TaskListComponent implements OnInit {
           reminderDate: moment(a.reminderDate).format("DD-MM-YYYY"),
           isApprove: a.isApprove ? 'Yes' : 'No',
           isNotificationByMail: a.isNotificationByMail ? 'Yes' : 'No',
-          isNotificationByWhatsApp: a.isNotificationByWhatsApp ? 'Yes' : 'No'
+          isNotificationByWhatsApp: a.isNotificationByWhatsApp ? 'Yes' : 'No',
+          description: a.description
         });
       });
       this.excelService.exportAsExcelFile(excelList, "Task List Report", this.excelColumns);
+
     }, 500);
   }
-  applyFilter($event: KeyboardEvent) {
-    throw new Error('Method not implemented.');
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   onDelete(e: Event, id: any, name: any) {

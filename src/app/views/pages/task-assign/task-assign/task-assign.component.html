@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <h4 class="mb-3 mb-md-0">&nbsp;{{'Add Periodic Task' }}</h4>
+        <h4 class="mb-3 mb-md-0">{{id === 0 ? 'Add' :
+            ([RoleEnumType.Root,RoleEnumType.SuperAdmin].includes(roleId)) ? 'Update':''}} Periodic Task</h4>
         <!-- <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add Project Details' | translate}}</h4> -->
         <!-- <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View Project Details' | translate}}</h4>
         <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit Project Details' | translate}}</h4> -->
@@ -36,24 +37,6 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory "> Description</label>
-                                                <textarea type="text" class="form-control" maxlength="250"
-                                                    placeholder="Description" formControlName="description"
-                                                    autocomplete="off">
-                                                </textarea>
-                                                <div class="valid-error"
-                                                    *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
-                                                    text-wrap>
-                                                    <span *ngIf="form.controls.description.errors?.required"
-                                                        class="form-text  danger mandatory">
-                                                        Description {{'IsRequired' | translate}}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
                                                 <label class="mandatory ">Period</label>
                                                 <mat-select placeholder="Period" formControlName="period"
                                                     [disabled]="actionInfo === 1 || disableForm()"
@@ -79,8 +62,8 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory ">Assigned To</label>
-                                                <mat-select placeholder="Assigned To" formControlName="assignedToId"
+                                                <label class="mandatory ">Executor</label>
+                                                <mat-select placeholder="Executor" formControlName="assignedToId"
                                                     [disabled]="actionInfo === 1 || disableForm()"
                                                     class="form-control pt-2" [disableOptionCentering]="true" #select5>
                                                     <mat-select-filter [displayMember]="'empNameCode'"
@@ -98,7 +81,7 @@
                                                     text-wrap>
                                                     <span *ngIf="form.controls.assignedToId.errors?.required"
                                                         class="form-text danger mandatory">
-                                                        Assigned To {{'IsRequired' | translate}}</span>
+                                                        Executor {{'IsRequired' | translate}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -212,7 +195,27 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory">Do you want to approve? &nbsp;</label> <br>
+                                                <label class="mandatory">Functional Heads</label>
+                                                <ng-multiselect-dropdown class="custom-dropdown"
+                                                    [disabled]="actionInfo == 1 || disableForm()"
+                                                    formControlName="secondaryOwners"
+                                                    placeholder="Select Functional Heads" [settings]="dropdownSettings"
+                                                    [data]='employeeListByRole'>
+                                                </ng-multiselect-dropdown>
+
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.secondaryOwners.errors && (form.controls.secondaryOwners.dirty || form.controls.secondaryOwners.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.secondaryOwners.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        Functional Heads {{'IsRequired' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">Approval Required? &nbsp;</label> <br>
                                                 <mat-radio-group aria-label="Select an option"
                                                     formControlName="isApprove" required>
                                                     <mat-radio-button [value]="true">Yes
@@ -232,27 +235,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory">Secondary Owners</label>
-                                                <ng-multiselect-dropdown class="custom-dropdown"
-                                                    [disabled]="actionInfo == 1 || disableForm()"
-                                                    formControlName="secondaryOwners"
-                                                    placeholder="Select Secondary Owners" [settings]="dropdownSettings"
-                                                    [data]='employeeListByRole'>
-                                                </ng-multiselect-dropdown>
-
-                                                <div class="valid-error"
-                                                    *ngIf="form.controls.secondaryOwners.errors && (form.controls.secondaryOwners.dirty || form.controls.secondaryOwners.touched)"
-                                                    text-wrap>
-                                                    <span *ngIf="form.controls.secondaryOwners.errors?.required"
-                                                        class="form-text danger mandatory">
-                                                        Secondary Owners {{'IsRequired' | translate}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="mandatory">Do you want to be notified via mail?
+                                                <label class="mandatory">Notify by mail?
                                                     &nbsp;</label> <br>
                                                 <mat-radio-group aria-label="Select an option"
                                                     formControlName="isNotificationByMail" required>
@@ -266,14 +249,14 @@
                                                     text-wrap>
                                                     <label *ngIf="form.controls.isNotificationByMail.errors?.required"
                                                         class="form-text  danger mandatory">
-                                                        Notification via mail {{'IsRequired' | translate}}</label>
+                                                        Notify via mail {{'IsRequired' | translate}}</label>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory">Do you want to be notified via whatsApp?
+                                                <label class="mandatory">Notify by whatsApp?
                                                     &nbsp;</label> <br>
                                                 <mat-radio-group aria-label="Select an option"
                                                     formControlName="isNotificationByWhatsApp" required>
@@ -288,7 +271,25 @@
                                                     <label
                                                         *ngIf="form.controls.isNotificationByWhatsApp.errors?.required"
                                                         class="form-text  danger mandatory">
-                                                        Notification via whatsApp {{'IsRequired' | translate}}</label>
+                                                        Notify by whatsApp {{'IsRequired' | translate}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory "> Description</label>
+                                                <textarea type="text" class="form-control" maxlength="250"
+                                                    placeholder="Description" formControlName="description"
+                                                    autocomplete="off">
+                                                </textarea>
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.description.errors?.required"
+                                                        class="form-text  danger mandatory">
+                                                        Description {{'IsRequired' | translate}}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -297,20 +298,18 @@
 
                                 <div class="form-actions mb-3 mt-3" style="float: right;">
                                     <button
-                                        *ngIf="actionInfo !== 1 && ([RoleEnumType.Root,RoleEnumType.SuperAdmin].includes(roleId))"
-                                        type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
+                                        *ngIf="id === 0 && actionInfo !== 1 && ([RoleEnumType.Root,RoleEnumType.SuperAdmin].includes(roleId))"
+                                        type="reset" class="btn btn-raised btn-warning btncancel mr-2"
                                         (click)="onCancel()">
                                         <i class="fa fa-close"></i>
                                         {{'Cancel' | translate}}
                                     </button>
-                                    &nbsp;
-                                    <button type="reset" class="btn btn-raised btn-warning mr-1 btncancel"
+                                    <button type="reset" class="btn btn-raised btn-warning btncancel mr-2"
                                         (click)="onClear()"
                                         *ngIf="id ==0 && actionInfo==0 && ([RoleEnumType.Root,RoleEnumType.SuperAdmin].includes(roleId))">
                                         <i class="btn-icon-prepend fa fa-refresh"></i>
                                         {{'Clear' | translate}}
                                     </button>
-                                    &nbsp;
                                     <button
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onSubmit()"
@@ -338,7 +337,7 @@
                             <div class="form-body pt-2">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
                                     <div>
-                                        <h4 class="mb-3 mb-md-0">Update Periodic Task Status</h4>
+                                        <h4 class="mb-3 mb-md-0">{{addButton}} Periodic Task Status</h4>
                                     </div>
                                 </div>
                                 <fieldset [disabled]="actionInfo === 1">
@@ -401,23 +400,6 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory ">Remarks</label>
-                                                <textarea type="text" class="form-control" maxlength="250"
-                                                    placeholder="Remarks" formControlName="remarks" autocomplete="off">
-                                            </textarea>
-                                                <div class="valid-error"
-                                                    *ngIf="formGrid.controls.remarks.errors && (formGrid.controls.remarks.dirty || formGrid.controls.remarks.touched)"
-                                                    text-wrap>
-                                                    <span *ngIf="formGrid.controls.remarks.errors?.required"
-                                                        class="form-text  danger mandatory">
-                                                        Remarks {{'IsRequired' | translate}}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
                                                 <label class="mandatory">Milestone Status</label>
                                                 <mat-select formControlName="mileStoneId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2 [disabled]="actionInfo===1"
@@ -440,34 +422,51 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="mandatory">Approve Type</label>
-                                            <mat-select formControlName="approvedStatusType" class="form-control pt-2"
-                                                [disableOptionCentering]="true" #select2 [disabled]="actionInfo===1"
-                                                (selectionChange)="approveTypeChange()"
-                                                placeholder="Select Approve Type">
-                                                <mat-select-filter [displayMember]="'value'" [array]="approveTypeList"
-                                                    (filteredReturn)="filterapproveTypeList =$event">
-                                                </mat-select-filter>
-                                                <mat-option *ngFor="let item of filterapproveTypeList"
-                                                    [value]="item.key">
-                                                    {{item.value}}
-                                                </mat-option>
-                                            </mat-select>
-                                            <div class="valid-error"
-                                                *ngIf="formGrid.controls.approvedStatusType.errors && (formGrid.controls.approvedStatusType.dirty || formGrid.controls.approvedStatusType.touched)"
-                                                text-wrap>
-                                                <span *ngIf="formGrid.controls.approvedStatusType.errors?.required"
-                                                    class="form-text danger mandatory">
-                                                    Approve Type {{'IsRequired' | translate}}</span>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">Approve Type</label>
+                                                <mat-select formControlName="approvedStatusType"
+                                                    class="form-control pt-2" [disableOptionCentering]="true" #select2
+                                                    [disabled]="actionInfo===1" (selectionChange)="approveTypeChange()"
+                                                    placeholder="Select Approve Type">
+                                                    <mat-select-filter [displayMember]="'value'"
+                                                        [array]="approveTypeList"
+                                                        (filteredReturn)="filterapproveTypeList =$event">
+                                                    </mat-select-filter>
+                                                    <mat-option *ngFor="let item of filterapproveTypeList"
+                                                        [value]="item.key">
+                                                        {{item.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div class="valid-error"
+                                                    *ngIf="formGrid.controls.approvedStatusType.errors && (formGrid.controls.approvedStatusType.dirty || formGrid.controls.approvedStatusType.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="formGrid.controls.approvedStatusType.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        Approve Type {{'IsRequired' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory ">Remarks</label>
+                                                <textarea type="text" class="form-control" maxlength="250"
+                                                    placeholder="Remarks" formControlName="remarks" autocomplete="off">
+                                            </textarea>
+                                                <div class="valid-error"
+                                                    *ngIf="formGrid.controls.remarks.errors && (formGrid.controls.remarks.dirty || formGrid.controls.remarks.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="formGrid.controls.remarks.errors?.required"
+                                                        class="form-text  danger mandatory">
+                                                        Remarks {{'IsRequired' | translate}}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </fieldset>
 
                                 <div class="text-right">
                                     <button [disabled]="actionInfo===1" type="button" matRipple
@@ -492,7 +491,7 @@
                                     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
                                         <ng-container matColumnDef="statusDate">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header="statusDate">Status Date
+                                            <mat-header-cell *matHeaderCellDef>Status Date
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
                                                 <p class="text-truncate txtalign">{{dataField.statusDate |
@@ -501,7 +500,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="taskStatusValue">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header="taskStatusValue">Task
+                                            <mat-header-cell *matHeaderCellDef>Task
                                                 Status
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
@@ -510,7 +509,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="remarks">
-                                            <mat-header-cell *matHeaderCellDef mat-sort-header="remarks">Remarks
+                                            <mat-header-cell *matHeaderCellDef>Remarks
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
                                                 <p class="text-truncate txtalign">{{dataField.remarks}}</p>
@@ -570,7 +569,7 @@
                                     </mat-table>
                                 </div>
                                 <mat-paginator #paginator [length]="dataSource!=null && dataSource.filteredData.length"
-                                    [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]">
+                                    [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 20, 30]">
                                 </mat-paginator>
 
                                 <div class="form-actions mb-3 mt-3" style="float: right;">
