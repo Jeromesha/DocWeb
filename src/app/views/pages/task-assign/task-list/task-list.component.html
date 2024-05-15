@@ -106,7 +106,7 @@
         </ng-container>
 
         <ng-container matColumnDef="periodValue">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="periodValue">{{'Period Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="periodValue">{{'Period' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.periodValue}}</p>
@@ -200,9 +200,9 @@
                         <th>S.No</th>
                         <th>Status Date</th>
                         <th>Task Status</th>
-                        <th>Remarks</th>
                         <th>Milestone Status</th>
-                        <th>Approve Type</th>
+                        <th>Remarks</th>
+                        <!-- <th>Approval Status</th> -->
                     </tr>
 
                     <tr *ngFor="let rowData of dataField.periodicTaskStatusViewModel; let i=index;">
@@ -216,14 +216,14 @@
                             {{rowData.taskStatusValue}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.remarks}}
-                        </td>
-                        <td style="vertical-align: middle;">
                             {{rowData.mileStoneValue}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.approvedStatusTypeValue}}
+                            {{rowData.remarks}}
                         </td>
+                        <!-- <td style="vertical-align: middle;">
+                            {{rowData.approvedStatusTypeValue}}
+                        </td> -->
                     </tr>
                 </table>
             </mat-cell>

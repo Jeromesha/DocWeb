@@ -55,9 +55,9 @@ export class TaskAssignComponent implements OnInit {
   displayedColumns: string[] = [
     'statusDate',
     'taskStatusValue',
-    'remarks',
     'mileStoneValue',
-    'approvedStatusTypeValue',
+    'remarks',
+    // 'approvedStatusTypeValue',
     'actions'
   ];
 
@@ -76,6 +76,8 @@ export class TaskAssignComponent implements OnInit {
   gridId: any;
   editDisable: any;
   public RoleEnumType = RoleType;
+  Date: any;
+  daysDifference: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -120,6 +122,10 @@ export class TaskAssignComponent implements OnInit {
       await this.getMilestone();
       await this.getApproveStatus();
     }
+    this.Date = new Date;
+    if (this.id === 0) {
+      this.form.controls['assignedDate'].setValue(this.Date);
+    }
   }
 
   initializeValidators() {
@@ -155,7 +161,7 @@ export class TaskAssignComponent implements OnInit {
       taskStatusId: ['', Validators.required],
       remarks: ['', Validators.required],
       mileStoneId: ['', Validators.required],
-      approvedStatusType: ['', Validators.required],
+      approvedStatusType: [3],
       indices: [null]
     });
   }
@@ -312,6 +318,9 @@ export class TaskAssignComponent implements OnInit {
   }
 
   updateEndDate(event: any) {
+    if (event && typeof (event) === "string") {
+      event = new Date(event);
+    }
     if (event) {
       this.startDate = new Date(event);
       this.endDate = new Date(this.startDate);
@@ -328,7 +337,29 @@ export class TaskAssignComponent implements OnInit {
       //this.form.controls['endDate'].clearValidators();
     }
     this.form.controls['reminderDate'].setValue("");
+  }
 
+  calculateDaysDifference(event: any) {
+    this.form.controls['reminderCount'].setValue(0);
+    let assignedDate = this.form.value.assignedDate;
+    if (assignedDate && event) {
+      if (assignedDate && typeof (assignedDate) === "string") {
+        assignedDate = new Date(assignedDate);
+      }
+      event = new Date(event);
+      event.setHours(0, 0, 0, 0);
+      assignedDate.setHours(0, 0, 0, 0);
+      const startTime = event.getTime();
+      const endTime = assignedDate.getTime();
+      const difference = startTime - endTime;
+      this.daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
+    }
+  }
+
+  setCount() {
+    if (this.form.value.reminderCount > this.daysDifference) {
+      this.form.controls['reminderCount'].setValue(this.daysDifference);
+    }
   }
 
   getTaskstatus() {
@@ -388,7 +419,7 @@ export class TaskAssignComponent implements OnInit {
         if (res.value) {
           if (this.matData.length > 0) {
             this.matData.forEach((index) => {
-              if (index.approvedStatusType == this.matData[rowIndex].approvedStatusType) {
+              if (index.mileStoneValue == this.matData[rowIndex].mileStoneValue) {
                 this.matData.splice(rowIndex, 1);
                 this.dataSource = new MatTableDataSource(this.matData);
                 this.dataSource.paginator = this.paginator;
@@ -409,10 +440,10 @@ export class TaskAssignComponent implements OnInit {
       if (existingRecord && this.formGrid.valid) {
         existingRecord.taskStatusValue = _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value;
         existingRecord.mileStoneValue = _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.value;
-        existingRecord.approvedStatusTypeValue = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value;
+        // existingRecord.approvedStatusTypeValue = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value;
         existingRecord.taskStatusId = _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.key;
         existingRecord.mileStoneId = _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.key;
-        existingRecord.approvedStatusType = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key;
+        // existingRecord.approvedStatusType = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key;
         existingRecord.remarks = this.formGrid.value.remarks;
         existingRecord.statusDate = this.formGrid.value.statusDate;
 
@@ -432,10 +463,10 @@ export class TaskAssignComponent implements OnInit {
         remarks: this.formGrid.value.remarks,
         taskStatusValue: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value,
         mileStoneValue: _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.value,
-        approvedStatusTypeValue: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value,
+        // approvedStatusTypeValue: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value,
         taskStatusId: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.key,
         mileStoneId: _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.key,
-        approvedStatusType: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key,
+        // approvedStatusType: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key,
       });
 
       this.dataSource = new MatTableDataSource(this.matData);
@@ -459,7 +490,7 @@ export class TaskAssignComponent implements OnInit {
     data = {
       taskStatusId: matData.taskStatusId,
       mileStoneId: matData.mileStoneId,
-      approvedStatusType: matData.approvedStatusType,
+      // approvedStatusType: matData.approvedStatusType,
       id: matData.id,
       statusDate: matData.statusDate,
       remarks: matData.remarks,
@@ -478,6 +509,7 @@ export class TaskAssignComponent implements OnInit {
     if (this.matData.length <= 0) {
       this.alertService.info('Please select atleast one data');
     } else {
+      this.matData = this.matData.map(v => ({ ...v, approvedStatusType: 3 }));
       const viewModel = {
         periodicTaskStatusTableViewModel: this.matData
       }

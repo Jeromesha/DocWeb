@@ -43,19 +43,7 @@ export class TaskListComponent implements OnInit {
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   form: FormGroup;
 
-  displayedColumns: string[] = [
-    "action",
-    "taskName",
-    "employeeFirstName",
-    "periodValue",
-    "assignedDate",
-    "targetDate",
-    "reminderDate",
-    "isApprove",
-    "isNotificationByMail",
-    "isNotificationByWhatsApp",
-    "description"
-  ];
+  displayedColumns: string[];
   excelColumns: string[];
   resultArray: any;
   roleId: any;
@@ -81,6 +69,31 @@ export class TaskListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.initializeValidators();
     this.roleId = this.userSessionService.roleId();
+    if ([this.RoleEnumType.Root, this.RoleEnumType.SuperAdmin].includes(this.roleId)) {
+      this.displayedColumns = [
+        "action",
+        "taskName",
+        "employeeFirstName",
+        "periodValue",
+        "assignedDate",
+        "targetDate",
+        "reminderDate",
+        "isApprove",
+        "isNotificationByMail",
+        "isNotificationByWhatsApp",
+        "description"
+      ];
+    } else {
+      this.displayedColumns = [
+        "action",
+        "taskName",
+        "periodValue",
+        "assignedDate",
+        "targetDate",
+        "reminderDate",
+        "description"
+      ];
+    }
     CommonInfo.clearTaskData();
     this.gettaskGriddata();
   }
