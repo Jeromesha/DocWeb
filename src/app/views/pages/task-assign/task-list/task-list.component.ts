@@ -159,7 +159,7 @@ export class TaskListComponent implements OnInit {
           });
         }
       });
-      const coursebranch = { key: 0, value: 'All Employee' };
+      const coursebranch = { key: 0, value: 'Assigned Employee' };
       this.uniqueData.unshift(coursebranch);
       this.uniqueDataFiltered = this.uniqueData?.slice();
     })

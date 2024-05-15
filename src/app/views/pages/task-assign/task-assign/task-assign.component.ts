@@ -57,7 +57,7 @@ export class TaskAssignComponent implements OnInit {
     'taskStatusValue',
     'mileStoneValue',
     'remarks',
-    // 'approvedStatusTypeValue',
+    'approvedStatusTypeValue',
     'actions'
   ];
 
@@ -161,7 +161,7 @@ export class TaskAssignComponent implements OnInit {
       taskStatusId: ['', Validators.required],
       remarks: ['', Validators.required],
       mileStoneId: ['', Validators.required],
-      approvedStatusType: [3],
+      approvedStatusType: ['', Validators.required],
       indices: [null]
     });
   }
@@ -388,6 +388,10 @@ export class TaskAssignComponent implements OnInit {
     this.taskservice.getApproveStatus().subscribe(result => {
       this.approveTypeList = result;
       this.filterapproveTypeList = this.approveTypeList?.slice();
+      debugger
+      if(this.roleId !=this.RoleEnumType.Root && this.roleId !=this.RoleEnumType.SuperAdmin){
+        this.formGrid.controls['approvedStatusType'].setValue(3);
+      }
     })
   }
 
@@ -440,10 +444,10 @@ export class TaskAssignComponent implements OnInit {
       if (existingRecord && this.formGrid.valid) {
         existingRecord.taskStatusValue = _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value;
         existingRecord.mileStoneValue = _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.value;
-        // existingRecord.approvedStatusTypeValue = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value;
+        existingRecord.approvedStatusTypeValue = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value;
         existingRecord.taskStatusId = _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.key;
         existingRecord.mileStoneId = _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.key;
-        // existingRecord.approvedStatusType = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key;
+        existingRecord.approvedStatusType = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key;
         existingRecord.remarks = this.formGrid.value.remarks;
         existingRecord.statusDate = this.formGrid.value.statusDate;
 
@@ -463,10 +467,10 @@ export class TaskAssignComponent implements OnInit {
         remarks: this.formGrid.value.remarks,
         taskStatusValue: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value,
         mileStoneValue: _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.value,
-        // approvedStatusTypeValue: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value,
+        approvedStatusTypeValue: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value,
         taskStatusId: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.key,
         mileStoneId: _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.key,
-        // approvedStatusType: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key,
+        approvedStatusType: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key,
       });
 
       this.dataSource = new MatTableDataSource(this.matData);
@@ -490,7 +494,7 @@ export class TaskAssignComponent implements OnInit {
     data = {
       taskStatusId: matData.taskStatusId,
       mileStoneId: matData.mileStoneId,
-      // approvedStatusType: matData.approvedStatusType,
+      approvedStatusType: matData.approvedStatusType,
       id: matData.id,
       statusDate: matData.statusDate,
       remarks: matData.remarks,
@@ -509,7 +513,7 @@ export class TaskAssignComponent implements OnInit {
     if (this.matData.length <= 0) {
       this.alertService.info('Please select atleast one data');
     } else {
-      this.matData = this.matData.map(v => ({ ...v, approvedStatusType: 3 }));
+      // this.matData = this.matData.map(v => ({ ...v, approvedStatusType: 3 }));
       const viewModel = {
         periodicTaskStatusTableViewModel: this.matData
       }

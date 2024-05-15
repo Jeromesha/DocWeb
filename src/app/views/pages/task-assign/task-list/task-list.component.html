@@ -13,7 +13,7 @@
                             <div class="form-group">
                                 <label class="">Target Date</label>
                                 <div class="input-group mb-0 ">
-                                    <input class="form-control" placeholder="Target Status Date"
+                                    <input class="form-control" placeholder="Target Date"
                                         (ngModelChange)="filterDate($event)" formControlName="targetDate"
                                         [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
                                     <owl-date-time [pickerType]="'calendar'" #dt4>
@@ -138,7 +138,7 @@
         </ng-container>
 
         <ng-container matColumnDef="isApprove">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="isApprove">{{'Approved' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="isApprove">{{'Approval' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.isApprove ? 'Yes' : 'No'}}</p>
@@ -146,7 +146,7 @@
         </ng-container>
 
         <ng-container matColumnDef="isNotificationByMail">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="isNotificationByMail">{{'Notification By Mail' |
+            <mat-header-cell *matHeaderCellDef mat-sort-header="isNotificationByMail">{{'Mail Notify' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
@@ -155,7 +155,7 @@
         </ng-container>
 
         <ng-container matColumnDef="isNotificationByWhatsApp">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="isNotificationByWhatsApp">{{'Notification By WhatsApp' |
+            <mat-header-cell *matHeaderCellDef mat-sort-header="isNotificationByWhatsApp">{{'WhatsApp Notify' |
                 translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
@@ -201,7 +201,7 @@
                         <th>Status Date</th>
                         <th>Task Status</th>
                         <th>Milestone Status</th>
-                        <th>Remarks</th>
+                        <th>Notes</th>
                         <!-- <th>Approval Status</th> -->
                     </tr>
 

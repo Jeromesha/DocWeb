@@ -387,7 +387,8 @@
                                                 <mat-select formControlName="taskStatusId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2 [disabled]="actionInfo===1"
                                                     (selectionChange)="taskStatusChange()"
-                                                    placeholder="Select Task Status">
+                                                    placeholder="Select Task Status"
+                                                    >
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="taskStatusList"
                                                         (filteredReturn)="filtertaskStatusList =$event">
@@ -432,13 +433,14 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-md-6">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="mandatory">Approval Status</label>
                                                 <mat-select formControlName="approvedStatusType"
                                                     class="form-control pt-2" [disableOptionCentering]="true" #select2
                                                     [disabled]="actionInfo===1" (selectionChange)="approveTypeChange()"
-                                                    placeholder="Select Approval Status">
+                                                    placeholder="Select Approval Status"
+                                                    [disabled]="actionInfo === 1 || disableForm()">
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="approveTypeList"
                                                         (filteredReturn)="filterapproveTypeList =$event">
@@ -456,11 +458,11 @@
                                                         Approval Status {{'IsRequired' | translate}}</span>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory ">Remarks</label>
+                                                <label class="mandatory ">Notes</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
                                                     placeholder="Remarks" formControlName="remarks" autocomplete="off">
                                             </textarea>
@@ -469,7 +471,7 @@
                                                     text-wrap>
                                                     <span *ngIf="formGrid.controls.remarks.errors?.required"
                                                         class="form-text  danger mandatory">
-                                                        Remarks {{'IsRequired' | translate}}
+                                                        Notes {{'IsRequired' | translate}}
                                                     </span>
                                                 </div>
                                             </div>
@@ -518,7 +520,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="remarks">
-                                            <mat-header-cell *matHeaderCellDef>Remarks
+                                            <mat-header-cell *matHeaderCellDef>Notes
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
                                                 <p class="text-truncate txtalign">{{dataField.remarks}}</p>
@@ -548,7 +550,7 @@
                                             <mat-cell *matCellDef="let matData; let l=index;" class="button-bar">
 
                                                 <button
-                                                    [disabled]="matData.id == 0 || editDisable === l || actionInfo === 1"
+                                                    [disabled]=" editDisable === l || actionInfo === 1"
                                                     data-toggle="tooltip" data-placement="right"
                                                     matTooltip="{{'Edit'|translate}}" matTooltipClass="tooltip-edit"
                                                     matTooltipPosition="right" mat-icon-button color="accent"
