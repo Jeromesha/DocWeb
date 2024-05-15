@@ -142,7 +142,7 @@
                                                     <input class="form-control" placeholder="Select Target Date"
                                                         (ngModelChange)="calculateDaysDifference($event)"
                                                         formControlName="targetDate" [owlDateTimeTrigger]="dt2"
-                                                        [owlDateTime]="dt2" [min]="minEndDate">
+                                                        [owlDateTime]="dt2" [min]="minEndDate" [max]="maxtargetdate">
                                                     <owl-date-time [pickerType]="'calendar'" #dt2>
                                                     </owl-date-time>
                                                     <div class="input-group-append">
@@ -550,7 +550,7 @@
                                             <mat-cell *matCellDef="let matData; let l=index;" class="button-bar">
 
                                                 <button
-                                                    [disabled]=" editDisable === l || actionInfo === 1"
+                                                    [disabled]="matData.id == 0 || editDisable === l || actionInfo === 1"
                                                     data-toggle="tooltip" data-placement="right"
                                                     matTooltip="{{'Edit'|translate}}" matTooltipClass="tooltip-edit"
                                                     matTooltipPosition="right" mat-icon-button color="accent"

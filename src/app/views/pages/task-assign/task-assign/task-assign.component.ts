@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import swal from 'sweetalert2';
 import * as _ from 'lodash';
 import { RoleType } from 'src/enum/roletype';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-task-assign',
@@ -78,6 +79,7 @@ export class TaskAssignComponent implements OnInit {
   public RoleEnumType = RoleType;
   Date: any;
   daysDifference: number;
+  maxtargetdate: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -263,6 +265,11 @@ export class TaskAssignComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      var targetDate=this.form.value.targetDate;
+      var reminderDate = this.form.value.reminderDate
+      this.form.controls['assignedDate'].setValue(moment(this.form.value.assignedDate).format("YYYY-MM-DD")+"T00:00:00.000Z");
+      this.form.controls['targetDate'].setValue(moment(targetDate).format("YYYY-MM-DD")+"T00:00:00.000Z");
+      this.form.controls['reminderDate'].setValue(moment(reminderDate).format("YYYY-MM-DD")+"T00:00:00.000Z");
       var data = this.form.value;
       const ids = data.secondaryOwners.map(owner => owner.id);
       const secondaryOwnersString = ids.join(',');
@@ -353,6 +360,19 @@ export class TaskAssignComponent implements OnInit {
       const endTime = assignedDate.getTime();
       const difference = startTime - endTime;
       this.daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
+    }
+     
+    if (assignedDate) {
+      const assignedDateObj = new Date(assignedDate);
+      const maxDateObj = new Date(assignedDateObj);
+      maxDateObj.setFullYear(maxDateObj.getFullYear() + 1);
+
+      const maxYear = maxDateObj.getFullYear();
+      const maxMonth = ('0' + (maxDateObj.getMonth() + 1)).slice(-2); // Months are zero-based
+      const maxDay = ('0' + maxDateObj.getDate()).slice(-2);
+      const maxDate = `${maxYear}-${maxMonth}-${maxDay}`;
+
+      this.maxtargetdate = maxDate;
     }
   }
 
