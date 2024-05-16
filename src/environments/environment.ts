@@ -1,6 +1,6 @@
 export const environment = {
-  apiBaseUrl: 'https://eazypmapi.xenovex.com',
-  // apiBaseUrl: 'https://deveazypmapi.xenovex.com',
+  // apiBaseUrl: 'https://eazypmapi.xenovex.com',
+  apiBaseUrl: 'https://deveazypmapi.xenovex.com',
   // apiBaseUrl: 'http://192.168.1.4:8500',
 
   //  apiBaseUrl: 'http://localhost:5000',

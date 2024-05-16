@@ -346,10 +346,11 @@
                             <div class="form-body pt-2">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
                                     <div>
-                                        <h4 class="mb-3 mb-md-0">{{addButton}} Periodic Task Status</h4>
+                                        <h4 class="mb-3 mb-md-0" *ngIf="AddPeriodic">{{addButton}} Periodic Task Status</h4>
+                                        <h4 class="mb-3 mb-md-0" *ngIf="!AddPeriodic">Update Periodic Task Status</h4>
                                     </div>
                                 </div>
-                                <fieldset [disabled]="actionInfo === 1">
+                                <fieldset *ngIf="AddPeriodic" [disabled]="actionInfo === 1">
                                     <div class="row mt-2">
 
                                         <div class="col-md-6">
@@ -357,7 +358,7 @@
                                                 <label class="mandatory ">Status Date</label>
                                                 <div class="input-group mb-0 ">
                                                     <input class="form-control" placeholder="Select Status Date"
-                                                        [max]="Date" formControlName="statusDate"
+                                                        [max]="Date" formControlName="statusDate" [min]="statusaddmindate"
                                                         [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
                                                     <owl-date-time [pickerType]="'calendar'" #dt4>
                                                     </owl-date-time>
@@ -387,8 +388,7 @@
                                                 <mat-select formControlName="taskStatusId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2 [disabled]="actionInfo===1"
                                                     (selectionChange)="taskStatusChange()"
-                                                    placeholder="Select Task Status"
-                                                    >
+                                                    placeholder="Select Task Status">
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="taskStatusList"
                                                         (filteredReturn)="filtertaskStatusList =$event">
@@ -410,11 +410,11 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory">Milestone Status</label>
+                                                <label class="mandatory">Milestone</label>
                                                 <mat-select formControlName="mileStoneId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2 [disabled]="actionInfo===1"
                                                     (selectionChange)="milesoneChange()"
-                                                    placeholder="Select Milestone Status">
+                                                    placeholder="Select Milestone">
                                                     <mat-select-filter [displayMember]="'value'" [array]="milestoneList"
                                                         (filteredReturn)="filtermilestoneList =$event">
                                                     </mat-select-filter>
@@ -428,7 +428,7 @@
                                                     text-wrap>
                                                     <span *ngIf="formGrid.controls.mileStoneId.errors?.required"
                                                         class="form-text danger mandatory">
-                                                        Milestone Status {{'IsRequired' | translate}}</span>
+                                                        Milestone{{'IsRequired' | translate}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -462,7 +462,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="mandatory ">Notes</label>
+                                                <label class="mandatory ">Note</label>
                                                 <textarea type="text" class="form-control" maxlength="250"
                                                     placeholder="Remarks" formControlName="remarks" autocomplete="off">
                                             </textarea>
@@ -471,7 +471,7 @@
                                                     text-wrap>
                                                     <span *ngIf="formGrid.controls.remarks.errors?.required"
                                                         class="form-text  danger mandatory">
-                                                        Notes {{'IsRequired' | translate}}
+                                                        Note {{'IsRequired' | translate}}
                                                     </span>
                                                 </div>
                                             </div>
@@ -479,7 +479,7 @@
                                     </div>
                                 </fieldset>
 
-                                <div class="text-right">
+                                <div class="text-right" *ngIf="AddPeriodic">
                                     <button [disabled]="actionInfo===1" type="button" matRipple
                                         class="btn btnrefresh mr-2 mb-2" (click)="clearData()">
                                         <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;
@@ -520,7 +520,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="remarks">
-                                            <mat-header-cell *matHeaderCellDef>Notes
+                                            <mat-header-cell *matHeaderCellDef>Note
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
                                                 <p class="text-truncate txtalign">{{dataField.remarks}}</p>
@@ -528,7 +528,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="mileStoneValue">
-                                            <mat-header-cell *matHeaderCellDef>Milestone Status
+                                            <mat-header-cell *matHeaderCellDef>Milestone
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
                                                 <p class="text-truncate txtalign">{{dataField.mileStoneValue}}</p>
@@ -543,14 +543,24 @@
                                                 </p>
                                             </mat-cell>
                                         </ng-container>
+                                        <ng-container matColumnDef="approval" *ngIf="!AddPeriodic">
+                                            <mat-header-cell *matHeaderCellDef>Approval
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let dataField;" >
+                                                <mat-radio-group aria-label="Select an option"  required >
+                                                    <mat-radio-button [value]="1" [checked]="dataField.approvedStatusType === 1" (click)="Approval(dataField,1)" [disabled]="actionInfo === 1">Approved</mat-radio-button>&nbsp;
+                                                    <mat-radio-button [value]="2" [checked]="dataField.approvedStatusType === 2" (click)="Approval(dataField,2)" [disabled]="actionInfo === 1">Unapproved</mat-radio-button>
+                                                </mat-radio-group>
+                                            </mat-cell>
+                                        </ng-container>
 
-                                        <ng-container fxFlex="10" matColumnDef="actions">
+                                        <ng-container fxFlex="10" matColumnDef="actions" *ngIf="AddPeriodic">
                                             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let matData; let l=index;" class="button-bar">
 
                                                 <button
-                                                    [disabled]="matData.id == 0 || editDisable === l || actionInfo === 1"
+                                                    [disabled]="matData.id == 0 || editDisable === l || actionInfo === 1 ||matData.approvedStatusType===1"
                                                     data-toggle="tooltip" data-placement="right"
                                                     matTooltip="{{'Edit'|translate}}" matTooltipClass="tooltip-edit"
                                                     matTooltipPosition="right" mat-icon-button color="accent"

@@ -59,7 +59,8 @@ export class TaskAssignComponent implements OnInit {
     'mileStoneValue',
     'remarks',
     'approvedStatusTypeValue',
-    'actions'
+    // 'actions',
+    // 'approval'
   ];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -80,6 +81,8 @@ export class TaskAssignComponent implements OnInit {
   Date: any;
   daysDifference: number;
   maxtargetdate: string;
+  AddPeriodic: boolean=true;
+  statusaddmindate: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -104,6 +107,8 @@ export class TaskAssignComponent implements OnInit {
     }
     this.roleId = this.userSessionService.roleId();
     this.userId = this.userSessionService.userId();
+    console.log(this.roleId,'this.roleId')
+    console.log(this.userId,'this.userId')
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -217,6 +222,7 @@ export class TaskAssignComponent implements OnInit {
 
   getEmployeeByRoleId() {
     this.taskService.employeeDetailsByRoleId(1).subscribe(result => {
+      debugger
       this.employeeListByRole = [];
       if (result && result.value) {
         this.employeeListByRole = result.value;
@@ -233,7 +239,27 @@ export class TaskAssignComponent implements OnInit {
           CommonInfo.taskData.secondaryOwners = matchedData;
           this.form.patchValue(CommonInfo.taskData);
           CommonInfo.taskData.periodicTaskStatusViewModel = _.orderBy(CommonInfo.taskData.periodicTaskStatusViewModel, ['id'], ['desc']);
+
           this.matData = CommonInfo.taskData.periodicTaskStatusViewModel;
+          this.matData = this.matData.map(item => ({ ...item, approval: true }));
+
+          console.log(this.matData,'matdata')
+          this.userId = this.userSessionService.userId();
+          if(this.userId==CommonInfo.taskData.ownerId){
+            this.AddPeriodic=false;
+            if(CommonInfo.taskData.isApprove==true){
+            this.getDisplayedColumns();
+            }
+          }
+          else{
+            this.AddPeriodic=true;
+            this.getDisplayedColumns();
+          }
+          console.log(CommonInfo.taskData?.assignedDate,'CommonInfo.taskData?.assignedDate')
+          // this.statusaddmindate = CommonInfo.taskData?.assignedDate;
+          this.statusaddmindate = moment(CommonInfo.taskData?.assignedDate).format("YYYY-MM-DD");
+          this.statusaddmindate = moment(this.statusaddmindate).subtract(0,'minute').toDate()
+
           this.dataSource = new MatTableDataSource(this.matData);
           this.dataSource.paginator = this.paginator;
           if (this.matData.length > 0) {
@@ -246,6 +272,17 @@ export class TaskAssignComponent implements OnInit {
         }
       }
     });
+  }
+
+
+  getDisplayedColumns(): string[] {
+    if (this.AddPeriodic ==false) {
+      this.displayedColumns.push('approval');
+    }
+    else{
+      this.displayedColumns.push('actions');
+    }
+    return this.displayedColumns;
   }
 
   updateReminderCount() {
@@ -265,11 +302,11 @@ export class TaskAssignComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      var targetDate=this.form.value.targetDate;
+      var targetDate = this.form.value.targetDate;
       var reminderDate = this.form.value.reminderDate
-      this.form.controls['assignedDate'].setValue(moment(this.form.value.assignedDate).format("YYYY-MM-DD")+"T00:00:00.000Z");
-      this.form.controls['targetDate'].setValue(moment(targetDate).format("YYYY-MM-DD")+"T00:00:00.000Z");
-      this.form.controls['reminderDate'].setValue(moment(reminderDate).format("YYYY-MM-DD")+"T00:00:00.000Z");
+      this.form.controls['assignedDate'].setValue(moment(this.form.value.assignedDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      this.form.controls['targetDate'].setValue(moment(targetDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      this.form.controls['reminderDate'].setValue(moment(reminderDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
       var data = this.form.value;
       const ids = data.secondaryOwners.map(owner => owner.id);
       const secondaryOwnersString = ids.join(',');
@@ -361,7 +398,7 @@ export class TaskAssignComponent implements OnInit {
       const difference = startTime - endTime;
       this.daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
     }
-     
+
     if (assignedDate) {
       const assignedDateObj = new Date(assignedDate);
       const maxDateObj = new Date(assignedDateObj);
@@ -409,7 +446,7 @@ export class TaskAssignComponent implements OnInit {
       this.approveTypeList = result;
       this.filterapproveTypeList = this.approveTypeList?.slice();
       debugger
-      if(this.roleId !=this.RoleEnumType.Root && this.roleId !=this.RoleEnumType.SuperAdmin){
+      if (this.roleId != this.RoleEnumType.Root && this.roleId != this.RoleEnumType.SuperAdmin) {
         this.formGrid.controls['approvedStatusType'].setValue(3);
       }
     })
@@ -497,6 +534,9 @@ export class TaskAssignComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.formGrid.reset();
       this.editDisable = null;
+      if (this.roleId != this.RoleEnumType.Root && this.roleId != this.RoleEnumType.SuperAdmin) {
+        this.formGrid.controls['approvedStatusType'].setValue(3);
+      }
     } else {
       this.validateFormGridControl();
       this.alertService.error('Please fill the required fields');
@@ -527,6 +567,31 @@ export class TaskAssignComponent implements OnInit {
     }
     this.disableDelete = true;
     this.formGrid.patchValue(data);
+  }
+  Approval(datafield: any,approvedStatusType:any){
+    debugger
+    console.log(datafield,'datafield')
+    if (datafield.id > 0 && this.actionInfo != 1) {
+      var existingRecord = _.find(this.matData, ['id', datafield.id]);
+      console.log(existingRecord,'existingRecord')
+      if (existingRecord ) {
+        existingRecord.taskStatusValue = _.find(this.taskStatusList, ['key', datafield.taskStatusId])?.value;
+        existingRecord.mileStoneValue = _.find(this.milestoneList, ['key', datafield.mileStoneId])?.value;
+        existingRecord.approvedStatusTypeValue = _.find(this.approveTypeList, ['key', approvedStatusType])?.value;
+        existingRecord.taskStatusId = _.find(this.taskStatusList, ['key', datafield.taskStatusId])?.key;
+        existingRecord.mileStoneId = _.find(this.milestoneList, ['key', datafield.mileStoneId])?.key;
+        existingRecord.approvedStatusType =approvedStatusType;
+        existingRecord.remarks = datafield.remarks;
+        existingRecord.statusDate = datafield.statusDate;
+
+        console.log(this.matData,'changed data')
+        // this.dataSource = new MatTableDataSource(this.matData);
+        // this.dataSource.paginator = this.paginator;
+        // this.formGrid.reset();
+        // this.gridId = 0;
+        // this.editDisable = null;
+      }
+    }
   }
 
   saveGrid() {
@@ -565,5 +630,8 @@ export class TaskAssignComponent implements OnInit {
     } else { this.addButton = "Add"; }
     this.disableDelete = false;
     this.editDisable = null;
+    if (this.roleId != this.RoleEnumType.Root && this.roleId != this.RoleEnumType.SuperAdmin) {
+      this.formGrid.controls['approvedStatusType'].setValue(3);
+    }
   }
 }
