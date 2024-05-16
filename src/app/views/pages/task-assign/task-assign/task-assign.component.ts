@@ -107,8 +107,6 @@ export class TaskAssignComponent implements OnInit {
     }
     this.roleId = this.userSessionService.roleId();
     this.userId = this.userSessionService.userId();
-    console.log(this.roleId,'this.roleId')
-    console.log(this.userId,'this.userId')
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -222,7 +220,6 @@ export class TaskAssignComponent implements OnInit {
 
   getEmployeeByRoleId() {
     this.taskService.employeeDetailsByRoleId(1).subscribe(result => {
-      debugger
       this.employeeListByRole = [];
       if (result && result.value) {
         this.employeeListByRole = result.value;
@@ -242,8 +239,6 @@ export class TaskAssignComponent implements OnInit {
 
           this.matData = CommonInfo.taskData.periodicTaskStatusViewModel;
           this.matData = this.matData.map(item => ({ ...item, approval: true }));
-
-          console.log(this.matData,'matdata')
           this.userId = this.userSessionService.userId();
           if(this.userId==CommonInfo.taskData.ownerId){
             this.AddPeriodic=false;
@@ -255,8 +250,6 @@ export class TaskAssignComponent implements OnInit {
             this.AddPeriodic=true;
             this.getDisplayedColumns();
           }
-          console.log(CommonInfo.taskData?.assignedDate,'CommonInfo.taskData?.assignedDate')
-          // this.statusaddmindate = CommonInfo.taskData?.assignedDate;
           this.statusaddmindate = moment(CommonInfo.taskData?.assignedDate).format("YYYY-MM-DD");
           this.statusaddmindate = moment(this.statusaddmindate).subtract(0,'minute').toDate()
 
@@ -445,7 +438,6 @@ export class TaskAssignComponent implements OnInit {
     this.taskservice.getApproveStatus().subscribe(result => {
       this.approveTypeList = result;
       this.filterapproveTypeList = this.approveTypeList?.slice();
-      debugger
       if (this.roleId != this.RoleEnumType.Root && this.roleId != this.RoleEnumType.SuperAdmin) {
         this.formGrid.controls['approvedStatusType'].setValue(3);
       }
@@ -495,7 +487,6 @@ export class TaskAssignComponent implements OnInit {
   }
 
   addData() {
-    debugger
     if (this.gridId > 0) {
       var existingRecord = _.find(this.matData, ['id', this.gridId]);
       if (existingRecord && this.formGrid.valid) {
@@ -569,11 +560,8 @@ export class TaskAssignComponent implements OnInit {
     this.formGrid.patchValue(data);
   }
   Approval(datafield: any,approvedStatusType:any){
-    debugger
-    console.log(datafield,'datafield')
     if (datafield.id > 0 && this.actionInfo != 1) {
       var existingRecord = _.find(this.matData, ['id', datafield.id]);
-      console.log(existingRecord,'existingRecord')
       if (existingRecord ) {
         existingRecord.taskStatusValue = _.find(this.taskStatusList, ['key', datafield.taskStatusId])?.value;
         existingRecord.mileStoneValue = _.find(this.milestoneList, ['key', datafield.mileStoneId])?.value;
@@ -584,7 +572,6 @@ export class TaskAssignComponent implements OnInit {
         existingRecord.remarks = datafield.remarks;
         existingRecord.statusDate = datafield.statusDate;
 
-        console.log(this.matData,'changed data')
         // this.dataSource = new MatTableDataSource(this.matData);
         // this.dataSource.paginator = this.paginator;
         // this.formGrid.reset();
