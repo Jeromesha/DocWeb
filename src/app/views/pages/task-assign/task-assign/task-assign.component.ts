@@ -80,8 +80,8 @@ export class TaskAssignComponent implements OnInit {
   public RoleEnumType = RoleType;
   Date: any;
   daysDifference: number;
-  maxtargetdate: string;
-  AddPeriodic: boolean=true;
+  maxtargetdate: any;
+  AddPeriodic: boolean = true;
   statusaddmindate: any;
 
   constructor(
@@ -240,18 +240,18 @@ export class TaskAssignComponent implements OnInit {
           this.matData = CommonInfo.taskData.periodicTaskStatusViewModel;
           this.matData = this.matData.map(item => ({ ...item, approval: true }));
           this.userId = this.userSessionService.userId();
-          if(this.userId==CommonInfo.taskData.ownerId){
-            this.AddPeriodic=false;
-            if(CommonInfo.taskData.isApprove==true){
-            this.getDisplayedColumns();
+          if (this.userId == CommonInfo.taskData.ownerId) {
+            this.AddPeriodic = false;
+            if (CommonInfo.taskData.isApprove == true) {
+              this.getDisplayedColumns();
             }
           }
-          else{
-            this.AddPeriodic=true;
+          else {
+            this.AddPeriodic = true;
             this.getDisplayedColumns();
           }
           this.statusaddmindate = moment(CommonInfo.taskData?.assignedDate).format("YYYY-MM-DD");
-          this.statusaddmindate = moment(this.statusaddmindate).subtract(0,'minute').toDate()
+          this.statusaddmindate = moment(this.statusaddmindate).subtract(0, 'minute').toDate()
 
           this.dataSource = new MatTableDataSource(this.matData);
           this.dataSource.paginator = this.paginator;
@@ -269,10 +269,10 @@ export class TaskAssignComponent implements OnInit {
 
 
   getDisplayedColumns(): string[] {
-    if (this.AddPeriodic ==false) {
+    if (this.AddPeriodic == false) {
       this.displayedColumns.push('approval');
     }
-    else{
+    else {
       this.displayedColumns.push('actions');
     }
     return this.displayedColumns;
@@ -364,10 +364,14 @@ export class TaskAssignComponent implements OnInit {
       this.endDate.setDate(this.endDate.getDate() + 30);
       if (this.endDate > this.today) {
         this.maxEndDate = this.today;
-        this.minEndDate = this.startDate;
+        this.minEndDate = moment(this.startDate).format("YYYY-MM-DD");
+        this.minEndDate=moment(this.minEndDate).subtract(0,'minute').toDate()
+        // this.minEndDate = this.startDate;
       }
       else {
-        this.minEndDate = this.startDate;
+        // this.minEndDate = this.startDate;
+        this.minEndDate = moment(this.startDate).format("YYYY-MM-DD");
+        this.minEndDate=moment(this.minEndDate).subtract(0,'minute').toDate()
         this.maxEndDate = this.endDate;
       }
       this.form.controls['targetDate'].setValue('');
@@ -392,18 +396,18 @@ export class TaskAssignComponent implements OnInit {
       this.daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
     }
 
-    if (assignedDate) {
-      const assignedDateObj = new Date(assignedDate);
-      const maxDateObj = new Date(assignedDateObj);
-      maxDateObj.setFullYear(maxDateObj.getFullYear() + 1);
+    // if (assignedDate) {
+    //   const assignedDateObj = new Date(assignedDate);
+    //   const maxDateObj = new Date(assignedDateObj);
+    //   maxDateObj.setFullYear(maxDateObj.getFullYear() + 1);
 
-      const maxYear = maxDateObj.getFullYear();
-      const maxMonth = ('0' + (maxDateObj.getMonth() + 1)).slice(-2); // Months are zero-based
-      const maxDay = ('0' + maxDateObj.getDate()).slice(-2);
-      const maxDate = `${maxYear}-${maxMonth}-${maxDay}`;
+    //   const maxYear = maxDateObj.getFullYear();
+    //   const maxMonth = ('0' + (maxDateObj.getMonth() + 1)).slice(-2); // Months are zero-based
+    //   const maxDay = ('0' + maxDateObj.getDate()).slice(-2);
+    //   const maxDate = `${maxYear}-${maxMonth}-${maxDay}`;
 
-      this.maxtargetdate = maxDate;
-    }
+    //   this.maxtargetdate = maxDate;
+    // }
   }
 
   setCount() {
@@ -411,6 +415,48 @@ export class TaskAssignComponent implements OnInit {
       this.form.controls['reminderCount'].setValue(this.daysDifference);
     }
   }
+
+  updateMaxtargetdate() {
+    const selectedPeriod = this.periodList.find(item => item.key === this.form.value.period);
+    if (selectedPeriod) {
+      const currentDate = new Date(); // Current date
+      switch (selectedPeriod.value) {
+        case 'Daily':
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 1);
+          break;
+        case 'Weekly':
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 7);
+          break;
+        case 'BiMonthly':
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 15);
+          break;
+        case 'HalfYearly':
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 183);
+          break;
+        case 'Quarterly':
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 92);
+          break;
+        case 'Monthly':
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 31);
+          break;
+        case 'Yearly':
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 365);
+          break;
+        default:
+         this.maxtargetdate = new Date(currentDate);
+         this.maxtargetdate.setDate(currentDate.getDate() + 365);
+          break;
+      }
+    }
+  }
+
 
   getTaskstatus() {
     this.taskservice.GetTaskstatus().subscribe(result => {
@@ -559,16 +605,16 @@ export class TaskAssignComponent implements OnInit {
     this.disableDelete = true;
     this.formGrid.patchValue(data);
   }
-  Approval(datafield: any,approvedStatusType:any){
+  Approval(datafield: any, approvedStatusType: any) {
     if (datafield.id > 0 && this.actionInfo != 1) {
       var existingRecord = _.find(this.matData, ['id', datafield.id]);
-      if (existingRecord ) {
+      if (existingRecord) {
         existingRecord.taskStatusValue = _.find(this.taskStatusList, ['key', datafield.taskStatusId])?.value;
         existingRecord.mileStoneValue = _.find(this.milestoneList, ['key', datafield.mileStoneId])?.value;
         existingRecord.approvedStatusTypeValue = _.find(this.approveTypeList, ['key', approvedStatusType])?.value;
         existingRecord.taskStatusId = _.find(this.taskStatusList, ['key', datafield.taskStatusId])?.key;
         existingRecord.mileStoneId = _.find(this.milestoneList, ['key', datafield.mileStoneId])?.key;
-        existingRecord.approvedStatusType =approvedStatusType;
+        existingRecord.approvedStatusType = approvedStatusType;
         existingRecord.remarks = datafield.remarks;
         existingRecord.statusDate = datafield.statusDate;
 

@@ -69,7 +69,23 @@ export class TaskListComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.initializeValidators();
     this.roleId = this.userSessionService.roleId();
-    if ([this.RoleEnumType.Root, this.RoleEnumType.SuperAdmin].includes(this.roleId)) {
+    if ([this.RoleEnumType.Root].includes(this.roleId)) {
+      this.displayedColumns = [
+        "action",
+        "manager",
+        "taskName",
+        "employeeFirstName",
+        "periodValue",
+        "assignedDate",
+        "targetDate",
+        "reminderDate",
+        "isApprove",
+        "isNotificationByMail",
+        "isNotificationByWhatsApp",
+        "description"
+      ];
+    }
+    else if ([this.RoleEnumType.SuperAdmin].includes(this.roleId)) {
       this.displayedColumns = [
         "action",
         "taskName",
@@ -83,7 +99,7 @@ export class TaskListComponent implements OnInit {
         "isNotificationByWhatsApp",
         "description"
       ];
-    } else {
+    }  else {
       this.displayedColumns = [
         "action",
         "manager",

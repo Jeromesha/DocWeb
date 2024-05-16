@@ -58,13 +58,14 @@
                                                 <label class="mandatory ">Period</label>
                                                 <mat-select placeholder="Period" formControlName="period"
                                                     [disabled]="actionInfo === 1 || disableForm()"
-                                                    class="form-control pt-2" [disableOptionCentering]="true" #select2>
+                                                    class="form-control pt-2" [disableOptionCentering]="true" #select2
+                                                    (selectionChange)="updateMaxtargetdate()">
                                                     <mat-select-filter [displayMember]="'value'" [array]="periodList"
                                                         (filteredReturn)="filterperiodList =$event"
-                                                        *ngIf="select2.focused">
+                                                        *ngIf="select2.focused" >
                                                     </mat-select-filter>
                                                     <mat-option *ngFor="let item of filterperiodList"
-                                                        [value]="item.key">
+                                                        [value]="item.key" >
                                                         {{item.value}}
                                                     </mat-option>
                                                 </mat-select>
