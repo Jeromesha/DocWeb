@@ -81,7 +81,7 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc" multiTemplateDataRows>
         <ng-container matColumnDef="taskName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="taskName">{{'Task Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="taskName">{{'Task' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.taskName}}</p>
@@ -97,11 +97,20 @@
         </ng-container>
 
         <ng-container matColumnDef="employeeFirstName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="employeeFirstName">{{'Employee Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="employeeFirstName">{{'Employee' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">
                     {{dataField.employeeFirstName}}({{dataField.employeeCode}})</p>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="manager">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="employeeFirstName">{{'Manager' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">
+                    {{dataField.ownerName}}</p>
             </mat-cell>
         </ng-container>
 

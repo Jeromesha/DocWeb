@@ -86,6 +86,7 @@ export class TaskListComponent implements OnInit {
     } else {
       this.displayedColumns = [
         "action",
+        "manager",
         "taskName",
         "periodValue",
         "assignedDate",
