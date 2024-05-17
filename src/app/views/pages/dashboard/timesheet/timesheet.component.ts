@@ -316,7 +316,7 @@ export class TimesheetComponent implements OnInit {
         console.log(this.dataSource.data, 'this.dataSource.data>>>>')
         this.datalist = this.list.map(item => ({
           entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-          id:this.form.value.id,
+          id:item.id,
           hours: item.hoursNumber,
           description: item.description,
           projectId: item.projectId,

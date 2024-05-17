@@ -542,7 +542,7 @@ export class TaskAssignComponent implements OnInit {
         existingRecord.mileStoneId = _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.key;
         existingRecord.approvedStatusType = _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key;
         existingRecord.remarks = this.formGrid.value.remarks;
-        existingRecord.statusDate = this.formGrid.value.statusDate;
+        existingRecord.statusDate = moment(this.formGrid.value.statusDate).format("YYYY-MM-DD") + "T00:00:00.000Z"
 
         this.dataSource = new MatTableDataSource(this.matData);
         this.dataSource.paginator = this.paginator;
@@ -556,7 +556,7 @@ export class TaskAssignComponent implements OnInit {
       this.matData.push({
         id: this.gridId,
         periodicTaskId: this.id,
-        statusDate: this.formGrid.value.statusDate,
+        statusDate : moment(this.formGrid.value.statusDate).format("YYYY-MM-DD") + "T00:00:00.000Z",
         remarks: this.formGrid.value.remarks,
         taskStatusValue: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value,
         mileStoneValue: _.find(this.milestoneList, ['key', this.formGrid.value.mileStoneId])?.value,
