@@ -161,6 +161,11 @@ export class TaskListComponent implements OnInit {
       if (result && result.value) {
         this.resultArray = result.value;
       }
+
+      this.resultArray.forEach(result => {
+        result.periodicTaskStatusViewModel.sort((a, b) => new Date(b.statusDate).getTime() - new Date(a.statusDate).getTime());
+    });
+    
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

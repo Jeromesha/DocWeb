@@ -238,7 +238,6 @@ export class TaskAssignComponent implements OnInit {
           CommonInfo.taskData.periodicTaskStatusViewModel = _.orderBy(CommonInfo.taskData.periodicTaskStatusViewModel, ['id'], ['desc']);
 
           this.matData = CommonInfo.taskData.periodicTaskStatusViewModel;
-          this.matData = this.matData.map(item => ({ ...item, approval: true }));
           this.userId = this.userSessionService.userId();
           if (this.userId == CommonInfo.taskData.ownerId) {
             this.AddPeriodic = false;
