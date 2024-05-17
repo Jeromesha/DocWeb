@@ -294,11 +294,17 @@ export class TaskAssignComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      debugger
       var targetDate = this.form.value.targetDate;
-      var reminderDate = this.form.value.reminderDate
+      var reminderDate = this.form.value.reminderDate ? this.form.value.reminderDate:null;
       this.form.controls['assignedDate'].setValue(moment(this.form.value.assignedDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
       this.form.controls['targetDate'].setValue(moment(targetDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      if(reminderDate !=null){
       this.form.controls['reminderDate'].setValue(moment(reminderDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      }
+      else{
+        this.form.controls['reminderDate'].setValue(null);
+      }
       var data = this.form.value;
       const ids = data.secondaryOwners.map(owner => owner.id);
       const secondaryOwnersString = ids.join(',');

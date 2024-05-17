@@ -28,6 +28,10 @@ export class EmployeedetailsService {
   {
     return  this.dataService.getData('/api/lookup/designation',refresh)
   }
+  getAllDesignationList(refresh:boolean){
+    return  this.dataService.getData('/api/designation/list',refresh)
+  }
+
   DesignationSave(data:any)
   {
     return  this.dataService.post('/api/designation',data)

@@ -38,7 +38,7 @@ export class DesignationComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
-  displayedColumns: string[] = ["action", "Designation"];
+  displayedColumns: string[] = ["action", "Designation","description"];
   designationList: any = [];
 
   dataSource = new MatTableDataSource(this.designationList);
@@ -66,15 +66,10 @@ export class DesignationComponent implements OnInit {
     this._location.back();
   }
   designationLookup() {
-    this.empDetailsService.getDesignationList(true).subscribe((res) => {
+    this.empDetailsService.getAllDesignationList(true).subscribe((res) => {
       this.designationList = [];
-      this.filterdesignationList = [];
-      this.designationList = res;
-      this.filterdesignationList = this.designationList.slice();
+      this.designationList = res.value;
       this.designationList = _.orderBy(this.designationList, ['value'], ['desc']);
-
-      // this.designationList = _.orderBy(this.designationList, ['asc']);
-
       this.dataSource = new MatTableDataSource(this.designationList);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
