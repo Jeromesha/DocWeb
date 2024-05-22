@@ -34,15 +34,17 @@ export class DesignationComponent implements OnInit {
   ErrorTrue = false;
   DesignationType: any = "";
   Description: any = "";
+  DesignationId:any;
   // @ViewChild('addButton') addButton: ElementRef;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   displayedColumns: string[] = ["action", "Designation","description"];
   designationList: any = [];
-
+  showgrid:boolean=true;
   dataSource = new MatTableDataSource(this.designationList);
   filterdesignationList: any[];
+  submitbtn: string;
   constructor(
     private formBuilder: FormBuilder,
     route: ActivatedRoute,
@@ -60,12 +62,12 @@ export class DesignationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.designationLookup();
+    this.GetdesignationList();
   }
   onCancel() {
     this._location.back();
   }
-  designationLookup() {
+  GetdesignationList() {
     this.empDetailsService.getAllDesignationList(true).subscribe((res) => {
       this.designationList = [];
       this.designationList = res.value;
@@ -79,6 +81,7 @@ export class DesignationComponent implements OnInit {
     this.ErrorTrue = true;
     if (this.DesignationType != "") {
       var payload = {
+        id :this.DesignationId,
         name: this.DesignationType,
         description: this.Description,
       };
@@ -87,7 +90,14 @@ export class DesignationComponent implements OnInit {
           this.DesignationType = "";
           this.Description = "";
           this.ErrorTrue = false;
-          this.alertService.success("Designation Added Successfully");
+          this.showgrid=true;
+          this.GetdesignationList();
+          if(this.DesignationId==0){
+            this.alertService.success("Designation Added Successfully");
+          }
+          else{
+            this.alertService.success("Designation Updated Successfully");
+          }
         } else {
           this.alertService.error("Try Again");
         }
@@ -117,7 +127,7 @@ export class DesignationComponent implements OnInit {
         this.timesheetService.deletedesig(dataField).subscribe((res) => {
           if (res.isSuccess) {
             Swal.fire("Deleted!", "Your Data has been deleted successfully");
-            this.designationLookup();
+            this.GetdesignationList();
             // this.dataSource.data = this.dataSource.data.filter(e => e.key != dataField.key);
           }
         });
@@ -131,4 +141,32 @@ export class DesignationComponent implements OnInit {
     this.Description = "";
     this.ErrorTrue = false;
   }
+
+  cancle() {
+    this.DesignationType = "";
+    this.Description = "";
+    this.ErrorTrue = false;
+    this.showgrid=true;
+  }
+
+
+  AddDesignation(dataField:any, action:any){
+    this.showgrid=false;
+    if(action==0){
+      this.submitbtn='Add';
+      this.DesignationId=0;
+    }
+    else{
+      this.submitbtn='Update';
+      this.DesignationId=dataField.id;
+      this.DesignationType=dataField.name;
+      this.Description=dataField.description;
+    }
+
+  }
+  refresh(){
+    this.showgrid=true;
+    this.GetdesignationList();
+  }
+
 }
