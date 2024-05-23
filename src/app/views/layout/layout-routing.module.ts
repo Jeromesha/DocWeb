@@ -130,6 +130,21 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/monthly-working-hours-report/monthly-working-hours-report.module").then((m) => m.MonthlyWorkingHoursReportModule)
       },
+      {
+        path: "schedular",
+        loadChildren: () =>
+          import("./../../views/pages/KRA/schedular-grid/schedular-grid.module").then((m) => m.SchedularGridModule)
+      },
+      {
+        path: "attachKRA",
+        loadChildren: () =>
+          import("./../../views/pages/KRA/kra-task-attach/kra-task-attach.module").then((m) => m.KraTaskAttachModule)
+      },
+      {
+        path: "kraTask",
+        loadChildren: () =>
+          import("./../../views/pages/KRA/kra-task-grid/kra-task-grid.module").then((m) => m.KraTaskGridModule)
+      },
     ],
   },
 ];
