@@ -1,1 +1,196 @@
-<p>schedular works!</p>
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Add Schedular' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View Schedular' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit Schedular' | translate}}</h4>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body login-img">
+                    <div class="px-3">
+                        <form [formGroup]="form" class="form form-horizontal" novalidate>
+                            <div class="form-body pt-2">
+                                <div class="row">
+
+
+                                    <div class="col-md-6">
+                                        <fieldset  [disabled]="actionInfo === 1">
+                                            <div class="form-group">
+                                                <label class="mandatory ">Task Name</label>
+                                                <input type="text" class="form-control" formControlName="taskName"
+                                                    placeholder="Task Name" autocomplete="off">
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.taskName.errors && (form.controls.taskName.dirty || form.controls.taskName.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.taskName.errors?.required"
+                                                        class="form-text  danger mandatory">
+                                                        Task Name {{'IsRequired' | translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">Period</label>
+                                            <mat-select placeholder="Period" formControlName="period"
+                                                [disabled]="actionInfo === 1"
+                                                class="form-control pt-2" [disableOptionCentering]="true" #select2
+                                                (selectionChange)="updateMaxtargetdate()">
+                                                <mat-select-filter [displayMember]="'value'" [array]="periodList"
+                                                    (filteredReturn)="filterperiodList =$event"
+                                                    *ngIf="select2.focused" >
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterperiodList"
+                                                    [value]="item.key" >
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.period.errors && (form.controls.period.dirty || form.controls.period.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.period.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Period {{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="pointer-events: none;">
+                                        <fieldset disabled>
+                                            <div class="form-group">
+                                                <label class="mandatory ">Assigned Date</label>
+                                                <div class="input-group mb-0 ">
+                                                    <input class="form-control" placeholder="Select Assigned Date"
+                                                        formControlName="assignedDate" [owlDateTimeTrigger]="dt1"
+                                                        [owlDateTime]="dt1" (ngModelChange)="updateEndDate($event)">
+                                                    <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                    </owl-date-time>
+                                                    <div class="input-group-append">
+                                                        <span class="trigger input-group-text"
+                                                            [owlDateTimeTrigger]="dt1">
+                                                            <i class="fa fa-calendar-check-o"></i>
+                                                        </span>
+                                                        <owl-date-time [pickerType]="'calendar'" #dt1>
+                                                        </owl-date-time>
+                                                    </div>
+                                                </div>
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.assignedDate.errors && (form.controls.assignedDate.dirty || form.controls.assignedDate.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.assignedDate.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        Assigned Date {{'IsRequired' | translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">Target Date</label>
+                                            <div class="input-group mb-0 ">
+                                                <input class="form-control" placeholder="Select Target Date"
+                                                    (ngModelChange)="calculateDaysDifference($event)"
+                                                    formControlName="targetDate" [owlDateTimeTrigger]="dt2"
+                                                    [owlDateTime]="dt2" [min]="minEndDate" [max]="maxtargetdate">
+                                                <owl-date-time [pickerType]="'calendar'" #dt2>
+                                                </owl-date-time>
+                                                <div class="input-group-append">
+                                                    <span class="trigger input-group-text"
+                                                        [owlDateTimeTrigger]="dt2">
+                                                        <i class="fa fa-calendar-check-o"></i>
+                                                    </span>
+                                                    <owl-date-time [pickerType]="'calendar'" #dt2>
+                                                    </owl-date-time>
+                                                </div>
+                                            </div>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.targetDate.errors && (form.controls.targetDate.dirty || form.controls.targetDate.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.targetDate.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Target Date {{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <div class="form-group">
+                                                <label class="">Advance Reminder Days</label>
+                                                <input type="number" [min]="0" class="form-control"
+                                                    [max]="daysDifference" formControlName="reminderCount"
+                                                    (input)="setCount()" placeholder="Advance Reminder Days"
+                                                    autocomplete="off" pattern="[0-9]*"
+                                                    title="Please enter only numeric values">
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.reminderCount.errors && (form.controls.reminderCount.dirty || form.controls.reminderCount.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.reminderCount.errors?.required"
+                                                        class="form-text  danger mandatory">
+                                                        Advance Reminder Days {{'IsRequired' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-6" style="pointer-events: none;">
+                                        <fieldset disabled>
+                                            <div class="form-group">
+                                                <label class="">Reminder Date</label>
+                                                <div class="input-group mb-0 ">
+                                                    <input class="form-control" placeholder="Select Reminder Date"
+                                                        formControlName="reminderDate" [owlDateTimeTrigger]="dt3"
+                                                        [owlDateTime]="dt3">
+                                                    <owl-date-time [pickerType]="'calendar'" #dt3>
+                                                    </owl-date-time>
+                                                    <div class="input-group-append">
+                                                        <span class="trigger input-group-text"
+                                                            [owlDateTimeTrigger]="dt3">
+                                                            <i class="fa fa-calendar-check-o"></i>
+                                                        </span>
+                                                        <owl-date-time [pickerType]="'calendar'" #dt3>
+                                                        </owl-date-time>
+                                                    </div>
+                                                </div>
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.reminderDate.errors && (form.controls.reminderDate.dirty || form.controls.reminderDate.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.reminderDate.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        Reminder Date {{'IsRequired' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="form-actions mb-3 mt-3" style="float: right;">
+                                    <button
+                                        type="reset" class="btn btn-raised btn-warning btncancel mr-2"
+                                        (click)="onCancel()">
+                                        <i class="fa fa-close"></i>
+                                        {{'Cancel' | translate}}
+                                    </button>
+                                    <button type="reset" class="btn btn-raised btn-warning btncancel mr-2"
+                                        (click)="onClear()">
+                                        <i class="btn-icon-prepend fa fa-refresh"></i>
+                                        {{'Clear' | translate}}
+                                    </button>
+                                    <button
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" (click)="onSubmit()">
+                                        <i class="fa fa-save"></i>
+                                        {{submitbtn | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

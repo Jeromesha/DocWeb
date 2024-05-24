@@ -93,6 +93,14 @@ export class NavigationService {
   gotoAssignTaskgrid() {
     this.router.navigate(['/assigntask/'])
   }
+
+  gotoKraAttach(id: any, actionInfo: any) {
+    this.router.navigate(['/attachKRA/' + id, actionInfo])
+  }
+  gotoScheduleAdd(id: any, actionInfo: any) {
+    this.router.navigate(['/schedular/' + id, actionInfo])
+  }
+
 }
 
 

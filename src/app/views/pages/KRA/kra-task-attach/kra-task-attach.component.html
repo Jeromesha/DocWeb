@@ -1,1 +1,240 @@
-<p>kra-task-attach works!</p>
+<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+    <div>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Attach KRA Task' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View KRA Task' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit KRA Task' | translate}}</h4>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body login-img">
+                    <div class="px-3">
+                        <form [formGroup]="form" class="form form-horizontal" novalidate>
+                            <div class="form-body pt-2">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">{{"KRA Task" | translate}}</label>
+                                            <mat-select [disabled]="actionInfo===1" placeholder="KRA Task"
+                                                formControlName="kratask" class="form-control pt-2"
+                                                [disableOptionCentering]="true" #select>
+                                                <mat-select-filter [displayMember]="'value'" [array]="kraTaskList"
+                                                    (filteredReturn)="filterKraTaskList = $event"
+                                                    *ngIf="select.focused"></mat-select-filter>
+                                                <mat-option *ngFor="let item of filterKraTaskList" [value]="item.key">
+                                                    {{ item.value }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.kratask.errors && (form.controls.kratask.dirty || form.controls.kratask.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.kratask.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    KRA Task{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">Primary Owner</label>
+                                            <mat-select placeholder="Primary Owner" formControlName="primaryowner"
+                                                [disabled]="actionInfo === 1" class="form-control pt-2"
+                                                [disableOptionCentering]="true" #select1>
+                                                <mat-select-filter [displayMember]="'empNameCode'"
+                                                    [array]="employeeList" (filteredReturn)="employeeFilterList =$event"
+                                                    *ngIf="select1.focused">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of employeeFilterList" [value]="item.id">
+                                                    {{item.empNameCode}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.primaryowner.errors && (form.controls.primaryowner.dirty || form.controls.primaryowner.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.primaryowner.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Primary Owner{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">Secondary Owner</label>
+                                            <mat-select placeholder="Secondary Owner" formControlName="secondaryOwners"
+                                                [disabled]="actionInfo === 1" class="form-control pt-2"
+                                                [disableOptionCentering]="true" #select2>
+                                                <mat-select-filter [displayMember]="'empNameCode'"
+                                                    [array]="employeeList" (filteredReturn)="employeeFilterList =$event"
+                                                    *ngIf="select2.focused">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of employeeFilterList" [value]="item.id">
+                                                    {{item.empNameCode}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.secondaryOwners.errors && (form.controls.secondaryOwners.dirty || form.controls.secondaryOwners.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.secondaryOwners.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Secondary Owner{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">Executor</label>
+                                            <ng-multiselect-dropdown class="custom-dropdown"
+                                                [disabled]="actionInfo == 1" formControlName="employee"
+                                                placeholder="Select Executor" [settings]="dropdownSettings"
+                                                [data]='employeeListByRole'>
+                                            </ng-multiselect-dropdown>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.employee.errors && (form.controls.employee.dirty || form.controls.employee.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.employee.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Executor{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Co-contributor/Participants</label>
+                                            <ng-multiselect-dropdown class="custom-dropdown"
+                                                [disabled]="actionInfo == 1" formControlName="Participants"
+                                                placeholder="Select Co-contributor/Participants" [settings]="dropdownSettings"
+                                                [data]='employeeListByRole'>
+                                            </ng-multiselect-dropdown>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.Participants.errors && (form.controls.Participants.dirty || form.controls.Participants.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.Participants.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Co-contributor/Participants{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Notify Method</label>
+                                            <ng-multiselect-dropdown class="custom-dropdown"
+                                                [disabled]="actionInfo == 1" formControlName="notify"
+                                                placeholder="Select Notify Method" [settings]="dropdownSettingsNotify"
+                                                [data]='Notifylist'>
+                                            </ng-multiselect-dropdown>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.notify.errors && (form.controls.notify.dirty || form.controls.notify.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.notify.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Notify Method{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">Approval Required? &nbsp;</label> <br>
+                                            <mat-radio-group aria-label="Select an option" formControlName="isApprove"
+                                                required>
+                                                <mat-radio-button [value]="true">Yes
+                                                </mat-radio-button>&nbsp;
+                                                <mat-radio-button [value]="false">No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.isApprove.errors && (form.controls.isApprove.dirty || form.controls.isApprove.touched)"
+                                                text-wrap>
+                                                <label *ngIf="form.controls.isApprove.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    Approve {{'IsRequired' | translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Approver</label>
+                                            <ng-multiselect-dropdown class="custom-dropdown"
+                                                [disabled]="actionInfo == 1" formControlName="approver"
+                                                placeholder="Select Approver" [settings]="dropdownSettings"
+                                                [data]='employeeListByRole'>
+                                            </ng-multiselect-dropdown>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.approver.errors && (form.controls.approver.dirty || form.controls.approver.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.approver.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Approver{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">Document Required? &nbsp;</label> <br>
+                                            <mat-radio-group aria-label="Select an option" formControlName="isDocument"
+                                                required>
+                                                <mat-radio-button [value]="true">Yes
+                                                </mat-radio-button>&nbsp;
+                                                <mat-radio-button [value]="false">No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.isDocument.errors && (form.controls.isDocument.dirty || form.controls.isDocument.touched)"
+                                                text-wrap>
+                                                <label *ngIf="form.controls.isDocument.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    Document {{'IsRequired' | translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">Remainder Required? &nbsp;</label> <br>
+                                            <mat-radio-group aria-label="Select an option" formControlName="isRemainder"
+                                                required>
+                                                <mat-radio-button [value]="true">Yes
+                                                </mat-radio-button>&nbsp;
+                                                <mat-radio-button [value]="false">No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.isRemainder.errors && (form.controls.isRemainder.dirty || form.controls.isRemainder.touched)"
+                                                text-wrap>
+                                                <label *ngIf="form.controls.isRemainder.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    Remainder {{'IsRequired' | translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="form-actions mb-3 mt-3" style="float: right;">
+                                    <button
+                                        type="reset" class="btn btn-raised btn-warning btncancel mr-2"
+                                        (click)="onCancel()">
+                                        <i class="fa fa-close"></i>
+                                        {{'Cancel' | translate}}
+                                    </button>
+                                    <button type="reset" class="btn btn-raised btn-warning btncancel mr-2"
+                                        (click)="onClear()">
+                                        <i class="btn-icon-prepend fa fa-refresh"></i>
+                                        {{'Clear' | translate}}
+                                    </button>
+                                    <button
+                                        [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
+                                        type="submit" (click)="onSubmit()">
+                                        <i class="fa fa-save"></i>
+                                        {{submitbtn | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
