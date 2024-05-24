@@ -145,6 +145,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/KRA/kra-task-grid/kra-task-grid.module").then((m) => m.KraTaskGridModule)
       },
+      {
+        path: "kraStatus",
+        loadChildren: () =>
+          import("./../../views/pages/KRA/kra-status/kra-status.module").then((m) => m.KraStatusModule)
+      },
     ],
   },
 ];

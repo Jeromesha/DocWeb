@@ -100,7 +100,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Co-contributor/Participants</label>
                                             <ng-multiselect-dropdown class="custom-dropdown"
@@ -114,6 +114,25 @@
                                                 <span *ngIf="form.controls.Participants.errors?.required"
                                                     class="form-text danger mandatory">
                                                     Co-contributor/Participants{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Co-contributor/Participants Required? &nbsp;</label> <br>
+                                            <mat-radio-group aria-label="Select an option" formControlName="Participants"
+                                                required>
+                                                <mat-radio-button [value]="true">Yes
+                                                </mat-radio-button>&nbsp;
+                                                <mat-radio-button [value]="false">No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.Participants.errors && (form.controls.Participants.dirty || form.controls.Participants.touched)"
+                                                text-wrap>
+                                                <label *ngIf="form.controls.Participants.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    Co-contributor/Participants {{'IsRequired' | translate}}</label>
                                             </div>
                                         </div>
                                     </div>
