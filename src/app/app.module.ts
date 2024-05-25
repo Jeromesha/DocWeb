@@ -45,7 +45,6 @@ import { ShowreportComponent } from './views/pages/employeeleaverecords/showrepo
 import { TimechampReportComponent } from './views/pages/timechamp-report/timechamp-report.component';
 import { MonthlyWorkingHoursReportComponent } from './views/pages/monthly-working-hours-report/monthly-working-hours-report.component';
 import { LoaderModule } from './views/layout/loader/loader.module';
-import { KraStatusComponent } from './views/pages/KRA/kra-status/kra-status.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -58,7 +57,6 @@ export function createTranslateLoader(http: HttpClient) {
     ShowreportComponent,
     TimechampReportComponent,
     MonthlyWorkingHoursReportComponent,
-    KraStatusComponent,
   ],
   imports: [
     BrowserModule,
