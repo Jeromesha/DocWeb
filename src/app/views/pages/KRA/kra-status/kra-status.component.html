@@ -10,7 +10,7 @@
                 KRA  Status
             </h4>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <form [formGroup]="form" class="form form-horizontal" novalidate>
                 <div class="form-body pt-2">
                     <div class="row mt-2">
@@ -60,7 +60,7 @@
         </div>
         <!-- <div class="col-md-6" *ngIf="!showAdd()">
         </div> -->
-        <div class="col-md-3 mt-3">
+        <div class="col-md-5 mt-3">
             <div style="float:right;">
                 <!-- <button  type="button" matRipple class="btn btnadd mr-2 mb-2"
                     (click)="AddSchedule(1,0)">
@@ -142,7 +142,7 @@
             <mat-header-cell *matHeaderCellDef style="text-align: center;">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
 
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Attach Kra Task'|translate}}"
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Add Status'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
                     (click)="ModifyKraTaskstatus(1,0)">
                     <i class="fa fa-edit fa-2x editclr"></i>
