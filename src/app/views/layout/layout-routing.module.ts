@@ -131,7 +131,7 @@ const routes: Routes = [
           import("./../../views/pages/monthly-working-hours-report/monthly-working-hours-report.module").then((m) => m.MonthlyWorkingHoursReportModule)
       },
       {
-        path: "schedular",
+        path: "scheduler",
         loadChildren: () =>
           import("./../../views/pages/KRA/schedular-grid/schedular-grid.module").then((m) => m.SchedularGridModule)
       },

@@ -56,6 +56,7 @@ export class SchedularGridComponent implements OnInit {
       "assignedDate",
       "targetDate",
       "reminderDate",
+      "attachtask"
     ];
     this.gettaskGriddata();
   }

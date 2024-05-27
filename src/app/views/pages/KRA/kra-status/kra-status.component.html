@@ -85,11 +85,25 @@
 </mat-form-field>
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc" multiTemplateDataRows>
-        <ng-container matColumnDef="scheduleName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleName">{{'Name' | translate}}
+        <ng-container matColumnDef="manager">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="manager">{{'Manager' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.scheduleName}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.manager}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="employee">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="employee">{{'Employee' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.employee}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="task">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="task">{{'Task' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.task}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="periodValue">
@@ -159,10 +173,9 @@
                 <table class="Info" style="width: 100%;">
                     <tr>
                         <th>S.No</th>
-                        <th>Task</th>
-                        <th>Primary Owner</th>
-                        <th>Secondary Owner</th>
-                        <th>Executor</th>
+                        <th>Status Date</th>
+                        <th>Task Status</th>
+                        <th>Note</th>
                     </tr>
 
                     <tr *ngFor="let rowData of dataField.periodicTaskStatusViewModel; let i=index;">
@@ -170,16 +183,13 @@
                             {{i+1}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.task}}
+                            {{rowData.statusDate}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.ownerName}}
+                            {{rowData.taskstatus}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.secondaryOwners}}
-                        </td>
-                        <td style="vertical-align: middle;">
-                            {{rowData.Executor}}
+                            {{rowData.note}}
                         </td>
                     </tr>
                 </table>

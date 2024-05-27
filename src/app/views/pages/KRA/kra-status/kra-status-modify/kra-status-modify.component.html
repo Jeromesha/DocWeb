@@ -13,7 +13,7 @@
                     <div class="px-3">
                         <form [formGroup]="form" class="form form-horizontal" novalidate>
                             <div class="form-body pt-2">
-                                <fieldset [disabled]="actionInfo === 1">
+                                <fieldset [disabled]="actionInfo == 0">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <fieldset>
@@ -75,7 +75,7 @@
                                         </h4>
                                     </div>
                                 </div>
-                                <fieldset [disabled]="actionInfo === 1">
+                                <fieldset [disabled]="actionInfo === 1" *ngIf="modifyKRA">
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -211,7 +211,7 @@
                                     </div>
                                 </fieldset>
 
-                                <div class="text-right">
+                                <div class="text-right" *ngIf="modifyKRA">
                                     <button [disabled]="actionInfo===1" type="button" matRipple
                                         class="btn btnrefresh mr-2 mb-2" (click)="clearData()">
                                         <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;

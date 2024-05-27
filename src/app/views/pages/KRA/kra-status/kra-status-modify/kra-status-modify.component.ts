@@ -15,6 +15,7 @@ import { UserSessionService } from 'src/app/services/usersession.service';
 import swal from 'sweetalert2';
 import { Location } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { RoleType } from 'src/enum/roletype';
 
 @Component({
   selector: 'app-kra-status-modify',
@@ -48,8 +49,8 @@ export class KraStatusModifyComponent implements OnInit {
     'taskStatusValue',
     'remarks',
     'approvedStatusTypeValue',
-    'actions',
-    'approval'
+    // 'actions',
+    // 'approval'
   ];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -65,8 +66,11 @@ export class KraStatusModifyComponent implements OnInit {
   approveTypeList: any;
   filterapproveTypeList: any;
   submitbtn: string;
-  dropdownSettings: { singleSelection: boolean; idField: string; textField: string; selectAllText: string; unSelectAllText: string; allowSearchFilter: boolean; };
+  dropdownSettings: {};
   employeeListByRole: any[];
+  modifyKRA: boolean;
+  roleId: any;
+  public RoleEnumType = RoleType;
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -82,6 +86,7 @@ export class KraStatusModifyComponent implements OnInit {
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
     this.actionInfo = this.routeParams.actionInfo;
+    this.roleId = this.userSessionService.roleId();
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -109,9 +114,18 @@ export class KraStatusModifyComponent implements OnInit {
       this.addButton="Update"
     }
     // if (this.id !== 0) {
-      this.getTaskstatus();
       this.getApproveStatus();
     // }
+
+    if(this.roleId == this.RoleEnumType.SuperAdmin){
+      this.modifyKRA=false;
+      this.addButton="Update"
+    }
+    else{
+      this.modifyKRA=true;
+    }
+    this.getDisplayedColumns();
+    this.getdummydata();
   }
 
   initializeValidators() {
@@ -329,5 +343,53 @@ export class KraStatusModifyComponent implements OnInit {
 
     this._location.back();
     this.alertService.success("Status Updated Successfully");
+  }
+  getDisplayedColumns(): string[] {
+    if (this.modifyKRA == false) {
+      this.displayedColumns.push('approval');
+    }
+    else {
+      this.displayedColumns.push('actions');
+    }
+    return this.displayedColumns;
+  }
+
+
+  getdummydata(){
+    this.form.controls['taskName'].setValue("test 1");
+    this.form.controls['description'].setValue("test some pages");
+    this.matData=[{
+      id:1,
+      periodicTaskId: 12,
+      statusDate : "2024-05-27 00:00:00.000",
+      remarks: "good",
+      taskStatusValue:"Completed",
+      approvedStatusTypeValue:"Submited",
+      taskStatusId: 3,
+      approvedStatusType: 3,
+    },
+    {
+      id:2,
+      periodicTaskId: 132,
+      statusDate : "2024-05-27 00:00:00.000",
+      remarks: "good 1",
+      taskStatusValue:"Completed",
+      approvedStatusTypeValue:"Submited",
+      taskStatusId: 3,
+      approvedStatusType: 2,
+    },
+    {
+      id:3,
+      periodicTaskId: 131,
+      statusDate : "2024-05-27 00:00:00.000",
+      remarks: "good 2",
+      taskStatusValue:"Completed",
+      approvedStatusTypeValue:"Submited",
+      taskStatusId: 3,
+      approvedStatusType: 1,
+    }]
+
+    this.dataSource = new MatTableDataSource(this.matData);
+    this.dataSource.paginator = this.paginator;
   }
 }

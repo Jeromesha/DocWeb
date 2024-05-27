@@ -9,6 +9,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
+import { RoleType } from 'src/enum/roletype';
 
 @Component({
   selector: 'app-kra-status',
@@ -38,6 +39,8 @@ export class KraStatusComponent implements OnInit {
   displayedColumns: any[];
   resultArray: any[];
   expandedElement: any;
+  roleId: any;
+  public RoleEnumType = RoleType;
   constructor(
     private formBuilder: FormBuilder,
     private navigationService: NavigationService,
@@ -45,18 +48,34 @@ export class KraStatusComponent implements OnInit {
     private alertService: AlertService,
     private excelService: ExcelService,
     private userSessionService: UserSessionService
-  ) { }
+  ) {
+    this.roleId = this.userSessionService.roleId();
+   }
 
   ngOnInit(): void {
     this.initializeValidators();
+    if(this.roleId ==this.RoleEnumType.SuperAdmin){
     this.displayedColumns = [
       "action",
-      "scheduleName",
+      "employee",
+      "task",
       "periodValue",
       "assignedDate",
       "targetDate",
       "reminderDate",
     ];
+    }
+    else{
+      this.displayedColumns = [
+        "action",
+        "manager",
+        "task",
+        "periodValue",
+        "assignedDate",
+        "targetDate",
+        "reminderDate",
+      ];
+    }
     this.gettaskGriddata();
   }
   initializeValidators() {
@@ -90,7 +109,9 @@ export class KraStatusComponent implements OnInit {
 
 
     this.resultArray=[{
-      scheduleName:'Test ',
+      manager:'root',
+      employee:'emp 1',
+      task:'Test ',
       periodValue:'Weekly',
       assignedDate:'2024-5-22',
       targetDate:'2024-5-26',
@@ -98,10 +119,26 @@ export class KraStatusComponent implements OnInit {
       id:1,
       periodicTaskStatusViewModel:[
         {
-          task:'test model',
-          ownerName:'Test',
-          secondaryOwners:'Test 2',
-          Executor:'test 3'
+          statusDate:'27-04-2024',
+          taskstatus:'completed',
+          note:'Test 2'
+        }
+      ]
+    },
+    {
+      manager:'root 1',
+      employee:'emp 2',
+      task:'Test 1 ',
+      periodValue:'Weekly',
+      assignedDate:'2024-5-22',
+      targetDate:'2024-5-26',
+      reminderDate:'2024-5-23',
+      id:2,
+      periodicTaskStatusViewModel:[
+        {
+          statusDate:'27-04-2024',
+          taskstatus:'completed',
+          note:'Test 2'
         }
       ]
     }]

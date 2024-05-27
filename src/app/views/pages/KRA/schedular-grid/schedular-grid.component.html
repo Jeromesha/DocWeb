@@ -71,8 +71,7 @@
         </div> -->
         <div class="col-md-3 mt-3">
             <div style="float:right;">
-                <button  type="button" matRipple class="btn btnadd mr-2 mb-2"
-                    (click)="AddSchedule(1,0)">
+                <button type="button" matRipple class="btn btnadd mr-2 mb-2" (click)="AddSchedule(1,0)">
                     <i class="btn-icon-prepend fa fa-plus"></i>
                     {{'Add Schedule' | translate}}
                 </button>
@@ -95,7 +94,7 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc" multiTemplateDataRows>
         <ng-container matColumnDef="scheduleName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleName">{{'Name' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleName">{{'Schedule Name' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.scheduleName}}</p>
@@ -137,9 +136,9 @@
             <mat-header-cell *matHeaderCellDef style="text-align: center;">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
 
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Attach Kra Task'|translate}}"
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit Schedule'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="attachKraTask(1,0)">
+                    (click)="AddSchedule(1,0)">
                     <i class="fa fa-edit fa-2x editclr"></i>
                 </button>
 
@@ -160,6 +159,16 @@
                     <mat-icon style="background-color: #3E65A6;color: #fff;">keyboard_arrow_up</mat-icon>
                 </button>
 
+            </mat-cell>
+        </ng-container>
+
+        <ng-container fxFlex="10" matColumnDef="attachtask">
+            <mat-header-cell *matHeaderCellDef style="text-align: center;">{{'Actions' | translate}}</mat-header-cell>
+            <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
+                <button type="button" matRipple class="btn btnrefresh mr-2 mt-1 mb-1" (click)="attachKraTask(1,0)">
+                    <i class="btn-icon-prepend fa fa-plus"></i>
+                    {{'Attach Task' | translate}}
+                </button>
             </mat-cell>
         </ng-container>
 

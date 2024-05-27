@@ -98,7 +98,7 @@ export class NavigationService {
     this.router.navigate(['/attachKRA/' + id, actionInfo])
   }
   gotoScheduleAdd(id: any, actionInfo: any) {
-    this.router.navigate(['/schedular/' + id, actionInfo])
+    this.router.navigate(['/scheduler/' + id, actionInfo])
   }
 
   gotoKraStatusModify(id: any, actionInfo: any) {
