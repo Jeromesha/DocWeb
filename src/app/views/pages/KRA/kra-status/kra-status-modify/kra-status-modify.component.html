@@ -267,6 +267,21 @@
                                                 </p>
                                             </mat-cell>
                                         </ng-container>
+                                        <ng-container matColumnDef="document">
+                                            <mat-header-cell *matHeaderCellDef>Document
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let dataField">
+                                                <!-- <p class="text-truncate txtalign">{{dataField.document}}
+                                                </p> -->
+                                                <button
+                                                data-toggle="tooltip" data-placement="right"
+                                                matTooltip="{{'Download'|translate}}" matTooltipClass="tooltip-edit"
+                                                matTooltipPosition="right" mat-icon-button color="accent"
+                                                (click)="download()">
+                                                <i class="fa fa-download fa-2x"></i>
+                                            </button>
+                                            </mat-cell>
+                                        </ng-container>
                                         <ng-container matColumnDef="approval">
                                             <mat-header-cell *matHeaderCellDef>Approval
                                             </mat-header-cell>

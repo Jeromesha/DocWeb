@@ -21,19 +21,6 @@ import { RoleType } from 'src/enum/roletype';
   selector: 'app-kra-status-modify',
   templateUrl: './kra-status-modify.component.html',
   styleUrls: ['./kra-status-modify.component.scss'],
-  animations: [
-    trigger("detailExpand", [
-      state(
-        "collapsed",
-        style({ height: "0px", minHeight: "0", visibility: "hidden" })
-      ),
-      state("expanded", style({ height: "*", visibility: "visible" })),
-      transition(
-        "expanded <=> collapsed",
-        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
-      ),
-    ]),
-  ],
 })
 
 export class KraStatusModifyComponent implements OnInit {
@@ -49,6 +36,7 @@ export class KraStatusModifyComponent implements OnInit {
     'taskStatusValue',
     'remarks',
     'approvedStatusTypeValue',
+    'document'
     // 'actions',
     // 'approval'
   ];
@@ -119,7 +107,8 @@ export class KraStatusModifyComponent implements OnInit {
 
     if(this.roleId == this.RoleEnumType.SuperAdmin){
       this.modifyKRA=false;
-      this.addButton="Update"
+      this.addButton="Update";
+      this.submitbtn = 'Update';
     }
     else{
       this.modifyKRA=true;
@@ -391,5 +380,8 @@ export class KraStatusModifyComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource(this.matData);
     this.dataSource.paginator = this.paginator;
+  }
+  download(){
+    
   }
 }
