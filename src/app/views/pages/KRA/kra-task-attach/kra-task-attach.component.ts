@@ -27,6 +27,8 @@ export class KraTaskAttachComponent implements OnInit {
   Notifylist: any[];
   dropdownSettingsNotify: any={};
   submitbtn:string;
+  dropdownSettingsDesignation: any={};
+  Designationlist: any[];
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -57,6 +59,14 @@ export class KraTaskAttachComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       allowSearchFilter: true
     };
+    this.dropdownSettingsDesignation = {
+      singleSelection: false,
+      idField: 'key',
+      textField: 'value',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true
+    };
   }
 
   ngOnInit(): void {
@@ -65,6 +75,7 @@ export class KraTaskAttachComponent implements OnInit {
     this.getEmployeeDetails();
     this.getKraTasklist();
     this.getNotifyDetails();
+    this.getDesignationDetails();
     if(this.actionInfo==0){
       this.submitbtn='Add'
     }
@@ -86,7 +97,8 @@ export class KraTaskAttachComponent implements OnInit {
       isDocument:['',Validators.required],
       isRemainder:['',Validators.required],
       Participants:[''],
-      notify:['']
+      notify:[''],
+      isProject:['']
     });
   }
   getEmployeeDetails() {
@@ -139,6 +151,23 @@ export class KraTaskAttachComponent implements OnInit {
       {key:1,value:'WhatsApp'},
       {key:2,value:'Mail'},
       // {key:3,value:'Both'},
+    ]
+  }
+  getDesignationDetails() {
+    // this.taskService.employeeDetails().subscribe(result => {
+    //   this.employeeListByRole = [];
+    //   if (result && result.value) {
+    //     this.employeeListByRole = result.value;
+    //     this.employeeListByRole.forEach(v => {
+    //       v.empNameCode = v.firstName + '(' + v.empCode + ')'
+    //     });
+    //   }
+    // });
+    this.Designationlist=[];
+    this.Designationlist=[
+      {key:1,value:'Technical Head'},
+      {key:2,value:'Senior Developer'},
+      {key:3,value:'Sales Head'},
     ]
   }
   onCancel(){

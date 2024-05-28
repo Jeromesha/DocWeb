@@ -85,11 +85,11 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory">Executor</label>
+                                            <label class="mandatory">Executor Designation</label>
                                             <ng-multiselect-dropdown class="custom-dropdown"
                                                 [disabled]="actionInfo == 1" formControlName="employee"
-                                                placeholder="Select Executor" [settings]="dropdownSettings"
-                                                [data]='employeeListByRole'>
+                                                placeholder="Select Executor" [settings]="dropdownSettingsDesignation"
+                                                [data]='Designationlist'>
                                             </ng-multiselect-dropdown>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.employee.errors && (form.controls.employee.dirty || form.controls.employee.touched)"
@@ -224,6 +224,25 @@
                                                 <label *ngIf="form.controls.isRemainder.errors?.required"
                                                     class="form-text  danger mandatory">
                                                     Remainder {{'IsRequired' | translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">Project Required? &nbsp;</label> <br>
+                                            <mat-radio-group aria-label="Select an option" formControlName="isProject"
+                                                required>
+                                                <mat-radio-button [value]="true">Yes
+                                                </mat-radio-button>&nbsp;
+                                                <mat-radio-button [value]="false">No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.isProject.errors && (form.controls.isProject.dirty || form.controls.isProject.touched)"
+                                                text-wrap>
+                                                <label *ngIf="form.controls.isProject.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    Project {{'IsRequired' | translate}}</label>
                                             </div>
                                         </div>
                                     </div>
