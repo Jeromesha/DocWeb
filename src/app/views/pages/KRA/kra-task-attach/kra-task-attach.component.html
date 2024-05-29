@@ -88,7 +88,7 @@
                                             <label class="mandatory">Executor Designation</label>
                                             <ng-multiselect-dropdown class="custom-dropdown"
                                                 [disabled]="actionInfo == 1" formControlName="employee"
-                                                placeholder="Select Executor" [settings]="dropdownSettingsDesignation"
+                                                placeholder="Select Executor Designation" [settings]="dropdownSettingsDesignation"
                                                 [data]='Designationlist'>
                                             </ng-multiselect-dropdown>
                                             <div class="valid-error"
@@ -96,7 +96,7 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.employee.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    Executor{{'IsRequired' | translate}}</span>
+                                                    Executor Designation{{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>
