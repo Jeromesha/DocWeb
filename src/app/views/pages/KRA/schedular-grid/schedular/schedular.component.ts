@@ -70,6 +70,7 @@ export class SchedularComponent implements OnInit {
       targetDate: ['', Validators.required],
       reminderCount: [''],
       reminderDate: [''],
+      isRepeat:['']
     });
     this.form.get('targetDate').valueChanges.subscribe(() => {
       this.updateReminderDate();

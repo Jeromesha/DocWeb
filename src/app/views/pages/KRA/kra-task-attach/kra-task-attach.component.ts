@@ -8,6 +8,7 @@ import { NavigationService } from 'src/app/services/navigation.service';
 import { TaskService } from 'src/app/services/task.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { Location } from '@angular/common';
+import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 @Component({
   selector: 'app-kra-task-attach',
   templateUrl: './kra-task-attach.component.html',
@@ -29,6 +30,10 @@ export class KraTaskAttachComponent implements OnInit {
   submitbtn:string;
   dropdownSettingsDesignation: any={};
   Designationlist: any[];
+  projectList: any[];
+  filterprojectList: any[];
+  isProject:boolean=false;
+  isPerson:boolean=false;
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -39,6 +44,7 @@ export class KraTaskAttachComponent implements OnInit {
     private userSessionService: UserSessionService,
     public taskService: TaskService,
     private _location: Location,
+    private empDetailsService: EmployeedetailsService,
   ) { 
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
@@ -73,6 +79,7 @@ export class KraTaskAttachComponent implements OnInit {
     this.initializeValidators();
     this.getEmployeeByRoleId();
     this.getEmployeeDetails();
+    this.projectLookUp();
     this.getKraTasklist();
     this.getNotifyDetails();
     this.getDesignationDetails();
@@ -98,7 +105,9 @@ export class KraTaskAttachComponent implements OnInit {
       isRemainder:['',Validators.required],
       Participants:[''],
       notify:[''],
-      isProject:['']
+      isRepeat:[''],
+      project:[''],
+      isprojOrPerc:['',Validators.required]
     });
   }
   getEmployeeDetails() {
@@ -124,6 +133,17 @@ export class KraTaskAttachComponent implements OnInit {
         this.employeeFilterList = this.employeeList?.slice();
       }
     });
+  }
+
+  projectLookUp() {
+    debugger
+    this.empDetailsService.getProject(true, 1).subscribe((res) => {
+      debugger
+      this.projectList = [];
+      this.filterprojectList = [];
+      this.projectList = res;
+      this.filterprojectList = this.projectList.slice();
+    })
   }
 
   getKraTasklist(){
@@ -179,6 +199,16 @@ export class KraTaskAttachComponent implements OnInit {
   onSubmit(){
     this._location.back();
     this.alertService.success("KRA Task added Successfully")
+  }
+
+  handleChange(event: any,count:any) {
+    // When the checkbox state changes, update the value of isProject accordingly
+    if(count==1){
+    this.isProject = event.checked;
+    }
+    else if(count==2){
+      this.isPerson=event.checked
+    }
   }
   
 }

@@ -166,6 +166,25 @@
                                             </div>
                                         </fieldset>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Do you Want to Repeat? &nbsp;</label> <br>
+                                            <mat-radio-group aria-label="Select an option" formControlName="isRepeat"
+                                                required>
+                                                <mat-radio-button [value]="true">Yes
+                                                </mat-radio-button>&nbsp;
+                                                <mat-radio-button [value]="false">No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.isRepeat.errors && (form.controls.isRepeat.dirty || form.controls.isRepeat.touched)"
+                                                text-wrap>
+                                                <label *ngIf="form.controls.isRepeat.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                Repeat {{'IsRequired' | translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-actions mb-3 mt-3" style="float: right;">
                                     <button

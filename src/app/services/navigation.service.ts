@@ -108,6 +108,9 @@ export class NavigationService {
   gotoKraTaskAdd(id: any, actionInfo: any) {
     this.router.navigate(['/kraTask/' + id, actionInfo])
   }
+  gotoPeriodicTaskAdd(id: any, actionInfo: any) {
+    this.router.navigate(['/periodicTask/' + id, actionInfo])
+  }
 
 }
 

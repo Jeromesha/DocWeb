@@ -16,6 +16,7 @@ import swal from 'sweetalert2';
 import { Location } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { RoleType } from 'src/enum/roletype';
+import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
 
 @Component({
   selector: 'app-kra-status-modify',
@@ -59,6 +60,8 @@ export class KraStatusModifyComponent implements OnInit {
   modifyKRA: boolean;
   roleId: any;
   public RoleEnumType = RoleType;
+  projectList: any[];
+  filterprojectList: any[];
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -70,6 +73,7 @@ export class KraStatusModifyComponent implements OnInit {
     public taskService: TaskService,
     private _location: Location,
     private taskservice: TaskService,
+    private empDetailsService: EmployeedetailsService,
   ) {
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
@@ -89,6 +93,7 @@ export class KraStatusModifyComponent implements OnInit {
     this.initializeValidators();
     this.getTaskstatus();
     this.getEmployeeDetails();
+    this.projectLookUp();
     this.Date = new Date;
     if (this.id === 0) {
       this.submitbtn = 'Save';
@@ -122,6 +127,7 @@ export class KraStatusModifyComponent implements OnInit {
       id: [0],
       taskName: ['', Validators.required],
       description: ['', Validators.required],
+      ProjectId:['']
     });
     this.formGrid = this.formBuilder.group({
       id: [0],
@@ -159,6 +165,14 @@ export class KraStatusModifyComponent implements OnInit {
     } else { this.addButton = "Add"; }
     this.disableDelete = false;
     this.editDisable = null;
+  }
+  projectLookUp() {
+    this.empDetailsService.getProject(true, 1).subscribe((res) => {
+      this.projectList = [];
+      this.filterprojectList = [];
+      this.projectList = res;
+      this.filterprojectList = this.projectList.slice();
+    })
   }
 
   addData() {

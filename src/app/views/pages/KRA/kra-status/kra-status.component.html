@@ -130,6 +130,14 @@
             </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="project">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="project">Project
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
+            </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="reminderDate">
             <mat-header-cell *matHeaderCellDef mat-sort-header="reminderDate">{{'Reminder Date' | translate}}
             </mat-header-cell>

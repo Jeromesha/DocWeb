@@ -50,6 +50,31 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="mandatory">Project</label>
+                                                <mat-select formControlName="ProjectId" class="form-control pt-2"
+                                                    [disableOptionCentering]="true" #select2
+                                                    placeholder="Select Project">
+                                                    <mat-select-filter [displayMember]="'value'"
+                                                        [array]="projectList"
+                                                        (filteredReturn)="filterprojectList =$event">
+                                                    </mat-select-filter>
+                                                    <mat-option *ngFor="let item of filterprojectList"
+                                                        [value]="item.key">
+                                                        {{item.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div class="valid-error"
+                                                    *ngIf="form.controls.ProjectId.errors && (form.controls.ProjectId.dirty || form.controls.ProjectId.touched)"
+                                                    text-wrap>
+                                                    <span *ngIf="form.controls.ProjectId.errors?.required"
+                                                        class="form-text danger mandatory">
+                                                        Project {{'IsRequired' | translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </fieldset>
                             </div>

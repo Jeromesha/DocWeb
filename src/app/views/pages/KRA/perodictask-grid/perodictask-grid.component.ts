@@ -1,6 +1,6 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,24 +12,12 @@ import { UserSessionService } from 'src/app/services/usersession.service';
 import { RoleType } from 'src/enum/roletype';
 
 @Component({
-  selector: 'app-kra-status',
-  templateUrl: './kra-status.component.html',
-  styleUrls: ['./kra-status.component.scss'],
-  animations: [
-    trigger("detailExpand", [
-      state(
-        "collapsed",
-        style({ height: "0px", minHeight: "0", visibility: "hidden" })
-      ),
-      state("expanded", style({ height: "*", visibility: "visible" })),
-      transition(
-        "expanded <=> collapsed",
-        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
-      ),
-    ]),
-  ],
+  selector: 'app-perodictask-grid',
+  templateUrl: './perodictask-grid.component.html',
+  styleUrls: ['./perodictask-grid.component.scss'],
 })
-export class KraStatusComponent implements OnInit {
+export class PerodictaskGridComponent implements OnInit {
+
   form:FormGroup;
   data = [];
   dataSource = new MatTableDataSource(this.data);
@@ -53,40 +41,17 @@ export class KraStatusComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.initializeValidators();
-    if(this.roleId ==this.RoleEnumType.SuperAdmin){
     this.displayedColumns = [
       "action",
-      "employee",
       "task",
-      "project",
-      "periodValue",
-      "assignedDate",
-      "targetDate",
-      "reminderDate",
+      "description"
     ];
-    }
-    else{
-      this.displayedColumns = [
-        "action",
-        "manager",
-        "task",
-        "project",
-        "periodValue",
-        "assignedDate",
-        "targetDate",
-        "reminderDate",
-      ];
-    }
     this.gettaskGriddata();
   }
-  initializeValidators() {
-    this.form = this.formBuilder.group({
-    });
-  }
-  ModifyKraTaskstatus(dataFieldId: any, actioninfo: any) {
+
+  addKraTask(dataFieldId: any, actioninfo: any) {
     // dataField.id, actioninfo
-    this.navigationService.gotoKraStatusModify(0,actioninfo);
+    this.navigationService.gotoPeriodicTaskAdd(0,actioninfo);
   }
   refresh(){
 
@@ -111,40 +76,10 @@ export class KraStatusComponent implements OnInit {
 
 
     this.resultArray=[{
-      manager:'root',
-      employee:'emp 1',
+      description:'Brand Value',
       task:'Test ',
-      project:'In House',
-      periodValue:'Weekly',
-      assignedDate:'2024-5-22',
-      targetDate:'2024-5-26',
-      reminderDate:'2024-5-23',
+
       id:1,
-      periodicTaskStatusViewModel:[
-        {
-          statusDate:'27-04-2024',
-          taskstatus:'completed',
-          note:'Test 2'
-        }
-      ]
-    },
-    {
-      manager:'root 1',
-      employee:'emp 2',
-      task:'Test 1 ',
-      project:'EazyPm', 
-      periodValue:'Weekly',
-      assignedDate:'2024-5-22',
-      targetDate:'2024-5-26',
-      reminderDate:'2024-5-23',
-      id:2,
-      periodicTaskStatusViewModel:[
-        {
-          statusDate:'27-04-2024',
-          taskstatus:'completed',
-          note:'Test 2'
-        }
-      ]
     }]
     
       this.dataSource = new MatTableDataSource(this.resultArray);
@@ -153,16 +88,6 @@ export class KraStatusComponent implements OnInit {
       this.data = this.resultArray;
 
     // })
-  }
-  expandUp(dataField) {
-    debugger;
-    this.expandedElement = {};
-    this.expandedElement = dataField;
-  }
-  expandDown(dataField) {
-    debugger;
-    this.expandedElement = {};
-    this.expandedElement = dataField;
   }
 
 }

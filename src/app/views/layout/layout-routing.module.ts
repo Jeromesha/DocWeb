@@ -150,6 +150,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/KRA/kra-status/kra-status.module").then((m) => m.KraStatusModule)
       },
+      {
+        path: "periodicTask",
+        loadChildren: () =>
+          import("./../../views/pages/KRA/perodictask-grid/perodictask-grid.module").then((m) => m.PerodictaskGridModule)
+      },
     ],
   },
 ];

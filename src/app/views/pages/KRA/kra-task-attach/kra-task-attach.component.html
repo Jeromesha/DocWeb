@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Attach KRA Task' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View KRA Task' | translate}}</h4>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit KRA Task' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'Attach  Task' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View  Task' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit  Task' | translate}}</h4>
     </div>
 </div>
 <div class="row text-left">
@@ -17,7 +17,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory">{{"KRA Task" | translate}}</label>
+                                            <label class="mandatory">{{"Task" | translate}}</label>
                                             <mat-select [disabled]="actionInfo===1" placeholder="KRA Task"
                                                 formControlName="kratask" class="form-control pt-2"
                                                 [disableOptionCentering]="true" #select>
@@ -33,7 +33,7 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.kratask.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    KRA Task{{'IsRequired' | translate}}</span>
+                                                     Task{{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -85,18 +85,51 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory">Executor Designation</label>
+                                            <label class="mandatory">Based on ? &nbsp;</label> <br>
+                                            <section class="example-section" formControlName="isprojOrPerc">
+                                                <mat-checkbox class="example-margin" [(ngModel)]="isProject" (change)="handleChange($event,1)">Project</mat-checkbox>&nbsp;
+                                                <mat-checkbox class="example-margin" [(ngModel)]="isPerson" (change)="handleChange($event,2)">Person</mat-checkbox>
+                                              </section>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.isprojOrPerc.errors && (form.controls.isprojOrPerc.dirty || form.controls.isprojOrPerc.touched)"
+                                                text-wrap>
+                                                <label *ngIf="form.controls.isprojOrPerc.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    Based on {{'IsRequired' | translate}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="isProject">
+                                        <div class="form-group">
+                                            <label class="mandatory">Project</label>
+                                            <ng-multiselect-dropdown class="custom-dropdown"
+                                                [disabled]="actionInfo == 1" formControlName="project"
+                                                placeholder="Select Project" [settings]="dropdownSettingsNotify"
+                                                [data]='projectList'>
+                                            </ng-multiselect-dropdown>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.project.errors && (form.controls.project.dirty || form.controls.project.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.project.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Project{{'IsRequired' | translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="isPerson">
+                                        <div class="form-group">
+                                            <label class="mandatory">Executor </label>
                                             <ng-multiselect-dropdown class="custom-dropdown"
                                                 [disabled]="actionInfo == 1" formControlName="employee"
-                                                placeholder="Select Executor Designation" [settings]="dropdownSettingsDesignation"
-                                                [data]='Designationlist'>
+                                                placeholder="Select Executor " [settings]="dropdownSettings"
+                                                [data]='employeeListByRole'>
                                             </ng-multiselect-dropdown>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.employee.errors && (form.controls.employee.dirty || form.controls.employee.touched)"
                                                 text-wrap>
                                                 <span *ngIf="form.controls.employee.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    Executor Designation{{'IsRequired' | translate}}</span>
+                                                    Executor {{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -229,8 +262,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="mandatory">Project Required? &nbsp;</label> <br>
-                                            <mat-radio-group aria-label="Select an option" formControlName="isProject"
+                                            <label class="mandatory">Do you Want to Repeat? &nbsp;</label> <br>
+                                            <mat-radio-group aria-label="Select an option" formControlName="isRepeat"
                                                 required>
                                                 <mat-radio-button [value]="true">Yes
                                                 </mat-radio-button>&nbsp;
@@ -238,14 +271,16 @@
                                                 </mat-radio-button>
                                             </mat-radio-group>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.isProject.errors && (form.controls.isProject.dirty || form.controls.isProject.touched)"
+                                                *ngIf="form.controls.isRepeat.errors && (form.controls.isRepeat.dirty || form.controls.isRepeat.touched)"
                                                 text-wrap>
-                                                <label *ngIf="form.controls.isProject.errors?.required"
+                                                <label *ngIf="form.controls.isRepeat.errors?.required"
                                                     class="form-text  danger mandatory">
-                                                    Project {{'IsRequired' | translate}}</label>
+                                                Repeat {{'IsRequired' | translate}}</label>
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    
                                     
                                 </div>
 
