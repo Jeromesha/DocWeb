@@ -13,7 +13,7 @@
         <div class="col-md-3 mt-3">
             <div style="float:right;">
                 <button  type="button" matRipple class="btn btnadd mr-2 mb-2"
-                    (click)="addKraTask(1,0)">
+                    (click)="addKraTask(0,0)">
                     <i class="btn-icon-prepend fa fa-plus"></i>
                     {{'Add Task' | translate}}
                 </button>
@@ -36,17 +36,24 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc" multiTemplateDataRows>
         <ng-container matColumnDef="task">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="task">{{'Task' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="name">{{'Task' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.task}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.name}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="description">
             <mat-header-cell *matHeaderCellDef mat-sort-header="description">{{'Description' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.description}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.description}}</p>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="category">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleTaskCategory">{{'Category' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.scheduleTaskCategory}}</p>
             </mat-cell>
         </ng-container>
         
@@ -54,15 +61,15 @@
             <mat-header-cell *matHeaderCellDef style="text-align: center;">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
 
-                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Attach Kra Task'|translate}}"
+                <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Edit'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="addKraTask(1,0)">
+                    (click)="addKraTask(dataField.id,0)">
                     <i class="fa fa-edit fa-2x editclr"></i>
                 </button>
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="addKraTask(1,0)">
+                    (click)="addKraTask(dataField.id,1)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
 

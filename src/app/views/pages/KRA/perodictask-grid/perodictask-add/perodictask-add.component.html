@@ -11,21 +11,21 @@
             <div class="card-content">
                 <div class="card-body login-img">
                     <div class="px-3">
-                        <form [formGroup]="form" class="form form-horizontal" novalidate>
+                        <form [formGroup]="form" class="form form-horizontal" novalidate >
                             <div class="form-body pt-2">
                                 <div class="row">
 
 
                                     <div class="col-md-6">
-                                        <fieldset [disabled]="actionInfo === 1">
+                                        <fieldset [disabled]="actionInfo == 1">
                                             <div class="form-group">
                                                 <label class="mandatory ">Task Name</label>
-                                                <input type="text" class="form-control" formControlName="taskName"
+                                                <input type="text" class="form-control" formControlName="name"
                                                     placeholder="Task Name" autocomplete="off">
                                                 <div class="valid-error"
-                                                    *ngIf="form.controls.taskName.errors && (form.controls.taskName.dirty || form.controls.taskName.touched)"
+                                                    *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)"
                                                     text-wrap>
-                                                    <span *ngIf="form.controls.taskName.errors?.required"
+                                                    <span *ngIf="form.controls.name.errors?.required"
                                                         class="form-text  danger mandatory">
                                                         Task Name {{'IsRequired' | translate}}
                                                     </span>
@@ -34,11 +34,12 @@
                                         </fieldset>
                                     </div>
 
-                                    <div class="col-md-6">
-                                        <div class="form-group">
+                                    <div class="col-md-6" >
+                                        <fieldset [disabled]="actionInfo == 1">
+                                        <div class="form-group" >
                                             <label class="mandatory "> Description</label>
                                             <textarea type="text" class="form-control" placeholder="Description"
-                                                formControlName="description" autocomplete="off">
+                                                formControlName="description" autocomplete="off" >
                                             </textarea>
                                             <div class="valid-error"
                                                 *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
@@ -47,6 +48,34 @@
                                                     class="form-text  danger mandatory">
                                                     Description {{'IsRequired' | translate}}
                                                 </span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        
+                                        <div class="form-group">
+                                            <label class="mandatory ">Category</label>
+                                            <mat-select placeholder="Category" formControlName="scheduleTaskCategoryType"
+                                                 class="form-control pt-2"
+                                                [disableOptionCentering]="true" #select3 [disabled]="actionInfo == 1" >
+                                                <mat-select-filter [displayMember]="'Category'"
+                                                    [array]="Categorylist"
+                                                    (filteredReturn)="CategorylistFilterList =$event"
+                                                    *ngIf="select3.focused" >
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of CategorylistFilterList"
+                                                    [value]="item.key">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.scheduleTaskCategoryType.errors && (form.controls.scheduleTaskCategoryType.dirty || form.controls.scheduleTaskCategoryType.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.scheduleTaskCategoryType.errors?.required"
+                                                    class="form-text danger mandatory">
+                                                    Category{{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -58,12 +87,12 @@
                                         <i class="fa fa-close"></i>
                                         {{'Cancel' | translate}}
                                     </button>
-                                    <button type="reset" class="btn btn-raised btn-warning btncancel mr-2"
+                                    <button *ngIf="actionInfo !=1" type="reset" class="btn btn-raised btn-warning btncancel mr-2"
                                         (click)="onClear()">
                                         <i class="btn-icon-prepend fa fa-refresh"></i>
                                         {{'Clear' | translate}}
                                     </button>
-                                    <button
+                                    <button *ngIf="actionInfo !=1"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="onSubmit()">
                                         <i class="fa fa-save"></i>

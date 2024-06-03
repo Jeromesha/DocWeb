@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { RoleType } from 'src/enum/roletype';
 
@@ -35,7 +36,8 @@ export class PerodictaskGridComponent implements OnInit {
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
-    private userSessionService: UserSessionService
+    private userSessionService: UserSessionService,
+    public perodicTaskService :PerodicTaskService
   ) {
     this.roleId = this.userSessionService.roleId();
    }
@@ -44,14 +46,15 @@ export class PerodictaskGridComponent implements OnInit {
     this.displayedColumns = [
       "action",
       "task",
-      "description"
+      "description",
+      "category"
     ];
     this.gettaskGriddata();
   }
 
   addKraTask(dataFieldId: any, actioninfo: any) {
     // dataField.id, actioninfo
-    this.navigationService.gotoPeriodicTaskAdd(0,actioninfo);
+    this.navigationService.gotoPeriodicTaskAdd(dataFieldId,actioninfo);
   }
   refresh(){
 
@@ -64,30 +67,24 @@ export class PerodictaskGridComponent implements OnInit {
     }
   }
   gettaskGriddata() {
-    // this.taskservice.GetAssignTaskList(this.getApiName()).subscribe(result => {
+    this.perodicTaskService.getTaskGridList().subscribe(result => {
       this.resultArray = [];
-      // if (result && result.value) {
-      //   this.resultArray = result.value;
-      // }
+      if (result && result.value) {
+        this.resultArray = result.value;
+      }
 
     //   this.resultArray.forEach(result => {
     //     result.periodicTaskStatusViewModel.sort((a, b) => new Date(b.statusDate).getTime() - new Date(a.statusDate).getTime());
     // });
 
 
-    this.resultArray=[{
-      description:'Brand Value',
-      task:'Test ',
-
-      id:1,
-    }]
     
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.data = this.resultArray;
 
-    // })
+    })
   }
 
 }
