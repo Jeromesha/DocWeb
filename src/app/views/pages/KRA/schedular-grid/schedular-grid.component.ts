@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 
 @Component({
@@ -44,7 +45,9 @@ export class SchedularGridComponent implements OnInit {
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
-    private userSessionService: UserSessionService
+    private userSessionService: UserSessionService,
+    public perodicTaskService :PerodicTaskService
+
   ) { }
 
   ngOnInit(): void {
@@ -73,10 +76,10 @@ export class SchedularGridComponent implements OnInit {
 
   AddSchedule(dataFieldId: any, actioninfo: any) {
     // dataField.id, actioninfo
-    this.navigationService.gotoScheduleAdd(0,actioninfo);
+    this.navigationService.gotoScheduleAdd(dataFieldId,actioninfo);
   }
   refresh(){
-
+    this.gettaskGriddata();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -86,40 +89,17 @@ export class SchedularGridComponent implements OnInit {
     }
   }
   gettaskGriddata() {
-    // this.taskservice.GetAssignTaskList(this.getApiName()).subscribe(result => {
+    this.perodicTaskService.getScheduleGridList().subscribe(result => {
       this.resultArray = [];
-      // if (result && result.value) {
-      //   this.resultArray = result.value;
-      // }
-
-    //   this.resultArray.forEach(result => {
-    //     result.periodicTaskStatusViewModel.sort((a, b) => new Date(b.statusDate).getTime() - new Date(a.statusDate).getTime());
-    // });
-
-
-    this.resultArray=[{
-      scheduleName:'Test ',
-      periodValue:'Weekly',
-      assignedDate:'2024-5-22',
-      targetDate:'2024-5-26',
-      reminderDate:'2024-5-23',
-      id:1,
-      periodicTaskStatusViewModel:[
-        {
-          task:'test model',
-          ownerName:'Test',
-          secondaryOwners:'Test 2',
-          Executor:'test 3'
-        }
-      ]
-    }]
-    
+      if (result && result.value) {
+        this.resultArray = result.value;
+      }
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.data = this.resultArray;
 
-    // })
+    })
   }
   expandUp(dataField) {
     debugger;

@@ -20,12 +20,12 @@
                                         <fieldset  [disabled]="actionInfo === 1">
                                             <div class="form-group">
                                                 <label class="mandatory ">Schedule Name</label>
-                                                <input type="text" class="form-control" formControlName="taskName"
+                                                <input type="text" class="form-control" formControlName="name"
                                                     placeholder="Task Name" autocomplete="off">
                                                 <div class="valid-error"
-                                                    *ngIf="form.controls.taskName.errors && (form.controls.taskName.dirty || form.controls.taskName.touched)"
+                                                    *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)"
                                                     text-wrap>
-                                                    <span *ngIf="form.controls.taskName.errors?.required"
+                                                    <span *ngIf="form.controls.name.errors?.required"
                                                         class="form-text  danger mandatory">
                                                         Task Name {{'IsRequired' | translate}}
                                                     </span>
@@ -36,10 +36,10 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="mandatory ">Period</label>
-                                            <mat-select placeholder="Period" formControlName="period"
+                                            <mat-select placeholder="Period" formControlName="periodType"
                                                 [disabled]="actionInfo === 1"
                                                 class="form-control pt-2" [disableOptionCentering]="true" #select2
-                                                (selectionChange)="updateMaxtargetdate()">
+                                                (ngModelChange)="updateMaxtargetdate($event)">
                                                 <mat-select-filter [displayMember]="'value'" [array]="periodList"
                                                     (filteredReturn)="filterperiodList =$event"
                                                     *ngIf="select2.focused" >
@@ -50,9 +50,9 @@
                                                 </mat-option>
                                             </mat-select>
                                             <div class="valid-error"
-                                                *ngIf="form.controls.period.errors && (form.controls.period.dirty || form.controls.period.touched)"
+                                                *ngIf="form.controls.periodType.errors && (form.controls.periodType.dirty || form.controls.periodType.touched)"
                                                 text-wrap>
-                                                <span *ngIf="form.controls.period.errors?.required"
+                                                <span *ngIf="form.controls.periodType.errors?.required"
                                                     class="form-text danger mandatory">
                                                     Period {{'IsRequired' | translate}}</span>
                                             </div>
@@ -123,14 +123,14 @@
                                             <div class="form-group">
                                                 <label class="">Advance Reminder Days</label>
                                                 <input type="number" [min]="0" class="form-control"
-                                                    [max]="daysDifference" formControlName="reminderCount"
+                                                    [max]="daysDifference" formControlName="advanceReminderDays"
                                                     (input)="setCount()" placeholder="Advance Reminder Days"
                                                     autocomplete="off" pattern="[0-9]*"
                                                     title="Please enter only numeric values">
                                                 <div class="valid-error"
-                                                    *ngIf="form.controls.reminderCount.errors && (form.controls.reminderCount.dirty || form.controls.reminderCount.touched)"
+                                                    *ngIf="form.controls.advanceReminderDays.errors && (form.controls.advanceReminderDays.dirty || form.controls.advanceReminderDays.touched)"
                                                     text-wrap>
-                                                    <span *ngIf="form.controls.reminderCount.errors?.required"
+                                                    <span *ngIf="form.controls.advanceReminderDays.errors?.required"
                                                         class="form-text  danger mandatory">
                                                         Advance Reminder Days {{'IsRequired' | translate}}</span>
                                                 </div>
@@ -168,7 +168,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Do you Want to Repeat? &nbsp;</label> <br>
+                                            <label class="mandatory ">Do you Want to Repeat? &nbsp;</label> <br>
                                             <mat-radio-group aria-label="Select an option" formControlName="isRepeat"
                                                 required>
                                                 <mat-radio-button [value]="true">Yes

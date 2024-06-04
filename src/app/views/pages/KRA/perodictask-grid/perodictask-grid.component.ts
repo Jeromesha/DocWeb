@@ -57,7 +57,7 @@ export class PerodictaskGridComponent implements OnInit {
     this.navigationService.gotoPeriodicTaskAdd(dataFieldId,actioninfo);
   }
   refresh(){
-
+    this.gettaskGriddata();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

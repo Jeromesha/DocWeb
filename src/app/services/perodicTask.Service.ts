@@ -19,7 +19,18 @@ export class PerodicTaskService {
         return this.dataService.getData('/api/scheduleTask', true)
     }
     getTaskbyId(id:any){
-        return this.dataService.getData('/api/scheduleTask/GetScheduleTaskByID/'+id,true);
+        return this.dataService.getData('/api/scheduleTask/getScheduleTaskByID/'+id,true);
+    }
+
+    saveSchedule(data:any){
+        return this.dataService.post('/api/schedule', data)
+    }
+    getSchedulebyId(id:any){
+        return this.dataService.getData('/api/schedule/getScheduleByID/'+id,true);
+    }
+
+    getScheduleGridList() {
+        return this.dataService.getData('/api/schedule', true)
     }
 
 }

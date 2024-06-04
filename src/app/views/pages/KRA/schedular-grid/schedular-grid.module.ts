@@ -30,9 +30,9 @@ import { MappingServices } from 'src/app/services/mapping.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { NotifyService } from 'src/app/services/notifyService';
 import { TaskService } from 'src/app/services/task.service';
-import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { MY_CUSTOM_FORMATS } from '../../dashboard/timesheet/timesheet.module';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 
 const routes: Routes = [
   {
@@ -55,7 +55,7 @@ const routes: Routes = [
     DatePipe,
     ExcelService,
     MappingServices,
-    TimeSheetService,
+    PerodicTaskService,
     TaskService,
     NotifyService,
     NavigationService,

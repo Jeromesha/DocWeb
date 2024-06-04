@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
@@ -9,6 +9,7 @@ import { TaskService } from 'src/app/services/task.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 @Component({
   selector: 'app-schedular',
   templateUrl: './schedular.component.html',
@@ -40,6 +41,7 @@ export class SchedularComponent implements OnInit {
     private userSessionService: UserSessionService,
     public taskService: TaskService,
     private _location: Location,
+    private perodicTaskService:PerodicTaskService
   ) {
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
@@ -50,25 +52,28 @@ export class SchedularComponent implements OnInit {
     this.initializeValidators();
     this.getPeriod();
     this.Date = new Date;
+   
     if (this.id === 0) {
       this.form.controls['assignedDate'].setValue(this.Date);
       this.minEndDate = moment(this.Date).format("YYYY-MM-DD");
       this.minEndDate = moment(this.minEndDate).subtract(0, 'minute').toDate();
       this.submitbtn ='Add';
+      this.form.controls['isRepeat'].setValue(true);
     }
     else{
       this.submitbtn = 'Update';
+      this.getSchedulebyId(this.id);
     }
   }
 
   initializeValidators() {
     this.form = this.formBuilder.group({
       id: [0],
-      taskName: ['', Validators.required],
-      period: ['', Validators.required],
+      name: ['', Validators.required],
+      periodType: ['', Validators.required],
       assignedDate: ['', Validators.required],
       targetDate: ['', Validators.required],
-      reminderCount: [''],
+      advanceReminderDays: [''],
       reminderDate: [''],
       isRepeat:['']
     });
@@ -76,7 +81,7 @@ export class SchedularComponent implements OnInit {
       this.updateReminderDate();
     });
 
-    this.form.get('reminderCount').valueChanges.subscribe(() => {
+    this.form.get('advanceReminderDays').valueChanges.subscribe(() => {
       this.updateReminderDate();
     });
   }
@@ -87,8 +92,18 @@ export class SchedularComponent implements OnInit {
       this.filterperiodList = this.periodList?.slice();
     });
   }
-  updateMaxtargetdate() {
-    const selectedPeriod = this.periodList.find(item => item.key === this.form.value.period);
+  getSchedulebyId(id:any){
+    this.perodicTaskService.getSchedulebyId(id).subscribe(result =>{
+      if(result.isSuccess){
+        var formdata = result.value;
+        this.form.patchValue(formdata);
+        console.log(formdata,'form data')
+      }
+    });
+  }
+  updateMaxtargetdate(event) {
+    debugger
+    const selectedPeriod = this.periodList.find(item => item.key === this.form.value.periodType);
     if (selectedPeriod) {
       const currentDate = new Date(); // Current date
       switch (selectedPeriod.value) {
@@ -129,6 +144,7 @@ export class SchedularComponent implements OnInit {
   }
   updateEndDate(event: any) {
     debugger
+    console.log("hiii")
     if (event && typeof (event) === "string") {
       event = new Date(event);
     }
@@ -155,7 +171,7 @@ export class SchedularComponent implements OnInit {
   }
   
   calculateDaysDifference(event: any) {
-    this.form.controls['reminderCount'].setValue(0);
+    this.form.controls['advanceReminderDays'].setValue(0);
     let assignedDate = this.form.value.assignedDate;
     if (assignedDate && event) {
       if (assignedDate && typeof (assignedDate) === "string") {
@@ -172,14 +188,14 @@ export class SchedularComponent implements OnInit {
 
   }
   setCount() {
-    if (this.form.value.reminderCount > this.daysDifference) {
-      this.form.controls['reminderCount'].setValue(this.daysDifference);
+    if (this.form.value.advanceReminderDays > this.daysDifference) {
+      this.form.controls['advanceReminderDays'].setValue(this.daysDifference);
     }
   }
 
   updateReminderDate() {
     const targetDate = this.form.get('targetDate').value;
-    const reminderCount = this.form.get('reminderCount').value;
+    const reminderCount = this.form.get('advanceReminderDays').value;
 
     if (targetDate && reminderCount) {
       const reminderDate = new Date(targetDate);
@@ -196,8 +212,56 @@ export class SchedularComponent implements OnInit {
   onClear(){
     this.form.reset();
   }
-  onSubmit(){
-    this._location.back();
-    this.alertService.success("Schedular added Successfully")
+  onSubmit() {
+    if(this.form.valid){
+      debugger
+      var targetDate = this.form.value.targetDate;
+      var reminderDate = this.form.value.reminderDate ? this.form.value.reminderDate:null;
+      var remaindays = this.form.value.advanceReminderDays;
+      this.form.controls['assignedDate'].setValue(moment(this.form.value.assignedDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      this.form.controls['targetDate'].setValue(moment(targetDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      if(reminderDate !=null){
+      this.form.controls['reminderDate'].setValue(moment(reminderDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      }
+      else{
+        this.form.controls['reminderDate'].setValue(null);
+      }
+      debugger
+      var data ={
+        id:this.id >0? this.id :0,
+        name:this.form.value.name,
+        periodType:this.form.value.periodType,
+        assignedDate:this.form.value.assignedDate,
+        targetDate:this.form.value.targetDate,
+        advanceReminderDays:remaindays,
+        reminderDate:this.form.value.reminderDate,
+        isRepeat:this.form.value.isRepeat
+      }
+      this.perodicTaskService.saveSchedule(data).subscribe(result => {
+        if(result.isSuccess){
+          this._location.back();
+          this.alertService.success("Schedular added Successfully")
+        }
+        else{
+          this.alertService.error(result.failures[0])
+        }
+
+      });
+    }
+    else{
+      this.validateFormControl();
+    }
+    
+  }
+
+  validateFormControl() {
+    Object.keys(this.form.controls).forEach(field => {
+      const control = this.form.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({
+          onlySelf: true
+        });
+      }
+    })
   }
 }
