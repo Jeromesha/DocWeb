@@ -69,9 +69,9 @@ export class SchedularGridComponent implements OnInit {
   }
 
 
-  attachKraTask(dataFieldId: any, actioninfo: any) {
+  attachKraTask(scheduleId: any,taskId:any, actioninfo: any) {
     // dataField.id, actioninfo
-    this.navigationService.gotoKraAttach(0,actioninfo);
+    this.navigationService.gotoKraAttach(scheduleId,taskId,actioninfo);
   }
 
   AddSchedule(dataFieldId: any, actioninfo: any) {

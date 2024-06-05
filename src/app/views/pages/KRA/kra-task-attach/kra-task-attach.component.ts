@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
@@ -9,16 +9,19 @@ import { TaskService } from 'src/app/services/task.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { Location } from '@angular/common';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
+import { result } from 'lodash';
 @Component({
   selector: 'app-kra-task-attach',
   templateUrl: './kra-task-attach.component.html',
   styleUrls: ['./kra-task-attach.component.scss']
 })
 export class KraTaskAttachComponent implements OnInit {
-  id:any;
-  actionInfo:any;
+  scheduleId: any;
+  taskId: any;
+  actionInfo: any;
   routeParams: any;
-  form:FormGroup;
+  form: FormGroup;
   employeeList: any[];
   employeeFilterList: any;
   dropdownSettings: any = {};
@@ -26,14 +29,15 @@ export class KraTaskAttachComponent implements OnInit {
   kraTaskList: any[];
   filterKraTaskList: any[];
   Notifylist: any[];
-  dropdownSettingsNotify: any={};
-  submitbtn:string;
-  dropdownSettingsDesignation: any={};
+  dropdownSettingsNotify: any = {};
+  submitbtn: string;
+  dropdownSettingsDesignation: any = {};
   Designationlist: any[];
   projectList: any[];
   filterprojectList: any[];
-  isProject:boolean=false;
-  isPerson:boolean=false;
+  isProject: boolean = false;
+  isPerson: boolean = false;
+  filterNotifyList: any[];
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -45,9 +49,11 @@ export class KraTaskAttachComponent implements OnInit {
     public taskService: TaskService,
     private _location: Location,
     private empDetailsService: EmployeedetailsService,
-  ) { 
+    private perodicTaskService: PerodicTaskService
+  ) {
     this.routeParams = route.snapshot.params;
-    this.id = parseInt(this.routeParams.id);
+    this.scheduleId = parseInt(this.routeParams.scheduleId);
+    this.taskId = parseInt(this.routeParams.taskId)
     this.actionInfo = this.routeParams.actionInfo;
     this.dropdownSettings = {
       singleSelection: false,
@@ -83,11 +89,11 @@ export class KraTaskAttachComponent implements OnInit {
     this.getKraTasklist();
     this.getNotifyDetails();
     this.getDesignationDetails();
-    if(this.actionInfo==0){
-      this.submitbtn='Add'
+    if (this.actionInfo == 0) {
+      this.submitbtn = 'Save'
     }
-    else{
-      this.submitbtn='Update'
+    else {
+      this.submitbtn = 'Update'
     }
   }
 
@@ -95,19 +101,19 @@ export class KraTaskAttachComponent implements OnInit {
   initializeValidators() {
     this.form = this.formBuilder.group({
       id: [0],
-      kratask:['',Validators.required],
+      kratask: ['', Validators.required],
       primaryowner: ['', Validators.required],
-      secondaryOwners:['',Validators.required],
-      approver:[''],
-      employee:['',Validators.required],
-      isApprove:['',Validators.required],
-      isDocument:['',Validators.required],
-      isRemainder:['',Validators.required],
-      Participants:[''],
-      notify:[''],
-      isRepeat:[''],
-      project:[''],
-      isprojOrPerc:['',Validators.required]
+      secondaryOwners: [''],
+      approver: [''],
+      employee: [''],
+      isApprove: ['', Validators.required],
+      isDocument: ['', Validators.required],
+      isRemainder: ['', Validators.required],
+      Participants: [''],
+      notify: ['', Validators.required],
+      isRepeat: ['', Validators.required],
+      project: [''],
+      isprojOrPerc: ['', Validators.required]
     });
   }
   getEmployeeDetails() {
@@ -146,32 +152,26 @@ export class KraTaskAttachComponent implements OnInit {
     })
   }
 
-  getKraTasklist(){
-    this.kraTaskList=[];
-    this.filterKraTaskList=[];
-    this.filterKraTaskList=[
-      {key:1,value:'Code Review '},
-      {key:2,value:'Testing'},
-      {key:3,value:'Tech Learning'},
-    ]
+  getKraTasklist() {
+    this.perodicTaskService.getTaskList().subscribe(result => {
+      this.kraTaskList = [];
+      this.filterKraTaskList = [];
+      if (result) {
+        this.kraTaskList = result;
+        this.filterKraTaskList = this.kraTaskList.slice();
+      }
+    })
   }
 
   getNotifyDetails() {
-    // this.taskService.employeeDetails().subscribe(result => {
-    //   this.employeeListByRole = [];
-    //   if (result && result.value) {
-    //     this.employeeListByRole = result.value;
-    //     this.employeeListByRole.forEach(v => {
-    //       v.empNameCode = v.firstName + '(' + v.empCode + ')'
-    //     });
-    //   }
-    // });
-    this.Notifylist=[];
-    this.Notifylist=[
-      {key:1,value:'WhatsApp'},
-      {key:2,value:'Mail'},
-      // {key:3,value:'Both'},
-    ]
+    this.perodicTaskService.getNotificationType().subscribe(result => {
+      this.Notifylist = [];
+      this.filterNotifyList = [];
+      if (result) {
+        this.Notifylist = result;
+        this.filterNotifyList = this.Notifylist.slice();
+      }
+    });
   }
   getDesignationDetails() {
     // this.taskService.employeeDetails().subscribe(result => {
@@ -183,31 +183,116 @@ export class KraTaskAttachComponent implements OnInit {
     //     });
     //   }
     // });
-    this.Designationlist=[];
-    this.Designationlist=[
-      {key:1,value:'Technical Head'},
-      {key:2,value:'Senior Developer'},
-      {key:3,value:'Sales Head'},
+    this.Designationlist = [];
+    this.Designationlist = [
+      { key: 1, value: 'Technical Head' },
+      { key: 2, value: 'Senior Developer' },
+      { key: 3, value: 'Sales Head' },
     ]
   }
-  onCancel(){
+  onCancel() {
     this._location.back();
   }
-  onClear(){
+  onClear() {
     this.form.reset();
-  }
-  onSubmit(){
-    this._location.back();
-    this.alertService.success("KRA Task added Successfully")
+    this.form.controls['employee'].clearValidators();
+    this.form.controls['employee'].updateValueAndValidity();
+    this.form.controls['project'].clearValidators();
+    this.form.controls['project'].updateValueAndValidity();
+    this.form.controls['notify'].clearValidators();
+    this.form.controls['notify'].updateValueAndValidity();
+    this.isPerson = false;
+    this.isProject = false;
   }
 
-  handleChange(event: any,count:any) {
-    // When the checkbox state changes, update the value of isProject accordingly
-    if(count==1){
-    this.isProject = event.checked;
+  onSubmit() {
+    debugger
+    if (this.form.valid) {
+      debugger
+      var projectidlist = []
+      console.log(this.form.value.project);
+      if (this.form.value.project) {
+        var localprojectidlist=this.form.value.project
+        projectidlist = localprojectidlist.map(item => item.key);
+      }
+      var executoridlist = []
+      if (this.form.value.employee) {
+        var localExecutoridlist=this.form.value.employee
+        executoridlist = localExecutoridlist.map(item => item.id);
+      }
+      var data = {
+        id: this.taskId,
+        scheduleId: this.scheduleId,
+        scheduleTaskId: this.form.value.kratask,
+        primaryOwnerId: this.form.value.primaryowner,
+        secondaryOwnerId: this.form.value.secondaryOwners ? this.form.value.secondaryOwners : 0,
+        projectEmployeeScheduleTask: this.isProject == true && this.isPerson == true ? 3 : this.isProject == true ? 1 : this.isPerson == true ? 2 : 3,
+        isCoContributor: this.form.value.Participants,
+        notificationType: this.form.value.notify,
+        isApproval: this.form.value.isApprove,
+        approverId: this.form.value.approver,
+        isDocument: this.form.value.isDocument,
+        isReminder: this.form.value.isRemainder,
+        isRepeat: this.form.value.isRepeat,
+        projectId: projectidlist,
+        executorId: executoridlist
+      }
+      console.log(data, 'data')
+      this.perodicTaskService.AttachTasktoScheduleSave(data).subscribe(result => {
+        if (result.isSuccess) {
+          this._location.back();
+          if (this.taskId == 0) {
+            this.alertService.success("Task attached Successfully");
+          }
+          else if (this.taskId > 0) {
+            this.alertService.success("Task Updated Successfully");
+          }
+        }
+        else {
+          this.alertService.error(result.failures[0])
+        }
+      });
     }
-    else if(count==2){
-      this.isPerson=event.checked
+    else {
+      this.validateFormControl();
+    }
+
+  }
+
+  validateFormControl() {
+    Object.keys(this.form.controls).forEach(field => {
+      const control = this.form.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({
+          onlySelf: true
+        });
+      }
+    })
+  }
+
+  handleChange(event: any, value: any) {
+    debugger
+    if (value == 1) {
+      this.isProject = event.checked;
+      if (event.checked) {
+        this.form.controls['project'].setValidators(Validators.required);
+        this.form.controls['project'].updateValueAndValidity();
+      }
+      else {
+        this.form.controls['project'].clearValidators();
+        this.form.controls['project'].updateValueAndValidity();
+      }
+    }
+    else if (value == 2) {
+      this.isPerson = event.checked;
+      if (event.checked) {
+        this.form.controls['employee'].setValidators(Validators.required);
+        this.form.controls['employee'].updateValueAndValidity();
+      }
+      else {
+        this.form.controls['employee'].clearValidators();
+        this.form.controls['employee'].updateValueAndValidity();
+      }
     }
   }
   

@@ -94,8 +94,9 @@ export class NavigationService {
     this.router.navigate(['/assigntask/'])
   }
 
-  gotoKraAttach(id: any, actionInfo: any) {
-    this.router.navigate(['/attachKRA/' + id, actionInfo])
+  gotoKraAttach(scheduleId: any,taskId:any, actionInfo: any) {
+    debugger
+    this.router.navigate(['/attachKRA/' + scheduleId +'/'+taskId, actionInfo])
   }
   gotoScheduleAdd(id: any, actionInfo: any) {
     this.router.navigate(['/scheduler/' + id, actionInfo])

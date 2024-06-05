@@ -33,4 +33,14 @@ export class PerodicTaskService {
         return this.dataService.getData('/api/schedule', true)
     }
 
+    AttachTasktoScheduleSave(data:any){
+        return this.dataService.post('/api/scheduletaskmapping', data)
+    }
+
+    getNotificationType() {
+        return this.dataService.getData('/api/lookup/getnotificationtype', true)
+    }
+    getTaskList() {
+        return this.dataService.getData('/api/lookup/getscheduletasklist', true)
+    }
 }

@@ -152,7 +152,7 @@
         <ng-container fxFlex="10" matColumnDef="attachtask">
             <mat-header-cell *matHeaderCellDef style="text-align: center;">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
-                <button type="button" matRipple class="btn btnrefresh mr-2 mt-1 mb-1" (click)="attachKraTask(1,0)">
+                <button type="button" matRipple class="btn btnrefresh mr-2 mt-1 mb-1" (click)="attachKraTask(dataField.id,0,0)">
                     <i class="btn-icon-prepend fa fa-plus"></i>
                     {{'Attach Task' | translate}}
                 </button>
@@ -176,19 +176,19 @@
                             {{i+1}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.scheduleTask}}
+                            {{rowData?.scheduleTask}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.primaryOwner}}
+                            {{rowData?.primaryOwner}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.secondaryOwner}}
+                            {{rowData?.secondaryOwner}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.projectList}}
+                            {{rowData?.projectList}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.executorList}}
+                            {{rowData?.executorList}}
                         </td>
                     </tr>
                 </table>

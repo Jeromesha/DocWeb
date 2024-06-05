@@ -30,7 +30,7 @@ export class SchedularComponent implements OnInit {
   minEndDate: any;
   daysDifference: number;
   Date: Date;
-  submitbtn:string;
+  submitbtn: string;
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -41,7 +41,7 @@ export class SchedularComponent implements OnInit {
     private userSessionService: UserSessionService,
     public taskService: TaskService,
     private _location: Location,
-    private perodicTaskService:PerodicTaskService
+    private perodicTaskService: PerodicTaskService
   ) {
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
@@ -52,15 +52,15 @@ export class SchedularComponent implements OnInit {
     this.initializeValidators();
     this.getPeriod();
     this.Date = new Date;
-   
+
     if (this.id === 0) {
       this.form.controls['assignedDate'].setValue(this.Date);
       this.minEndDate = moment(this.Date).format("YYYY-MM-DD");
       this.minEndDate = moment(this.minEndDate).subtract(0, 'minute').toDate();
-      this.submitbtn ='Add';
+      this.submitbtn = 'Save';
       this.form.controls['isRepeat'].setValue(true);
     }
-    else{
+    else {
       this.submitbtn = 'Update';
       this.getSchedulebyId(this.id);
     }
@@ -75,7 +75,7 @@ export class SchedularComponent implements OnInit {
       targetDate: ['', Validators.required],
       advanceReminderDays: [''],
       reminderDate: [''],
-      isRepeat:['']
+      isRepeat: ['']
     });
     this.form.get('targetDate').valueChanges.subscribe(() => {
       this.updateReminderDate();
@@ -92,12 +92,12 @@ export class SchedularComponent implements OnInit {
       this.filterperiodList = this.periodList?.slice();
     });
   }
-  getSchedulebyId(id:any){
-    this.perodicTaskService.getSchedulebyId(id).subscribe(result =>{
-      if(result.isSuccess){
+  getSchedulebyId(id: any) {
+    this.perodicTaskService.getSchedulebyId(id).subscribe(result => {
+      if (result.isSuccess) {
         var formdata = result.value;
         this.form.patchValue(formdata);
-        console.log(formdata,'form data')
+        console.log(formdata, 'form data')
       }
     });
   }
@@ -169,7 +169,7 @@ export class SchedularComponent implements OnInit {
     }
     this.form.controls['reminderDate'].setValue("");
   }
-  
+
   calculateDaysDifference(event: any) {
     this.form.controls['advanceReminderDays'].setValue(0);
     let assignedDate = this.form.value.assignedDate;
@@ -206,52 +206,57 @@ export class SchedularComponent implements OnInit {
       this.form.get('reminderDate').setValue("");
     }
   }
-  onCancel(){
+  onCancel() {
     this._location.back();
   }
-  onClear(){
+  onClear() {
     this.form.reset();
   }
   onSubmit() {
-    if(this.form.valid){
+    if (this.form.valid) {
       debugger
       var targetDate = this.form.value.targetDate;
-      var reminderDate = this.form.value.reminderDate ? this.form.value.reminderDate:null;
+      var reminderDate = this.form.value.reminderDate ? this.form.value.reminderDate : null;
       var remaindays = this.form.value.advanceReminderDays;
       this.form.controls['assignedDate'].setValue(moment(this.form.value.assignedDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
       this.form.controls['targetDate'].setValue(moment(targetDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
-      if(reminderDate !=null){
-      this.form.controls['reminderDate'].setValue(moment(reminderDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
+      if (reminderDate != null) {
+        this.form.controls['reminderDate'].setValue(moment(reminderDate).format("YYYY-MM-DD") + "T00:00:00.000Z");
       }
-      else{
+      else {
         this.form.controls['reminderDate'].setValue(null);
       }
       debugger
-      var data ={
-        id:this.id >0? this.id :0,
-        name:this.form.value.name,
-        periodType:this.form.value.periodType,
-        assignedDate:this.form.value.assignedDate,
-        targetDate:this.form.value.targetDate,
-        advanceReminderDays:remaindays,
-        reminderDate:this.form.value.reminderDate,
-        isRepeat:this.form.value.isRepeat
+      var data = {
+        id: this.id > 0 ? this.id : 0,
+        name: this.form.value.name,
+        periodType: this.form.value.periodType,
+        assignedDate: this.form.value.assignedDate,
+        targetDate: this.form.value.targetDate,
+        advanceReminderDays: remaindays,
+        reminderDate: this.form.value.reminderDate,
+        isRepeat: this.form.value.isRepeat
       }
       this.perodicTaskService.saveSchedule(data).subscribe(result => {
-        if(result.isSuccess){
+        if (result.isSuccess) {
           this._location.back();
-          this.alertService.success("Schedular added Successfully")
+          if (this.id == 0) {
+            this.alertService.success("Schedular added Successfully");
+          }
+          else if (this.id > 0) {
+            this.alertService.success("Schedular Updated Successfully");
+          }
         }
-        else{
+        else {
           this.alertService.error(result.failures[0])
         }
 
       });
     }
-    else{
+    else {
       this.validateFormControl();
     }
-    
+
   }
 
   validateFormControl() {

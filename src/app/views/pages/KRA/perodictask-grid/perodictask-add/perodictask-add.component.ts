@@ -37,7 +37,7 @@ export class PerodictaskAddComponent implements OnInit {
     private userSessionService: UserSessionService,
     public taskService: TaskService,
     private _location: Location,
-    public perodicTaskService :PerodicTaskService
+    public perodicTaskService: PerodicTaskService
   ) {
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
@@ -48,7 +48,7 @@ export class PerodictaskAddComponent implements OnInit {
     this.initializeValidators();
     this.getTaskCategory();
     if (this.id === 0) {
-      this.submitbtn = 'Add';
+      this.submitbtn = 'Save';
     }
     else {
       this.submitbtn = 'Update';
@@ -61,7 +61,7 @@ export class PerodictaskAddComponent implements OnInit {
       id: [0],
       name: ['', Validators.required],
       description: ['', Validators.required],
-      scheduleTaskCategoryType:['', Validators.required]
+      scheduleTaskCategoryType: ['', Validators.required]
     });
   }
   getTaskCategory() {
@@ -73,12 +73,12 @@ export class PerodictaskAddComponent implements OnInit {
       }
     });
   }
-  getTaskbyId(id:any){
-    this.perodicTaskService.getTaskbyId(id).subscribe(result =>{
-      if(result.isSuccess){
+  getTaskbyId(id: any) {
+    this.perodicTaskService.getTaskbyId(id).subscribe(result => {
+      if (result.isSuccess) {
         var formdata = result.value;
         this.form.patchValue(formdata);
-        console.log(formdata,'form data')
+        console.log(formdata, 'form data')
       }
     });
   }
@@ -89,28 +89,33 @@ export class PerodictaskAddComponent implements OnInit {
     this.form.reset();
   }
   onSubmit() {
-    if(this.form.valid){
-      var data ={
-        id:this.id >0? this.id :0,
-        name:this.form.value.name,
-        description:this.form.value.description,
-        scheduleTaskCategoryType:this.form.value.scheduleTaskCategoryType
+    if (this.form.valid) {
+      var data = {
+        id: this.id > 0 ? this.id : 0,
+        name: this.form.value.name,
+        description: this.form.value.description,
+        scheduleTaskCategoryType: this.form.value.scheduleTaskCategoryType
       }
       this.perodicTaskService.saveTask(data).subscribe(result => {
-        if(result.isSuccess){
+        if (result.isSuccess) {
           this._location.back();
-          this.alertService.success("Task added Successfully")
+          if (this.id == 0) {
+            this.alertService.success("Task added Successfully");
+          }
+          else if (this.id > 0) {
+            this.alertService.success("Task Updated Successfully");
+          }
         }
-        else{
+        else {
           this.alertService.error(result.failures[0])
         }
 
       });
     }
-    else{
+    else {
       this.validateFormControl();
     }
-    
+
   }
 
   validateFormControl() {
