@@ -43,4 +43,11 @@ export class PerodicTaskService {
     getTaskList() {
         return this.dataService.getData('/api/lookup/getscheduletasklist', true)
     }
+    getExecutorTaskGridList() {
+        return this.dataService.getData('/api/scheduletaskexecutor', true)
+    }
+
+    getTaskStatusById(id:any){
+        return this.dataService.getData('/api/scheduletaskexecutor/getscheduletaskstatus/'+id,true);
+    }
 }

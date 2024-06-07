@@ -17,6 +17,7 @@ import { Location } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { RoleType } from 'src/enum/roletype';
 import { EmployeedetailsService } from 'src/app/services/employeedetails.service';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 
 @Component({
   selector: 'app-kra-status-modify',
@@ -62,6 +63,7 @@ export class KraStatusModifyComponent implements OnInit {
   public RoleEnumType = RoleType;
   projectList: any[];
   filterprojectList: any[];
+  taskStatusListbyId: any;
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -74,6 +76,7 @@ export class KraStatusModifyComponent implements OnInit {
     private _location: Location,
     private taskservice: TaskService,
     private empDetailsService: EmployeedetailsService,
+    private perodicTaskService: PerodicTaskService
   ) {
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
@@ -119,7 +122,8 @@ export class KraStatusModifyComponent implements OnInit {
       this.modifyKRA=true;
     }
     this.getDisplayedColumns();
-    this.getdummydata();
+    this.getTaskStatusById(this.id);
+    // this.getdummydata();
   }
 
   initializeValidators() {
@@ -357,6 +361,21 @@ export class KraStatusModifyComponent implements OnInit {
     return this.displayedColumns;
   }
 
+  getTaskStatusById(Id:any){
+    this.perodicTaskService.getTaskStatusById(Id).subscribe(result => {
+      this.matData = [];
+      if (result && result.value) {
+          this.taskStatusListbyId= result.value;
+          this.form.controls['taskName'].setValue(this.taskStatusListbyId.scheduleTaskName);
+          this.form.controls['description'].setValue(this.taskStatusListbyId.scheduleTaskDescription);
+          this.form.controls['ProjectId'].setValue(this.taskStatusListbyId.projectId);
+          this.matData=this.taskStatusListbyId.scheduleTaskStatusViewModel;
+          this.dataSource = new MatTableDataSource(this.matData);
+          this.dataSource.paginator = this.paginator;
+          console.log(this.taskStatusListbyId,'jbdfiuusbouf')
+      }
+    });
+  }
 
   getdummydata(){
     this.form.controls['taskName'].setValue("test 1");

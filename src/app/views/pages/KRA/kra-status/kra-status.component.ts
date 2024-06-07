@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { RoleType } from 'src/enum/roletype';
 
@@ -31,13 +32,13 @@ import { RoleType } from 'src/enum/roletype';
 })
 export class KraStatusComponent implements OnInit {
   form:FormGroup;
-  data = [];
+  data:any[] = [];
   dataSource = new MatTableDataSource(this.data);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   displayedColumns: any[];
-  resultArray: any[];
+  resultArray: any[]=[];
   expandedElement: any;
   roleId: any;
   public RoleEnumType = RoleType;
@@ -47,13 +48,15 @@ export class KraStatusComponent implements OnInit {
     public translate: TranslateService,
     private alertService: AlertService,
     private excelService: ExcelService,
-    private userSessionService: UserSessionService
+    private userSessionService: UserSessionService,
+    private perodicTaskService: PerodicTaskService
   ) {
     this.roleId = this.userSessionService.roleId();
    }
 
   ngOnInit(): void {
     this.initializeValidators();
+    this.gettaskGriddata();
     if(this.roleId ==this.RoleEnumType.SuperAdmin){
     this.displayedColumns = [
       "action",
@@ -78,7 +81,7 @@ export class KraStatusComponent implements OnInit {
         "reminderDate",
       ];
     }
-    this.gettaskGriddata();
+    
   }
   initializeValidators() {
     this.form = this.formBuilder.group({
@@ -86,10 +89,10 @@ export class KraStatusComponent implements OnInit {
   }
   ModifyKraTaskstatus(dataFieldId: any, actioninfo: any) {
     // dataField.id, actioninfo
-    this.navigationService.gotoKraStatusModify(0,actioninfo);
+    this.navigationService.gotoKraStatusModify(dataFieldId,actioninfo);
   }
   refresh(){
-
+    this.gettaskGriddata();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -99,60 +102,19 @@ export class KraStatusComponent implements OnInit {
     }
   }
   gettaskGriddata() {
-    // this.taskservice.GetAssignTaskList(this.getApiName()).subscribe(result => {
+    this.perodicTaskService.getExecutorTaskGridList().subscribe(result => {
       this.resultArray = [];
-      // if (result && result.value) {
-      //   this.resultArray = result.value;
-      // }
+      if (result && result.value) {
+        this.resultArray = result.value;
+      }
 
-    //   this.resultArray.forEach(result => {
-    //     result.periodicTaskStatusViewModel.sort((a, b) => new Date(b.statusDate).getTime() - new Date(a.statusDate).getTime());
-    // });
-
-
-    this.resultArray=[{
-      manager:'root',
-      employee:'emp 1',
-      task:'Test ',
-      project:'In House',
-      periodValue:'Weekly',
-      assignedDate:'2024-5-22',
-      targetDate:'2024-5-26',
-      reminderDate:'2024-5-23',
-      id:1,
-      periodicTaskStatusViewModel:[
-        {
-          statusDate:'27-04-2024',
-          taskstatus:'completed',
-          note:'Test 2'
-        }
-      ]
-    },
-    {
-      manager:'root 1',
-      employee:'emp 2',
-      task:'Test 1 ',
-      project:'EazyPm', 
-      periodValue:'Weekly',
-      assignedDate:'2024-5-22',
-      targetDate:'2024-5-26',
-      reminderDate:'2024-5-23',
-      id:2,
-      periodicTaskStatusViewModel:[
-        {
-          statusDate:'27-04-2024',
-          taskstatus:'completed',
-          note:'Test 2'
-        }
-      ]
-    }]
-    
+      console.log(this.resultArray,'ra')
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.data = this.resultArray;
 
-    // })
+    })
   }
   expandUp(dataField) {
     debugger;

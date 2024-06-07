@@ -33,6 +33,7 @@ import { TaskService } from 'src/app/services/task.service';
 import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { MY_CUSTOM_FORMATS } from '../../dashboard/timesheet/timesheet.module';
+import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 
 const routes: Routes = [
   {
@@ -59,6 +60,7 @@ const routes: Routes = [
     NotifyService,
     NavigationService,
     UserSessionService,
+    PerodicTaskService,
     DatePipe,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },

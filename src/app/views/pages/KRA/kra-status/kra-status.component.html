@@ -86,63 +86,63 @@
 <div class="table-responsive">
     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc" multiTemplateDataRows>
         <ng-container matColumnDef="manager">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="manager">{{'Manager' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleTMViewModel.primaryOwnerName">{{'Manager' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.manager}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.scheduleTMViewModel?.primaryOwnerName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="employee">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="employee">{{'Employee' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="executorName">{{'Employee' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.employee}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.executorName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="task">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="task">{{'Task' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleTMViewModel.scheduleTaskName">{{'Task' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.task}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.scheduleTMViewModel?.scheduleTaskName}}</p>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="periodValue">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="periodValue">{{'Period' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleTMViewModel.scheduleGridViewModel.period">{{'Period' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.periodValue}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.scheduleTMViewModel?.scheduleGridViewModel.period}}</p>
             </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="assignedDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="assignedDate">{{'Assigned Date' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleTMViewModel.scheduleGridViewModel.assignedDate">{{'Assigned Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.assignedDate | date:"dd-MM-yyyy"}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.scheduleTMViewModel?.scheduleGridViewModel?.assignedDate | date:"dd-MM-yyyy"}}</p>
             </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="targetDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="targetDate">{{'Target Date' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleTMViewModel.scheduleGridViewModel.targetDate">{{'Target Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.targetDate | date:"dd-MM-yyyy"}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.scheduleTMViewModel?.scheduleGridViewModel?.targetDate | date:"dd-MM-yyyy"}}</p>
             </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="project">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="project">Project
+            <mat-header-cell *matHeaderCellDef mat-sort-header="projectName">Project
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.project}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.projectName}}</p>
             </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="reminderDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header="reminderDate">{{'Reminder Date' | translate}}
+            <mat-header-cell *matHeaderCellDef mat-sort-header="scheduleTMViewModel.scheduleGridViewModel.reminderDate">{{'Reminder Date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let dataField">
-                <p class="text-truncate txtalign lbl-pointer">{{dataField.reminderDate | date:"dd-MM-yyyy"}}</p>
+                <p class="text-truncate txtalign lbl-pointer">{{dataField?.scheduleTMViewModel?.scheduleGridViewModel?.reminderDate | date:"dd-MM-yyyy"}}</p>
             </mat-cell>
         </ng-container>
 
@@ -152,20 +152,20 @@
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Add Status'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="ModifyKraTaskstatus(1,0)">
+                    (click)="ModifyKraTaskstatus(dataField.id,0)">
                     <i class="fa fa-edit fa-2x editclr"></i>
                 </button>
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="ModifyKraTaskstatus(1,0)">
+                    (click)="ModifyKraTaskstatus(dataField.id,1)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
-
+                <!-- need to change  scheduleTMViewModel-->
                 <button mat-icon-button *ngIf="expandedElement?.id!= dataField?.id" (click)="expandDown(dataField)"
-                    [disabled]="dataField.periodicTaskStatusViewModel.length === 0">
+                    [disabled]="dataField?.scheduleTaskStatusViewModels?.length === 0">
                     <mat-icon style="color: #fff;"
-                        [ngStyle]="{'background-color': dataField.periodicTaskStatusViewModel.length === 0 ? '#CCCCCC':'#3E65A6'}">
+                        [ngStyle]="{'background-color': dataField?.scheduleTaskStatusViewModels?.length === 0 ? '#CCCCCC':'#3E65A6'}">
                         keyboard_arrow_down</mat-icon>
                 </button>
 
@@ -185,19 +185,20 @@
                         <th>Task Status</th>
                         <th>Note</th>
                     </tr>
+                <!-- need to change  scheduleTMViewModel-->
 
-                    <tr *ngFor="let rowData of dataField.periodicTaskStatusViewModel; let i=index;">
+                    <tr *ngFor="let rowData of dataField.scheduleTaskStatusViewModels; let i=index;">
                         <td style="vertical-align: middle;">
                             {{i+1}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.statusDate}}
+                            {{rowData?.statusDate| date:"dd-MM-yyyy"}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.taskstatus}}
+                            {{rowData?.taskStatusName}}
                         </td>
                         <td style="vertical-align: middle;">
-                            {{rowData.note}}
+                            {{rowData?.note}}
                         </td>
                     </tr>
                 </table>
