@@ -38,6 +38,7 @@ export class KraStatusModifyComponent implements OnInit {
     'taskStatusValue',
     'remarks',
     'approvedStatusTypeValue',
+    'coContributor',
     'document'
     // 'actions',
     // 'approval'
@@ -45,11 +46,11 @@ export class KraStatusModifyComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
-  addButton:string;
+  addButton: string;
   Date: Date;
   taskStatusList: any;
   filtertaskStatusList: any;
-  statusaddmindate:any;
+  statusaddmindate: any;
   gridId: number;
   disableDelete: boolean = false;
   editDisable: any;
@@ -64,6 +65,15 @@ export class KraStatusModifyComponent implements OnInit {
   projectList: any[];
   filterprojectList: any[];
   taskStatusListbyId: any;
+  disabletask: boolean = true;
+  isApproval: boolean;
+  isCoContributor: boolean;
+  isDocument: boolean;
+  attachmentFilename: any;
+  fileType: number;
+  pbFiles: any;
+  filesResult: any;
+  AttchmentdataData: any[] = [];
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -90,7 +100,7 @@ export class KraStatusModifyComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       allowSearchFilter: true
     };
-   }
+  }
 
   ngOnInit(): void {
     this.initializeValidators();
@@ -103,27 +113,26 @@ export class KraStatusModifyComponent implements OnInit {
     } else {
       this.submitbtn = 'Update';
     }
-    if(this.actionInfo==0){
-      this.addButton="Add";
+    if (this.actionInfo == 0) {
+      this.addButton = "Add";
     }
-    else{
-      this.addButton="Update"
+    else {
+      this.addButton = "Update"
     }
     // if (this.id !== 0) {
-      this.getApproveStatus();
+    this.getApproveStatus();
     // }
 
-    if(this.roleId == this.RoleEnumType.SuperAdmin){
-      this.modifyKRA=false;
-      this.addButton="Update";
+    if (this.roleId == this.RoleEnumType.SuperAdmin) {
+      this.modifyKRA = false;
+      this.addButton = "Update";
       this.submitbtn = 'Update';
     }
-    else{
-      this.modifyKRA=true;
+    else {
+      this.modifyKRA = true;
     }
     this.getDisplayedColumns();
     this.getTaskStatusById(this.id);
-    // this.getdummydata();
   }
 
   initializeValidators() {
@@ -131,7 +140,7 @@ export class KraStatusModifyComponent implements OnInit {
       id: [0],
       taskName: ['', Validators.required],
       description: ['', Validators.required],
-      ProjectId:['']
+      ProjectId: ['']
     });
     this.formGrid = this.formBuilder.group({
       id: [0],
@@ -139,8 +148,8 @@ export class KraStatusModifyComponent implements OnInit {
       statusDate: ['', Validators.required],
       taskStatusId: ['', Validators.required],
       remarks: ['', Validators.required],
-      Participants:[''],
-      attachment:['']
+      Participants: [''],
+      attachment: ['']
     });
   }
   getTaskstatus() {
@@ -162,6 +171,8 @@ export class KraStatusModifyComponent implements OnInit {
   }
   clearData() {
     this.formGrid.reset();
+    this.formGrid.controls['Participants'].clearAsyncValidators();
+    this.formGrid.controls['Participants'].updateValueAndValidity();
     this.gridId = 0;
     if (this.matData.length > 0) {
       this.addButton = "Add";
@@ -169,6 +180,7 @@ export class KraStatusModifyComponent implements OnInit {
     } else { this.addButton = "Add"; }
     this.disableDelete = false;
     this.editDisable = null;
+    this.AttchmentdataData=[];
   }
   projectLookUp() {
     this.empDetailsService.getProject(true, 1).subscribe((res) => {
@@ -180,6 +192,15 @@ export class KraStatusModifyComponent implements OnInit {
   }
 
   addData() {
+    if (this.isCoContributor) {
+      this.formGrid.controls['Participants'].setValidators(Validators.required);
+      this.formGrid.controls['Participants'].updateValueAndValidity();
+    }
+    if (this.isDocument) {
+      this.formGrid.controls['attachment'].setValidators(Validators.required);
+      this.formGrid.controls['attachment'].updateValueAndValidity();
+    }
+
     if (this.gridId > 0) {
       var existingRecord = _.find(this.matData, ['id', this.gridId]);
       if (existingRecord && this.formGrid.valid) {
@@ -199,20 +220,30 @@ export class KraStatusModifyComponent implements OnInit {
     }
     else if (this.formGrid.valid) {
       this.gridId = 0;
+      var coContributorIdList = []
+      console.log(this.formGrid.value.Participants);
+      if (this.formGrid.value.Participants) {
+        var localcoContributorIdlist = this.formGrid.value.Participants
+        coContributorIdList = localcoContributorIdlist.map(item => item.key);
+      }
       this.matData.push({
         id: this.gridId,
-        periodicTaskId: this.id,
-        statusDate : moment(this.formGrid.value.statusDate).format("YYYY-MM-DD") + "T00:00:00.000Z",
-        remarks: this.formGrid.value.remarks,
-        taskStatusValue: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value,
-        approvedStatusTypeValue: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.value,
+        scheduleTaskExecutorId: this.id,
+        statusDate: moment(this.formGrid.value.statusDate).format("YYYY-MM-DD") + "T00:00:00.000Z",
+        note: this.formGrid.value.remarks,
+        taskStatusName: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value,
+        approvedStatus: _.find(this.approveTypeList, ['key', 3])?.value,
         taskStatusId: _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.key,
-        approvedStatusType: _.find(this.approveTypeList, ['key', this.formGrid.value.approvedStatusType])?.key,
+        approvedStatusType: 3,
+        document: "testing"
       });
+      console.log(this.matData, 'mat data')
 
       this.dataSource = new MatTableDataSource(this.matData);
       this.dataSource.paginator = this.paginator;
       this.formGrid.reset();
+      this.formGrid.controls['Participants'].clearAsyncValidators();
+      this.formGrid.controls['Participants'].updateValueAndValidity();
       this.editDisable = null;
     } else {
       this.validateFormGridControl();
@@ -361,60 +392,109 @@ export class KraStatusModifyComponent implements OnInit {
     return this.displayedColumns;
   }
 
-  getTaskStatusById(Id:any){
+  getTaskStatusById(Id: any) {
     this.perodicTaskService.getTaskStatusById(Id).subscribe(result => {
       this.matData = [];
       if (result && result.value) {
-          this.taskStatusListbyId= result.value;
-          this.form.controls['taskName'].setValue(this.taskStatusListbyId.scheduleTaskName);
-          this.form.controls['description'].setValue(this.taskStatusListbyId.scheduleTaskDescription);
-          this.form.controls['ProjectId'].setValue(this.taskStatusListbyId.projectId);
-          this.matData=this.taskStatusListbyId.scheduleTaskStatusViewModel;
-          this.dataSource = new MatTableDataSource(this.matData);
-          this.dataSource.paginator = this.paginator;
-          console.log(this.taskStatusListbyId,'jbdfiuusbouf')
+        this.taskStatusListbyId = result.value;
+        this.form.controls['taskName'].setValue(this.taskStatusListbyId.scheduleTaskName);
+        this.form.controls['description'].setValue(this.taskStatusListbyId.scheduleTaskDescription);
+        this.form.controls['ProjectId'].setValue(this.taskStatusListbyId.projectId);
+        this.matData = this.taskStatusListbyId.scheduleTaskStatusViewModel;
+        this.isApproval = this.taskStatusListbyId.isApproval;
+        this.isCoContributor = this.taskStatusListbyId.isCoContributor;
+        this.isDocument = this.taskStatusListbyId.isDocument;
+        this.dataSource = new MatTableDataSource(this.matData);
+        this.dataSource.paginator = this.paginator;
+        console.log(this.taskStatusListbyId, 'jbdfiuusbouf')
       }
     });
   }
 
-  getdummydata(){
-    this.form.controls['taskName'].setValue("test 1");
-    this.form.controls['description'].setValue("test some pages");
-    this.matData=[{
-      id:1,
-      periodicTaskId: 12,
-      statusDate : "2024-05-27 00:00:00.000",
-      remarks: "good",
-      taskStatusValue:"Completed",
-      approvedStatusTypeValue:"Submited",
-      taskStatusId: 3,
-      approvedStatusType: 3,
-    },
-    {
-      id:2,
-      periodicTaskId: 132,
-      statusDate : "2024-05-27 00:00:00.000",
-      remarks: "good 1",
-      taskStatusValue:"Completed",
-      approvedStatusTypeValue:"Submited",
-      taskStatusId: 3,
-      approvedStatusType: 2,
-    },
-    {
-      id:3,
-      periodicTaskId: 131,
-      statusDate : "2024-05-27 00:00:00.000",
-      remarks: "good 2",
-      taskStatusValue:"Completed",
-      approvedStatusTypeValue:"Submited",
-      taskStatusId: 3,
-      approvedStatusType: 1,
-    }]
+  download() {
 
-    this.dataSource = new MatTableDataSource(this.matData);
-    this.dataSource.paginator = this.paginator;
   }
-  download(){
-    
+
+  // AttachmentUpload(event) {
+  //   const file = event.target.files[0];
+  //   // if (
+  //   //   file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === "application/pdf") {
+  //     // let filesize = file.size;
+  //     // let acceptsize = parseInt((filesize / 1024).toFixed(2));
+  //     // if (acceptsize <= 1024) {
+  //       this.attachmentFilename = file.name;
+  //       let checkType = file.type;
+  //       let getFileType = checkType.split('/');
+  //       if (getFileType[1] == 'pdf') {
+  //         this.fileType = 2;
+  //       } else {
+  //         this.fileType = 1;
+  //       }
+  //       if (file) {
+  //         const reader = new FileReader();
+  //         reader.readAsDataURL(event.target.files[0]);
+  //         reader.onload = (event: any) => {
+  //           this.pbFiles = event.target.result;
+  //           this.filesResult = event.target.result.split(',')[1];
+  //           this.formGrid.controls['attachment'].setValue(this.filesResult);
+  //           this.formGrid.controls['attachment'].setValue(file.name);
+
+  //           this.AttchmentdataData.push({
+  //             id: 0,
+  //             attachmentFilename: file.name,
+  //             attachmentType: 25,
+  //             fileType: this.fileType,
+  //             base64String: this.filesResult
+  //           });
+  //           console.log(this.AttchmentdataData,'efsjfn')
+  //         };
+  //       }
+  //     // } else {
+  //     //   this.alertService.warning(
+  //     //     "File size is large, Please upload less than 1 MB"
+  //     //   );
+  //     // }
+
+  //   // } else {
+  //   //   this.alertService.warning("Please upload JPG, JPEG, PNG and PDF only");
+  //   // }
+  // }
+
+  AttachmentUpload(event) {
+    const files: FileList = event.target.files;
+    this.AttchmentdataData = []; // Clear the previous data
+    this.attachmentFilename = "";
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      this.attachmentFilename += file.name + "; "; // Concatenate file names
+
+      let checkType = file.type;
+      let getFileType = checkType.split('/');
+      let fileType = getFileType[1] === 'pdf' ? 2 : 1;
+
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = (event: any) => {
+          const base64String = event.target.result.split(',')[1];
+
+          this.AttchmentdataData.push({
+            id: 0,
+            attachmentFilename: file.name,
+            attachmentType: 25,
+            fileType: fileType,
+            base64String: base64String
+          });
+
+          // Update the form control for each file
+          this.formGrid.controls['attachment'].setValue(this.AttchmentdataData);
+        };
+      }
+    }
+
+    console.log(this.AttchmentdataData, 'Attachment data');
   }
+
 }

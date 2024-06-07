@@ -13,7 +13,7 @@
                     <div class="px-3">
                         <form [formGroup]="form" class="form form-horizontal" novalidate>
                             <div class="form-body pt-2">
-                                <fieldset [disabled]="actionInfo == 0">
+                                <fieldset [disabled]="disabletask">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <fieldset>
@@ -56,7 +56,7 @@
                                                 <label class="mandatory">Project</label>
                                                 <mat-select formControlName="ProjectId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2
-                                                    placeholder="Select Project">
+                                                    placeholder="Select Project" [disabled]="disabletask">
                                                     <mat-select-filter [displayMember]="'value'"
                                                         [array]="projectList"
                                                         (filteredReturn)="filterprojectList =$event">
@@ -200,9 +200,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" *ngIf="isCoContributor">
                                             <div class="form-group">
-                                                <label>Co-contributor/Participants</label>
+                                                <label class="mandatory ">Co-contributor/Participants</label>
                                                 <ng-multiselect-dropdown class="custom-dropdown"
                                                     [disabled]="actionInfo == 1" formControlName="Participants"
                                                     placeholder="Select Co-contributor/Participants" [settings]="dropdownSettings"
@@ -217,10 +217,10 @@
                                                 </div>
                                             </div>
                                         </div> 
-                                        <div class="col-md-6">
+                                        <!-- <div class="col-md-6" *ngIf="isDocument">
                                             <fieldset>
                                                 <div class="form-group">
-                                                    <label>Attachment</label>
+                                                    <label class="mandatory ">Attachment</label>
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input" formControlName="attachment" accept="image/*">
                                                         <label class="custom-file-label" for="customFile">Choose file</label>
@@ -232,6 +232,26 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
+                                        </div> -->
+
+                                        <div class="col-sm-6" *ngIf="isDocument">
+                                            <label class="mandatory" for="file" style="text-transform:none;">Attachment</label>
+                                            <div class="custom-file  mx-auto d-block">
+                                                <input type="file" name="attachment" class="custom-file-input"
+                                                    id="tin_file" (change)="AttachmentUpload($event)"
+                                                    placeholder="{{'upload' | translate}}" required multiple
+                                                    >
+                                                    <!-- accept="image/png,image/jpg,image/jpeg" -->
+                                                <input type="hidden" name="attachment"
+                                                    placeholder="{{'upload' | translate}}"
+                                                    formControlName="attachment">
+                                                <label class="custom-file-label" style="white-space: nowrap;"
+                                                    for="photo">{{attachmentFilename}}</label>
+                                            </div>
+                                            <span class="w-100 form-text  danger mandatory"
+                                                *ngIf="!formGrid.get('attachment').valid && (formGrid.get('attachment').dirty || formGrid.get('attachment').touched)">
+                                                Attachment {{'IsRequired' | translate}}
+                                            </span>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -283,12 +303,19 @@
                                                 <p class="text-truncate txtalign">{{dataField.note}}</p>
                                             </mat-cell>
                                         </ng-container>
+                                        <ng-container matColumnDef="coContributor">
+                                            <mat-header-cell *matHeaderCellDef>Cocontributor
+                                            </mat-header-cell>
+                                            <mat-cell *matCellDef="let dataField">
+                                                <p class="text-truncate txtalign">{{dataField.coContributorId}}</p>
+                                            </mat-cell>
+                                        </ng-container>
 
                                         <ng-container matColumnDef="approvedStatusTypeValue">
                                             <mat-header-cell *matHeaderCellDef>Approval Status
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
-                                                <p class="text-truncate txtalign">{{dataField.approvedStatusTypeValue}}
+                                                <p class="text-truncate txtalign">{{dataField.approvedStatus}}
                                                 </p>
                                             </mat-cell>
                                         </ng-container>
