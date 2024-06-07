@@ -30,7 +30,8 @@ export class EmployeedetailsComponent implements OnInit {
     "email",
     "mobile",
     "joiningDate",
-    "designation"
+    "designation",
+    "bloodGroup"
   ];
   excelColumns: string[];
   constructor(private navigationService: NavigationService,

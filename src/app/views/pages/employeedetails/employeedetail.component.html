@@ -509,6 +509,46 @@
                                         </div>
                                     </div> -->
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory ">{{'Blood Group' | translate}}</label>
+                                            <mat-select aria-label="true" formControlName="bloodGroupType"
+                                                [disabled]="actionInfo == 1" class="form-control pd"
+                                                placeholder="Select Role" [disableOptionCentering]="true" #select13>
+                                                <mat-select-filter [displayMember]="'value'" [array]="bloodGroupList"
+                                                    (filteredReturn)="filterBloodGroupList =$event" *ngIf="select13.focused">
+                                                </mat-select-filter>
+                                                <mat-option *ngFor="let item of filterBloodGroupList" [value]="item.key"
+                                                    class="disp">
+                                                    {{item.value}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div class="valid-error"
+                                                *ngIf="form.controls.bloodGroupType.errors && (form.controls.bloodGroupType.dirty || form.controls.bloodGroupType.touched)"
+                                                text-wrap>
+                                                <span *ngIf="form.controls.bloodGroupType.errors?.required"
+                                                    class="form-text  danger mandatory">
+                                                    {{'Role ' | translate}} {{'IsRequired' | translate}}</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="mandatory">Blood Donor ?&nbsp;</label> <br>
+                                            <mat-radio-group [disabled]="actionInfo == 1" aria-label="Select an option"
+                                                (change)="changeOptions($event)" formControlName="isBloodDonor"
+                                                required>
+                                                <mat-radio-button value="true" [checked]="isBloodDonorTrue">Yes
+                                                </mat-radio-button>&nbsp;
+                                                <mat-radio-button value="false" [checked]="isBloodDonorFalse">No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+
+                                        </div>
+                                    </div>
+
 
                                     <div class="col-md-6">
                                         <div class="form-group">

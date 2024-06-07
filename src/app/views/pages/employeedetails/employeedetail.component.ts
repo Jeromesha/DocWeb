@@ -70,6 +70,11 @@ export class EmployeedetailComponent implements OnInit {
   Date18plus: string;
   DesignationType: any = '';
   Description: any = '';
+  bloodGroupList: any[];
+  filterBloodGroupList: any[];
+  isBloodDonorTrue: boolean;
+  isBloodDonorFalse: boolean;
+  isBloodDonor: boolean;
 
   constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -122,6 +127,7 @@ export class EmployeedetailComponent implements OnInit {
     this.locationLookup();
     this.reportPersonLookup();
     this.roleLookup();
+    this.BloodGroupLookup();
     this.designationLookup();
     // this.getHybridLocation()
     this.date = new Date()
@@ -171,6 +177,8 @@ export class EmployeedetailComponent implements OnInit {
       'stringPswrd': ['',],
       'stringPswrd2': ['',],
       'employeeStatus': ['', Validators.required],
+      'bloodGroupType':['',Validators.required],
+      'isBloodDonor':['',Validators.required]
     })
   }
 
@@ -179,6 +187,14 @@ export class EmployeedetailComponent implements OnInit {
       debugger
       this.form.patchValue(res);
       this.projectLookUp(res);
+      if(res.isBloodDonor==true){
+        this.isBloodDonorTrue=true;
+        this.isBloodDonorFalse=false
+      }
+      else{
+        this.isBloodDonorTrue=false;
+        this.isBloodDonorFalse=true;
+      }
       if (res.fillTimesheet == true) {
         this.timeSheetTrue = true;
         this.timeSheetFalse = false;
@@ -235,6 +251,14 @@ export class EmployeedetailComponent implements OnInit {
       this.filterroleType = [];
       this.roleList = res;
       this.filterroleType = this.roleList.slice();
+    })
+  }
+  BloodGroupLookup() {
+    this.empDetailsService.getBloodGroup(true).subscribe((res) => {
+      this.bloodGroupList = [];
+      this.filterBloodGroupList = [];
+      this.bloodGroupList = res;
+      this.filterBloodGroupList = this.bloodGroupList.slice();
     })
   }
   reportPersonLookup() {
@@ -302,6 +326,18 @@ export class EmployeedetailComponent implements OnInit {
       this.timeSheetFalse = true;
     }
   }
+  changeOptionsBloodGroup(event) {
+    debugger
+    if (event.value == "true") {
+      this.isBloodDonorTrue = true;
+      this.isBloodDonorFalse = false;
+      this.isBloodDonor = true;
+    } else {
+      this.isBloodDonorTrue = false;
+      this.isBloodDonorFalse = true;
+      this.isBloodDonor = false;
+    }
+  }
 
   encrypt() {
     var rsa = forge.pki.publicKeyFromPem(this.publicKey);
@@ -351,6 +387,8 @@ export class EmployeedetailComponent implements OnInit {
         data.employeeStatus = this.form.value.employeeStatus;
         data.lastWorkingDate = this.form.value.lastWorkingDate == null ? null : moment(this.form.value.lastWorkingDate).format('YYYY-MM-DD');
         data.productionFactor = this.form.value.productionFactor == "" ? null : this.form.value.productionFactor;
+        data.bloodGroupType = this.form.value.bloodGroupType;
+        data.isBloodDonor = this.isBloodDonor;
         console.log(data.Designation);
         this.empDetailsService.saveEmployee(data).subscribe((res) => {
           console.log(res, 'savvvv');

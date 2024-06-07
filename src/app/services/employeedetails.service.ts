@@ -66,4 +66,7 @@ export class EmployeedetailsService {
         return response;
     });
 }
+getBloodGroup(refresh:boolean){
+  return this.dataService.getData('/api/lookup/getbloodgrouplist',refresh)
+}
 }

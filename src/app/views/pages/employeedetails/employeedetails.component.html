@@ -63,6 +63,13 @@
                 <p class="text-truncate txtalign lbl-pointer">{{dataField.designation}}</p>
             </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="bloodGroup">
+            <mat-header-cell *matHeaderCellDef mat-sort-header="bloodGroup">{{'Blood Group' | translate}}
+            </mat-header-cell>
+            <mat-cell *matCellDef="let dataField">
+                <p class="text-truncate txtalign lbl-pointer">{{dataField.bloodGroup}}</p>
+            </mat-cell>
+        </ng-container>
         <ng-container fxFlex="10" matColumnDef="action">
             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let dataField" class="button-bar" class="centered-cell">
