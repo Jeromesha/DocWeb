@@ -38,6 +38,8 @@ export class KraTaskAttachComponent implements OnInit {
   isProject: boolean = false;
   isPerson: boolean = false;
   filterNotifyList: any[];
+  showApprover: boolean = false;
+  selectedCount: any;
   constructor(
     route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -61,7 +63,8 @@ export class KraTaskAttachComponent implements OnInit {
       textField: 'empNameCode',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      enableCheckAll: false 
     };
     this.dropdownSettingsNotify = {
       singleSelection: false,
@@ -109,7 +112,7 @@ export class KraTaskAttachComponent implements OnInit {
       isApprove: ['', Validators.required],
       isDocument: ['', Validators.required],
       isRemainder: ['', Validators.required],
-      Participants: [''],
+      Participants: ['',Validators.required],
       notify: ['', Validators.required],
       isRepeat: ['', Validators.required],
       project: [''],
@@ -201,8 +204,11 @@ export class KraTaskAttachComponent implements OnInit {
     this.form.controls['project'].updateValueAndValidity();
     this.form.controls['notify'].clearValidators();
     this.form.controls['notify'].updateValueAndValidity();
+    this.form.controls['approver'].clearValidators();
+    this.form.controls['approver'].updateValueAndValidity();
     this.isPerson = false;
     this.isProject = false;
+    this.showApprover=false;
   }
 
   onSubmit() {
@@ -225,12 +231,12 @@ export class KraTaskAttachComponent implements OnInit {
         scheduleId: this.scheduleId,
         scheduleTaskId: this.form.value.kratask,
         primaryOwnerId: this.form.value.primaryowner,
-        secondaryOwnerId: this.form.value.secondaryOwners ? this.form.value.secondaryOwners : 0,
+        secondaryOwnerId: this.form.value.secondaryOwners ? this.form.value.secondaryOwners : null,
         projectEmployeeScheduleTask: this.isProject == true && this.isPerson == true ? 3 : this.isProject == true ? 1 : this.isPerson == true ? 2 : 3,
         isCoContributor: this.form.value.Participants,
         notificationType: this.form.value.notify,
         isApproval: this.form.value.isApprove,
-        approverId: this.form.value.approver,
+        approverId: this.form.value.approver? this.form.value.approver:null,
         isDocument: this.form.value.isDocument,
         isReminder: this.form.value.isRemainder,
         isRepeat: this.form.value.isRepeat,
@@ -270,6 +276,19 @@ export class KraTaskAttachComponent implements OnInit {
     })
   }
 
+  Approval(status:boolean){
+    if(status==true){
+      this.showApprover=true;
+      this.form.controls['approver'].setValidators(Validators.required);
+      this.form.controls['approver'].updateValueAndValidity();
+    }
+    else{
+      this.showApprover=false;
+      this.form.controls['approver'].clearValidators();
+      this.form.controls['approver'].updateValueAndValidity();
+    }
+  }
+
   handleChange(event: any, value: any) {
     debugger
     if (value == 1) {
@@ -295,5 +314,34 @@ export class KraTaskAttachComponent implements OnInit {
       }
     }
   }
-  
+
+  onItemSelect(item: any) {
+    this.selectedCount = this.form.controls.project.value.length;
+    if(this.selectedCount == 1 ||this.selectedCount == 0){
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'empNameCode',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        allowSearchFilter: true,
+        enableCheckAll: false 
+      };
+    }
+    else{
+      this.dropdownSettings = {
+        singleSelection: true,
+        idField: 'id',
+        textField: 'empNameCode',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        allowSearchFilter: true,
+        enableCheckAll: false 
+      };
+      let length = this.form.controls.employee.value.length ? this.form.controls.employee.value.length:0;
+      if(length >1){
+        this.form.controls['employee'].setValue('');
+      }
+    }
+  }
 }

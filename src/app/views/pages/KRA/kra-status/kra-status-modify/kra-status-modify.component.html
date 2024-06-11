@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
     <div>
-        <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id == 0">&nbsp;{{'KRA Task Details' | translate}}</h4>
+        <h4 class="mb-3 mb-md-0">&nbsp;{{'Task Details' | translate}}</h4>
         <!-- <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 1 ">&nbsp;{{'View Project Details' | translate}}</h4>
         <h4 class="mb-3 mb-md-0" *ngIf="actionInfo == 0 && id !== 0">&nbsp;{{'Edit Project Details' | translate}}</h4> -->
     </div>
@@ -212,7 +212,7 @@
                                                     text-wrap>
                                                     <span *ngIf="formGrid.controls.Participants.errors?.required"
                                                         class="form-text danger mandatory">
-                                                        Co-contributor/Participants{{'IsRequired' | translate}}</span>
+                                                        Co-contributor/Participants {{'IsRequired' | translate}}</span>
                                                 </div>
                                             </div>
                                         </div>

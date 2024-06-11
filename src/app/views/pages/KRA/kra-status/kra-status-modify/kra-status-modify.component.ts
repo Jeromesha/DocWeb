@@ -104,9 +104,10 @@ export class KraStatusModifyComponent implements OnInit {
       singleSelection: false,
       idField: 'id',
       textField: 'empNameCode',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      allowSearchFilter: true
+      // selectAllText: 'Select All',
+      // unSelectAllText: 'UnSelect All',
+      allowSearchFilter: true,
+      enableCheckAll: false 
     };
   }
 
@@ -155,7 +156,7 @@ export class KraStatusModifyComponent implements OnInit {
       statusDate: ['', Validators.required],
       taskStatusId: ['', Validators.required],
       remarks: ['', Validators.required],
-      Participants: [''],
+      Participants: [null],
       attachment: ['']
     });
   }
@@ -181,6 +182,7 @@ export class KraStatusModifyComponent implements OnInit {
     this.attachmentFilename = '';
     this.formGrid.controls['Participants'].clearAsyncValidators();
     this.formGrid.controls['Participants'].updateValueAndValidity();
+    this.formGrid.controls['Participants'].setErrors(null);
     this.gridId = 0;
     if (this.matData.length > 0) {
       this.addButton = "Add";
@@ -247,6 +249,7 @@ export class KraStatusModifyComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.matData);
         this.dataSource.paginator = this.paginator;
         this.formGrid.reset();
+        this.formGrid.controls['Participants'].setErrors(null);
         this.attachmentFilename = "";
         this.gridId = 0;
         this.editDisable = null;
@@ -285,10 +288,11 @@ export class KraStatusModifyComponent implements OnInit {
 
       this.dataSource = new MatTableDataSource(this.matData);
       this.dataSource.paginator = this.paginator;
-      this.formGrid.reset();
       this.attachmentFilename = "";
       this.formGrid.controls['Participants'].clearAsyncValidators();
       this.formGrid.controls['Participants'].updateValueAndValidity();
+      this.formGrid.reset();
+      this.formGrid.controls['Participants'].setErrors(null);
       this.editDisable = null;
     } else {
       this.validateFormGridControl();
@@ -447,21 +451,21 @@ export class KraStatusModifyComponent implements OnInit {
   }
 
   getDisplayedColumnsforDocumtandCocontributor(): string[] {
-    if (this.isCoContributor==true && this.isDocument==true) {
+    if (this.isCoContributor == true && this.isDocument == true) {
       this.displayedColumns.push('coContributor');
       this.displayedColumns.push('document');
     }
-    else if (this.isCoContributor==true) {
+    else if (this.isCoContributor == true) {
       this.displayedColumns.push('coContributor');
     }
-    else if (this.isDocument==true) {
+    else if (this.isDocument == true) {
       this.displayedColumns.push('document');
     }
     return this.displayedColumns;
   }
 
   getDisplayedColumns(): string[] {
-    if (this.modifyKRA == false && this.isApproval==true) {
+    if (this.modifyKRA == false && this.isApproval == true) {
       this.displayedColumns.push('approval');
     }
     else {
@@ -498,19 +502,48 @@ export class KraStatusModifyComponent implements OnInit {
     });
   }
 
+  // download(attachment: any) {
+  //   const filePath = `${this.baseUrl}${attachment.attachmentPath}/${attachment.attachmentFileName}`;
+  //   this.http.get(filePath, { responseType: 'blob' }).subscribe((response: Blob) => {
+  //     const url = window.URL.createObjectURL(response);
+  //     const a = document.createElement('a');
+  //     a.href = url;
+  //     a.download = attachment.attachmentFileName;
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     document.body.removeChild(a);
+  //     window.URL.revokeObjectURL(url);
+  //   });
+  // }
   download(attachment: any) {
+    // Adjusted attachmentPath to match the public URL structure
     const filePath = `${this.baseUrl}${attachment.attachmentPath}/${attachment.attachmentFileName}`;
-    this.http.get(filePath, { responseType: 'blob' }).subscribe((response: Blob) => {
-      const url = window.URL.createObjectURL(response);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = attachment.attachmentFileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    });
+    console.log('Attempting to download file from path:', filePath);  // Log the file path to debug
+  
+    fetch(filePath)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const blobUrl = window.URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = blobUrl;
+        downloadLink.download = attachment.attachmentFileName; // Use the actual filename
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        window.URL.revokeObjectURL(blobUrl);
+        console.log('Download successful:', attachment.attachmentFileName);
+      })
+      .catch(error => {
+        console.error('Error downloading the document:', error);
+      });
   }
+  
+  
 
 
 
