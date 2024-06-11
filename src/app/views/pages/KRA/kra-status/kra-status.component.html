@@ -7,7 +7,7 @@
     <div class="row d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div class="col-md-3 col-sm-2">
             <h4 class="text-bold-500 text-left hearder-text">
-                KRA  Status
+                {{pagetitle}}
             </h4>
         </div>
         <div class="col-md-4">
@@ -75,6 +75,11 @@
                     <i class="btn-icon-prepend fa fa-file-excel-o"></i>
                     {{'ExportExcel' | translate}}
                 </button> -->
+                <mat-button-toggle-group #group="matButtonToggleGroup" [(ngModel)]="selectedOption" (change)="onToggleChange($event)">
+                    <mat-button-toggle value="status" aria-label="Status">Status</mat-button-toggle>
+                    <mat-button-toggle value="approval" aria-label="Approval">Approval</mat-button-toggle>
+                </mat-button-toggle-group>
+                
             </div>
         </div>
     </div>
@@ -161,7 +166,6 @@
                     (click)="ModifyKraTaskstatus(dataField.id,1)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
-                <!-- need to change  scheduleTMViewModel-->
                 <button mat-icon-button *ngIf="expandedElement?.id!= dataField?.id" (click)="expandDown(dataField)"
                     [disabled]="dataField?.scheduleTaskStatusViewModels?.length === 0">
                     <mat-icon style="color: #fff;"
@@ -185,7 +189,6 @@
                         <th>Task Status</th>
                         <th>Note</th>
                     </tr>
-                <!-- need to change  scheduleTMViewModel-->
 
                     <tr *ngFor="let rowData of dataField.scheduleTaskStatusViewModels; let i=index;">
                         <td style="vertical-align: middle;">

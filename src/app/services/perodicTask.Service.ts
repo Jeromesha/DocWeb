@@ -50,4 +50,14 @@ export class PerodicTaskService {
     getTaskStatusById(id:any){
         return this.dataService.getData('/api/scheduletaskexecutor/getscheduletaskstatus/'+id,true);
     }
+
+    SaveTaskStatus(data:any){
+        return this.dataService.post('/api/scheduletaskstatus', data)
+
+    }
+
+    getApprovalTaskGridList(id:any) {
+        return this.dataService.getData('/api/scheduletaskexecutor/getscheduletasksforapprover/'+id ,true)
+    }
+
 }

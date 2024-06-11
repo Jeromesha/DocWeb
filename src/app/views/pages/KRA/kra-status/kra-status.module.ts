@@ -34,6 +34,7 @@ import { TimeSheetService } from 'src/app/services/timesheet.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
 import { MY_CUSTOM_FORMATS } from '../../dashboard/timesheet/timesheet.module';
 import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
@@ -41,7 +42,7 @@ const routes: Routes = [
     component: KraStatusComponent
   },
   {
-    path: ":id/:actionInfo",
+    path: ":id/:isApprovelOrStatus/:actionInfo",
     component: KraStatusModifyComponent
   },
 ];
@@ -98,6 +99,7 @@ const routes: Routes = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     NgMultiSelectDropDownModule.forRoot(),
+    HttpClientModule
   ]
 })
 export class KraStatusModule { }

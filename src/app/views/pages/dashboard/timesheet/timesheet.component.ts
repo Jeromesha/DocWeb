@@ -140,11 +140,11 @@ export class TimesheetComponent implements OnInit {
   succesList: any;
   showName: string;
   selectedFiles: FileList;
-  leaveList=[
-{key: 0, value: "Present"},
-{key: 1, value: "Leave"}
+  leaveList = [
+    { key: 0, value: "Present" },
+    { key: 1, value: "Leave" }
 
-]
+  ]
   constructor(private formBuilder: FormBuilder,
     private _location: Location,
     route: ActivatedRoute,
@@ -156,11 +156,10 @@ export class TimesheetComponent implements OnInit {
     private translate: TranslateService,
     public navigationService: NavigationService) {
     this.routeParams = route.snapshot.params;
-    debugger
     //this.id = parseInt(this.routeParams.id);
     //mycode
     this.actionInfo = this.routeParams.actionInfo;
-    debugger;
+
     if (this.actionInfo == 0 || this.actionInfo == 1) {
       this.id = parseInt(this.routeParams.id);
     }
@@ -169,7 +168,6 @@ export class TimesheetComponent implements OnInit {
     }
     //this.id = 0;
     let formattedDate = (moment()).format('DD-MMM-YYYY HH:mm:ss')
-    debugger
     if (this.id === 0) {
       let nonEntryDate: any = localStorage.getItem('nonEntryDate') ? localStorage.getItem('nonEntryDate') : moment(new Date).format("YYYY-MM-DD");
       // while (moment(nonEntryDate).day() === 0 || moment(nonEntryDate).day() === 6) {
@@ -192,11 +190,10 @@ export class TimesheetComponent implements OnInit {
     this.maxdate = new Date();
     this.mindate = new Date(this.maxdate);
     this.mindate.setDate(this.maxdate.getDate() - 39);
-    debugger
   }
 
   ngOnInit() {
-    debugger;
+
     this.initializeValidators();
     this.form.controls['A'];
     this.form.controls['B'];
@@ -205,7 +202,7 @@ export class TimesheetComponent implements OnInit {
     this.GetTaskType();
     this.get(true);
     this.UserId = this.userSessionService.userId();
-    debugger;
+
     this.getgrid(this.UserId, true);
     if (this.actionInfo == 2) {
       // this.getgriddatabycurrentdate();
@@ -229,7 +226,7 @@ export class TimesheetComponent implements OnInit {
   }
 
   onAdd() {
-    debugger;
+
     if (this.id === null) {
       this.id = 0;
     }
@@ -246,14 +243,11 @@ export class TimesheetComponent implements OnInit {
     this.form.controls['projectId'].setValidators(Validators.required);
     this.form.controls['projectId'].updateValueAndValidity();
 
-    console.log(this.form.value, 'this.form.value.hours');
-
     if (this.form.valid && this.form.value.B != "" && this.form.value.A != "" && !(this.form.value.A == "00" && this.form.value.B == "00")) {
       if (this.form.valid) {
         const formData = { ...this.form.value, id: this.id }; // Assign this.id to formData.id
         const timeInput = this.form.value.hours;
         const concatenatedValue = `${this.form.get('A').value}:${this.form.get('B').value}`;
-        console.log(concatenatedValue, '+++++++++');
         this.form.controls["hours"].setErrors(null);
         const hoursA = parseInt(this.form.get('A').value);
         const hoursB = parseInt(this.form.get('B').value);
@@ -268,7 +262,6 @@ export class TimesheetComponent implements OnInit {
           ...entry,
           hours: this.convertMinutesToHHMM(entry.hours)
         }));
-        console.log(convertedData, ">>>>>>>>>>>>>>>>>>>>>1");
         let ogdata = Object.assign({}, formData);
         if (this.date == 0) {
           this.temproraryList.push(formData);
@@ -282,19 +275,15 @@ export class TimesheetComponent implements OnInit {
           let hours = moment.duration(i.hours).asMinutes();
           sum += hours;
         });
-        console.log(this.data, 'this.temproraryList');
 
         if (sum > (24 * 60)) {
-          console.log(sum, '++++++');
           this.alertService.warning("Work time is exceeded more than 24 hours");
           this.temproraryList.pop();
-          console.log(this.temproraryList, '=======');
           return;
         }
         this.isLeaveValue = formData.IsLeave;
 
         const tempedate = { ...formData, EmployeeId: this.userSessionService.userId(), TaskStatusId: 0 };
-        console.log('tempdate', tempedate);
         this.list.push(tempedate);
 
         for (let item of this.list) {
@@ -302,7 +291,6 @@ export class TimesheetComponent implements OnInit {
             ...entry,
             hours: this.convertMinutesToHHMM(entry.hours)
           }));
-          console.log(convertedData, ">>>>>>>>>>>>>>>>>>>>>");
         }
         if (this.date == 0) {
           this.dataSource = new MatTableDataSource(this.list);
@@ -313,10 +301,9 @@ export class TimesheetComponent implements OnInit {
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         }
-        console.log(this.dataSource.data, 'this.dataSource.data>>>>')
         this.datalist = this.list.map(item => ({
           entryDate: moment(item.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-          id:item.id,
+          id: item.id,
           hours: item.hoursNumber,
           description: item.description,
           projectId: item.projectId,
@@ -343,10 +330,7 @@ export class TimesheetComponent implements OnInit {
         this.form.controls["hours"].setValue("00:00");
         this.form.controls["A"].setValue("00");
         this.form.controls["B"].setValue("00");
-        console.log(tempedate.projectId, "pro ID ")
         this.form.controls["projectId"].setValue(tempedate.projectId);
-        console.log(this.data, "og");
-        console.log(convertedData, "show");
       }
     } else {
       if (this.form.value.A === "00" && this.form.value.B === "00") {
@@ -375,8 +359,6 @@ export class TimesheetComponent implements OnInit {
     });
   }
   sortingChange(event) {
-    debugger
-    console.log(event.value, '{{}}}}}{{}}}}====');
     if (event.value == 16) {
       this.form.controls["A"].setValue("08");
       this.form.controls["B"].setValue("00");
@@ -392,8 +374,6 @@ export class TimesheetComponent implements OnInit {
   }
   timeChange() {
     const selectedTime = moment(this.form.value.hours, 'HH:mm');
-    console.log((this.form.value.hours).format('HH:mm'));
-    console.log(parseInt(moment(this.form.value.hours).format('HH:mm')));
   }
 
   onTimeChange(event: any) {
@@ -412,7 +392,6 @@ export class TimesheetComponent implements OnInit {
     inputElement.select();
   }
   moveFocus(event: any, name: any) {
-    debugger
     let value = event.target.value.replace(/[^0-9]*/g, '');
     if (event.key === 'Backspace' && value === '' && event.target === this.input2.nativeElement) {
       this.input1.nativeElement.focus();
@@ -458,8 +437,6 @@ export class TimesheetComponent implements OnInit {
       (event.key < '0' || event.key > '9')
 
     ) {
-      console.log(event.key, ">>>>>>>>>>>>>>>>>>>>");
-
       event.preventDefault();
       return;
     }
@@ -512,21 +489,19 @@ export class TimesheetComponent implements OnInit {
     }
     const hours = match[1] ? match[1].padStart(2, '0') : '00';
     const minutes = match[2] ? match[2].padStart(2, '0') : '00';
-    console.log(hours, minutes);
 
     return `${hours}:${minutes}`;
   }
   getHours(e) {
-    debugger;
+
     return moment(e, 'HH:mm')
 
   }
   endtimeChange() {
   }
   Getproject() {
-    debugger;
+
     this.timesheetService.getproject().subscribe(result => {
-      console.log(">>>?", result);
       this.SortList = result
       this.filterSortList = this.SortList.slice();
       this.data1[0].values[0].value = this.SortList
@@ -546,10 +521,10 @@ export class TimesheetComponent implements OnInit {
     });
   }
   GetTaskType() {
-    debugger;
+
     this.timesheetService.getLookup(13, true).subscribe(result => {
       const keysToGroupOne: number[] = [16, 21, 22];
-      debugger;
+
       this.Leavetasklist = [];
       this.Normaltasklist = [];
       result.forEach(item => {
@@ -574,7 +549,6 @@ export class TimesheetComponent implements OnInit {
     });
   }
   get(refresh: boolean) {
-    debugger
     if (this.id > 0) {
       this.timesheetService.gettimesheetById(this.id, refresh).subscribe(result => {
         this.data = result;
@@ -583,9 +557,7 @@ export class TimesheetComponent implements OnInit {
           if (this.data.description) {
             this.showdescription = true
           }
-          debugger
           const formattedHours = this.convertMinutesToHHMM(this.data.hours);
-          console.log(formattedHours, "formattedHours");
           let apivalue = formattedHours;
 
           let form1 = "00";
@@ -601,7 +573,6 @@ export class TimesheetComponent implements OnInit {
           this.form.patchValue(this.data);
           this.form.controls['hours'].setValue(formattedHours);
           if (this.data.isLeave == true) {
-            debugger
             this.form.controls['IsLeave'].setValue(1);
             // this.isLeave = false
           }
@@ -616,16 +587,12 @@ export class TimesheetComponent implements OnInit {
   }
 
   getgriddatabydate(object: any) {
-    debugger
     if (moment.isMoment(object)) {
       //this.dataSource.data=[];
       var d = object.toDate();
       let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
-      console.log('edate', entryDate)
       this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {
-        debugger
         if (result.length === 0) {
-          debugger
           this.dataSource.data = [];
         }
         this.data = result;
@@ -646,7 +613,6 @@ export class TimesheetComponent implements OnInit {
     let entryDate = moment(d).format("YYYY-MM-DD") + " 00:00:00";
     this.timesheetService.getTimesheetByDate(this.UserId, entryDate, true).subscribe(result => {
       if (result.length === 0) {
-        debugger
         this.dataSource.data = [];
       }
       this.data = result;
@@ -663,20 +629,17 @@ export class TimesheetComponent implements OnInit {
   }
 
   getgrid(userId: any, refresh: boolean) {
-    debugger;
+
     if (this.date) {
       let entryDate = moment(this.date).format("YYYY-MM-DD") + " 00:00:00";
       this.timesheetService.getTimesheetByDate(userId, entryDate, refresh).subscribe(result => {
         this.data = result;
-        console.log('data', this.data);
-        debugger;
+
         for (let item of this.data) {
           const convertedData = this.data.map(entry => ({
             ...entry,
             hours: this.convertMinutesToHHMM(entry.hours)
           }));
-          debugger;
-          console.log('convert ', convertedData)
           if (this.actionInfo == 11 || this.actionInfo == 2) {
             this.dataSource = new MatTableDataSource(convertedData);
             this.dataSource.sort = this.sort;
@@ -699,7 +662,6 @@ export class TimesheetComponent implements OnInit {
   }
 
   convertMinutesToHHMM(minutes: number): string {
-    console.log(minutes, ">>>>>>>>>>>>>>>>>>>>>>");
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     // const hoursStr = hours < 10 ? '0' + hours : '' + hours;
@@ -709,13 +671,11 @@ export class TimesheetComponent implements OnInit {
 
 
   goToAction(id: number, actioninfo: number) {
-    debugger;
+
     this.navigationService.goToTimeSheet(id, actioninfo);
   }
 
   editData(dataField: any, editTrue: boolean) {
-    debugger
-    console.log('edit data', dataField)
     if (editTrue == true) {
       this.form.patchValue(dataField);
 
@@ -738,7 +698,7 @@ export class TimesheetComponent implements OnInit {
     return value.toString().padStart(2, '0');
   }
   validateFormControl() {
-    debugger;
+
     Object.keys(this.form.controls).forEach(field => {
       const control = this.form.get(field);
       if (control instanceof FormControl) {
@@ -750,15 +710,12 @@ export class TimesheetComponent implements OnInit {
   }
   onSubmitInEdit() {
     this.loading = true;
-    debugger
     const hoursPart = this.form.value.A;
     const minutesPart = this.form.value.B;
     const timeInput = `${hoursPart}:${minutesPart}`;
-    console.log(timeInput, '>>>>>+++++');
 
     if (timeInput !== "00:00") {
       const calculatedHours = moment.duration(timeInput).asMinutes();
-      console.log(calculatedHours,);
 
       const timesheetData =
       {
@@ -782,9 +739,7 @@ export class TimesheetComponent implements OnInit {
         timesheets: this.datalist
       }
       this.timesheetService.savetimsheet(data).subscribe(result => {
-        debugger
         this.loading = false;
-        console.log('ta', result);
         if (result && result.isSuccess) {
           if (this.actionInfo == 0) {
             this._location.back();
@@ -817,14 +772,12 @@ export class TimesheetComponent implements OnInit {
     }
   }
   onSubmit() {
-    debugger
     if (this.list.length > 0 || this.actionInfo == 2) {
       this.loading = true;
       let filterData = []
       let data = {
         timesheets: this.datalist
       }
-      debugger
 
       this.timesheetService.savetimsheet(data).subscribe(result => {
         this.loading = false;
@@ -895,9 +848,7 @@ export class TimesheetComponent implements OnInit {
 
   }
   onbtnClick(option: number) {
-    debugger
     if (option === 1) {
-      debugger
       this.form.patchValue({ IsLeave: 1 });
       this.form.controls['projectId'].setValue(142);
       this.form.controls['taskTypeId'].setValue(null);
@@ -907,7 +858,7 @@ export class TimesheetComponent implements OnInit {
         this.leavedisable = true;
         const keysToGroupOne: number[] = [21, 22];
         const tlist = [];
-        debugger;
+
         this.Leavetasklist.forEach(item => {
           if (keysToGroupOne.includes(item.key)) {
             tlist.push(item);
@@ -930,7 +881,6 @@ export class TimesheetComponent implements OnInit {
 
     }
     else if (option === 2) {
-      debugger
       this.form.controls['projectId'].setValue(null);
       this.form.controls['A'].setValue("00");
       this.form.controls['B'].setValue("00");
@@ -951,21 +901,10 @@ export class TimesheetComponent implements OnInit {
 
   }
   onDelete(dataField: any, i) {
-    debugger
     let localData = this.list;
     let localData1 = this.datalist;
     const index1 = this.list.findIndex(loc => loc.localid == dataField.localid);
     const index = this.dataSource.data.findIndex(loc => loc.localid == dataField.localid);
-    console.log(localData, "878");
-    console.log(localData1, "978");
-    console.log(this.dataSource.data, "978");
-    console.log(this.temproraryList, "978");
-    console.log(this.data, "978");
-    console.log(index, "978");
-    console.log(index1, "978");
-    console.log(this.dataSource.data[index], "978");
-    console.log(this.list[index1], "978");
-    console.log(dataField, "978");
 
     Swal.fire({
       title: 'Are you sure?',
@@ -1030,7 +969,6 @@ export class TimesheetComponent implements OnInit {
   }
 
   transform(data) {
-    debugger
     const noOfRowsToGenerate = 10;
     return data.map(({ value, values }) => {
       const headers = values.reduce((prev, next) => ({
@@ -1053,11 +991,6 @@ export class TimesheetComponent implements OnInit {
   }
 
   exportAsXLSX(): void {
-    debugger
-    console.log(this.workbookData)
-    console.log(this.data1)
-    console.log(this.SortList)
-    console.log(this.projecttypelist)
     this.ExcelService.exportAsExcelFiles(this.workbookData, "sample");
   }
 

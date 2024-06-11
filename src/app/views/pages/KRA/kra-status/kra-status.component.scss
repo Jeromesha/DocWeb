@@ -71,3 +71,26 @@ td {
   justify-content: center;
 }
 
+mat-button-toggle-group {
+    display: flex;
+    justify-content: center;
+    // margin: 20px 0;
+  }
+  
+  mat-button-toggle {
+    // margin: 0 10px;
+  }
+  
+  mat-button-toggle.mat-button-toggle-checked {
+    background-color: green;
+    color: white;
+  }
+  
+  mat-button-toggle .mat-button-toggle-label-content {
+    color: black;
+  }
+  
+  mat-button-toggle.mat-button-toggle-checked .mat-button-toggle-label-content {
+    color: white;
+  }
+  

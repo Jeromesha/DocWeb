@@ -57,8 +57,7 @@
                                                 <mat-select formControlName="ProjectId" class="form-control pt-2"
                                                     [disableOptionCentering]="true" #select2
                                                     placeholder="Select Project" [disabled]="disabletask">
-                                                    <mat-select-filter [displayMember]="'value'"
-                                                        [array]="projectList"
+                                                    <mat-select-filter [displayMember]="'value'" [array]="projectList"
                                                         (filteredReturn)="filterprojectList =$event">
                                                     </mat-select-filter>
                                                     <mat-option *ngFor="let item of filterprojectList"
@@ -96,11 +95,11 @@
                             <div class="form-body pt-2">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
                                     <div>
-                                        <h4 class="mb-3 mb-md-0">{{addButton}} KRA Task Status
+                                        <h4 class="mb-3 mb-md-0">{{addButton}} Task Status
                                         </h4>
                                     </div>
                                 </div>
-                                <fieldset [disabled]="actionInfo === 1" *ngIf="modifyKRA">
+                                <fieldset [disabled]="actionInfo === 1" *ngIf="modifyKRA && actionInfo !=1">
                                     <div class="row mt-2">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -205,8 +204,8 @@
                                                 <label class="mandatory ">Co-contributor/Participants</label>
                                                 <ng-multiselect-dropdown class="custom-dropdown"
                                                     [disabled]="actionInfo == 1" formControlName="Participants"
-                                                    placeholder="Select Co-contributor/Participants" [settings]="dropdownSettings"
-                                                    [data]='employeeListByRole'>
+                                                    placeholder="Select Co-contributor/Participants"
+                                                    [settings]="dropdownSettings" [data]='employeeListByRole'>
                                                 </ng-multiselect-dropdown>
                                                 <div class="valid-error"
                                                     *ngIf="formGrid.controls.Participants.errors && (formGrid.controls.Participants.dirty || formGrid.controls.Participants.touched)"
@@ -216,7 +215,7 @@
                                                         Co-contributor/Participants{{'IsRequired' | translate}}</span>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <!-- <div class="col-md-6" *ngIf="isDocument">
                                             <fieldset>
                                                 <div class="form-group">
@@ -235,16 +234,15 @@
                                         </div> -->
 
                                         <div class="col-sm-6" *ngIf="isDocument">
-                                            <label class="mandatory" for="file" style="text-transform:none;">Attachment</label>
+                                            <label class="mandatory" for="file"
+                                                style="text-transform:none;">Attachment</label>
                                             <div class="custom-file  mx-auto d-block">
                                                 <input type="file" name="attachment" class="custom-file-input"
                                                     id="tin_file" (change)="AttachmentUpload($event)"
-                                                    placeholder="{{'upload' | translate}}" required multiple
-                                                    >
-                                                    <!-- accept="image/png,image/jpg,image/jpeg" -->
+                                                    placeholder="{{'upload' | translate}}" required multiple>
+                                                <!-- accept="image/png,image/jpg,image/jpeg" -->
                                                 <input type="hidden" name="attachment"
-                                                    placeholder="{{'upload' | translate}}"
-                                                    formControlName="attachment">
+                                                    placeholder="{{'upload' | translate}}" formControlName="attachment">
                                                 <label class="custom-file-label" style="white-space: nowrap;"
                                                     for="photo">{{attachmentFilename}}</label>
                                             </div>
@@ -256,7 +254,7 @@
                                     </div>
                                 </fieldset>
 
-                                <div class="text-right" *ngIf="modifyKRA">
+                                <div class="text-right" *ngIf="modifyKRA && actionInfo !=1">
                                     <button [disabled]="actionInfo===1" type="button" matRipple
                                         class="btn btnrefresh mr-2 mb-2" (click)="clearData()">
                                         <i class="btn-icon-prepend fa fa-refresh"></i>&nbsp;
@@ -279,10 +277,10 @@
                                     <mat-table #table [dataSource]="dataSource" matSort matSortDirection="asc">
 
                                         <ng-container matColumnDef="statusDate">
-                                            <mat-header-cell *matHeaderCellDef>Status Date
+                                            <mat-header-cell *matHeaderCellDef >Status Date
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
-                                                <p class="text-truncate txtalign">{{dataField.statusDate |
+                                                <p class="text-truncate txtalign">{{dataField?.statusDate |
                                                     date:"dd-MM-yyyy"}}</p>
                                             </mat-cell>
                                         </ng-container>
@@ -292,7 +290,7 @@
                                                 Status
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
-                                                <p class="text-truncate txtalign">{{dataField.taskStatusName}}</p>
+                                                <p class="text-truncate txtalign">{{dataField?.taskStatusName}}</p>
                                             </mat-cell>
                                         </ng-container>
 
@@ -300,14 +298,14 @@
                                             <mat-header-cell *matHeaderCellDef>Note
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
-                                                <p class="text-truncate txtalign">{{dataField.note}}</p>
+                                                <p class="text-truncate txtalign">{{dataField?.note}}</p>
                                             </mat-cell>
                                         </ng-container>
                                         <ng-container matColumnDef="coContributor">
                                             <mat-header-cell *matHeaderCellDef>Cocontributor
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
-                                                <p class="text-truncate txtalign">{{dataField.coContributorId}}</p>
+                                                <p class="text-truncate txtalign">{{dataField?.coContributorName}}</p>
                                             </mat-cell>
                                         </ng-container>
 
@@ -315,36 +313,54 @@
                                             <mat-header-cell *matHeaderCellDef>Approval Status
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
-                                                <p class="text-truncate txtalign">{{dataField.approvedStatus}}
+                                                <p class="text-truncate txtalign">{{dataField?.approvedStatus}}
                                                 </p>
                                             </mat-cell>
                                         </ng-container>
-                                        <ng-container matColumnDef="document">
+                                        <!-- <ng-container matColumnDef="document">
                                             <mat-header-cell *matHeaderCellDef>Document
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField">
-                                                <!-- <p class="text-truncate txtalign">{{dataField.document}}
-                                                </p> -->
+                                                <p class="text-truncate txtalign">{{dataField.document}}
+                                                </p>
                                                 <button
                                                 data-toggle="tooltip" data-placement="right"
                                                 matTooltip="{{'Download'|translate}}" matTooltipClass="tooltip-edit"
                                                 matTooltipPosition="right" mat-icon-button color="accent"
-                                                (click)="download()">
+                                                (click)="download(dataField.attachmentViewModel)">
                                                 <i class="fa fa-download fa-2x"></i>
                                             </button>
                                             </mat-cell>
+                                        </ng-container> -->
+                                        <ng-container matColumnDef="document">
+                                            <mat-header-cell *matHeaderCellDef>Document</mat-header-cell>
+                                            <mat-cell *matCellDef="let dataField">
+                                                <div *ngFor="let attachment of dataField?.attachmentViewModels">
+                                                    <p class="text-truncate txtalign">
+                                                        <button data-toggle="tooltip" data-placement="right"
+                                                            matTooltip="Download" matTooltipClass="tooltip-edit"
+                                                            matTooltipPosition="right" mat-icon-button color="accent"
+                                                            (click)="download(attachment)" *ngIf="attachment.id >0">
+                                                            <i class="fa fa-download fa-2x" style="font-size: 15px;"></i>
+                                                        </button>
+                                                        &nbsp;
+                                                        {{attachment?.attachmentFileName}}
+                                                    </p>
+                                                </div>
+                                            </mat-cell>
                                         </ng-container>
+
                                         <ng-container matColumnDef="approval">
-                                            <mat-header-cell *matHeaderCellDef>Approval
+                                            <mat-header-cell *matHeaderCellDef>{{'Approval'}}
                                             </mat-header-cell>
                                             <mat-cell *matCellDef="let dataField;">
                                                 <mat-radio-group aria-label="Select an option" required>
                                                     <mat-radio-button [value]="1"
-                                                        [checked]="dataField.approvedStatusType === 1"
+                                                        [checked]="dataField?.approvedStatusType === 1"
                                                         (click)="Approval(dataField,1)"
                                                         [disabled]="actionInfo === 1">Approved</mat-radio-button>&nbsp;
                                                     <mat-radio-button [value]="2"
-                                                        [checked]="dataField.approvedStatusType === 2"
+                                                        [checked]="dataField?.approvedStatusType === 2"
                                                         (click)="Approval(dataField,2)"
                                                         [disabled]="actionInfo === 1">Unapproved</mat-radio-button>
                                                 </mat-radio-group>
@@ -354,7 +370,7 @@
                                         <ng-container fxFlex="10" matColumnDef="actions">
                                             <mat-header-cell *matHeaderCellDef align="center">{{'Actions' | translate}}
                                             </mat-header-cell>
-                                            <mat-cell *matCellDef="let matData; let l=index;" class="button-bar">
+                                            <mat-cell *matCellDef="let matData; let l=index;" class="button-bar" class="centered-cell">
 
                                                 <button
                                                     [disabled]="matData.id == 0 || editDisable === l || actionInfo === 1 ||matData.approvedStatusType===1"
@@ -394,7 +410,7 @@
                                         <i class="fa fa-close"></i>
                                         {{'Cancel' | translate}}
                                     </button>
-                                    <button *ngIf="actionInfo !== 1"
+                                    <button *ngIf="actionInfo != 1"
                                         [ngClass]="id === 0 ? 'btn btn-primary mr-1 btnsave':'btn btn-primary mr-1 btnupdate'"
                                         type="submit" (click)="saveGrid()">
                                         <i class="fa fa-save"></i>

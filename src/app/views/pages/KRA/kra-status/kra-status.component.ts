@@ -31,17 +31,22 @@ import { RoleType } from 'src/enum/roletype';
   ],
 })
 export class KraStatusComponent implements OnInit {
-  form:FormGroup;
-  data:any[] = [];
+  form: FormGroup;
+  data: any[] = [];
   dataSource = new MatTableDataSource(this.data);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("searchInput", { static: true }) searchInput: ElementRef;
   displayedColumns: any[];
-  resultArray: any[]=[];
+  resultArray: any[] = [];
   expandedElement: any;
   roleId: any;
   public RoleEnumType = RoleType;
+  selectedOption: string;
+  userId: number;
+  pagetitle: string;
+  isApprovelOrStatus: number;
+  //status =1, approval=2
   constructor(
     private formBuilder: FormBuilder,
     private navigationService: NavigationService,
@@ -52,12 +57,41 @@ export class KraStatusComponent implements OnInit {
     private perodicTaskService: PerodicTaskService
   ) {
     this.roleId = this.userSessionService.roleId();
-   }
+    this.userId = this.userSessionService.userId();
+  }
 
   ngOnInit(): void {
     this.initializeValidators();
+    this.selectedOption = 'status';
+    this.isStatus();
+  }
+
+  initializeValidators() {
+    this.form = this.formBuilder.group({
+    });
+  }
+
+  ModifyKraTaskstatus(dataFieldId: any, actioninfo: any) {
+    this.navigationService.gotoKraStatusModify(dataFieldId, actioninfo,this.isApprovelOrStatus);
+  }
+
+  isStatus() {
+    this.displayedColumns = [
+      "action",
+      "manager",
+      "task",
+      "project",
+      "periodValue",
+      "assignedDate",
+      "targetDate",
+      "reminderDate",
+    ];
+    this.pagetitle = "Task Status"
     this.gettaskGriddata();
-    if(this.roleId ==this.RoleEnumType.SuperAdmin){
+    this.isApprovelOrStatus = 1;
+  }
+
+  isApproval() {
     this.displayedColumns = [
       "action",
       "employee",
@@ -68,32 +102,17 @@ export class KraStatusComponent implements OnInit {
       "targetDate",
       "reminderDate",
     ];
-    }
-    else{
-      this.displayedColumns = [
-        "action",
-        "manager",
-        "task",
-        "project",
-        "periodValue",
-        "assignedDate",
-        "targetDate",
-        "reminderDate",
-      ];
-    }
-    
+    this.pagetitle = "Task Approval"
+    this.getApprovalTaskGriddata();
+    this.isApprovelOrStatus = 2;
   }
-  initializeValidators() {
-    this.form = this.formBuilder.group({
-    });
-  }
-  ModifyKraTaskstatus(dataFieldId: any, actioninfo: any) {
-    // dataField.id, actioninfo
-    this.navigationService.gotoKraStatusModify(dataFieldId,actioninfo);
-  }
-  refresh(){
+
+  refresh() {
     this.gettaskGriddata();
+    this.selectedOption = 'status';
+    this.isStatus();
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -101,30 +120,55 @@ export class KraStatusComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
   gettaskGriddata() {
     this.perodicTaskService.getExecutorTaskGridList().subscribe(result => {
       this.resultArray = [];
       if (result && result.value) {
         this.resultArray = result.value;
       }
-
-      console.log(this.resultArray,'ra')
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.data = this.resultArray;
-
     })
   }
+
+  getApprovalTaskGriddata() {
+    this.perodicTaskService.getApprovalTaskGridList(this.userId).subscribe(result => {
+      this.resultArray = [];
+      if (result && result.value) {
+        this.resultArray = result.value;
+      }
+      this.dataSource = new MatTableDataSource(this.resultArray);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.data = this.resultArray;
+    })
+  }
+
   expandUp(dataField) {
     debugger;
     this.expandedElement = {};
     this.expandedElement = dataField;
   }
+
   expandDown(dataField) {
     debugger;
     this.expandedElement = {};
     this.expandedElement = dataField;
   }
+
+  onToggleChange(event: any) {
+    console.log('Selected option:', this.selectedOption);
+    if (this.selectedOption == 'approval') {
+      this.isApproval();
+    }
+    else if (this.selectedOption == 'status') {
+      this.isStatus();
+    }
+  }
+
+
 
 }
