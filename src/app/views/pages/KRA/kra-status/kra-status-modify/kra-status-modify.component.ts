@@ -41,8 +41,8 @@ export class KraStatusModifyComponent implements OnInit {
     'taskStatusValue',
     'remarks',
     'approvedStatusTypeValue',
-    'coContributor',
-    'document'
+    // 'coContributor',
+    // 'document'
     // 'actions',
     // 'approval'
   ];
@@ -138,9 +138,6 @@ export class KraStatusModifyComponent implements OnInit {
     }
     else {
       this.modifyKRA = true;
-    }
-    if (this.actionInfo != 1) {
-      this.getDisplayedColumns();
     }
     this.getTaskStatusById(this.id);
   }
@@ -448,8 +445,23 @@ export class KraStatusModifyComponent implements OnInit {
       });
     }
   }
+
+  getDisplayedColumnsforDocumtandCocontributor(): string[] {
+    if (this.isCoContributor==true && this.isDocument==true) {
+      this.displayedColumns.push('coContributor');
+      this.displayedColumns.push('document');
+    }
+    else if (this.isCoContributor==true) {
+      this.displayedColumns.push('coContributor');
+    }
+    else if (this.isDocument==true) {
+      this.displayedColumns.push('document');
+    }
+    return this.displayedColumns;
+  }
+
   getDisplayedColumns(): string[] {
-    if (this.modifyKRA == false) {
+    if (this.modifyKRA == false && this.isApproval==true) {
       this.displayedColumns.push('approval');
     }
     else {
@@ -477,9 +489,11 @@ export class KraStatusModifyComponent implements OnInit {
           this.submitbtn = 'Update';
         }
         this.dataSource = new MatTableDataSource(this.matData);
-        console.log(this.matData, 'when calling the fn by id')
         this.dataSource.paginator = this.paginator;
-        console.log(this.taskStatusListbyId, 'jbdfiuusbouf')
+        this.getDisplayedColumnsforDocumtandCocontributor();
+        if (this.actionInfo != 1) {
+          this.getDisplayedColumns();
+        }
       }
     });
   }

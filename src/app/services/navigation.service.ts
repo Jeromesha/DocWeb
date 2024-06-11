@@ -96,14 +96,14 @@ export class NavigationService {
 
   gotoKraAttach(scheduleId: any,taskId:any, actionInfo: any) {
     debugger
-    this.router.navigate(['/attachKRA/' + scheduleId +'/'+taskId, actionInfo])
+    this.router.navigate(['/attachTask/' + scheduleId +'/'+taskId, actionInfo])
   }
   gotoScheduleAdd(id: any, actionInfo: any) {
     this.router.navigate(['/scheduler/' + id, actionInfo])
   }
 
   gotoKraStatusModify(id: any, actionInfo: any,isApprovelOrStatus:any) {
-    this.router.navigate(['/kraStatus/' + id +'/'+ isApprovelOrStatus, actionInfo])
+    this.router.navigate(['/taskStatus/' + id +'/'+ isApprovelOrStatus, actionInfo])
   }
 
   gotoKraTaskAdd(id: any, actionInfo: any) {

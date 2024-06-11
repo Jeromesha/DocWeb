@@ -136,7 +136,7 @@ const routes: Routes = [
           import("./../../views/pages/KRA/schedular-grid/schedular-grid.module").then((m) => m.SchedularGridModule)
       },
       {
-        path: "attachKRA",
+        path: "attachTask",
         loadChildren: () =>
           import("./../../views/pages/KRA/kra-task-attach/kra-task-attach.module").then((m) => m.KraTaskAttachModule)
       },
@@ -146,7 +146,7 @@ const routes: Routes = [
           import("./../../views/pages/KRA/kra-task-grid/kra-task-grid.module").then((m) => m.KraTaskGridModule)
       },
       {
-        path: "kraStatus",
+        path: "taskStatus",
         loadChildren: () =>
           import("./../../views/pages/KRA/kra-status/kra-status.module").then((m) => m.KraStatusModule)
       },
