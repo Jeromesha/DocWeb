@@ -126,7 +126,8 @@
                                                     [max]="daysDifference" formControlName="advanceReminderDays"
                                                     (input)="setCount()" placeholder="Advance Reminder Days"
                                                     autocomplete="off" pattern="[0-9]*"
-                                                    title="Please enter only numeric values">
+                                                    title="Please enter only numeric values" 
+                                                    (keydown)="restrictNonNumeric($event)">
                                                 <div class="valid-error"
                                                     *ngIf="form.controls.advanceReminderDays.errors && (form.controls.advanceReminderDays.dirty || form.controls.advanceReminderDays.touched)"
                                                     text-wrap>

@@ -43,7 +43,7 @@ const routes: Routes = [
     component: KraStatusComponent
   },
   {
-    path: ":id/:isApprovelOrStatus/:actionInfo",
+    path: ":id/:isApprovelOrStatus/:assignedDate/:actionInfo",
     component: KraStatusModifyComponent
   },
 ];

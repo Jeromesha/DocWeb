@@ -54,7 +54,6 @@ export class KraStatusModifyComponent implements OnInit {
   Date: Date;
   taskStatusList: any;
   filtertaskStatusList: any;
-  statusaddmindate: any;
   gridId: number;
   disableDelete: boolean = false;
   editDisable: any;
@@ -80,6 +79,7 @@ export class KraStatusModifyComponent implements OnInit {
   AttchmentdataData: any[] = [];
   isApprovelOrStatus: any;
   private baseUrl = environment.apiBaseUrl;
+  assignedDate: any;
   // scheduleTaskStatusId: any;
   constructor(
     route: ActivatedRoute,
@@ -101,6 +101,7 @@ export class KraStatusModifyComponent implements OnInit {
     this.id = parseInt(this.routeParams.id);
     this.actionInfo = this.routeParams.actionInfo;
     this.isApprovelOrStatus = this.routeParams.isApprovelOrStatus;
+    this.assignedDate = this.routeParams.assignedDate;
     this.roleId = this.userSessionService.roleId();
     this.dropdownSettings = {
       singleSelection: false,
@@ -143,6 +144,8 @@ export class KraStatusModifyComponent implements OnInit {
       this.modifyKRA = true;
     }
     this.getTaskStatusById(this.id);
+    this.assignedDate = moment(this.assignedDate).format("YYYY-MM-DD");
+    this.assignedDate = moment(this.assignedDate).subtract(0, 'minute').toDate()
   }
 
   initializeValidators() {
@@ -165,6 +168,7 @@ export class KraStatusModifyComponent implements OnInit {
   getTaskstatus() {
     this.taskservice.GetTaskstatus().subscribe(result => {
       this.taskStatusList = result;
+      this.taskStatusList = result.filter(item => item.key !== 1);
       this.filtertaskStatusList = this.taskStatusList?.slice();
     })
   }

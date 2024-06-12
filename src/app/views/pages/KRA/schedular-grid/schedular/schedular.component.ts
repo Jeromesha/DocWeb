@@ -269,4 +269,11 @@ export class SchedularComponent implements OnInit {
       }
     })
   }
+  restrictNonNumeric(event: KeyboardEvent): void {
+    const pattern = /[0-9]/;
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
+    if (!pattern.test(event.key) && !allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
 }

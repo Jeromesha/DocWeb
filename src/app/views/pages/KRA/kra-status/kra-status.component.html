@@ -148,13 +148,13 @@
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'Add Status'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="primary"
-                    (click)="ModifyKraTaskstatus(dataField.id,0)">
+                    (click)="ModifyKraTaskstatus(dataField?.id,0,dataField?.scheduleTMViewModel?.scheduleGridViewModel?.assignedDate)">
                     <i class="fa fa-edit fa-2x editclr"></i>
                 </button>
 
                 <button data-toggle="tooltip" data-placement="right" matTooltip="{{'View'|translate}}"
                     matTooltipClass="tooltip-edit" matTooltipPosition="right" mat-icon-button color="accent"
-                    (click)="ModifyKraTaskstatus(dataField.id,1)">
+                    (click)="ModifyKraTaskstatus(dataField?.id,1,dataField?.scheduleTMViewModel?.scheduleGridViewModel?.assignedDate)">
                     <i class="fa fa-eye fa-2x eyeclr"></i>
                 </button>
                 <button mat-icon-button *ngIf="expandedElement?.id!= dataField?.id" (click)="expandDown(dataField)"

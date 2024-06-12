@@ -71,8 +71,8 @@ export class KraStatusComponent implements OnInit {
     });
   }
 
-  ModifyKraTaskstatus(dataFieldId: any, actioninfo: any) {
-    this.navigationService.gotoKraStatusModify(dataFieldId, actioninfo,this.isApprovelOrStatus);
+  ModifyKraTaskstatus(dataFieldId: any, actioninfo: any,assignedDate:any) {
+    this.navigationService.gotoKraStatusModify(dataFieldId, actioninfo,this.isApprovelOrStatus,assignedDate);
   }
 
   isStatus() {
@@ -127,6 +127,10 @@ export class KraStatusComponent implements OnInit {
       if (result && result.value) {
         this.resultArray = result.value;
       }
+      if(this.resultArray.length==0){
+        this.selectedOption = 'approval';
+        this.isApproval();
+      }
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -139,6 +143,10 @@ export class KraStatusComponent implements OnInit {
       this.resultArray = [];
       if (result && result.value) {
         this.resultArray = result.value;
+      }
+      if(this.resultArray.length==0){
+        this.selectedOption = 'status';
+        this.isStatus();
       }
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;

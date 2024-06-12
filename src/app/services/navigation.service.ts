@@ -102,8 +102,8 @@ export class NavigationService {
     this.router.navigate(['/scheduler/' + id, actionInfo])
   }
 
-  gotoKraStatusModify(id: any, actionInfo: any,isApprovelOrStatus:any) {
-    this.router.navigate(['/taskStatus/' + id +'/'+ isApprovelOrStatus, actionInfo])
+  gotoKraStatusModify(id: any, actionInfo: any,isApprovelOrStatus:any,assignedDate:any) {
+    this.router.navigate(['/taskStatus/' + id +'/'+ isApprovelOrStatus +'/' +assignedDate, actionInfo])
   }
 
   gotoKraTaskAdd(id: any, actionInfo: any) {
