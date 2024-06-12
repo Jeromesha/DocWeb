@@ -46,6 +46,8 @@ export class KraStatusComponent implements OnInit {
   userId: number;
   pagetitle: string;
   isApprovelOrStatus: number;
+  apiCallCount: number=0;
+  resultArray1: any[];
   //status =1, approval=2
   constructor(
     private formBuilder: FormBuilder,
@@ -127,9 +129,10 @@ export class KraStatusComponent implements OnInit {
       if (result && result.value) {
         this.resultArray = result.value;
       }
-      if(this.resultArray.length==0){
+      if(this.resultArray.length==0 && this.apiCallCount<=0){
         this.selectedOption = 'approval';
         this.isApproval();
+        this.apiCallCount ++
       }
       this.dataSource = new MatTableDataSource(this.resultArray);
       this.dataSource.sort = this.sort;
@@ -140,18 +143,18 @@ export class KraStatusComponent implements OnInit {
 
   getApprovalTaskGriddata() {
     this.perodicTaskService.getApprovalTaskGridList(this.userId).subscribe(result => {
-      this.resultArray = [];
+      this.resultArray1 = [];
       if (result && result.value) {
-        this.resultArray = result.value;
+        this.resultArray1 = result.value;
       }
-      if(this.resultArray.length==0){
+      if(this.resultArray1.length==0){
         this.selectedOption = 'status';
         this.isStatus();
       }
-      this.dataSource = new MatTableDataSource(this.resultArray);
+      this.dataSource = new MatTableDataSource(this.resultArray1);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      this.data = this.resultArray;
+      this.data = this.resultArray1;
     })
   }
 
