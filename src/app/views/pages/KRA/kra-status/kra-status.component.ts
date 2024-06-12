@@ -110,7 +110,7 @@ export class KraStatusComponent implements OnInit {
   }
 
   refresh() {
-    this.gettaskGriddata();
+    // this.gettaskGriddata();
     this.selectedOption = 'status';
     this.isStatus();
   }
