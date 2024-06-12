@@ -60,4 +60,8 @@ export class PerodicTaskService {
         return this.dataService.getData('/api/scheduletaskexecutor/getscheduletasksforapprover/'+id ,true)
     }
 
+    getAttachment(data:any){
+        return this.dataService.post('/api/scheduletaskstatus/getattachment', data)
+    }
+
 }

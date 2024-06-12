@@ -35,6 +35,7 @@ import { UserSessionService } from 'src/app/services/usersession.service';
 import { MY_CUSTOM_FORMATS } from '../../dashboard/timesheet/timesheet.module';
 import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 import { HttpClientModule } from '@angular/common/http';
+import { FileDownloadService } from 'src/app/services/fileDownload.service';
 
 const routes: Routes = [
   {
@@ -62,6 +63,7 @@ const routes: Routes = [
     NavigationService,
     UserSessionService,
     PerodicTaskService,
+    FileDownloadService,
     DatePipe,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },

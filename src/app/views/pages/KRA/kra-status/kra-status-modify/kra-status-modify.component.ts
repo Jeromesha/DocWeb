@@ -21,6 +21,7 @@ import { PerodicTaskService } from 'src/app/services/perodicTask.Service';
 import { threadId } from 'worker_threads';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { FileDownloadService } from 'src/app/services/fileDownload.service';
 
 @Component({
   selector: 'app-kra-status-modify',
@@ -93,7 +94,8 @@ export class KraStatusModifyComponent implements OnInit {
     private taskservice: TaskService,
     private empDetailsService: EmployeedetailsService,
     private perodicTaskService: PerodicTaskService,
-    private http: HttpClient
+    private http: HttpClient,
+    private fileDownloadService:FileDownloadService
   ) {
     this.routeParams = route.snapshot.params;
     this.id = parseInt(this.routeParams.id);
@@ -515,32 +517,21 @@ export class KraStatusModifyComponent implements OnInit {
   //     window.URL.revokeObjectURL(url);
   //   });
   // }
-  download(attachment: any) {
-    // Adjusted attachmentPath to match the public URL structure
-    const filePath = `${this.baseUrl}${attachment.attachmentPath}/${attachment.attachmentFileName}`;
-    console.log('Attempting to download file from path:', filePath);  // Log the file path to debug
-  
-    fetch(filePath)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.blob();
-      })
-      .then(blob => {
-        const blobUrl = window.URL.createObjectURL(blob);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = blobUrl;
-        downloadLink.download = attachment.attachmentFileName; // Use the actual filename
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-        window.URL.revokeObjectURL(blobUrl);
-        console.log('Download successful:', attachment.attachmentFileName);
-      })
-      .catch(error => {
-        console.error('Error downloading the document:', error);
-      });
+
+
+  download(attachment:any){
+    debugger
+    console.log(attachment)
+    this.perodicTaskService.getAttachment(attachment).subscribe(result => {
+      if (result) {
+        var base64String = result.value.base64String;
+        var fileName = result.value.attachmentFileName;
+        this.fileDownloadService.downloadBase64File(base64String, fileName);
+        
+      } else {
+        this.alertService.error(result.htmlFormattedFailures);
+      }
+    });
   }
   
   
