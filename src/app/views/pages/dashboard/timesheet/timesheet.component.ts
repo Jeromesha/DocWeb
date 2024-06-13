@@ -596,6 +596,7 @@ export class TimesheetComponent implements OnInit {
           this.dataSource.data = [];
         }
         this.data = result;
+        this.datalist=this.data;
         for (let item of this.data) {
           const convertedData = this.data.map(entry => ({
             ...entry,
@@ -915,15 +916,19 @@ export class TimesheetComponent implements OnInit {
       cancelButtonText: 'No, cancel!',
     }).then((willDelete) => {
       if (willDelete.value) {
+        debugger
         if (dataField.id == 0 || dataField.id == null) {
-          let localdelete = this.dataSource.data
+          // let localdelete = this.dataSource.data
           this.datalist.splice(index1, 1);
           this.list.splice(index1, 1);
           this.temproraryList.splice(index1, 1);
           const data = this.dataSource.data;
           this.data.splice(index, 1);
-          data.splice((this.paginator.pageIndex * this.paginator.pageSize) + i, 1);
+          data.splice(index, 1);
           this.dataSource.data = data;
+          this.dataSource = new MatTableDataSource( this.dataSource.data);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
         }
         else {
           this.timesheetService.delete(dataField.id).subscribe(res => {
