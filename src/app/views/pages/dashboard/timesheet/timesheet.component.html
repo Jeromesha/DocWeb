@@ -84,8 +84,9 @@ temproraryList {{temproraryList | json}} -->
                         <label class="mandatory">{{
                           "Project" | translate
                           }}</label>
+                          <!-- || form.value.IsLeave === 1  -->
                         <mat-select [disabled]="
-                            View || form.value.IsLeave === 1
+                            View 
                           " placeholder="Project" (selectionChange)="sortingChange($event)" formControlName="projectId"
                           class="form-control pt-2" [disableOptionCentering]="true" #select>
                           <mat-select-filter [displayMember]="'value'" [array]="SortList"

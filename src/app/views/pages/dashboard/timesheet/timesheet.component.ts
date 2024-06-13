@@ -851,7 +851,7 @@ export class TimesheetComponent implements OnInit {
   onbtnClick(option: number) {
     if (option === 1) {
       this.form.patchValue({ IsLeave: 1 });
-      this.form.controls['projectId'].setValue(142);
+      // this.form.controls['projectId'].setValue(142);
       this.form.controls['taskTypeId'].setValue(null);
       this.form.get('taskTypeId').clearValidators();
       this.form.get('taskTypeId').updateValueAndValidity();
