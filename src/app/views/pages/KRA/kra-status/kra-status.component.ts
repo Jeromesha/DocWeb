@@ -150,7 +150,7 @@ export class KraStatusComponent implements OnInit {
       if (result && result.value) {
         this.resultArray1 = result.value;
       }
-      if(this.resultArray1.length==0){
+      if(this.resultArray1.length==0 && this.apiCallCount==1){
         this.selectedOption = 'status';
         this.isStatus();
       }

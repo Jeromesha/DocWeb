@@ -140,7 +140,7 @@
                                     <div class="col-md-6" *ngIf="isProject">
                                         <div class="form-group">
                                             <label class="mandatory">Project </label>
-                                            &nbsp;<span *ngIf="!isPerson && isProject" style="font-size: 13px;color: red;">Task will be assigned to Project Leads</span>
+                                            &nbsp;<span *ngIf="!isPerson && isProject" style="font-size: 13px;color: green;">Task will be assigned to Project Leads</span>
                                             <ng-multiselect-dropdown class="custom-dropdown"
                                                 [disabled]="actionInfo == 1" formControlName="project"
                                                 placeholder="Select Project" [settings]="dropdownSettingsNotify"
