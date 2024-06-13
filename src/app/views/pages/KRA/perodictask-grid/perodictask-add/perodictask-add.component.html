@@ -56,8 +56,8 @@
                                     <div class="col-md-6">
                                         
                                         <div class="form-group">
-                                            <label class="mandatory ">Category</label>
-                                            <mat-select placeholder="Category" formControlName="scheduleTaskCategoryType"
+                                            <label class="mandatory ">Department</label>
+                                            <mat-select placeholder="Department" formControlName="scheduleTaskCategoryType"
                                                  class="form-control pt-2"
                                                 [disableOptionCentering]="true" #select3 [disabled]="actionInfo == 1" >
                                                 <mat-select-filter [displayMember]="'Category'"
@@ -75,7 +75,7 @@
                                                 text-wrap>
                                                 <span *ngIf="form.controls.scheduleTaskCategoryType.errors?.required"
                                                     class="form-text danger mandatory">
-                                                    Category{{'IsRequired' | translate}}</span>
+                                                    Department{{'IsRequired' | translate}}</span>
                                             </div>
                                         </div>
                                     </div>

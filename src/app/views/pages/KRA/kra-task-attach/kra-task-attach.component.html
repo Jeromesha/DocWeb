@@ -42,7 +42,8 @@
                                             <label class="mandatory ">Primary Owner</label>
                                             <mat-select placeholder="Primary Owner" formControlName="primaryowner"
                                                 [disabled]="actionInfo === 1" class="form-control pt-2"
-                                                [disableOptionCentering]="true" #select1>
+                                                [disableOptionCentering]="true" #select1
+                                                (ngModelChange)="setApprover($event)">
                                                 <mat-select-filter [displayMember]="'empNameCode'"
                                                     [array]="employeeList" (filteredReturn)="employeeFilterList =$event"
                                                     *ngIf="select1.focused">

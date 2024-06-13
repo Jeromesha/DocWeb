@@ -286,6 +286,7 @@ export class KraTaskAttachComponent implements OnInit {
       this.showApprover=false;
       this.form.controls['approver'].clearValidators();
       this.form.controls['approver'].updateValueAndValidity();
+      this.form.controls['approver'].setValue('');
     }
   }
 
@@ -343,5 +344,9 @@ export class KraTaskAttachComponent implements OnInit {
         this.form.controls['employee'].setValue('');
       }
     }
+  }
+  setApprover(event:any){
+    var approverId = event;
+    this.form.controls['approver'].setValue(approverId);
   }
 }

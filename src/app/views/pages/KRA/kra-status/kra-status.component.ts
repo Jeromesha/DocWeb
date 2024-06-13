@@ -48,6 +48,7 @@ export class KraStatusComponent implements OnInit {
   isApprovelOrStatus: number;
   apiCallCount: number=0;
   resultArray1: any[];
+  addorApprovetooltip:string;
   //status =1, approval=2
   constructor(
     private formBuilder: FormBuilder,
@@ -91,6 +92,7 @@ export class KraStatusComponent implements OnInit {
     this.pagetitle = "Task Status"
     this.gettaskGriddata();
     this.isApprovelOrStatus = 1;
+    this.addorApprovetooltip ='Add Status';
   }
 
   isApproval() {
@@ -107,6 +109,7 @@ export class KraStatusComponent implements OnInit {
     this.pagetitle = "Task Approval"
     this.getApprovalTaskGriddata();
     this.isApprovelOrStatus = 2;
+    this.addorApprovetooltip ='Update Status';
   }
 
   refresh() {
