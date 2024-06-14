@@ -365,6 +365,29 @@
                                                         (click)="Approval(dataField,2)"
                                                         [disabled]="actionInfo === 1">Unapprove</mat-radio-button>
                                                 </mat-radio-group>
+
+                                                <!-- <mat-button-toggle-group
+                                                    name="options"
+                                                    aria-label="Select an option"
+                                                    [value]="dataField?.approvedStatusType"
+                                                    (change)="Approval(dataField, $event.value)"
+                                                    [disabled]="actionInfo === 1"
+                                                    class="custom-toggle-group"
+                                                    required
+                                                    >
+                                                    <mat-button-toggle [value]="1" class="toggle-button-approve">
+                                                        <mat-icon>thumb_up</mat-icon> Approve
+                                                    </mat-button-toggle>
+                                                    <mat-button-toggle [value]="2" class="toggle-button-disapprove">
+                                                        <mat-icon>thumb_down</mat-icon> Disapprove
+                                                    </mat-button-toggle>
+                                                    </mat-button-toggle-group> -->
+
+
+
+
+
+
                                             </mat-cell>
                                         </ng-container>
 

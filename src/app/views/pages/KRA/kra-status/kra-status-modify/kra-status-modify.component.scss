@@ -68,8 +68,8 @@ td {
 }
 
 .aligncenter {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -77,8 +77,48 @@ td {
 .custom-file .custom-file-label {
     white-space: nowrap;
     overflow: hidden;
-  }
+}
 
 .tooltip-edit {
     font-size: 44px !important;
+}
+
+
+.custom-toggle-group {
+    display: inline-flex !important;
+}
+
+/* Styles for selected approve button */
+.custom-toggle-group .mat-button-toggle-checked.toggle-button-approve {
+    background-color: green;
+    color: white;
+}
+
+/* Styles for selected disapprove button */
+.custom-toggle-group .mat-button-toggle-checked.toggle-button-disapprove {
+    background-color: red;
+    color: white;
+}
+
+/* Default styles for unselected state */
+.custom-toggle-group .mat-button-toggle {
+    background-color: initial;
+    color: initial;
+}
+
+/* Prevent color change on hover for selected buttons */
+.custom-toggle-group .mat-button-toggle-checked.toggle-button-approve:hover,
+.custom-toggle-group .mat-button-toggle-checked.toggle-button-disapprove:hover {
+    background-color: green;
+    color: white;
+}
+
+.custom-toggle-group .mat-button-toggle-checked.toggle-button-disapprove:hover {
+    background-color: red;
+    color: white;
+}
+
+/* Default hover effect for unselected buttons */
+.custom-toggle-group .mat-button-toggle:hover:not(.mat-button-toggle-checked) {
+    background-color: rgba(0, 0, 0, 0.04);
 }

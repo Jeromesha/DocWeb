@@ -67,8 +67,8 @@
                     {{'ExportExcel' | translate}}
                 </button> -->
                 <mat-button-toggle-group #group="matButtonToggleGroup" [(ngModel)]="selectedOption" (change)="onToggleChange($event)">
-                    <mat-button-toggle value="status" aria-label="Status">Add</mat-button-toggle>
-                    <mat-button-toggle value="approval" aria-label="Approval">Approve</mat-button-toggle>
+                    <mat-button-toggle value="status" aria-label="Status" ><i class="btn-icon-prepend fa fa-plus" style="font-weight: bold;"></i> {{'Add'}}</mat-button-toggle>
+                    <mat-button-toggle value="approval" aria-label="Approval" ><mat-icon style="font-weight: bold;">check</mat-icon> {{'Approve'}}</mat-button-toggle>
                 </mat-button-toggle-group>
                 
             </div>
