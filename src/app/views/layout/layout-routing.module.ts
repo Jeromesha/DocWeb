@@ -155,6 +155,11 @@ const routes: Routes = [
         loadChildren: () =>
           import("./../../views/pages/KRA/perodictask-grid/perodictask-grid.module").then((m) => m.PerodictaskGridModule)
       },
+      {
+        path: "kanbanTaskDetails",
+        loadChildren: () =>
+          import("./../../views/pages/KRA/kanban-task-details/kanban-task-details.module").then((m) => m.KanbanTaskDetailsModule)
+      },
     ],
   },
 ];

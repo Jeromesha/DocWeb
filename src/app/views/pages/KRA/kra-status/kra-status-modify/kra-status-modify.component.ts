@@ -241,8 +241,8 @@ export class KraStatusModifyComponent implements OnInit {
 
       if (existingRecord && this.formGrid.valid) {
         existingRecord.id = this.gridId,
-          existingRecord.scheduleTaskExecutorId = this.id,
-          existingRecord.statusDate = moment(this.formGrid.value.statusDate).format("YYYY-MM-DD") + "T00:00:00.000Z"
+        existingRecord.scheduleTaskExecutorId = this.id,
+        existingRecord.statusDate = moment(this.formGrid.value.statusDate).format("YYYY-MM-DD") + "T00:00:00.000Z"
         existingRecord.note = this.formGrid.value.remarks;
         existingRecord.taskStatusName = _.find(this.taskStatusList, ['key', this.formGrid.value.taskStatusId])?.value;
         existingRecord.approvedStatus = existingRecord.approvedStatus;
@@ -355,6 +355,7 @@ export class KraStatusModifyComponent implements OnInit {
     debugger
     this.editDisable = index;
     var attachment = [];
+    this.AttchmentdataData=[];
     if (matData.attachmentViewModels.length > 0) {
       matData.attachmentViewModels.forEach(element => {
         attachment.push(element.attachmentFileName);
