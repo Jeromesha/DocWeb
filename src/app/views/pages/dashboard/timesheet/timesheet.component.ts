@@ -243,6 +243,10 @@ export class TimesheetComponent implements OnInit {
     this.form.controls['projectId'].setValidators(Validators.required);
     this.form.controls['projectId'].updateValueAndValidity();
 
+    if(this.form.value.projectId ==0){
+      this.form.controls['projectId'].setValue("")
+    }
+
     if (this.form.valid && this.form.value.B != "" && this.form.value.A != "" && !(this.form.value.A == "00" && this.form.value.B == "00")) {
       if (this.form.valid) {
         const formData = { ...this.form.value, id: this.id }; // Assign this.id to formData.id
@@ -710,12 +714,29 @@ export class TimesheetComponent implements OnInit {
     })
   }
   onSubmitInEdit() {
+    debugger
     this.loading = true;
     const hoursPart = this.form.value.A;
     const minutesPart = this.form.value.B;
     const timeInput = `${hoursPart}:${minutesPart}`;
+    this.datalist=[];
 
-    if (timeInput !== "00:00") {
+    if(this.form.value.projectId ==0){
+      this.form.controls['projectId'].setValue("")
+    }
+    this.form.value.entryDate = moment(this.form.value.entryDate).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]");
+    this.form.controls['hours'].clearValidators();
+    this.form.controls['hours'].updateValueAndValidity();
+    this.form.controls['entryDate'].setValidators(Validators.required);
+    this.form.controls['entryDate'].updateValueAndValidity();
+    this.form.controls['taskTypeId'].setValidators(Validators.required);
+    this.form.controls['taskTypeId'].updateValueAndValidity();
+    this.form.controls['description'].setValidators(Validators.required);
+    this.form.controls['description'].updateValueAndValidity();
+    this.form.controls['projectId'].setValidators(Validators.required);
+    this.form.controls['projectId'].updateValueAndValidity();
+
+    if (timeInput !== "00:00" && this.form.valid) {
       const calculatedHours = moment.duration(timeInput).asMinutes();
 
       const timesheetData =
@@ -773,6 +794,7 @@ export class TimesheetComponent implements OnInit {
     }
   }
   onSubmit() {
+    debugger
     if (this.list.length > 0 || this.actionInfo == 2) {
       this.loading = true;
       let filterData = []
