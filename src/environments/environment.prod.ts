@@ -1,8 +1,5 @@
 export const environment = {
-  // apiBaseUrl: 'https://eazypmapi.xenovex.com',
-  apiBaseUrl: 'https://deveazypmapi.xenovex.com',
-  // apiBaseUrl: 'http://192.168.1.4:8500',
-
+  apiBaseUrl: 'https://uat-api.inetcsc.com/',
   tokenEndPoint: "/api/token",
   production: true,
   environment: "PROD",

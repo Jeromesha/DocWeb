@@ -11,7 +11,6 @@ import { ChangepasswordComponent } from '../changepassword/changepassword.compon
 import { UserService } from 'src/app/services/user.service';
 import { RoleType } from 'src/enum/roletype';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { DashboardService } from 'src/app/services/dashboard.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { LoaderService } from 'src/app/services/loader.service';
@@ -54,7 +53,6 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private userService: UserService,
-    private dashboardService: DashboardService,
     private formBuilder: FormBuilder,
     public loaderService: LoaderService
   ) {

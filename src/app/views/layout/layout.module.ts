@@ -25,7 +25,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NotifyService } from 'src/app/services/notifyService';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSelectFilterModule } from 'mat-select-filter';
-import { DashboardService } from 'src/app/services/dashboard.service';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -65,7 +64,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     },
     UserService,
     NotifyService,
-    DashboardService,
     ReportsService
   ]
 })

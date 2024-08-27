@@ -1,5 +1,6 @@
 .navbar {
-  width: calc(100% - #{$sidebar-width-lg});
+  // width: calc(100% - #{$sidebar-width-lg});
+  width: 100%;
   height: $navbar-height;
   background: $white;
   border-bottom: 1px solid #f2f4f9;
@@ -8,7 +9,7 @@
   padding: 0;
   position: fixed;
   right: 0;
-  left: $sidebar-width-lg;
+  // left: $sidebar-width-lg;
   z-index: 978;
   box-shadow: 3px 0 10px 0 rgba(183,192,206,.2);
   transition: width .1s ease, left .1s ease;
@@ -17,7 +18,7 @@
     width: 100%;
     left: 0;
     .navbar-content {
-      width: calc(100% - #{$sidebar-folded-width} - 1px);
+      // width: calc(100% - #{$sidebar-folded-width} - 1px);
     }
   }
 
@@ -75,7 +76,7 @@
     padding-left: 25px;
     padding-right: 25px;
     @media(max-width: 991px) {
-      width: calc(100% - #{$sidebar-folded-width} - 1px);
+      // width: calc(100% - #{$sidebar-folded-width} - 1px);
     }
     .navbar-nav {
       @include display-flex;

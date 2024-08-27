@@ -5,8 +5,11 @@ import { UserSessionService } from 'src/app/services/usersession.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router,
-    private userSessionService: UserSessionService,) { }
+  constructor
+  (
+    private router: Router,
+    private userSessionService: UserSessionService,
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let menuItems = [];

@@ -4,8 +4,8 @@
   .page-wrapper {
     min-height: 100vh;
     background: $content-bg;
-    width: calc(100% - #{$sidebar-width-lg});
-    margin-left: $sidebar-width-lg;
+    // width: calc(100% - #{$sidebar-width-lg});
+    // margin-left: $sidebar-width-lg;
     @include display-flex;
     @include flex-direction(column);
     -webkit-transition: margin .1s ease, width .1s ease;

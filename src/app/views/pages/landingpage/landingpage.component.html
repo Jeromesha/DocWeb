@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Home</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Free HTML Templates" name="keywords" />
+    <meta content="Free HTML Templates" name="description" />
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Rubik:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center" style="height: 45px">
+                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>I-Net Secure Labs
+                        Pvt.Ltd. Arumbakkam, Chennai. </small>
+                    <small class="me-3 text-light"><i class="fa fa-phone me-2"></i>044-66440666</small>
+                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>info@inetcsc.com</small>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 45px">
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-twitter fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-facebook-f fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-linkedin-in fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                            class="fab fa-instagram fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href=""><i
+                            class="fab fa-youtube fw-normal"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+    <!-- Navbar & Carousel Start -->
+    <div class="container-fluid position-relative p-0">
+        <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0" style="background: #7d90ad00;height: 78px;">
+            <a href="index.html" class="navbar-brand p-0">
+                <h3 class="m-0">
+                    <img src="../../../../assets/images/inet.png" alt="" class="img1" />
+                </h3>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a (click)="home()" class="nav-item nav-link active">Home</a>
+                    <!-- <a href="/about" class="nav-item nav-link">About</a> -->
+                    <a href="/service" class="nav-item nav-link">Services</a>
+                    <a href="/registrationinet" class="nav-item nav-link">Tenant Registration</a>
+                    <!-- <a class="nav-item nav-link" (click)="IDPlogin()">Login</a> -->
+                    <a (click)="scrollToDiv()" class="nav-item nav-link">Contact</a>
+                </div>
+            </div>
+        </nav>
+
+        <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="../../../../assets/Ineticons/slider-1.png" alt="slider-1" />
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px">
+                            <!-- <h5 class="text-white text-uppercase mb-3 animated slideInDown">
+                                Creative & Innovative
+                            </h5> -->
+                            <h3 class="display-1 text-white mb-md-4 animated zoomIn">
+                                Creative & Innovative Digital Solution
+                            </h3>
+                            <a href="/registrationinet"
+                                class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">
+                                Register</a>
+                            <!-- <a href="/contact"
+                                class="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">Contact
+                                Us</a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="w-100" src="../../../../assets/Ineticons/slider-2.png" alt="slider-2" />
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px">
+                            <!-- <h5 class="text-white text-uppercase mb-3 animated slideInDown">
+                                Creative & Innovative
+                            </h5> -->
+                            <h3 class="display-1 text-white mb-md-4 animated zoomIn">
+                                Creative & Innovative Digital Solution
+                            </h3>
+                            <a href="/registrationinet"
+                                class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Register
+                            </a>
+                            <!-- <a href="" class="btn btn-primary py-md-3 px-md-5 animated slideInRight">
+                                Login</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#header-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <!-- Navbar & Carousel End -->
+
+    <!-- Full Screen Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content" style="background: rgba(9, 30, 62, 0.7)">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    <div class="input-group" style="max-width: 600px">
+                        <input type="text" class="form-control bg-transparent border-primary p-3"
+                            placeholder="Type search keyword" />
+                        <button class="btn btn-primary px-4">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Full Screen Search End -->
+
+    <!-- Facts Start -->
+    <!-- <div class="container-fluid facts">
+        <div class="container">
+            <div class="row gx-0 justify-content-center pt-4">
+                <div class="col-xl-3 col-xxl-3 wow zoomIn" data-wow-delay="0.1s">
+                    <div class="bg-primary shadow d-flex align-items-center justify-content-center p-4"
+                        style="height: 150px">
+                        <div class="bg-white d-flex align-items-center justify-content-center rounded mb-2"
+                            style="width: 60px; height: 60px">
+                            <img src="../../../../assets/images/team1.png" width="35px" alt="" class="">
+                        </div>
+                        <div class="ps-3">
+                            <h5 class="text-white mb-0">Happy Users</h5>
+                            <h3 class="text-white mb-0"><span data-toggle="counter-up">1200</span>+</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-xxl-3 wow zoomIn" data-wow-delay="0.3s">
+                    <div class="bg-light shadow d-flex align-items-center justify-content-center p-4"
+                        style="height: 150px">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded mb-2"
+                            style="width: 60px; height: 60px">
+                            <img src="../../../../assets/images/state.png" width="35px" alt="" class="">
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="text-primary mb-0">States</h5>
+                            <h3 class="mb-0" data-toggle="counter-up">12345</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-xxl-3 wow zoomIn" data-wow-delay="0.6s">
+                    <div class="bg-primary shadow d-flex align-items-center justify-content-center p-4"
+                        style="height: 150px">
+                        <div class="bg-white d-flex align-items-center justify-content-center rounded mb-2"
+                            style="width: 60px; height: 60px">
+                            <img src="../../../../assets/images/transaction1.png" width="35px" alt="" class="">
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="text-white mb-0">Transaction Counts</h5>
+                            <h3 class="text-white mb-0" data-toggle="counter-up">12345</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Facts Start -->
+
+    <!-- About Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5 justify-content-center">
+                <div class="col-lg-5 col-xxl-7">
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h3 class="fw-bold text-primary text-uppercase">About Us</h3>
+                        <h1 class="mb-0">
+                            The Best IT Solution With 10+ Years of Experience
+                        </h1>
+                    </div>
+                    <p class="mb-4 text-justify">
+                        I-NET Secure Labs Pvt. Ltd. (I-NET), founded in 2008, created the
+                        business-to-business (B2B) online e-commerce program with the goal
+                        of integrating public and private online services into a single
+                        web platform to provide quick and effective e-services. Through
+                        which we currently offer 15+ B2C and 20+ G2C services, we hope to
+                        spread public awareness of digital issues and provide
+                        opportunities for rural entrepreneurship to youth, women
+                        entrepreneurs, and other interested parties.
+                    </p>
+                    <div class="row g-0 mb-3">
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
+                            <h6 class="mb-3">
+                                <i class="fa fa-check text-primary me-3"></i>Uninterrupted
+                                Service
+                            </h6>
+                            <h6 class="mb-3">
+                                <i class="fa fa-check text-primary me-3"></i>Professional
+                                Staff
+                            </h6>
+                        </div>
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
+                            <h6 class="mb-3">
+                                <i class="fa fa-check text-primary me-3"></i>9-7 Customer
+                                Support
+                            </h6>
+                            <h6 class="mb-3">
+                                <i class="fa fa-check text-primary me-3"></i>Fair Prices
+                            </h6>
+                        </div>
+                    </div>
+                    <!-- <div class="d-flex align-items-center mb-4 wow fadeIn" data-wow-delay="0.6s">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded"
+                            style="width: 60px; height: 60px;">
+                            <i class="fa fa-phone text-white"></i>
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="mb-2">Call to ask any question</h5>
+                            <h4 class="text-primary mb-0">044-66440666</h4>
+                        </div>
+                    </div> -->
+                    <a href="/registrationinet" class="btn btn-primary py-3 px-5 mt-3 wow zoomIn"
+                        data-wow-delay="0.9s">Join Us</a>
+                </div>
+                <div class="col-lg-5 col-xxl-5" style="min-height: 500px">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.9s"
+                            src="../../../../assets/Ineticons/Frame 9.svg" style="object-fit: cover" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+    <!-- Features Start -->
+    <!-- <div class="container-fluid wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px">
+                <h3 class="fw-bold text-primary text-uppercase">Partnership Benefits</h3>
+                <h1 class="mb-0">Together we achieve more</h1>
+            </div>
+            <div class="row g-5 justify-content-center text-justify">
+                <div class="col-lg-3 col-sm-3 col-md-3 col-xxl-4">
+                    <div class="row g-5">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.2s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px">
+                                <i class="fa fa-cubes text-white"></i>
+                            </div>
+                            <h4>
+                                Set-up your digital distribution business from your phone or
+                                laptop
+                            </h4>
+                            <ul>
+                                <li>Operate from anywhere - your home or shop.</li>
+                                <li>No inventory.</li>
+                                <li>No Warehouse.</li>
+                                <li>No manpower required.</li>
+                            </ul>
+
+                        </div>
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.6s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px">
+                                <i class="fa fa-award text-white"></i>
+                            </div>
+                            <h4>One time onboarding</h4>
+                            <p class="mb-0">
+                                Simple and easy on-boarding process for your network.
+                                Retailers once on-boarded can use any of our services or new
+                                products offered and keep adding to their income.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-3 col-md-3 col-xxl-4 wow zoomIn" data-wow-delay="0.9s"
+                    style="min-height: 350px">
+                    <div class="position-relative h-100">
+                        <img class="position-absolute w-100 h-100 rounded wow zoomIn" data-wow-delay="0.1s"
+                            src="../../../../assets/Ineticons/achieve.svg" style="object-fit: cover" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-3 col-md-3 col-xxl-4">
+                    <div class="row g-5">
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.4s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px">
+                                <i class="fa fa-users-cog text-white"></i>
+                            </div>
+                            <h4>Multi-service distribution from one platform</h4>
+                            <p class="mb-0">
+                                Offer Banking, Payments, Travel, Insurance, BBPS, Recharge, GST, IT Filling and many
+                                other exciting services from one
+                                platform.You can offer any or all service.
+                            </p>
+                        </div>
+                        <div class="col-12 wow zoomIn" data-wow-delay="0.8s">
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center mb-3 mt-5"
+                                style="width: 60px; height: 60px">
+                                <img src="../../../../assets/images/rupee.png" alt="" class="" width="25px">
+                            </div>
+                            <h4>Lifetime Income</h4>
+                            <div class="mb-0">
+                                Earn best in industry commission on every transaction your
+                                retailer makes.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Features Start -->
+
+    <!-- Service Start -->
+    <!-- <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px">
+                <h3 class="fw-bold text-primary text-uppercase">Why choose us</h3>
+                <h1 class="mb-0">Quality and reliability you can trust
+                </h1>
+            </div>
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-award text-white" style="rotate: 45deg;"></i>
+                        </div>
+                        <h4 class="mb-3">ONBOARDING</h4>
+                        <p class="m-0">
+                            Join effortlessly and enjoy our services with our simple onboarding process.
+                        </p>
+                        <a class="btn btn-lg btn-primary rounded" href="registrationinet">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="bi bi-geo-alt-fill" style="color: white;"></i>
+                        </div>
+                        <h4 class="mb-3">LOCATION</h4>
+                        <p class="m-0">
+                            Covering<b> 8+</b> States,<b> 250+</b> Districts: Everywhere You Need Us.
+                        </p>
+                        <a class="btn btn-lg btn-primary rounded" href="contact">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.9s">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-code text-white"></i>
+                        </div>
+                        <h4 class="mb-3">SERVICES</h4>
+                        <p class="m-0">
+                            Discover our extensive range of <b>30+</b> services, tailored to meet
+                            all your needs under one roof.
+                        </p>
+                        <a class="btn btn-lg btn-primary rounded" href="service">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fab fa-android text-white" style="rotate: 45deg;"></i>
+                        </div>
+                        <h4 class="mb-3">MOBILE APP</h4>
+                        <p class="m-0">
+                            Level up your life, with <b>I-NET </b>app by your side. </p>
+                        <a class="btn btn-lg btn-primary rounded" (click)="btnPageNavigation('')">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
+                    <div
+                        class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-shield-alt text-white" style="rotate: 45deg;"></i>
+                        </div>
+                        <h4 class="mb-3">CYBER SECURITY</h4>
+                        <p class="m-0">
+                            Your Safety, Our Priority: Ensuring a Secure Online
+                            Experience!
+                        </p>
+                        <a class="btn btn-lg btn-primary rounded" (click)="btnPageNavigation('')">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.9s">
+                    <div
+                        class="position-relative bg-primary rounded h-100 d-flex flex-column align-items-center justify-content-center text-center p-3">
+                        <h3 class="text-white mb-3">CUSTOMER SUPPORT</h3>
+                        <p class="text-white mb-3 mt-3">
+                            From 9 AM to 7 PM, our dedicated customer support team is here
+                            to assist you every step of the way.
+                        </p>
+                        <h2 class="text-white mb-0 mt-2"><i class="fa fa-phone me-2"></i> 044-66440666</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Service End -->
+
+    <!-- Pricing Plan Start -->
+    <div class="pricing">
+
+
+    </div>
+    <!-- Pricing Plan End -->
+    <!-- Quote Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-12">
+                    <div class="section-title position-relative pb-3 mb-5">
+                        <h5 class="fw-bold text-primary text-uppercase">Get in Touch</h5>
+                        <h1 class="mb-0">Please Feel Free to Contact Us</h1>
+                    </div>
+                    <div class="row gx-3">
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.2s">
+                            <h5 class="mb-4"><i class="fa fa-reply text-primary me-3"></i>Reply within 24 hours</h5>
+                        </div>
+                        <div class="col-sm-6 wow zoomIn" data-wow-delay="0.4s">
+                            <h5 class="mb-4"><i class="fa fa-phone text-primary me-3"></i>9-7 Customer
+                                Support</h5>
+                        </div>
+                    </div>
+                    <!-- <p class="mb-4">Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.</p> -->
+                    <div class="d-flex align-items-center mt-2 wow zoomIn" data-wow-delay="0.6s">
+                        <div class="bg-primary d-flex align-items-center justify-content-center rounded"
+                            style="width: 60px; height: 60px;">
+                            <i class="fa fa-phone text-white"></i>
+                        </div>
+                        <div class="ps-4">
+                            <h5 class="mb-2">Reach us</h5>
+                            <h4 class="text-primary mb-0">044-66440666</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-lg-5">
+                    <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow zoomIn"
+                        data-wow-delay="0.9s">
+                        <form [formGroup]="form">
+                            <div class="row g-3">
+                                <div class="col-xl-12">
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Your Name"
+                                        formControlName="name" style="height: 55px;"
+                                        >
+                                    <div *ngIf="form.get('name').invalid && form.get('name').touched"
+                                        class="text-danger">
+                                        Name is required.
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <input type="text" class="form-control bg-light border-0"
+                                        placeholder="Your Mobile No" onlyNumber formControlName="mobileNo"
+                                        style="height: 55px;" pattern="^[0-9]{10}$" maxlength="10">
+                                    <div *ngIf="form.get('mobileNo').invalid && form.get('mobileNo').touched"
+                                        class="text-danger">
+                                        Mobile number is required .
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <input type="email" class="form-control bg-light border-0" placeholder="Your Email"
+                                        formControlName="email" style="height: 55px;">
+                                    <div *ngIf="form.get('email').invalid && form.get('email').touched"
+                                        class="text-danger">
+                                        Please enter a valid email address.
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <select class="form-select bg-light border-0" formControlName="packageId"
+                                        style="height: 55px;">
+                                        <option value="">Select a Service</option>
+                                        <option [value]="item.id" *ngFor="let item of packages">{{item.name}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="form.get('packageId').invalid && form.get('packageId').touched"
+                                        class="text-danger">
+                                        Please select service.
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control bg-light border-0" rows="3" placeholder="Message"
+                                        formControlName="userMessage"></textarea>
+                                    <div *ngIf="form.get('userMessage').invalid && form.get('userMessage').touched"
+                                        class="text-danger">
+                                        Message is required.
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-dark w-100 py-3" type="submit" (click)="onsubmit()">Request A
+                                        Call Back</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- Quote End -->
+    <!-- Testimonial Start -->
+
+
+
+    <div class="container-fluid wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-4 mx-auto" style="max-width: 600px;">
+                <h5 class="fw-bold text-primary text-uppercase">Our Services</h5>
+                <h1 class="mb-0">Your One-Stop destination for all your needs</h1>
+            </div>
+            <owl-carousel-o [options]="customOptions" (translated)="getPassedData($event)"
+                (change)="onSlideChange($event)" class="wow fadeInUp" data-wow-delay="0.6s">
+                <ng-container *ngFor="let service of serviceList; let i = index">
+                    <ng-template carouselSlide>
+
+                        <div class="h-100 testimonial-item mr-2">
+                            <div class="d-flex align-items-center border-bottom pt-4 pb-4 px-5 mt-3">
+                                <img class="img-fluid rounded" [src]="'../../../../assets/Ineticons/' + service.icon"
+                                    style="width: 60px; height: 60px;">
+                                <div class="ps-4">
+                                    <h4 class="text-primary mb-1">{{ service.label }}</h4>
+                                </div>
+                            </div>
+                            <div class="pt-4 pb-5 px-5" style="height: 220px;">
+                                {{ service.description }}
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-container>
+            </owl-carousel-o>
+        </div>
+    </div>
+
+    <!-- Testimonial End -->
+
+    <!-- Team Start -->
+    <!-- <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-4 mx-auto">
+                <h3 class="fw-bold text-primary text-uppercase">Testimonials</h3>
+                <h1 class="mb-0">Real Feedback from Real Customers</h1>
+            </div>
+            <div class="owl-carousel owl-theme testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
+                <div class="item">
+                    <div class="team-item bg-light rounded overflow-hidden mr-3 ml-3">
+                        <div class="team-img position-relative overflow-hidden px-5 pt-5">
+                            <h5 class="" style="text-align: justify;">
+                                I-Net Secure Labs Pvt. Ltd.Started in 2008, Headquarters in Chennai. I-Net CSC is a
+                                network
+                                of Common Service Centre's to facilitate e-Services accessible to 80% Citizens who still
+                                doesn't have internet or online banking facilities.
+                            </h5>
+                        </div>
+                        <div class="text-center py-4">
+                            <h4 class="text-primary">Test User</h4>
+                            <p class="text-uppercase m-0">Chennai</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="team-item bg-light rounded overflow-hidden mr-3 ml-3">
+                        <div class="team-img position-relative overflow-hidden px-5 pt-5">
+                            <h5 class="" style="text-align: justify;">
+                                I-Net Secure Labs Pvt. Ltd.Started in 2008, Headquarters in Chennai. I-Net CSC is a
+                                network
+                                of Common Service Centre's to facilitate e-Services accessible to 80% Citizens who still
+                                doesn't have internet or online banking facilities.
+                            </h5>
+                        </div>
+                        <div class="text-center py-4">
+                            <h4 class="text-primary">Vineesh</h4>
+                            <p class="text-uppercase m-0">Chennai</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="team-item bg-light rounded overflow-hidden mr-3 ml-3">
+                        <div class="team-img position-relative overflow-hidden px-5 pt-5">
+                            <h5 class="" style="text-align: justify;">
+                                I-Net Secure Labs Pvt. Ltd.Started in 2008, Headquarters in Chennai. I-Net CSC is a
+                                network
+                                of Common Service Centre's to facilitate e-Services accessible to 80% Citizens who still
+                                doesn't have internet or online banking facilities.
+                            </h5>
+                        </div>
+                        <div class="text-center py-4">
+                            <h4 class="text-primary">Rahul</h4>
+                            <p class="text-uppercase m-0">Coimbatore</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Team End -->
+
+    <!-- Blog Start -->
+    <!-- Vendor Start -->
+    <!-- <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5 mb-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+
+                <h3 class="fw-bold text-primary text-uppercase text-center mb-2">Our Partners</h3>
+            </div>
+            <div class="bg-white">
+                <div class="owl-carousel vendor-carousel">
+                    <img src="../../../../assets/landing/img/vendor-1.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-2.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-3.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-4.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-5.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-6.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-7.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-8.png" alt="" />
+                    <img src="../../../../assets/landing/img/vendor-9.png" alt="" />
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Vendor End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s" id="contact">
+        <div class="container">
+            <div class="row gx-5">
+
+                <div class="col-lg-8 col-md-6">
+                    <div class="row gx-5">
+                        <div class="col-lg-6 col-md-12 pt-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Get In Touch</h3>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-geo-alt text-primary me-2"></i>
+                                <p class="mb-0">I-Net Secure Labs Pvt. Ltd, # 1045/527, GANTEC Building, 2nd Floor, PH
+                                    Road, Arumbakkam, Chennai - 600 106.</p>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-envelope-open text-primary me-2"></i>
+                                <p class="mb-0">info@inetcsc.com</p>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <i class="bi bi-telephone text-primary me-2"></i>
+                                <p class="mb-0">044-66440666</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 pt-0 pt-lg-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Quick Links</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                <a class="text-light mb-2" (click)="home()">
+                                    <i class="bi bi-arrow-right text-primary me-2"></i>Home</a>
+                                <a class="text-light mb-2" href="/service">
+                                    <i class="bi bi-arrow-right text-primary me-2"></i>Our Services</a>
+                                <a class="text-light">
+                                    <i class="bi bi-arrow-right text-primary me-2"></i>Contact Us</a>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                            <div class="section-title section-title-sm position-relative pb-3 mb-4">
+                                <h3 class="text-light mb-0">Popular Links</h3>
+                            </div>
+                            <div class="link-animated d-flex flex-column justify-content-start">
+                                <a class="text-light mb-2" (click)="IDPlogin()"><i
+                                        class="bi bi-arrow-right text-primary me-2"></i>Login</a>
+                                <a class="text-light mb-2" href="/registrationinet">
+                                    <i class="bi bi-arrow-right text-primary me-2"></i>Register</a>
+                                <a class="text-light mb-2" href="/privacypolicy"><i
+                                        class="bi bi-arrow-right text-primary me-2"></i>Privacy & Policy</a>
+                                <a class="text-light mb-2" href="/faq"><i
+                                        class="bi bi-arrow-right text-primary me-2"></i>FAQ </a>
+                                <a class="text-light mb-2" href="/forgotpasswordinet"><i
+                                        class="bi bi-arrow-right text-primary me-2"></i>Forgot Password </a>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 footer-about">
+                    <div
+                        class="d-flex flex-column align-items-center justify-content-center text-center h-100 bg-primary p-4">
+                        <a href="/about" class="navbar-brand">
+                            <h3 class="">
+                                <img src="../../../../assets/images/white-logo.webp" alt="" class="img1" />
+                            </h3>
+                        </a>
+                        <p class="mt-3 mb-4" style="text-align: justify;">
+                            I-Net Secure Labs Pvt. Ltd.Started in 2008, Headquarters in Chennai. I-Net CSC is a network
+                            of Common Service Centre's to facilitate e-Services accessible to 80% Citizens who still
+                            doesn't have internet or online banking facilities.
+                        </p>
+                        <div class="d-inline-flex align-items-center" style="height: 45px">
+                            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                                    class="fab fa-twitter fw-normal"></i></a>
+                            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                                    class="fab fa-facebook-f fw-normal"></i></a>
+                            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                                    class="fab fa-linkedin-in fw-normal"></i></a>
+                            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
+                                    class="fab fa-instagram fw-normal"></i></a>
+                            <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href=""><i
+                                    class="fab fa-youtube fw-normal"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid text-white" style="background: #061429;">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-12 col-md-12">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 75px">
+                        <p class="mb-0">
+                            &copy;
+                            <a class="text-white border-bottom" href="#">I-NET Secure Labs Pvt.Ltd</a>. All Rights
+                            Reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
+</body>
+
+</html>

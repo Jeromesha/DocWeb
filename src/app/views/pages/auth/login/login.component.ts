@@ -6,7 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserIdleService } from 'angular-user-idle';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { DashboardService } from 'src/app/services/dashboard.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { RoleService } from 'src/app/services/role.service';
 import { UserSessionService } from 'src/app/services/usersession.service';
@@ -34,7 +33,8 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
 
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private roleService: RoleService,
     private userSessionService: UserSessionService,
@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
     private alertService: AlertService,
     public translate: TranslateService,
     public addLoginDialog: MatDialog,
-    private dashboardService: DashboardService,
     public navigationService: NavigationService,) {
 
     const browserLang: string = translate.getBrowserLang();
@@ -71,13 +70,11 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    debugger
     if (this.loginForm.valid) {
       this.loading = true;
       this.authService.clearSession();
       this.authService.login(this.loginForm.value.email, this.loginForm.value.password, false).subscribe((res) => {
         if (res && res.failures && res.failures.length > 0) {
-          debugger
           this.loading = false;
           if (res.failures[0].toString().includes('Unauthorized user')) {
             swal.fire({

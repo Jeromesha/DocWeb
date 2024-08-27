@@ -40,11 +40,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { NgApexchartsModule } from 'ng-apexcharts'
-import { EmployeedetailsComponent } from './views/pages/employeedetails/employeedetails.component';
-import { ShowreportComponent } from './views/pages/employeeleaverecords/showreport/showreport.component';
-import { TimechampReportComponent } from './views/pages/timechamp-report/timechamp-report.component';
-import { MonthlyWorkingHoursReportComponent } from './views/pages/monthly-working-hours-report/monthly-working-hours-report.component';
 import { LoaderModule } from './views/layout/loader/loader.module';
+import { InetDataService } from './services/inetdata.service';
+import { DashboardComponent } from './views/pages/view/dashboard/dashboard.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -54,9 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     ErrorPageComponent,
-    ShowreportComponent,
-    TimechampReportComponent,
-    MonthlyWorkingHoursReportComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +103,7 @@ export function createTranslateLoader(http: HttpClient) {
     AuthGuard,
     NavigationService,
     {
-      provide: HIGHLIGHT_OPTIONS, // https://www.npmjs.com/package/ngx-highlightjs
+      provide: HIGHLIGHT_OPTIONS,
       useValue: {
         coreLibraryLoader: () => import('highlight.js/lib/core'),
         languages: {
@@ -121,6 +117,7 @@ export function createTranslateLoader(http: HttpClient) {
     AuthenticationService,
     AlertService,
     RoleService,
+    InetDataService,
     UserSessionService,
     {
       provide: HTTP_INTERCEPTORS,

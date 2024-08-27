@@ -9,7 +9,9 @@ const routes: Routes = [
     path:'',
     loadChildren:()=>import('../app/views/layout/layout.module').then(m=>m.LayoutModule)
   },
-  { path: 'auth', loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule) },
+  { path: 'auth', loadChildren: () => import('.//views/pages/auth/auth.module').then(m => m.AuthModule) },
+  { path: 'registrationinet', loadChildren: () => import('./views/pages/register/register.module').then(m => m.RegisterPageModule) },
+  { path: 'service', loadChildren: () => import('./views/pages/service/service.module').then(m => m.ServiceModule) },
   {
     path: '',
     component: BaseComponent,
@@ -28,7 +30,7 @@ const routes: Routes = [
     path: 'error/:type',
     component: ErrorPageComponent
   },
-  { path: '**', redirectTo: 'error', pathMatch: 'full' }
+  { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
 
 @NgModule({
